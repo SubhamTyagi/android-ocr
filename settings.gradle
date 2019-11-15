@@ -1,0 +1,3 @@
+include ':app', ':tesseract4'
+
+rootProject.name='Characher Recognizer'

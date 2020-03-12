@@ -1,0 +1,45 @@
+<!--
+  ~ Copyright 2018 The app Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen
+
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="fast"
+        android:entries="@array/ocr_training_data_entries"
+        android:entryValues="@array/key_ocr_training_data_entries_values"
+        android:key="@string/key_tess_training_data_source"
+        android:summary="Fast/Best/Standard"
+        android:title="Select Tesseract Data type" />
+
+    <ListPreference
+        android:defaultValue="eng"
+        android:entries="@array/ocr_engine_language"
+        android:entryValues="@array/key_ocr_engine_language_value"
+        android:key="@string/key_language_for_tesseract"
+        android:summary="@string/language"
+        android:title="@string/tess_language_title" />
+
+    <PreferenceCategory android:title="Other Settings" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/key_grayscale_image_ocr"
+        android:summary="@string/gray_scale_detail"
+        android:title="@string/use_gray_scale_image_for_ocr" />
+
+
+</PreferenceScreen>

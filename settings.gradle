@@ -1,3 +1,2 @@
-include ':app', ':tesseract4'
-
+include ':app'
 rootProject.name='Characher Recognizer'

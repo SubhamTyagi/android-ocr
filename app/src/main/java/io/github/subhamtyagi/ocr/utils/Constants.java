@@ -1,4 +1,4 @@
-package io.github.subhamtyagi.ocr;
+package io.github.subhamtyagi.ocr.utils;
 
 import android.os.Environment;
 

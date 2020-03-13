@@ -26,6 +26,8 @@ dependencies {
 
 
     implementation 'cz.adaptech.android:tesseract4android:2.1.0'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
     implementation 'androidx.preference:preference:1.1.0-alpha05'
+    implementation 'com.google.android.material:material:1.0.0'
 }

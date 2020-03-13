@@ -1,4 +1,4 @@
-package io.github.subhamtyagi.ocr;
+package io.github.subhamtyagi.ocr.ocr;
 
 import android.graphics.Bitmap;
 
@@ -17,17 +17,14 @@ public class ImageTextReader {
         return new ImageTextReader();
     }
 
-    public String getTextFromBitmap(Bitmap src) {
-        api.setImage(src);
+    public String getTextFromBitmap(Bitmap bitmap) {
+        api.setImage(bitmap);
         String textOnImage;
-
         try {
             textOnImage = api.getUTF8Text();
-
         } catch (Exception e) {
-            return "Scan Failed: WTF: Must be submitted to developer!";
+            return "Scan Failed: WTF: Must be reported to developer!";
         }
-
         if (textOnImage == null) {
             return "Scan Failed: No Text on screen!";
         } else return textOnImage;

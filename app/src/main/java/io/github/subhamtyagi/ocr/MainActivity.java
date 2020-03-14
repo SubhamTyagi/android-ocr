@@ -24,7 +24,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -81,19 +80,13 @@ public class MainActivity extends AppCompatActivity {
         SpUtil.getInstance().init(this);
         requestStoragePermission();
         boxImageView = findViewById(R.id.source_image);
-        // boxImageView.setScaleType(ImageView.ScaleType.MATRIX);
+        //boxImageView.setScaleType(ImageView.ScaleType.MATRIX);
         Uri uri = Uri.parse(SpUtil.getInstance().getString(getString(R.string.key_last_use_image_location)));
 
         if (uri != null) {
             boxImageView.setImageURI(uri);
-            /// boxImageView.setRecognitionResults();
         }
-        boxImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectImage();
-            }
-        });
+
         textView = findViewById(R.id.resultant_text);
         String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
         if (text != null) {
@@ -112,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("ih", textView.getText());
+                ClipData clipData = ClipData.newPlainText("nonsense_data", textView.getText());
                 clipboardManager.setPrimaryClip(clipData);
             }
         });
@@ -367,8 +360,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Bitmap... bitmaps) {
-            Bitmap bitmap=bitmaps[0];
-            if (SpUtil.getInstance().getBoolean(getString(R.string.key_grayscale_image_ocr),true)) {
+            Bitmap bitmap = bitmaps[0];
+            if (SpUtil.getInstance().getBoolean(getString(R.string.key_grayscale_image_ocr), true)) {
                 bitmap = Utils.convertToGrayscale(bitmaps[0]);
                 bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
             }
@@ -382,8 +375,8 @@ public class MainActivity extends AppCompatActivity {
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setIndeterminate(true);
             progressDialog.setCancelable(false);
-            progressDialog.setTitle("Processing...");
-            progressDialog.setMessage("Converting Image to text...");
+            progressDialog.setTitle(getString(R.string.processing));
+            progressDialog.setMessage(getString(R.string.converting_image));
             progressDialog.show();
         }
 
@@ -451,8 +444,8 @@ public class MainActivity extends AppCompatActivity {
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setIndeterminate(true);
             progressDialog.setCancelable(false);
-            progressDialog.setTitle("Downloading...");
-            progressDialog.setMessage("Downloading language data...");
+            progressDialog.setTitle(getString(R.string.downloading));
+            progressDialog.setMessage(getString(R.string.downloading_language));
             progressDialog.show();
         }
 

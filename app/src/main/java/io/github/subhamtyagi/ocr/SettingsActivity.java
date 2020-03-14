@@ -1,20 +1,9 @@
 package io.github.subhamtyagi.ocr;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -34,18 +23,18 @@ public class SettingsActivity extends AppCompatActivity {
         }*/
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
 
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
 
     }
 }

@@ -27,6 +27,10 @@
 
     <string name="draw_box_summary">App will draw text on image</string>
     <string name="draw_box_title">Draw text on image</string>
+    <string name="processing">Processing...</string>
+    <string name="converting_image">Converting Image to text...</string>
+    <string name="downloading">Downloading...</string>
+    <string name="downloading_language">Downloading language data...</string>
 
 </resources>
 

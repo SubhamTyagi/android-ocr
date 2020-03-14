@@ -27,6 +27,4 @@ public class Constants {
     public static final String TESSERACT_DATA_FILE_NAME_STANDARD = Environment.getExternalStorageDirectory() + "/tesseract4/standard/tessdata/%s.traineddata";
 
 
-
-
 }

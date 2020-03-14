@@ -40,9 +40,9 @@ public class ImageTextReader {
     }
 
 
-    public RecognizedResults getTextFromBitmap2(Bitmap bitmap){
+    public RecognizedResults getTextFromBitmap2(Bitmap bitmap) {
         api.setImage(bitmap);
-        RecognizedResults results=new RecognizedResults();
+        RecognizedResults results = new RecognizedResults();
         String fullText = api.getUTF8Text();
 
         ResultIterator it = api.getResultIterator();
@@ -52,7 +52,7 @@ public class ImageTextReader {
         ArrayList<Rect> rects = pixa.getBoxRects();
         for (int i = 0; i < rects.size(); i++) {
             RecognizedText item = new RecognizedText();
-            item.setText( it.getUTF8Text(TessBaseAPI.PageIteratorLevel.RIL_WORD));
+            item.setText(it.getUTF8Text(TessBaseAPI.PageIteratorLevel.RIL_WORD));
             item.setRect(rects.get(i));
             results.add(item);
             it.next(TessBaseAPI.PageIteratorLevel.RIL_WORD);

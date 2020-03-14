@@ -68,11 +68,11 @@ public class BoxImageView extends androidx.appcompat.widget.AppCompatImageView {
 
         canvas.save();
 
-        int width = rect.right - rect.left+3;
-        int height = rect.bottom - rect.top+3;
+        int width = rect.right - rect.left + 3;
+        int height = rect.bottom - rect.top + 3;
 
         //adjust size
-        TextPaint textPaint = new TextPaint() ;
+        TextPaint textPaint = new TextPaint();
         textPaint.setTextSize(100);
         textPaint.setTextScaleX(1.0f);
         textPaint.setColor(fillColor);
@@ -117,7 +117,7 @@ public class BoxImageView extends androidx.appcompat.widget.AppCompatImageView {
                 for (int i = 0; i < n; i++) {
                     RecognizedText item = recognizedResults.get(i);
                     canvas.drawRect(item.getRect(), blue);
-                   // canvas.drawRect(item.getRect(), yellow);
+                    // canvas.drawRect(item.getRect(), yellow);
                     drawTextWithinRect(canvas, item.getText(), item.getRect(), yellow.getColor(), black.getColor());
 
                 }

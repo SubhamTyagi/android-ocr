@@ -4,12 +4,13 @@ package io.github.subhamtyagi.ocr.models;
 import java.util.ArrayList;
 
 public class RecognizedResults {
-    private String  fullText;
+    private String fullText;
     private ArrayList<RecognizedText> items;
 
     public RecognizedResults() {
         items = new ArrayList<RecognizedText>();
     }
+
     public void add(RecognizedText item) {
         items.add(item);
     }

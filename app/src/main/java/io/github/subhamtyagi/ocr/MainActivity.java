@@ -333,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
                 new File(Constants.PATH_OF_TESSERACT_DATA_FAST).mkdirs();
                 new File(Constants.PATH_OF_TESSERACT_DATA_BEST).mkdirs();
             } else {
-                finish();
+                //finish();
             }
         }
     }

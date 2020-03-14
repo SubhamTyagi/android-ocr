@@ -31,6 +31,7 @@
     <string name="converting_image">Converting Image to text...</string>
     <string name="downloading">Downloading...</string>
     <string name="downloading_language">Downloading language data...</string>
+    <string name="text_goes_here">Text goes here</string>
 
 </resources>
 

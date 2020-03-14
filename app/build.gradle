@@ -13,8 +13,19 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        }
+    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
+            universalApk false
         }
     }
 }
@@ -22,12 +33,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    // implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
 
     implementation 'cz.adaptech.android:tesseract4android:2.1.0'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
     implementation 'androidx.preference:preference:1.1.0-alpha05'
-    implementation 'com.google.android.material:material:1.0.0'
+    // implementation 'com.google.android.material:material:1.0.0'
 }

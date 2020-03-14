@@ -46,11 +46,11 @@
             android:background="#FFFFFF"
             android:padding="20dp"
             android:scrollbarSize="6dp"
-            android:text="TextView"
+            android:text="@string/text_goes_here"
             android:textColor="#000000"
             android:textIsSelectable="true"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/source_image" />
+            />
     </LinearLayout>
 
     <LinearLayout

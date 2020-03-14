@@ -36,10 +36,16 @@
     <PreferenceCategory android:title="Other Settings" />
 
     <SwitchPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="@string/key_grayscale_image_ocr"
         android:summary="@string/gray_scale_detail"
         android:title="@string/use_gray_scale_image_for_ocr" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/key_draw_box"
+        android:summary="@string/draw_box_summary"
+        android:title="@string/draw_box_title" />
 
 
 </PreferenceScreen>

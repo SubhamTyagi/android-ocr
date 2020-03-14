@@ -2,7 +2,10 @@ package io.github.subhamtyagi.ocr;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,42 +47,73 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.subhamtyagi.ocr.models.RecognizedResults;
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
 import io.github.subhamtyagi.ocr.utils.Constants;
 import io.github.subhamtyagi.ocr.utils.SpUtil;
 import io.github.subhamtyagi.ocr.utils.Utils;
+import io.github.subhamtyagi.ocr.views.BoxImageView;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    //static final String EXTRA_MESSAGE = BuildConfig.APPLICATION_ID + ".msg";
+
     private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 677;
     private static final int REQUEST_CODE_SETTINGS = 797;
     private static final int REQUEST_CODE_SELECT_IMAGE = 172;
-    static ConnectivityManager cm;
+
     ProgressDialog progressDialog;
     private ImageTextReader imageTextReader;
     private String dataType;
     private String lang;
     private AlertDialog dialog;
-
     private Uri outputFileUri;
+
+    private BoxImageView boxImageView;
+    private TextView textView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         SpUtil.getInstance().init(this);
         requestStoragePermission();
-        if (requestStoragePermission()) {
-            initializeOCR();
+        boxImageView = findViewById(R.id.source_image);
+        // boxImageView.setScaleType(ImageView.ScaleType.MATRIX);
+        Uri uri = Uri.parse(SpUtil.getInstance().getString(getString(R.string.key_last_use_image_location)));
+
+        if (uri != null) {
+            boxImageView.setImageURI(uri);
+            /// boxImageView.setRecognitionResults();
         }
-        findViewById(R.id.select_img).setOnClickListener(new View.OnClickListener() {
+        boxImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage();
+            }
+        });
+        textView = findViewById(R.id.resultant_text);
+        String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
+        if (text != null) {
+            textView.setText(text);
+        }
+        if (requestStoragePermission()) {
+            initializeOCR();
+        }
+        findViewById(R.id.btn_select_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
+        findViewById(R.id.btn_copy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("ih", textView.getText());
+                clipboardManager.setPrimaryClip(clipData);
             }
         });
     }
@@ -86,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     private void initializeOCR() {
         dataType = SpUtil.getInstance().getString(getString(R.string.key_tess_training_data_source), "best");
         lang = SpUtil.getInstance().getString(getString(R.string.key_language_for_tesseract), "eng");
-        String path;
+        final String path;
         switch (dataType) {
             case "best":
                 path = Constants.TESSERACT_PATH_BEST;
@@ -98,7 +133,13 @@ public class MainActivity extends AppCompatActivity {
                 path = Constants.TESSERACT_PATH_FAST;
         }
         if (isLanguageDataExists(dataType, lang)) {
-            imageTextReader = ImageTextReader.geInstance(path, lang);
+            new Runnable() {
+                @Override
+                public void run() {
+                    imageTextReader = ImageTextReader.geInstance(path, lang);
+                }
+            }.run();
+
         } else {
             setLanguageData();
         }
@@ -182,8 +223,17 @@ public class MainActivity extends AppCompatActivity {
     private void convertImageToText(Uri imageUri) {
 
         try {
+            SpUtil.getInstance().putString(getString(R.string.key_last_use_image_location), imageUri.toString());
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-            new ConvertImageToTextTask().execute(bitmap);
+            boxImageView.setImageBitmap(bitmap);
+            if (SpUtil.getInstance().getBoolean(getString(R.string.key_draw_box), false)) {
+                Log.d(TAG, "convertImageToText: draw box");
+                new ConvertImageToTextTask2().execute(bitmap);
+
+            } else {
+                Log.d(TAG, "convertImageToText: not  draw box");
+                new ConvertImageToTextTask().execute(bitmap);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -221,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestStoragePermission()) {
             if (!isLanguageDataExists(dataType, lang)) {
-                cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo ni = cm.getActiveNetworkInfo();
                 if (ni == null) {
                     //You are not connected to Internet
@@ -281,6 +331,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE_STORAGE_PERMISSION) {
@@ -310,6 +361,73 @@ public class MainActivity extends AppCompatActivity {
         boolean r = t.exists();
         Log.v(TAG, "training data for " + lang + " exists? " + r);
         return r;
+    }
+
+    private class ConvertImageToTextTask extends AsyncTask<Bitmap, Void, String> {
+
+        @Override
+        protected String doInBackground(Bitmap... bitmaps) {
+            Bitmap bitmap=bitmaps[0];
+            if (SpUtil.getInstance().getBoolean(getString(R.string.key_grayscale_image_ocr),true)) {
+                bitmap = Utils.convertToGrayscale(bitmaps[0]);
+                bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
+            }
+            return imageTextReader.getTextFromBitmap(bitmap);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.setTitle("Processing...");
+            progressDialog.setMessage("Converting Image to text...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(String text) {
+            progressDialog.cancel();
+            progressDialog = null;
+            textView.setText(text);
+            SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), text);
+        }
+
+    }
+
+    private class ConvertImageToTextTask2 extends AsyncTask<Bitmap, Void, RecognizedResults> {
+
+        @Override
+        protected RecognizedResults doInBackground(Bitmap... bitmaps) {
+            //Bitmap bitmap = Utils.convertToGrayscale(bitmaps[0]);
+            //bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
+            return imageTextReader.getTextFromBitmap2(bitmaps[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.setTitle("Processing...");
+            progressDialog.setMessage("Converting Image to text...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(RecognizedResults recognizedResults) {
+            progressDialog.cancel();
+            progressDialog = null;
+            textView.setText(recognizedResults.getFullText());
+            boxImageView.setRecognitionResults(recognizedResults);
+            SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), recognizedResults.getFullText());
+            // Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private class DownloadTrainingTask extends AsyncTask<String, Integer, Boolean> {
@@ -400,33 +518,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class ConvertImageToTextTask extends AsyncTask<Bitmap, Void, String> {
-
-        @Override
-        protected String doInBackground(Bitmap... bitmaps) {
-            Bitmap bitmap = Utils.convertToGrayscale(bitmaps[0]);
-            bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
-            return imageTextReader.getTextFromBitmap(bitmap);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(MainActivity.this);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setCancelable(false);
-            progressDialog.setTitle("Processing...");
-            progressDialog.setMessage("Converting Image to text...");
-            progressDialog.show();
-        }
-
-        @Override
-        protected void onPostExecute(String text) {
-            progressDialog.cancel();
-            progressDialog = null;
-            Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
-        }
-
-    }
 }

@@ -113,23 +113,44 @@ public class MainActivity extends AppCompatActivity {
         mBoxImageView = findViewById(R.id.source_image);
         //boxImageView.setScaleType(ImageView.ScaleType.MATRIX);
 
+
         /**
-         * check if there is previous image
-         * if yes then show this on home screen
+         * check if this was initiated by shared menu if yes then get the image uri and get the text
+         * language will be preselected by user in settings
          */
-        Uri uri = Uri.parse(SpUtil.getInstance().getString(getString(R.string.key_last_use_image_location)));
-        if (uri != null) {
-            mBoxImageView.setImageURI(uri);
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (imageUri != null) {
+                    mBoxImageView.setImageURI(imageUri);
+                    convertImageToText(imageUri);
+                }
+            }
+        } else {
+            /**
+             * check if there is previous image
+             * if yes then show this on home screen
+             */
+            Uri uri = Uri.parse(SpUtil.getInstance().getString(getString(R.string.key_last_use_image_location)));
+            if (uri != null) {
+                mBoxImageView.setImageURI(uri);
+            }
+            /**
+             * check if there is previous image text
+             * if yes then show this on home screen
+             */
+            mTextResult = findViewById(R.id.resultant_text);
+            String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
+            if (text != null) {
+                mTextResult.setText(text);
+            }
+
         }
-        /**
-         * check if there is previous image text
-         * if yes then show this on home screen
-         */
-        mTextResult = findViewById(R.id.resultant_text);
-        String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
-        if (text != null) {
-            mTextResult.setText(text);
-        }
+
 
         /**
          * request for storage permission
@@ -198,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(this);
     }
+
     /**
      * Currently not in use
      * select the image when button is clicked
@@ -233,7 +255,6 @@ public class MainActivity extends AppCompatActivity {
 
         startActivityForResult(chooserIntent, REQUEST_CODE_SELECT_IMAGE);
     }
-
 
 
     @Override
@@ -273,10 +294,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Executed after onActivityResult
-     *
+     * Executed after onActivityResult or when used from shared menu
+     * <p>
      * convert the image uri to bitmap
      * call the appropriate AsyncTask based on Settings
+     *
      * @param imageUri uri of selected image
      */
     private void convertImageToText(Uri imageUri) {
@@ -302,7 +324,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * destroy the dialog instance: memory leak  surety
-     *
      */
     @Override
     protected void onDestroy() {
@@ -332,7 +353,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * set the language based on selected in Settings
      * if language training data is not exists then it will download it
-     *
      */
     private void setLanguageData() {
         mTrainingDataType = SpUtil.getInstance().getString(getString(R.string.key_tess_training_data_source), "best");
@@ -380,7 +400,8 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * request for storage permission
-     *  if permission required then it will also request the permission
+     * if permission required then it will also request the permission
+     *
      * @return false: if no permission required, True: if permission required and
      */
     private boolean requestStoragePermission() {
@@ -422,8 +443,9 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Check if language data exists
+     *
      * @param dataType data type i.e best, fast, standard
-     * @param lang language
+     * @param lang     language
      * @return true if language data exists
      */
     private boolean isLanguageDataExists(final String dataType, final String lang) {
@@ -550,8 +572,9 @@ public class MainActivity extends AppCompatActivity {
 
         /**
          * done the actual work of download
+         *
          * @param dataType data type i.e best, fast, standard
-         * @param lang language
+         * @param lang     language
          * @return true if success else false
          */
         private boolean downloadTraningData(String dataType, String lang) {

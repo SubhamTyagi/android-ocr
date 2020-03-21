@@ -5,6 +5,10 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
+
+/**
+ * Settings for App: I think all codes are self explain
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     private static final String TAG = "SettingActivity";

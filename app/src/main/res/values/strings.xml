@@ -3,8 +3,8 @@
     <string name="title_activity_settings">Settings</string>
 
 
-    <!---->
-    <string name="key_fast_mode_key" translatable="false">fast_mode_key</string>
+    <!-- various key to store the setting values -->
+
     <string name="key_language_for_tesseract" translatable="false">language_for_tesseract</string>
     <string name="key_tess_training_data_source" translatable="false">tess_training_data_source</string>
     <string name="key_grayscale_image_ocr" translatable="false">grayscale_image_ocr</string>

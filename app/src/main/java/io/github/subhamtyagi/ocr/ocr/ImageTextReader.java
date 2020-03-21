@@ -10,14 +10,27 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 import java.util.ArrayList;
 
 import io.github.subhamtyagi.ocr.models.RecognizedResults;
-import io.github.subhamtyagi.ocr.models.RecognizedText;
+import io.github.subhamtyagi.ocr.models.Blocks;
 
+/**
+ * This class convert the image to text and return the text on image
+ */
 public class ImageTextReader {
 
 
+    /**
+     *TessBaseAPI instance
+     */
     private static volatile TessBaseAPI api;
     //  private static volatile TesseractImageTextReader INSTANCE;
 
+    /**
+     * initialize and train the tesseract engine
+     *
+     * @param path a path to training data
+     * @param language language code i.e. selected by user
+     * @return the instance of this class for later use
+     */
     public static ImageTextReader geInstance(String path, String language) {
         api = new TessBaseAPI();
         api.init(path, language);
@@ -25,6 +38,11 @@ public class ImageTextReader {
         return new ImageTextReader();
     }
 
+    /**
+     * get the text from bitmap
+     * @param bitmap a image
+     * @return text on image
+     */
     public String getTextFromBitmap(Bitmap bitmap) {
         api.setImage(bitmap);
         String textOnImage;
@@ -40,7 +58,12 @@ public class ImageTextReader {
     }
 
 
-    public RecognizedResults getTextFromBitmap2(Bitmap bitmap) {
+    /**
+     * Get the RecognizedText from Bitmap
+     * @param bitmap a image
+     * @return RecognizedResult object that contains the text,rect,fullText
+     */
+    public RecognizedResults getRecognizedResultsFromBitmap(Bitmap bitmap) {
         api.setImage(bitmap);
         RecognizedResults results = new RecognizedResults();
         String fullText = api.getUTF8Text();
@@ -51,7 +74,7 @@ public class ImageTextReader {
         Pixa pixa = api.getWords();
         ArrayList<Rect> rects = pixa.getBoxRects();
         for (int i = 0; i < rects.size(); i++) {
-            RecognizedText item = new RecognizedText();
+            Blocks item = new Blocks();
             item.setText(it.getUTF8Text(TessBaseAPI.PageIteratorLevel.RIL_WORD));
             item.setRect(rects.get(i));
             results.add(item);

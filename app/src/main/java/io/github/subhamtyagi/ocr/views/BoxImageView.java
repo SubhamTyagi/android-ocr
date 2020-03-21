@@ -13,9 +13,13 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 
 import io.github.subhamtyagi.ocr.models.RecognizedResults;
-import io.github.subhamtyagi.ocr.models.RecognizedText;
+import io.github.subhamtyagi.ocr.models.Blocks;
 
 
+/**
+ * Custom ImageView to draw Text on image if text provided(in case of RecognizedResult)
+ *
+ */
 public class BoxImageView extends androidx.appcompat.widget.AppCompatImageView {
 
     private RecognizedResults recognizedResults;
@@ -115,7 +119,7 @@ public class BoxImageView extends androidx.appcompat.widget.AppCompatImageView {
             if (recognizedResults != null) {
                 int n = recognizedResults.size();
                 for (int i = 0; i < n; i++) {
-                    RecognizedText item = recognizedResults.get(i);
+                    Blocks item = recognizedResults.get(i);
                     canvas.drawRect(item.getRect(), blue);
                     // canvas.drawRect(item.getRect(), yellow);
                     drawTextWithinRect(canvas, item.getText(), item.getRect(), yellow.getColor(), black.getColor());

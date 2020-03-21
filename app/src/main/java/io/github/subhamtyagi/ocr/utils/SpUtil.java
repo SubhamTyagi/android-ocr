@@ -8,6 +8,9 @@ import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 
 
+/**
+ * A util class for SharedPreferences
+ */
 public class SpUtil {
     private volatile static SpUtil mInstance;
 
@@ -21,6 +24,10 @@ public class SpUtil {
     private SpUtil() {
     }
 
+    /**
+     * A factory method for
+     * @return a instance of this class
+     */
     public static SpUtil getInstance() {
         if (null == mInstance) {
             synchronized (SpUtil.class) {
@@ -32,6 +39,10 @@ public class SpUtil {
         return mInstance;
     }
 
+    /**
+     * initialization of context, use only first time later it will use this again and again
+     * @param context app context: first time
+     */
     public void init(Context context) {
         if (mContext == null) {
             mContext = context;

@@ -1,0 +1,11 @@
+* before submission
+1... App name change
+2... App Icon change
+3..  JavaDocs for all class
+4.   Change of tess data download location (if required)
+5.   Screenshot and details.
+6... Entry in share menu for images.
+* after or before submission
+
+
+7. Translate text(link generation)

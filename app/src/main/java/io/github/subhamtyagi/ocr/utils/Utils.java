@@ -8,6 +8,11 @@ import android.graphics.Paint;
 
 public class Utils {
 
+    /**
+     * convert the image into the grayscale
+     * @param bmpOriginal
+     * @return a grayscaled version of original image
+     */
     public static Bitmap convertToGrayscale(Bitmap bmpOriginal) {
         int width, height;
         height = bmpOriginal.getHeight();

@@ -3,19 +3,28 @@ package io.github.subhamtyagi.ocr.models;
 
 import java.util.ArrayList;
 
+/**
+ * RecognizedResult: A model class to store all Blocks
+ */
 public class RecognizedResults {
+    /***
+     * full text string of whole image
+     */
     private String fullText;
-    private ArrayList<RecognizedText> items;
+    /***
+     *Array list to store @Blocks items that store text and its box location
+     */
+    private ArrayList<Blocks> items;
 
     public RecognizedResults() {
-        items = new ArrayList<RecognizedText>();
+        items = new ArrayList<Blocks>();
     }
 
-    public void add(RecognizedText item) {
+    public void add(Blocks item) {
         items.add(item);
     }
 
-    public RecognizedText get(int index) {
+    public Blocks get(int index) {
         return items.get(index);
     }
 

@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -111,10 +112,19 @@ public class MainActivity extends AppCompatActivity {
         SpUtil.getInstance().init(this);
         requestStoragePermission();
         mBoxImageView = findViewById(R.id.source_image);
+        mTextResult = findViewById(R.id.resultant_text);
         //boxImageView.setScaleType(ImageView.ScaleType.MATRIX);
 
+        /*
+          request for storage permission
+          and initialize the OCR for faster access at later time
+         */
+        if (requestStoragePermission()) {
+            initializeOCR();
+        }
 
-        /**
+
+        /*
          * check if this was initiated by shared menu if yes then get the image uri and get the text
          * language will be preselected by user in settings
          */
@@ -127,11 +137,11 @@ public class MainActivity extends AppCompatActivity {
                 Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
                     mBoxImageView.setImageURI(imageUri);
-                    convertImageToText(imageUri);
+                    CropImage.activity(imageUri).start(this);
                 }
             }
         } else {
-            /**
+            /*
              * check if there is previous image
              * if yes then show this on home screen
              */
@@ -139,11 +149,11 @@ public class MainActivity extends AppCompatActivity {
             if (uri != null) {
                 mBoxImageView.setImageURI(uri);
             }
-            /**
+            /*
              * check if there is previous image text
              * if yes then show this on home screen
              */
-            mTextResult = findViewById(R.id.resultant_text);
+
             String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
             if (text != null) {
                 mTextResult.setText(text);
@@ -151,14 +161,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
-        /**
-         * request for storage permission
-         * and initialize the OCR for faster access at later time
-         */
-        if (requestStoragePermission()) {
-            initializeOCR();
-        }
 
         // select button binding
         findViewById(R.id.btn_select_image).setOnClickListener(new View.OnClickListener() {
@@ -174,13 +176,14 @@ public class MainActivity extends AppCompatActivity {
                 ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clipData = ClipData.newPlainText("nonsense_data", mTextResult.getText());
                 clipboardManager.setPrimaryClip(clipData);
+                Toast.makeText(MainActivity.this, R.string.data_copied, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     /**
      * initialize the OCR i.e tesseract api
-     * if there is no language in directory than it will ask for download language
+     * if there is no language training data in directory than it will ask for download
      */
     private void initializeOCR() {
         mTrainingDataType = SpUtil.getInstance().getString(getString(R.string.key_tess_training_data_source), "best");
@@ -197,13 +200,7 @@ public class MainActivity extends AppCompatActivity {
                 path = Constants.TESSERACT_PATH_FAST;
         }
         if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
-            new Runnable() {
-                @Override
-                public void run() {
-                    mImageTextReader = ImageTextReader.geInstance(path, mLanguage);
-                }
-            }.run();
-
+            mImageTextReader = ImageTextReader.geInstance(path, mLanguage);
         } else {
             setLanguageData();
         }
@@ -212,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * select the image when button is clicked
-     * use edmodo
+     * using edmodo
      */
     private void selectImage() {
         CropImage.activity()
@@ -224,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
      * Currently not in use
      * select the image when button is clicked
      */
-    private void selectImage2() {
+     private void selectImage2() {
         final String fname = "img_" + System.currentTimeMillis() + ".jpg";
         final File sdImageMainDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fname);
         mOutputFileUri = Uri.fromFile(sdImageMainDirectory);
@@ -255,7 +252,6 @@ public class MainActivity extends AppCompatActivity {
 
         startActivityForResult(chooserIntent, REQUEST_CODE_SELECT_IMAGE);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

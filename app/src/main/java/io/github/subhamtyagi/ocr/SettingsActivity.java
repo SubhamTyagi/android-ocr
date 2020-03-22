@@ -7,7 +7,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 
 /**
- * Settings for App: I think all codes are self explain
+ * Settings for App: I think all codes are self explanatory
  */
 public class SettingsActivity extends AppCompatActivity {
 

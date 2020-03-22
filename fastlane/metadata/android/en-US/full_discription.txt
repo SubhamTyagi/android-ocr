@@ -1,0 +1,33 @@
+# OCR 4
+
+A OCR app that can recognize texts on image. 
+
+This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4 </a> and its is first of this which is based on Tesseract 4
+This app is made possible by a library <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a>.
+After downloading the Training data, app will do everything offline. 
+
+🚀 <font color="#2467d6"><b>Features</b></font>
+* Highest Accuracy  
+* Extract Text From Images.
+* Copy data to Clipboard.
+* Select any part of Data.
+* Based on latest <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Training Data</a>
+* Recognized almost 102 <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">languages</a>
+* 3 Type of data i.e <a href="https://github.com/tesseract-ocr/tessdata">Standard</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">best</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">fast</a> for more info <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">see</a>
+* Recognize Maths/equation detection
+* Share menu entry
+
+ <font color="#2467d6"><b>Required Permissions </b></font>
+
+* External Storage: For storing the training Data
+* Internet : Downloading the training data 
+* Access Internet state: For downloading the training data.
+* Note: None of your data is send to anywhere
+
+
+📓 <font color="#2467d6"><b>Licence </b></font>
+
+* Tesseract and Tesseract Data: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>
+* Tesseract4Android : <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>
+* BoxImageView : <a href="https://github.com/SubhamTyagi/android-cr/blob/master/app/src/main/java/io/github/subhamtyagi/ocr/views/BoxImageView.java">GNU Affero General Public License</a>
+* ImageCropper : <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>

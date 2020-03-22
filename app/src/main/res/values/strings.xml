@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Characher Recognizer</string>
+    <string name="app_name">OCR 4</string>
     <string name="title_activity_settings">Settings</string>
 
 
@@ -32,6 +32,7 @@
     <string name="downloading">Downloading...</string>
     <string name="downloading_language">Downloading language data...</string>
     <string name="text_goes_here">Text goes here</string>
+    <string name="data_copied">Data copied...</string>
 
 </resources>
 

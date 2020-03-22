@@ -26,13 +26,9 @@ After downloading the Training data, app will do everything offline.
 
 <font color="#2467d6"><b>Screenshots </b></font>
 
-| HOME | SETTING |
-|:-:|:-:|
-| ![home](fastlane/metadata/android/en-US/images/1.jpg?raw=true "home") | ![settings](fastlane/metadata/android/en-US/images/2.jpg?raw=true "settings") |
-
-| RESULTS |LANGUAGE|
-|:-:|:-:|
-| ![result](fastlane/metadata/android/en-US/images/5.jpg?raw=true "result") | ![language](fastlane/metadata/android/en-US/images/4.jpg?raw=true "language") |
+| HOME | SETTING | RESULTS |LANGUAGE|
+|:-:|:-:|:-:|:-:|
+| ![home](fastlane/metadata/android/en-US/images/1.jpg?raw=true "home") | ![settings](fastlane/metadata/android/en-US/images/2.jpg?raw=true "settings") | ![result](fastlane/metadata/android/en-US/images/5.jpg?raw=true "result") | ![language](fastlane/metadata/android/en-US/images/4.jpg?raw=true "language") |
 
 📓 <font color="#2467d6"><b>Licence </b></font>
 

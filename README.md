@@ -24,6 +24,16 @@ After downloading the Training data, app will do everything offline.
 * Note: None of your data is send to anywhere
 
 
+<font color="#2467d6"><b>Screenshots </b></font>
+
+| HOME | SETTING |
+|:-:|:-:|
+| ![home](fastlane/metadata/android/en-US/images/1.jpg?raw=true "home") | ![settings](fastlane/metadata/android/en-US/images/2.jpg?raw=true "settings") |
+
+| RESULTS |LANGUAGE|
+|:-:|:-:|
+| ![result](fastlane/metadata/android/en-US/images/5.jpg?raw=true "result") | ![language](fastlane/metadata/android/en-US/images/4.jpg?raw=true "language") |
+
 📓 <font color="#2467d6"><b>Licence </b></font>
 
 * Tesseract and Tesseract Data: [Apache 2.0](https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE)
@@ -31,3 +41,4 @@ After downloading the Training data, app will do everything offline.
 * BoxImageView : [GNU Affero General Public License](https://github.com/SubhamTyagi/android-cr/blob/master/app/src/main/java/io/github/subhamtyagi/ocr/views/BoxImageView.java)
 * ImageCropper : [Apache 2.0](https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt)
 * OCR 4: Apache 2.0 
+

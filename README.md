@@ -7,7 +7,7 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 This app is made possible by a library [Tesseract4Android](https://github.com/adaptech-cz/Tesseract4Android).
 After downloading the Training data, app will do everything offline. 
 
-?? <font color="#2467d6"><b>Features</b></font>
+🚀<font color="#2467d6"><b>Features</b></font>
 * Extract Text From Images.
 * Copy data to Clipboard.
 * Select any part of Data.
@@ -24,7 +24,7 @@ After downloading the Training data, app will do everything offline.
 * Note: None of your data is send to anywhere
 
 
-?? <font color="#2467d6"><b>Licence </b></font>
+📓 <font color="#2467d6"><b>Licence </b></font>
 
 * Tesseract and Tesseract Data: [Apache 2.0](https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE)
 * Tesseract4Android : [Apache 2.0](https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE)

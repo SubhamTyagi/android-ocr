@@ -1,0 +1,2 @@
+* First Release 
+* Tesseract 4 based OCR

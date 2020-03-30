@@ -1,4 +1,3 @@
-
 # OCR 4  ​  [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/packages/io.github.subhamtyagi.ocr/)
 
 A OCR app that can recognize texts on image based on Tesseract 4
@@ -7,7 +6,7 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 This app is made possible by a library [Tesseract4Android](https://github.com/adaptech-cz/Tesseract4Android).
 After downloading the Training data, app will do everything offline. 
 
-🚀<font color="#2467d6"><b>Features</b></font>
+## 🚀<font color="#2467d6"><b>Features</b></font>
 * Extract Text From Images.
 * Copy data to Clipboard.
 * Select any part of Data.
@@ -16,7 +15,7 @@ After downloading the Training data, app will do everything offline.
 * 3 Type of data i.e 'Best', 'fast', 'standard' for more info [see](https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md)
 * Recognize Maths/equation detection
 
- <font color="#2467d6"><b>Required Permissions </b></font>
+## <font color="#2467d6"><b>Required Permissions </b></font>
 
 * External Storage: For storing the training Data
 * Internet : Downloading the training data 
@@ -24,13 +23,25 @@ After downloading the Training data, app will do everything offline.
 * Note: None of your data is send to anywhere
 
 
-<font color="#2467d6"><b>Screenshots </b></font>
+## <font color="#2467d6"><b>Screenshots </b></font>
 
 | HOME | SETTING | RESULTS |LANGUAGE|
 |:-:|:-:|:-:|:-:|
 | ![home](fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg?raw=true "home") | ![settings](fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg?raw=true "settings") | ![result](fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg?raw=true "result") | ![language](fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg?raw=true "language") |
 
-📓 <font color="#2467d6"><b>Licence </b></font>
+## <font color="#2467d6"><b>Icon and logo </b></font>
+ * App icon is designed by [mondstern](https://mastodon.technology/@mondstern)
+ 
+     - Mastodon:  [mondstern](https://mastodon.technology/@mondstern)
+     - See his good artistic Work: [Pixelfed](https://pixelfed.social/mondstern)
+     - Website : [here](https://mondstern.tk/)
+     - Some of his words
+     -  > to promote opensource projects: I paint acrylic pictures. I translate almost daily on Weblate Crowdin Transifex Poeditor. I have published almost all my own music. we can organize an exhibition together. I have started to create fedilab custom themes from the self-painted acrylic pictures. The first theme was fedilab itself, so many more will follow. I'm constantly testing apps from fdroid and if I notice errors or have ideas, I forward them. I've got a lot to do.
+  
+  * App logo is designed by ________
+
+
+## 📓 <font color="#2467d6"><b>Licence </b></font>
 
 * Tesseract and Tesseract Data: [Apache 2.0](https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE)
 * Tesseract4Android : [Apache 2.0](https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE)

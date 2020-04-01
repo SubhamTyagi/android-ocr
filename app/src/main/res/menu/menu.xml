@@ -3,6 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/action_refresh"
+
+        android:icon="@drawable/ic_refresh_white_24dp"
+        android:title="Refresh"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_settings"
         android:title="@string/settings" />
+
 </menu>

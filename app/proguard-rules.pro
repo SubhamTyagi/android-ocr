@@ -20,3 +20,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class androidx.appcompat.widget.** { *; }
+
+#-repackageclasses
+#-optimizationpasses 2
+#-mergeinterfacesaggressively
+#-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*,method/inlining/short,class/merging/horizontal,class/merging/vertical
+#-allowaccessmodification
+#-repackageclasses

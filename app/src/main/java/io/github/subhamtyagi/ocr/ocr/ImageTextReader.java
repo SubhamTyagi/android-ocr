@@ -51,8 +51,8 @@ public class ImageTextReader {
         } catch (Exception e) {
             return "Scan Failed: WTF: Must be reported to developer!";
         }
-        if (textOnImage == null) {
-            return "Scan Failed: No Text on screen!";
+        if (textOnImage.isEmpty()) {
+            return "Scan Failed: Couldn't read the image\nProblem may be related to Tesseract or no Text on Image!";
         } else return textOnImage;
 
     }

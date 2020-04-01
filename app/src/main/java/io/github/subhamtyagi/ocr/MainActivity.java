@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -221,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
      * Currently not in use
      * select the image when button is clicked
      */
-     private void selectImage2() {
+    private void selectImage2() {
         final String fname = "img_" + System.currentTimeMillis() + ".jpg";
         final File sdImageMainDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fname);
         mOutputFileUri = Uri.fromFile(sdImageMainDirectory);
@@ -341,6 +343,16 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_CODE_SETTINGS);
+        } else if (id == R.id.action_refresh) {
+            Drawable drawable= mBoxImageView.getDrawable();
+            if (drawable!=null) {
+                Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+                if (bitmap !=  null)
+                    new ConvertImageToTextTask().execute(bitmap);
+            }else{
+                findViewById(R.id.btn_select_image).performClick();
+            }
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -431,8 +443,9 @@ public class MainActivity extends AppCompatActivity {
                 new File(Constants.PATH_OF_TESSERACT_DATA_STANDARD).mkdirs();
                 new File(Constants.PATH_OF_TESSERACT_DATA_FAST).mkdirs();
                 new File(Constants.PATH_OF_TESSERACT_DATA_BEST).mkdirs();
+                initializeOCR();
             } else {
-                //finish();
+                finish();
             }
         }
     }

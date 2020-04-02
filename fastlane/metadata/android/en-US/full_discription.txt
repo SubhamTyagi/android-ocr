@@ -15,7 +15,7 @@ After downloading the Training data, app will do everything offline.
 * Recognized almost 102 <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">languages</a>
 * 3 Type of data i.e <a href="https://github.com/tesseract-ocr/tessdata">Standard</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">best</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">fast</a> for more info <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">see</a>
 * Recognize Maths/equation detection
-* Share menu entry
+* Process image directly from Your device Gallery via share menu
 
  <font color="#2467d6"><b>Required Permissions </b></font>
 

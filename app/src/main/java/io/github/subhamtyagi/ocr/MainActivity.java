@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import alirezat775.lib.downloader.Downloader;
+import alirezat775.lib.downloader.core.OnDownloadListener;
 import io.github.subhamtyagi.ocr.models.RecognizedResults;
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
 import io.github.subhamtyagi.ocr.utils.Constants;
@@ -105,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
      * Result
      */
     private TextView mTextResult;
+
+    ProgressBar progressBar;
+
 
 
     @Override
@@ -382,8 +388,7 @@ public class MainActivity extends AppCompatActivity {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
-                                    new DownloadTrainingTask().execute(mTrainingDataType, mLanguage);
+                                    downloadTrainingData(mTrainingDataType,mLanguage);
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -404,6 +409,110 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    private void downloadTrainingData(String mTrainingDataType, String lang) {
+
+        String downloadURL;
+        //String location;
+        String destFolderName;
+        switch (mTrainingDataType) {
+            case "best":
+                destFolderName = Constants.TESSERACT_DATA_FILE_NAME_BEST;
+                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang);
+                break;
+            case "standard":
+                destFolderName = Constants.TESSERACT_DATA_FILE_NAME_STANDARD;
+                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang);
+                break;
+            default:
+                destFolderName = Constants.TESSERACT_DATA_FILE_NAME_FAST;
+                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
+        }
+
+        mProgressDialog = new ProgressDialog(MainActivity.this);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setTitle(getString(R.string.downloading));
+        mProgressDialog.setMessage(getString(R.string.downloading_language));
+        mProgressDialog.show();
+
+        Downloader.Builder downloader =new Downloader.Builder(this,downloadURL)
+                .downloadDirectory(destFolderName)
+                .downloadListener(new OnDownloadListener() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onPause() {
+
+            }
+
+            @Override
+            public void onResume() {
+
+            }
+
+            @Override
+            public void onProgressUpdate(int percent, int downloadSize, int totalSize) {
+                String total=getSize(totalSize);
+                String downloaded=getSize(downloadSize);
+                //publish progress
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCompleted(File file) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mProgressDialog.cancel();
+                        mProgressDialog = null;
+                    }
+                });
+
+                initializeOCR();
+            }
+
+            @Override
+            public void onFailure(String s) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+        downloader.build().download();
+
+    }
+
+    private String  getSize(int size) {
+        String s = "";
+        double kb = (size / 1024);
+        double mb = kb / 1024;
+        double gb = kb / 1024;
+        double tb = kb / 1024;
+        if (size < 1024) {
+            s = "$size Bytes";
+        } else if (size < 1024 * 1024) {
+            s = String.format("%.2f", kb) + " KB";
+        } else if ( size < 1024 * 1024 * 1024) {
+            s = String.format("%.2f", mb) + " MB";
+        } else if ( size < 1024 * 1024 * 1024 * 1024) {
+            s = String.format("%.2f", gb) + " GB";
+        } else {
+            s = String.format("%.2f", tb) + " TB";
+        }
+        return s;
     }
 
     /**

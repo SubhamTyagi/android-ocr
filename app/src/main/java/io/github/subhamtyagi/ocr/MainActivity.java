@@ -1,15 +1,12 @@
 package io.github.subhamtyagi.ocr;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -18,23 +15,17 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -47,12 +38,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
-import alirezat775.lib.downloader.Downloader;
-import alirezat775.lib.downloader.core.OnDownloadListener;
-import io.github.subhamtyagi.ocr.models.RecognizedResults;
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
 import io.github.subhamtyagi.ocr.utils.Constants;
 import io.github.subhamtyagi.ocr.utils.SpUtil;
@@ -65,16 +51,18 @@ import io.github.subhamtyagi.ocr.views.BoxImageView;
  */
 public class MainActivity extends AppCompatActivity {
 
-
     private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 677;
     private static final int REQUEST_CODE_SETTINGS = 797;
     private static final int REQUEST_CODE_SELECT_IMAGE = 172;
-
     /**
      * a progressDialog to show downloading Dialog and also reused for recognition dialog
      */
     ProgressDialog mProgressDialog;
+    private File dirBest;
+    private File dirStandard;
+    private File dirFast;
+    private File currentDirectory;
     /**
      * Our ImageTextReader Instance
      */
@@ -89,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
      * selected language on image or used for detection
      */
     private String mLanguage;
+
     /**
      * a AlertDialog for showing when language data doesn't exists
      */
@@ -97,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      *
      */
-    private Uri mOutputFileUri;
+    // private Uri mOutputFileUri;
 
     /**
      * Custom Image View
@@ -109,33 +98,49 @@ public class MainActivity extends AppCompatActivity {
      */
     private TextView mTextResult;
 
-    ProgressBar progressBar;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SpUtil.getInstance().init(this);
-        requestStoragePermission();
+
         mBoxImageView = findViewById(R.id.source_image);
         mTextResult = findViewById(R.id.resultant_text);
         //boxImageView.setScaleType(ImageView.ScaleType.MATRIX);
-
-        /*
-          request for storage permission
-          and initialize the OCR for faster access at later time
+        initDirectories();
+        /**
+         *initialize the OCR for faster access at later time
          */
-        if (requestStoragePermission()) {
-            initializeOCR();
-        }
-
-
+        initializeOCR();
         /*
          * check if this was initiated by shared menu if yes then get the image uri and get the text
          * language will be preselected by user in settings
          */
+        initIntent();
+        initViews();
+    }
+
+    private void initViews() {
+        // select button binding
+        findViewById(R.id.btn_select_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
+        // copy button binding
+        findViewById(R.id.btn_copy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("nonsense_data", mTextResult.getText());
+                clipboardManager.setPrimaryClip(clipData);
+                Toast.makeText(MainActivity.this, R.string.data_copied, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void initIntent() {
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
@@ -168,25 +173,26 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void initDirectories() {
+
+        dirBest = new File(getExternalFilesDir("best").getAbsolutePath());
+        dirFast = new File(getExternalFilesDir("fast").getAbsolutePath());
+        dirStandard = new File(getExternalFilesDir("standard").getAbsolutePath());
+
+        dirBest.mkdirs();
+        dirStandard.mkdirs();
+        dirFast.mkdirs();
+
+        currentDirectory = new File(dirBest, "tessdata");
+        currentDirectory.mkdirs();
+        currentDirectory = new File(dirStandard, "tessdata");
+        currentDirectory.mkdirs();
+        currentDirectory = new File(dirFast, "tessdata");
+        currentDirectory.mkdirs();
 
 
-        // select button binding
-        findViewById(R.id.btn_select_image).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectImage();
-            }
-        });
-        // copy button binding
-        findViewById(R.id.btn_copy).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("nonsense_data", mTextResult.getText());
-                clipboardManager.setPrimaryClip(clipData);
-                Toast.makeText(MainActivity.this, R.string.data_copied, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     /**
@@ -194,21 +200,27 @@ public class MainActivity extends AppCompatActivity {
      * if there is no language training data in directory than it will ask for download
      */
     private void initializeOCR() {
+        File cf;
         mTrainingDataType = SpUtil.getInstance().getString(getString(R.string.key_tess_training_data_source), "best");
         mLanguage = SpUtil.getInstance().getString(getString(R.string.key_language_for_tesseract), "eng");
-        final String path;
         switch (mTrainingDataType) {
             case "best":
-                path = Constants.TESSERACT_PATH_BEST;
+                currentDirectory = new File(dirBest, "tessdata");
+                cf = dirBest;
                 break;
             case "standard":
-                path = Constants.TESSERACT_PATH_STANDARD;
+                cf = dirStandard;
+                currentDirectory = new File(dirStandard, "tessdata");
                 break;
             default:
-                path = Constants.TESSERACT_PATH_FAST;
+                cf = dirFast;
+                currentDirectory = new File(dirFast, "tessdata");
+
         }
+
+        Log.d(TAG, "initializeOCR: current Directory is =" + cf.getAbsolutePath());
         if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
-            mImageTextReader = ImageTextReader.geInstance(path, mLanguage);
+            mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage);
         } else {
             setLanguageData();
         }
@@ -223,42 +235,6 @@ public class MainActivity extends AppCompatActivity {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(this);
-    }
-
-    /**
-     * Currently not in use
-     * select the image when button is clicked
-     */
-    private void selectImage2() {
-        final String fname = "img_" + System.currentTimeMillis() + ".jpg";
-        final File sdImageMainDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), fname);
-        mOutputFileUri = Uri.fromFile(sdImageMainDirectory);
-
-        // Camera.
-        final List<Intent> cameraIntents = new ArrayList<>();
-        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        final PackageManager packageManager = getPackageManager();
-        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for (ResolveInfo res : listCam) {
-            final String packageName = res.activityInfo.packageName;
-            final Intent intent = new Intent(captureIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(packageName);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, mOutputFileUri);
-            cameraIntents.add(intent);
-        }
-        // Filesystem.
-        final Intent galleryIntent = new Intent();
-        galleryIntent.setType("image/*");
-        galleryIntent.setAction(Intent.ACTION_PICK);
-
-        // Chooser of filesystem options.
-        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
-
-        // Add the camera options.
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-
-        startActivityForResult(chooserIntent, REQUEST_CODE_SELECT_IMAGE);
     }
 
     @Override
@@ -278,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Uri selectedImageUri;
                 if (isCamera) {
-                    selectedImageUri = mOutputFileUri;
+                    selectedImageUri = data.getData();
                     if (selectedImageUri == null) return;
                     convertImageToText(selectedImageUri);
 
@@ -313,7 +289,9 @@ public class MainActivity extends AppCompatActivity {
             mBoxImageView.setImageBitmap(bitmap);
             if (SpUtil.getInstance().getBoolean(getString(R.string.key_draw_box), false)) {
                 Log.d(TAG, "convertImageToText: draw box");
-                new ConvertImageToTextTask2().execute(bitmap);
+                //  new ConvertImageToTextTask2().execute(bitmap);
+
+                new ConvertImageToTextTask().execute(bitmap);
 
             } else {
                 Log.d(TAG, "convertImageToText: not  draw box");
@@ -336,6 +314,10 @@ public class MainActivity extends AppCompatActivity {
             dialog.dismiss();
             dialog = null;
         }
+        if (mProgressDialog != null) {
+            mProgressDialog.cancel();
+            mProgressDialog = null;
+        }
     }
 
     @Override
@@ -350,12 +332,12 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_CODE_SETTINGS);
         } else if (id == R.id.action_refresh) {
-            Drawable drawable= mBoxImageView.getDrawable();
-            if (drawable!=null) {
-                Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
-                if (bitmap !=  null)
+            Drawable drawable = mBoxImageView.getDrawable();
+            if (drawable != null) {
+                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                if (bitmap != null)
                     new ConvertImageToTextTask().execute(bitmap);
-            }else{
+            } else {
                 findViewById(R.id.btn_select_image).performClick();
             }
 
@@ -369,195 +351,50 @@ public class MainActivity extends AppCompatActivity {
      * if language training data is not exists then it will download it
      */
     private void setLanguageData() {
+
         mTrainingDataType = SpUtil.getInstance().getString(getString(R.string.key_tess_training_data_source), "best");
         mLanguage = SpUtil.getInstance().getString(getString(R.string.key_language_for_tesseract), "eng");
 
-        if (requestStoragePermission()) {
-            if (!isLanguageDataExists(mTrainingDataType, mLanguage)) {
-                ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-                NetworkInfo ni = cm.getActiveNetworkInfo();
-                if (ni == null) {
-                    //You are not connected to Internet
-                    Log.d(TAG, "onResume: you are not connected to internet");
-                } else if (ni.isConnected()) {
-                    // show confirmation dialog.
-                    String msg = String.format("Do you want to download '%s' data for '%s' source?", mLanguage, mTrainingDataType);
-                    dialog = new AlertDialog.Builder(this)
-                            .setTitle("Current language data missing!")
-                            .setMessage(msg)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    downloadTrainingData(mTrainingDataType,mLanguage);
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
 
-                                }
-                            }).create();
-                    dialog.show();
+        if (!isLanguageDataExists(mTrainingDataType, mLanguage)) {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+            @SuppressLint("MissingPermission")
+            NetworkInfo ni = cm.getActiveNetworkInfo();
+            if (ni == null) {
+                //You are not connected to Internet
+                Log.d(TAG, "onResume: you are not connected to internet");
+            } else if (ni.isConnected()) {
+                // show confirmation dialog.
+                String msg = String.format("Do you want to download '%s' data for '%s' source?", mLanguage, mTrainingDataType);
+                dialog = new AlertDialog.Builder(this)
+                        .setTitle("Current language data missing!")
+                        .setMessage(msg)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //downloadTrainingData(mTrainingDataType,mLanguage);
+                                new DownloadTrainingTask().execute(mTrainingDataType, mLanguage);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                } else {
-                    Log.d(TAG, "onResume: you are not connected to internet");
-                    //You are not connected to Internet
-                }
+                            }
+                        }).create();
+                dialog.show();
+
             } else {
-                initializeOCR();
+                Log.d(TAG, "onResume: you are not connected to internet");
+                //You are not connected to Internet
             }
-
-        }
-
-    }
-
-    private void downloadTrainingData(String mTrainingDataType, String lang) {
-
-        String downloadURL;
-        //String location;
-        String destFolderName;
-        switch (mTrainingDataType) {
-            case "best":
-                destFolderName = Constants.TESSERACT_DATA_FILE_NAME_BEST;
-                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang);
-                break;
-            case "standard":
-                destFolderName = Constants.TESSERACT_DATA_FILE_NAME_STANDARD;
-                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang);
-                break;
-            default:
-                destFolderName = Constants.TESSERACT_DATA_FILE_NAME_FAST;
-                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
-        }
-
-        mProgressDialog = new ProgressDialog(MainActivity.this);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mProgressDialog.setIndeterminate(false);
-        mProgressDialog.setCancelable(false);
-        mProgressDialog.setTitle(getString(R.string.downloading));
-        mProgressDialog.setMessage(getString(R.string.downloading_language));
-        mProgressDialog.show();
-
-        Downloader.Builder downloader =new Downloader.Builder(this,downloadURL)
-                .downloadDirectory(destFolderName)
-                .downloadListener(new OnDownloadListener() {
-            @Override
-            public void onStart() {
-            }
-
-            @Override
-            public void onPause() {
-
-            }
-
-            @Override
-            public void onResume() {
-
-            }
-
-            @Override
-            public void onProgressUpdate(int percent, int downloadSize, int totalSize) {
-                String total=getSize(totalSize);
-                String downloaded=getSize(downloadSize);
-                //publish progress
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onCompleted(File file) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mProgressDialog.cancel();
-                        mProgressDialog = null;
-                    }
-                });
-
-                initializeOCR();
-            }
-
-            @Override
-            public void onFailure(String s) {
-
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
-        downloader.build().download();
-
-    }
-
-    private String  getSize(int size) {
-        String s = "";
-        double kb = (size / 1024);
-        double mb = kb / 1024;
-        double gb = kb / 1024;
-        double tb = kb / 1024;
-        if (size < 1024) {
-            s = "$size Bytes";
-        } else if (size < 1024 * 1024) {
-            s = String.format("%.2f", kb) + " KB";
-        } else if ( size < 1024 * 1024 * 1024) {
-            s = String.format("%.2f", mb) + " MB";
-        } else if ( size < 1024 * 1024 * 1024 * 1024) {
-            s = String.format("%.2f", gb) + " GB";
         } else {
-            s = String.format("%.2f", tb) + " TB";
+            initializeOCR();
         }
-        return s;
-    }
 
-    /**
-     * request for storage permission
-     * if permission required then it will also request the permission
-     *
-     * @return false: if no permission required, True: if permission required and
-     */
-    private boolean requestStoragePermission() {
-        if ((ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-                &&
-                (ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        ) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[]{
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.INTERNET,
-                    },
-                    REQUEST_CODE_STORAGE_PERMISSION);
-        } else {
-            return true;
-        }
-        return false;
 
     }
 
-
-    // create the directory
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CODE_STORAGE_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                new File(Constants.PATH_OF_TESSERACT_DATA_STANDARD).mkdirs();
-                new File(Constants.PATH_OF_TESSERACT_DATA_FAST).mkdirs();
-                new File(Constants.PATH_OF_TESSERACT_DATA_BEST).mkdirs();
-                initializeOCR();
-            } else {
-                finish();
-            }
-        }
-    }
 
     /**
      * Check if language data exists
@@ -567,21 +404,33 @@ public class MainActivity extends AppCompatActivity {
      * @return true if language data exists
      */
     private boolean isLanguageDataExists(final String dataType, final String lang) {
-        String fileName;
         switch (dataType) {
             case "best":
-                fileName = Constants.TESSERACT_DATA_FILE_NAME_BEST;
+                currentDirectory = new File(dirBest, "tessdata");
                 break;
             case "standard":
-                fileName = Constants.TESSERACT_DATA_FILE_NAME_STANDARD;
+                currentDirectory = new File(dirStandard, "tessdata");
                 break;
             default:
-                fileName = Constants.TESSERACT_DATA_FILE_NAME_FAST;
+                currentDirectory = new File(dirFast, "tessdata");
+
         }
-        File t = new File(String.format(fileName, lang));
-        boolean r = t.exists();
+
+        File language = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang));
+        boolean r = language.exists();
+        Log.d(TAG, "isLanguageDataExists: path name is ==" + language.getAbsolutePath());
         Log.v(TAG, "training data for " + lang + " exists? " + r);
+
         return r;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mProgressDialog != null) {
+            mProgressDialog.cancel();
+            mProgressDialog = null;
+        }
     }
 
     /**
@@ -620,43 +469,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-    /**
-     * A Async Task to convert the image into @RecognizedResult
-     */
-    private class ConvertImageToTextTask2 extends AsyncTask<Bitmap, Void, RecognizedResults> {
-
-        @Override
-        protected RecognizedResults doInBackground(Bitmap... bitmaps) {
-            //Bitmap bitmap = Utils.convertToGrayscale(bitmaps[0]);
-            //bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
-            return mImageTextReader.getRecognizedResultsFromBitmap(bitmaps[0]);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressDialog = new ProgressDialog(MainActivity.this);
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setTitle("Processing...");
-            mProgressDialog.setMessage("Converting Image to text...");
-            mProgressDialog.show();
-        }
-
-        @Override
-        protected void onPostExecute(RecognizedResults recognizedResults) {
-            mProgressDialog.cancel();
-            mProgressDialog = null;
-            mTextResult.setText(recognizedResults.getFullText());
-            mBoxImageView.setRecognitionResults(recognizedResults);
-            SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), recognizedResults.getFullText());
-            // Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
 
     /**
      * Download the training Data and save this to external storage
@@ -699,20 +511,18 @@ public class MainActivity extends AppCompatActivity {
             boolean result = true;
             String downloadURL;
             String location;
-            String destFileName;
+
             switch (dataType) {
                 case "best":
-                    destFileName = String.format(Constants.TESSERACT_DATA_FILE_NAME_BEST, lang);
                     downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang);
                     break;
                 case "standard":
-                    destFileName = String.format(Constants.TESSERACT_DATA_FILE_NAME_STANDARD, lang);
                     downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang);
                     break;
                 default:
-                    destFileName = String.format(Constants.TESSERACT_DATA_FILE_NAME_FAST, lang);
                     downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
             }
+
             URL url, base, next;
             HttpURLConnection conn;
             try {
@@ -740,7 +550,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 conn.connect();
                 InputStream input = new BufferedInputStream(url.openStream());
-                OutputStream output = new FileOutputStream(destFileName);
+
+                File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang));
+                destf.createNewFile();
+                OutputStream output = new FileOutputStream(destf);
+
                 byte[] data = new byte[1024 * 6];
                 int count;
                 while ((count = input.read(data)) != -1) {
@@ -752,6 +566,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 result = false;
                 Log.e(TAG, "failed to download " + downloadURL + " : " + e);
+                e.printStackTrace();
             }
             return result;
         }

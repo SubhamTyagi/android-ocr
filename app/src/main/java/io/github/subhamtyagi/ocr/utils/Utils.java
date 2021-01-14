@@ -1,5 +1,6 @@
 package io.github.subhamtyagi.ocr.utils;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
@@ -28,8 +29,9 @@ public class Utils {
         return bmpGrayscale;
     }
 
+    @SuppressLint("DefaultLocale")
     private String getSize(int size) {
-        String s = "";
+        String s;
         double kb = (size / 1024);
         double mb = kb / 1024;
         double gb = kb / 1024;

@@ -43,9 +43,9 @@ import io.github.subhamtyagi.ocr.models.RecognizedResults;
 public class BoxImageView extends androidx.appcompat.widget.AppCompatImageView {
 
     private RecognizedResults recognizedResults;
-    private Paint yellow = new Paint();
-    private Paint black = new Paint();
-    private Paint blue = new Paint();
+    private final Paint yellow = new Paint();
+    private final Paint black = new Paint();
+    private final Paint blue = new Paint();
     private boolean mDrawOverlay = true;
 
     public BoxImageView(Context context) {

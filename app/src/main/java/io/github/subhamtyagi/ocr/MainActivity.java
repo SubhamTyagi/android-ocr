@@ -52,7 +52,7 @@ import io.github.subhamtyagi.ocr.views.BoxImageView;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private static final int REQUEST_CODE_STORAGE_PERMISSION = 677;
+
     private static final int REQUEST_CODE_SETTINGS = 797;
     private static final int REQUEST_CODE_SELECT_IMAGE = 172;
     /**
@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void initDirectories() {
 
         dirBest = new File(getExternalFilesDir("best").getAbsolutePath());
@@ -253,17 +254,12 @@ public class MainActivity extends AppCompatActivity {
                     isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
                 }
                 Uri selectedImageUri;
-                if (isCamera) {
+
                     selectedImageUri = data.getData();
                     if (selectedImageUri == null) return;
                     convertImageToText(selectedImageUri);
 
-                } else {
-                    selectedImageUri = data.getData();
-                    if (selectedImageUri == null) return;
-                    convertImageToText(selectedImageUri);
 
-                }
             } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 convertImageToText(result.getUri());

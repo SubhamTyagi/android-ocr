@@ -30,7 +30,7 @@ public class Utils {
     }
 
     @SuppressLint("DefaultLocale")
-    private String getSize(int size) {
+    public static String getSize(int size) {
         String s;
         double kb = (size / 1024);
         double mb = kb / 1024;

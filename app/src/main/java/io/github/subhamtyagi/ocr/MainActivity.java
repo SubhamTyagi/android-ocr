@@ -84,11 +84,6 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog dialog;
 
     /**
-     *
-     */
-    // private Uri mOutputFileUri;
-
-    /**
      * Custom Image View
      */
     private BoxImageView mBoxImageView;
@@ -229,120 +224,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * select the image when button is clicked
-     * using edmodo
-     */
-    private void selectImage() {
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_SETTINGS) {
-            setLanguageData();
-        }
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE_SELECT_IMAGE) {
-                final boolean isCamera;
-                if (data == null || data.getData() == null) {
-                    isCamera = true;
-                } else {
-                    final String action = data.getAction();
-                    isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
-                }
-                Uri selectedImageUri;
-
-                selectedImageUri = data.getData();
-                if (selectedImageUri == null) return;
-                convertImageToText(selectedImageUri);
-
-
-            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                convertImageToText(result.getUri());
-            }
-        }
-
-    }
-
-
-    /**
-     * Executed after onActivityResult or when used from shared menu
-     * <p>
-     * convert the image uri to bitmap
-     * call the appropriate AsyncTask based on Settings
-     *
-     * @param imageUri uri of selected image
-     */
-    private void convertImageToText(Uri imageUri) {
-
-        try {
-            SpUtil.getInstance().putString(getString(R.string.key_last_use_image_location), imageUri.toString());
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-            mBoxImageView.setImageBitmap(bitmap);
-            if (SpUtil.getInstance().getBoolean(getString(R.string.key_draw_box), false)) {
-                Log.d(TAG, "convertImageToText: draw box");
-                //  new ConvertImageToTextTask2().execute(bitmap);
-
-                new ConvertImageToTextTask().execute(bitmap);
-
-            } else {
-                Log.d(TAG, "convertImageToText: not  draw box");
-                new ConvertImageToTextTask().execute(bitmap);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-    /**
-     * destroy the dialog instance: memory leak  surety
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (dialog != null) {
-            dialog.dismiss();
-            dialog = null;
-        }
-        if (mProgressDialog != null) {
-            mProgressDialog.cancel();
-            mProgressDialog = null;
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_CODE_SETTINGS);
-        } else if (id == R.id.action_refresh) {
-            Drawable drawable = mBoxImageView.getDrawable();
-            if (drawable != null) {
-                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                if (bitmap != null)
-                    new ConvertImageToTextTask().execute(bitmap);
-            } else {
-                findViewById(R.id.btn_select_image).performClick();
-            }
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    /**
      * set the language based on selected in Settings
      * if language training data is not exists then it will download it
      */
@@ -368,14 +249,14 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //downloadTrainingData(mTrainingDataType,mLanguage);
+                                dialog.cancel();
                                 new DownloadTrainingTask().execute(mTrainingDataType, mLanguage);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                dialog.cancel();
                             }
                         }).create();
                 dialog.show();
@@ -387,7 +268,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             initializeOCR();
         }
-
 
     }
 
@@ -420,6 +300,96 @@ public class MainActivity extends AppCompatActivity {
         return r;
     }
 
+
+    /**
+     * select the image when button is clicked
+     * using edmodo
+     */
+    private void selectImage() {
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this);
+    }
+
+    /**
+     * Executed after onActivityResult or when used from shared menu
+     * <p>
+     * convert the image uri to bitmap
+     * call the appropriate AsyncTask based on Settings
+     *
+     * @param imageUri uri of selected image
+     */
+    private void convertImageToText(Uri imageUri) {
+
+        try {
+            SpUtil.getInstance().putString(getString(R.string.key_last_use_image_location), imageUri.toString());
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+            mBoxImageView.setImageBitmap(bitmap);
+            if (SpUtil.getInstance().getBoolean(getString(R.string.key_draw_box), false)) {
+                Log.d(TAG, "convertImageToText: draw box");
+                //  new ConvertImageToTextTask2().execute(bitmap);
+
+                new ConvertImageToTextTask().execute(bitmap);
+
+            } else {
+                Log.d(TAG, "convertImageToText: not  draw box");
+                new ConvertImageToTextTask().execute(bitmap);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SETTINGS) {
+            setLanguageData();
+        }
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_SELECT_IMAGE) {
+                final boolean isCamera;
+                if (data == null || data.getData() == null) {
+                    isCamera = true;
+                } else {
+                    final String action = data.getAction();
+                    isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
+                }
+                Uri selectedImageUri;
+
+                selectedImageUri = data.getData();
+                if (selectedImageUri == null) return;
+                convertImageToText(selectedImageUri);
+
+
+            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                convertImageToText(result.getUri());
+            }
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
+        if (mProgressDialog != null) {
+            mProgressDialog.cancel();
+            mProgressDialog = null;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -427,6 +397,25 @@ public class MainActivity extends AppCompatActivity {
             mProgressDialog.cancel();
             mProgressDialog = null;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_CODE_SETTINGS);
+        } else if (id == R.id.action_refresh) {
+            Drawable drawable = mBoxImageView.getDrawable();
+            if (drawable != null) {
+                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                if (bitmap != null)
+                    new ConvertImageToTextTask().execute(bitmap);
+            } else {
+                findViewById(R.id.btn_select_image).performClick();
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -471,17 +460,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private class DownloadTrainingTask extends AsyncTask<String, Integer, Boolean> {
 
-        @Override
-        protected void onPostExecute(Boolean bool) {
-            mProgressDialog.cancel();
-            mProgressDialog = null;
-            initializeOCR();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... languages) {
-            return downloadTraningData(languages[0], languages[1]);
-        }
+        String size;
 
         @Override
         protected void onPreExecute() {
@@ -494,6 +473,29 @@ public class MainActivity extends AppCompatActivity {
             mProgressDialog.setMessage(getString(R.string.downloading_language));
             mProgressDialog.show();
         }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            int percentage = values[0];
+            mProgressDialog.setMessage(percentage + "% downloaded of Size:" + size);
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean bool) {
+            mProgressDialog.cancel();
+            mProgressDialog = null;
+            initializeOCR();
+        }
+
+
+        @Override
+        protected Boolean doInBackground(String... languages) {
+            return downloadTraningData(languages[0], languages[1]);
+        }
+
+
 
 
         /**
@@ -545,6 +547,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
                 conn.connect();
+
+                int totalContentSize = conn.getContentLength();
+                size = Utils.getSize(totalContentSize);
+
                 InputStream input = new BufferedInputStream(url.openStream());
 
                 File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang));
@@ -552,9 +558,12 @@ public class MainActivity extends AppCompatActivity {
                 OutputStream output = new FileOutputStream(destf);
 
                 byte[] data = new byte[1024 * 6];
-                int count;
+                int count, downloaded = 0;
                 while ((count = input.read(data)) != -1) {
                     output.write(data, 0, count);
+                    downloaded += count;
+                    int percentage = (downloaded * 100) / totalContentSize;
+                    publishProgress(percentage);
                 }
                 output.flush();
                 output.close();

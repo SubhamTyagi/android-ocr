@@ -255,9 +255,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Uri selectedImageUri;
 
-                    selectedImageUri = data.getData();
-                    if (selectedImageUri == null) return;
-                    convertImageToText(selectedImageUri);
+                selectedImageUri = data.getData();
+                if (selectedImageUri == null) return;
+                convertImageToText(selectedImageUri);
 
 
             } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {

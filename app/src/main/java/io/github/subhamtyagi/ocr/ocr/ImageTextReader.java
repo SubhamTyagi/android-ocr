@@ -9,8 +9,8 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.util.ArrayList;
 
-import io.github.subhamtyagi.ocr.models.RecognizedResults;
 import io.github.subhamtyagi.ocr.models.Blocks;
+import io.github.subhamtyagi.ocr.models.RecognizedResults;
 
 /**
  * This class convert the image to text and return the text on image
@@ -19,7 +19,7 @@ public class ImageTextReader {
 
 
     /**
-     *TessBaseAPI instance
+     * TessBaseAPI instance
      */
     private static volatile TessBaseAPI api;
     //  private static volatile TesseractImageTextReader INSTANCE;
@@ -27,7 +27,7 @@ public class ImageTextReader {
     /**
      * initialize and train the tesseract engine
      *
-     * @param path a path to training data
+     * @param path     a path to training data
      * @param language language code i.e. selected by user
      * @return the instance of this class for later use
      */
@@ -40,6 +40,7 @@ public class ImageTextReader {
 
     /**
      * get the text from bitmap
+     *
      * @param bitmap a image
      * @return text on image
      */
@@ -60,6 +61,7 @@ public class ImageTextReader {
 
     /**
      * Get the RecognizedText from Bitmap
+     *
      * @param bitmap a image
      * @return RecognizedResult object that contains the text,rect,fullText
      */

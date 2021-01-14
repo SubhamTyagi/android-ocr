@@ -18,7 +18,7 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
-        android:defaultValue="fast"
+        android:defaultValue="best"
         android:entries="@array/ocr_training_data_entries"
         android:entryValues="@array/key_ocr_training_data_entries_values"
         android:key="@string/key_tess_training_data_source"

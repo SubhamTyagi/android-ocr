@@ -96,4 +96,7 @@ fastlane/readme.md
 *.hprof
 *.alloc
 
+# sha file
+*.sha
+
 

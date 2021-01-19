@@ -48,8 +48,8 @@ public class ImageTextReader {
         api.setImage(bitmap);
         String textOnImage;
         try {
-            textOnImage = api.getUTF8Text();
-            //textOnImage = api.getHOCRText(1);
+            //textOnImage = api.getUTF8Text();
+            textOnImage = api.getHOCRText(1);
 
         } catch (Exception e) {
             return "Scan Failed: WTF: Must be reported to developer!";

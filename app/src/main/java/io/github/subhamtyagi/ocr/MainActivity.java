@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -437,12 +438,19 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     }
 
     @Override
-    public void onProgressValues(TessBaseAPI.ProgressValues progressValues) {
+    public void onProgressValues(final TessBaseAPI.ProgressValues progressValues) {
         Log.d(TAG, "onProgressValues: percent " + progressValues.getPercent());
-        //  if(mProgressDialog!=null){
-        //      mProgressDialog.setMessage(progressValues.getPercent()+"% converted to text");
-        //      mProgressDialog.show();
-        //  }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mProgressDialog != null) {
+                    mProgressDialog.setMessage(progressValues.getPercent() + "% converted to text");
+                    mProgressDialog.show();
+                }
+            }
+        });
+
     }
 
     /**
@@ -474,9 +482,12 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         @Override
         protected void onPostExecute(String text) {
-            mProgressDialog.cancel();
-            mProgressDialog = null;
-            mTextResult.setText(text);
+            if (mProgressDialog != null) {
+                mProgressDialog.cancel();
+                mProgressDialog = null;
+            }
+            //mTextResult.setText(text);
+            mTextResult.setText(Html.fromHtml(text));
             SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), text);
         }
 

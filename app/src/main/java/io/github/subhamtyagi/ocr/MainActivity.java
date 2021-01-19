@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
             String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
             if (text != null) {
-                mTextResult.setText(text);
+                mTextResult.setText(Html.fromHtml(text));
             }
 
         }

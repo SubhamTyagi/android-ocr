@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.googlecode.tesseract.android.TessBaseAPI;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -49,7 +50,7 @@ import io.github.subhamtyagi.ocr.views.BoxImageView;
 /**
  * Apps MainActivity where all important works is going on
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TessBaseAPI.ProgressNotifier {
 
     private static final String TAG = "MainActivity";
 
@@ -120,7 +121,12 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_select_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage();
+                if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
+                    selectImage();
+                } else {
+                    setLanguageData();
+                }
+
             }
         });
         // copy button binding
@@ -216,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "initializeOCR: current Directory is =" + cf.getAbsolutePath());
         if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
-            mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage);
+            mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, this);
         } else {
             setLanguageData();
         }
@@ -245,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
                 String msg = String.format("Do you want to download '%s' data for '%s' source?", mLanguage, mTrainingDataType);
                 dialog = new AlertDialog.Builder(this)
                         .setTitle("Current language data missing!")
+                        .setCancelable(false)
                         .setMessage(msg)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
@@ -257,6 +264,10 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
+                                if (!isLanguageDataExists(mTrainingDataType, mLanguage)) {
+                                    finish();
+                                }
+
                             }
                         }).create();
                 dialog.show();
@@ -405,17 +416,33 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_CODE_SETTINGS);
         } else if (id == R.id.action_refresh) {
-            Drawable drawable = mBoxImageView.getDrawable();
-            if (drawable != null) {
-                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                if (bitmap != null)
-                    new ConvertImageToTextTask().execute(bitmap);
+            if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
+
+                Drawable drawable = mBoxImageView.getDrawable();
+                if (drawable != null) {
+                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                    if (bitmap != null)
+                        new ConvertImageToTextTask().execute(bitmap);
+                } else {
+                    findViewById(R.id.btn_select_image).performClick();
+                }
+
             } else {
-                findViewById(R.id.btn_select_image).performClick();
+                setLanguageData();
             }
+
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onProgressValues(TessBaseAPI.ProgressValues progressValues) {
+        Log.d(TAG, "onProgressValues: percent " + progressValues.getPercent());
+        //  if(mProgressDialog!=null){
+        //      mProgressDialog.setMessage(progressValues.getPercent()+"% converted to text");
+        //      mProgressDialog.show();
+        //  }
     }
 
     /**
@@ -494,8 +521,6 @@ public class MainActivity extends AppCompatActivity {
         protected Boolean doInBackground(String... languages) {
             return downloadTraningData(languages[0], languages[1]);
         }
-
-
 
 
         /**

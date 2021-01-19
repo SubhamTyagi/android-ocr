@@ -31,8 +31,8 @@ public class ImageTextReader {
      * @param language language code i.e. selected by user
      * @return the instance of this class for later use
      */
-    public static ImageTextReader geInstance(String path, String language) {
-        api = new TessBaseAPI();
+    public static ImageTextReader geInstance(String path, String language, TessBaseAPI.ProgressNotifier progressNotifier) {
+        api = new TessBaseAPI(progressNotifier);
         api.init(path, language);
         api.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO_OSD);
         return new ImageTextReader();
@@ -49,6 +49,8 @@ public class ImageTextReader {
         String textOnImage;
         try {
             textOnImage = api.getUTF8Text();
+            //textOnImage = api.getHOCRText(1);
+
         } catch (Exception e) {
             return "Scan Failed: WTF: Must be reported to developer!";
         }

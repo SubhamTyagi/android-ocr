@@ -13,13 +13,15 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
-            zipAlignEnabled true
+            resValue "string", "app_name", "OCR"
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
         }
         debug{
+            resValue "string", "app_name", "OCR Dev"
             applicationIdSuffix= '.dev'
             minifyEnabled false
             shrinkResources false

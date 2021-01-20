@@ -1,6 +1,7 @@
 package io.github.subhamtyagi.ocr;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -43,6 +44,7 @@ import java.net.URL;
 
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
 import io.github.subhamtyagi.ocr.utils.Constants;
+import io.github.subhamtyagi.ocr.utils.CrashUtils;
 import io.github.subhamtyagi.ocr.utils.SpUtil;
 import io.github.subhamtyagi.ocr.utils.Utils;
 import io.github.subhamtyagi.ocr.views.BoxImageView;
@@ -61,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * a progressDialog to show downloading Dialog and also reused for recognition dialog
      */
     ProgressDialog mProgressDialog;
+    private CrashUtils crashUtils;
+    private ConvertImageToTextTask convertImageToTextTask;
+    private DownloadTrainingTask downloadTrainingTask;
+
     private File dirBest;
     private File dirStandard;
     private File dirFast;
@@ -69,27 +75,22 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * Our ImageTextReader Instance
      */
     private ImageTextReader mImageTextReader;
-
     /**
      * TrainingDataType: i.e Best, Standard, Fast
      */
     private String mTrainingDataType;
-
     /**
      * selected language on image or used for detection
      */
     private String mLanguage;
-
     /**
      * a AlertDialog for showing when language data doesn't exists
      */
     private AlertDialog dialog;
-
     /**
      * Custom Image View
      */
     private BoxImageView mBoxImageView;
-
     /**
      * Result
      */
@@ -100,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SpUtil.getInstance().init(this);
+
+        crashUtils = new CrashUtils(getApplicationContext(), "");
 
         mBoxImageView = findViewById(R.id.source_image);
         mTextResult = findViewById(R.id.resultant_text);
@@ -205,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private void initializeOCR() {
         File cf;
         mTrainingDataType = SpUtil.getInstance().getString(getString(R.string.key_tess_training_data_source), "best");
-        mLanguage = SpUtil.getInstance().getString(getString(R.string.key_language_for_tesseract), "eng");
+        mLanguage = SpUtil.getInstance().getString(this.getString(R.string.key_language_for_tesseract), "eng");
         switch (mTrainingDataType) {
             case "best":
                 currentDirectory = new File(dirBest, "tessdata");
@@ -221,9 +224,23 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         }
 
-        Log.d(TAG, "initializeOCR: current Directory is =" + cf.getAbsolutePath());
         if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
-            mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, this);
+            try {
+                mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, this);
+                if (!ImageTextReader.success) {
+                    File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, mLanguage));
+                    destf.delete();
+                    setLanguageData();
+                }
+                if (mImageTextReader == null) {
+                    // something is bad
+                }
+            } catch (Exception e) {
+                crashUtils.logException(e);
+                File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, mLanguage));
+                destf.delete();
+                setLanguageData();
+            }
         } else {
             setLanguageData();
         }
@@ -246,27 +263,30 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             NetworkInfo ni = cm.getActiveNetworkInfo();
             if (ni == null) {
                 //You are not connected to Internet
-                Log.d(TAG, "onResume: you are not connected to internet");
+
+                Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
             } else if (ni.isConnected()) {
                 // show confirmation dialog.
-                String msg = String.format("Do you want to download '%s' data for '%s' source?", mLanguage, mTrainingDataType);
+                String msg = String.format(getString(R.string.download_description), mLanguage);
                 dialog = new AlertDialog.Builder(this)
-                        .setTitle("Current language data missing!")
+                        .setTitle(R.string.training_data_missing)
                         .setCancelable(false)
                         .setMessage(msg)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
-                                new DownloadTrainingTask().execute(mTrainingDataType, mLanguage);
+                                //  download2(mTrainingDataType,mLanguage);
+                                downloadTrainingTask = new DownloadTrainingTask();
+                                downloadTrainingTask.execute(mTrainingDataType, mLanguage);
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
                                 if (!isLanguageDataExists(mTrainingDataType, mLanguage)) {
-                                    finish();
+                                    //  finish();
                                 }
 
                             }
@@ -274,7 +294,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 dialog.show();
 
             } else {
-                Log.d(TAG, "onResume: you are not connected to internet");
+
+                Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
+
                 //You are not connected to Internet
             }
         } else {
@@ -340,12 +362,14 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             if (SpUtil.getInstance().getBoolean(getString(R.string.key_draw_box), false)) {
                 Log.d(TAG, "convertImageToText: draw box");
                 //  new ConvertImageToTextTask2().execute(bitmap);
-
-                new ConvertImageToTextTask().execute(bitmap);
+                convertImageToTextTask = new ConvertImageToTextTask();
+                convertImageToTextTask.execute(bitmap);
 
             } else {
                 Log.d(TAG, "convertImageToText: not  draw box");
-                new ConvertImageToTextTask().execute(bitmap);
+                convertImageToTextTask = new ConvertImageToTextTask();//.execute(bitmap);
+                convertImageToTextTask.execute(bitmap);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -386,6 +410,13 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (convertImageToTextTask != null && convertImageToTextTask.getStatus() == AsyncTask.Status.RUNNING) {
+            convertImageToTextTask.cancel(true);
+            Log.d(TAG, "onDestroy: image processing canceled");
+        }
+        if (downloadTrainingTask != null && downloadTrainingTask.getStatus() == AsyncTask.Status.RUNNING) {
+            downloadTrainingTask.cancel(true);
+        }
         if (dialog != null) {
             dialog.dismiss();
             dialog = null;
@@ -405,11 +436,26 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     @Override
     protected void onStop() {
         super.onStop();
+
+        Log.d(TAG, "onStop: called");
+        /*if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
         if (mProgressDialog != null) {
             mProgressDialog.cancel();
             mProgressDialog = null;
         }
+
+        if (convertImageToTextTask !=null && convertImageToTextTask.getStatus()== AsyncTask.Status.RUNNING){
+            convertImageToTextTask.cancel(true);
+            Log.d(TAG, "onDestroy: image processing canceled");
+        }
+        if (downloadTrainingTask !=null && downloadTrainingTask.getStatus()== AsyncTask.Status.RUNNING){
+            downloadTrainingTask.cancel(true);
+        }*/
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -440,17 +486,42 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     @Override
     public void onProgressValues(final TessBaseAPI.ProgressValues progressValues) {
         Log.d(TAG, "onProgressValues: percent " + progressValues.getPercent());
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mProgressDialog != null) {
-                    mProgressDialog.setMessage(progressValues.getPercent() + "% converted to text");
+                    int temp = (int) (progressValues.getPercent() * 1.46);
+                    mProgressDialog.setMessage(temp + getString(R.string.percentage_converted_to_text));
                     mProgressDialog.show();
                 }
             }
         });
 
+    }
+
+    void download2(String dataType, String lang) {
+
+        // boolean result = true;
+        String downloadURL;
+        //String location;
+
+        switch (dataType) {
+            case "best":
+                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang);
+                break;
+            case "standard":
+                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang);
+                break;
+            default:
+                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
+        }
+        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadURL));
+        request.setTitle("Downloading training data..").setDescription("Downloding the training data for selected language");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        request.setDestinationInExternalFilesDir(this, null, "best/tessdata");
+        downloadManager.enqueue(request);
     }
 
     /**
@@ -516,14 +587,18 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
             int percentage = values[0];
-            mProgressDialog.setMessage(percentage + "% downloaded of Size:" + size);
-            mProgressDialog.show();
+            if (mProgressDialog != null) {
+                mProgressDialog.setMessage(percentage + getString(R.string.percentage_downloaded) + size);
+                mProgressDialog.show();
+            }
         }
 
         @Override
         protected void onPostExecute(Boolean bool) {
-            mProgressDialog.cancel();
-            mProgressDialog = null;
+            if (mProgressDialog != null) {
+                mProgressDialog.cancel();
+                mProgressDialog = null;
+            }
             initializeOCR();
         }
 
@@ -566,7 +641,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         url = new URL(downloadURL);
                     } catch (java.net.MalformedURLException ex) {
                         Log.e(TAG, "url " + downloadURL + " is bad: " + ex);
-
                         return false;
                     }
                     conn = (HttpURLConnection) url.openConnection();

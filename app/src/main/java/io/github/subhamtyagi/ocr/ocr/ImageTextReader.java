@@ -17,6 +17,9 @@ import io.github.subhamtyagi.ocr.models.RecognizedResults;
  */
 public class ImageTextReader {
 
+    public static final String TAG = "ImageTextReader";
+    public static boolean success;
+
 
     /**
      * TessBaseAPI instance
@@ -32,10 +35,14 @@ public class ImageTextReader {
      * @return the instance of this class for later use
      */
     public static ImageTextReader geInstance(String path, String language, TessBaseAPI.ProgressNotifier progressNotifier) {
-        api = new TessBaseAPI(progressNotifier);
-        api.init(path, language);
-        api.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO_OSD);
-        return new ImageTextReader();
+        try {
+            api = new TessBaseAPI(progressNotifier);
+            success = api.init(path, language);
+            api.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO_OSD);
+            return new ImageTextReader();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**

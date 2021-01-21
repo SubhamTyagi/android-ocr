@@ -14,10 +14,10 @@ public class RecognizedResults {
     /***
      *Array list to store @Blocks items that store text and its box location
      */
-    private ArrayList<Blocks> items;
+    private final ArrayList<Blocks> items;
 
     public RecognizedResults() {
-        items = new ArrayList<Blocks>();
+        items = new ArrayList<>();
     }
 
     public void add(Blocks item) {
@@ -40,4 +40,4 @@ public class RecognizedResults {
         this.fullText = fullText;
     }
 
-};
+}

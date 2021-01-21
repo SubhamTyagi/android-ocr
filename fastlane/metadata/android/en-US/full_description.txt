@@ -1,4 +1,4 @@
-# OCR 4
+# OCR
 
 A OCR app that can recognize texts on image. 
 

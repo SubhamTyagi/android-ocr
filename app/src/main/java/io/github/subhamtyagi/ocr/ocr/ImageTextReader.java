@@ -9,17 +9,20 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.util.ArrayList;
 
-import io.github.subhamtyagi.ocr.models.RecognizedResults;
 import io.github.subhamtyagi.ocr.models.Blocks;
+import io.github.subhamtyagi.ocr.models.RecognizedResults;
 
 /**
  * This class convert the image to text and return the text on image
  */
 public class ImageTextReader {
 
+    public static final String TAG = "ImageTextReader";
+    public static boolean success;
+
 
     /**
-     *TessBaseAPI instance
+     * TessBaseAPI instance
      */
     private static volatile TessBaseAPI api;
     //  private static volatile TesseractImageTextReader INSTANCE;
@@ -27,19 +30,24 @@ public class ImageTextReader {
     /**
      * initialize and train the tesseract engine
      *
-     * @param path a path to training data
+     * @param path     a path to training data
      * @param language language code i.e. selected by user
      * @return the instance of this class for later use
      */
-    public static ImageTextReader geInstance(String path, String language) {
-        api = new TessBaseAPI();
-        api.init(path, language);
-        api.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO_OSD);
-        return new ImageTextReader();
+    public static ImageTextReader geInstance(String path, String language, TessBaseAPI.ProgressNotifier progressNotifier) {
+        try {
+            api = new TessBaseAPI(progressNotifier);
+            success = api.init(path, language);
+            api.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO_OSD);
+            return new ImageTextReader();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
      * get the text from bitmap
+     *
      * @param bitmap a image
      * @return text on image
      */
@@ -47,7 +55,9 @@ public class ImageTextReader {
         api.setImage(bitmap);
         String textOnImage;
         try {
-            textOnImage = api.getUTF8Text();
+            //textOnImage = api.getUTF8Text();
+            textOnImage = api.getHOCRText(1);
+
         } catch (Exception e) {
             return "Scan Failed: WTF: Must be reported to developer!";
         }
@@ -60,6 +70,7 @@ public class ImageTextReader {
 
     /**
      * Get the RecognizedText from Bitmap
+     *
      * @param bitmap a image
      * @return RecognizedResult object that contains the text,rect,fullText
      */

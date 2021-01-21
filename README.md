@@ -1,4 +1,4 @@
-# OCR 4  ​  [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/packages/io.github.subhamtyagi.ocr/)
+# OCR  ​  [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/packages/io.github.subhamtyagi.ocr/)
 
 A OCR app that can recognize texts on image. 
 
@@ -47,4 +47,4 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 * Tesseract4Android : [Apache 2.0](https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE)
 * BoxImageView : [GNU Affero General Public License](https://github.com/SubhamTyagi/android-cr/blob/master/app/src/main/java/io/github/subhamtyagi/ocr/views/BoxImageView.java)
 * ImageCropper : [Apache 2.0](https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt)
-* OCR 4: Apache 2.0 
+* OCR : Apache 2.0

@@ -27,12 +27,6 @@ public class SettingsActivity extends AppCompatActivity {
         }*/
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-    }
-
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

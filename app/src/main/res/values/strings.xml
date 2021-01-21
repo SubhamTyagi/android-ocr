@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OCR 4</string>
+
     <string name="title_activity_settings">Settings</string>
 
 
@@ -33,6 +33,14 @@
     <string name="downloading_language">Downloading language data...</string>
     <string name="text_goes_here">Text goes here</string>
     <string name="data_copied">Data copied...</string>
+
+    <string name="percentage_downloaded">% of total:</string>
+    <string name="percentage_converted_to_text">% converted to text</string>
+    <string name="you_are_not_connected_to_internet">You are not connected to internet</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="training_data_missing">Training data missing!</string>
+    <string name="download_description">For proper functioning of Tesseract OCR additional training data needs to be downloaded to your device.\nDo you want to download selected language(%s) data?</string>
 
 </resources>
 

@@ -4,7 +4,13 @@
 
 
     <!-- various key to store the setting values -->
-
+    
+   
+    
+    
+    
+    
+    
 
     <string name="language">语言</string>
     <string name="use_gray_scale_image_for_ocr">图像预处理</string>
@@ -27,5 +33,13 @@
     <string name="downloading_language">正在下载语言数据......</string>
     <string name="text_goes_here">文本就在这里</string>
     <string name="data_copied">数据已复制......</string>
+    
+    <string name="percentage_downloaded">已下载百分比：</string>
+    <string name="percentage_converted_to_text">已转换到文本的百分比：</string>
+    <string name="you_are_not_connected_to_internet">你未连接到互联网</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="training_data_missing">缺少训练数据！</string>
+    <string name="download_description">为了让 Tesseract OCR 能正常工作，需要下载额外的训练数据到你的设备上。\n你想下载所选语言的数据吗？</string>
 
 </resources>

@@ -11,7 +11,7 @@
     <string name="key_last_use_image_location" translatable="false">last_use_image_location</string>
     <string name="key_last_use_image_text" translatable="false">last_use_image_text</string>
     <string name="key_draw_box" translatable="false">key_draw_box</string>
-	<string name="key_persist_data" translatable="false">persist_data</string>
+    <string name="key_persist_data" translatable="false">persist_data</string>
 
     <string name="language">语言</string>
     <string name="use_gray_scale_image_for_ocr">图像预处理</string>
@@ -36,7 +36,7 @@
     <string name="data_copied">数据已复制......</string>
 	
 	
-	<string name="persist_data_summary">应用关闭后保存图片和文本</string>
+    <string name="persist_data_summary">应用关闭后保存图片和文本</string>
     <string name="persist_data_title">保存数据</string>
     
     <string name="percentage_downloaded">已下载百分比：</string>
@@ -48,4 +48,5 @@
     <string name="download_description">为了让 Tesseract OCR 能正常工作，需要下载额外的训练数据到你的设备上。\n你想下载所选语言的数据吗？</string>
 
 </resources>
+
 

@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -35,6 +36,8 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -143,6 +146,35 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 Toast.makeText(MainActivity.this, R.string.data_copied, Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        /*
+         * check if there is previous image
+         * if yes then show this on home screen
+         */
+        /*Uri uri = Uri.parse(SpUtil.getInstance().getString(getString(R.string.key_last_use_image_location)));
+        if (uri != null) {
+            //TODO:
+            mBoxImageView.setImageURI(uri);
+
+        }*/
+
+        if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
+            Bitmap bitmap = loadBitmap();
+            if (bitmap != null) {
+                mBoxImageView.setImageBitmap(bitmap);
+            }
+
+            /*
+            * check if there is previous image text
+            * if yes then show this on home screen
+            */
+
+            String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
+            if (text != null) {
+                mTextResult.setText(Html.fromHtml(text));
+            }
+        }
     }
 
     private void initIntent() {
@@ -154,29 +186,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             if (type.startsWith("image/")) {
                 Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
+                    //TODO: nothing to do
                     mBoxImageView.setImageURI(imageUri);
                     CropImage.activity(imageUri).start(this);
                 }
             }
-        } else {
-            /*
-             * check if there is previous image
-             * if yes then show this on home screen
-             */
-            Uri uri = Uri.parse(SpUtil.getInstance().getString(getString(R.string.key_last_use_image_location)));
-            if (uri != null) {
-                mBoxImageView.setImageURI(uri);
-            }
-            /*
-             * check if there is previous image text
-             * if yes then show this on home screen
-             */
-
-            String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
-            if (text != null) {
-                mTextResult.setText(Html.fromHtml(text));
-            }
-
         }
     }
 
@@ -354,28 +368,22 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * @param imageUri uri of selected image
      */
     private void convertImageToText(Uri imageUri) {
+        SpUtil.getInstance().putString(getString(R.string.key_last_use_image_location), imageUri.toString());
 
+        Bitmap bitmap = null;
         try {
-            SpUtil.getInstance().putString(getString(R.string.key_last_use_image_location), imageUri.toString());
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-            mBoxImageView.setImageBitmap(bitmap);
-            if (SpUtil.getInstance().getBoolean(getString(R.string.key_draw_box), false)) {
-                Log.d(TAG, "convertImageToText: draw box");
-                //  new ConvertImageToTextTask2().execute(bitmap);
-                convertImageToTextTask = new ConvertImageToTextTask();
-                convertImageToTextTask.execute(bitmap);
-
-            } else {
-                Log.d(TAG, "convertImageToText: not  draw box");
-                convertImageToTextTask = new ConvertImageToTextTask();//.execute(bitmap);
-                convertImageToTextTask.execute(bitmap);
-
-            }
+            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        mBoxImageView.setImageURI(imageUri);
+        //TODO: do this in Task
+        convertImageToTextTask = new ConvertImageToTextTask();
+        convertImageToTextTask.execute(bitmap);
+
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -457,6 +465,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     }
 
 
+    static boolean isRefresh = false;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -468,8 +477,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 Drawable drawable = mBoxImageView.getDrawable();
                 if (drawable != null) {
                     Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                    if (bitmap != null)
+                    if (bitmap != null) {
+                        isRefresh = true;
                         new ConvertImageToTextTask().execute(bitmap);
+                    }
                 } else {
                     findViewById(R.id.btn_select_image).performClick();
                 }
@@ -524,6 +535,35 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         downloadManager.enqueue(request);
     }
 
+    public void saveBitmap(Bitmap bitmap) {
+        FileOutputStream fileOutputStream;
+        try {
+            fileOutputStream = openFileOutput("last_file.jpeg", Context.MODE_PRIVATE);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fileOutputStream);
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Bitmap loadBitmap() {
+        Bitmap bitmap = null;
+        FileInputStream fileInputStream;
+        try {
+            fileInputStream = openFileInput("last_file.jpeg");
+            bitmap = BitmapFactory.decodeStream(fileInputStream);
+            fileInputStream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
     /**
      * A Async Task to convert the image into text the return the text in String
      */
@@ -532,11 +572,18 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         @Override
         protected String doInBackground(Bitmap... bitmaps) {
             Bitmap bitmap = bitmaps[0];
-            if (SpUtil.getInstance().getBoolean(getString(R.string.key_grayscale_image_ocr), true)) {
-                bitmap = Utils.convertToGrayscale(bitmaps[0]);
-                bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
+            if (!isRefresh &&
+                    SpUtil.getInstance().getBoolean(getString(R.string.key_grayscale_image_ocr), true)) {
+
+                bitmap = Utils.preProcessBitmap(bitmap);
+
+                // bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
             }
-            return mImageTextReader.getTextFromBitmap(bitmap);
+
+            isRefresh = false;
+            saveBitmap(bitmap);
+            return "";
+            //  return mImageTextReader.getTextFromBitmap(bitmap);
         }
 
         @Override
@@ -556,10 +603,18 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             if (mProgressDialog != null) {
                 mProgressDialog.cancel();
                 mProgressDialog = null;
+
             }
             //mTextResult.setText(text);
             mTextResult.setText(Html.fromHtml(text));
-            SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), text);
+            if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
+                SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), text);
+            }
+
+            Bitmap bitmap = loadBitmap();
+            if (bitmap != null) {
+                mBoxImageView.setImageBitmap(bitmap);
+            }
         }
 
     }

@@ -1,16 +1,46 @@
 package io.github.subhamtyagi.ocr.utils;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+
+import com.googlecode.leptonica.android.Binarize;
+import com.googlecode.leptonica.android.Convert;
+import com.googlecode.leptonica.android.Enhance;
+import com.googlecode.leptonica.android.Pix;
+import com.googlecode.leptonica.android.ReadFile;
+import com.googlecode.leptonica.android.Rotate;
+import com.googlecode.leptonica.android.Skew;
+import com.googlecode.leptonica.android.WriteFile;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
 
+    public static Map<Character, Character> DigitCorrectDictionary;
+
+    static {
+        DigitCorrectDictionary = new HashMap<>();
+        DigitCorrectDictionary.put('D', '0');
+        DigitCorrectDictionary.put('l', '1');
+        DigitCorrectDictionary.put('I', '1');
+        DigitCorrectDictionary.put('S', '5');
+        DigitCorrectDictionary.put('s', '5');
+        DigitCorrectDictionary.put('g', '9');
+    }
+
     /**
      * convert the image into the grayscale
+     *
      * @param bmpOriginal
      * @return a grayscaled version of original image
      */
@@ -49,4 +79,100 @@ public class Utils {
         }
         return s;
     }
+
+    public static Bitmap binary(Bitmap bitmap) {
+        Bitmap binaryBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        int width = binaryBitmap.getWidth();
+        int height = binaryBitmap.getHeight();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int pixel = binaryBitmap.getPixel(i, j);
+                int alpha = (pixel & 0xFF000000);
+                int red = (pixel & 0x00FF0000) >> 16;
+                int green = (pixel & 0x0000FF00) >> 8;
+                int blue = (pixel & 0x000000FF);
+                int gray = (int) (red * 0.3f + green * 0.59f + blue * 0.11f);
+                if (gray <= 127) gray = 0;
+                else gray = 255;
+                int color = alpha | (gray << 16) | (gray << 8) | gray;
+                binaryBitmap.setPixel(i, j, color);
+            }
+        }
+        return binaryBitmap;
+    }
+
+    private static String correctDigit(String text) {
+        StringBuilder correctedText = new StringBuilder();
+        int length = text.length();
+        for (int i = 0; i < length; i++) {
+            char c = text.charAt(i);
+            if (DigitCorrectDictionary.containsKey(c)) {
+                correctedText.append(DigitCorrectDictionary.get(c));
+            } else {
+                correctedText.append(c);
+            }
+        }
+        return correctedText.toString();
+    }
+
+
+    /**
+     * bitmap
+     *
+     * @param b
+     * @param degrees
+     * @return
+     */
+    public static Bitmap rotate(Bitmap b, int degrees) {
+        if (degrees != 0 && b != null) {
+            Matrix m = new Matrix();
+            m.setRotate(degrees, (float) b.getWidth() / 2, (float) b.getHeight() / 2);
+            try {
+                Bitmap b2 = Bitmap.createBitmap(
+                        b, 0, 0, b.getWidth(), b.getHeight(), m, true);
+                if (b != b2) {
+                    b.recycle();
+                    b = b2;
+                }
+            } catch (OutOfMemoryError ex) {
+
+            }
+        }
+        return b;
+    }
+
+
+    public static void saveBitmap(Context context, Bitmap bitmap) {
+        FileOutputStream fileOutputStream;
+        try {
+            fileOutputStream = context.openFileOutput("last_file.jpeg", Context.MODE_PRIVATE);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fileOutputStream);
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static Bitmap preProcessBitmap(Bitmap bitmap) {
+
+
+        //
+        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Pix pix = ReadFile.readBitmap(bitmap);
+        pix = Convert.convertTo8(pix);
+        //  pix= AdaptiveMap.pixContrastNorm(pix);
+
+        pix = Enhance.unsharpMasking(pix, 5, 2.5f);
+        //pix = Enhance.unsharpMasking(pix);
+        pix = Binarize.otsuAdaptiveThreshold(pix);
+        float degree = Skew.findSkew(pix);
+        pix = Rotate.rotate(pix, degree);
+        return WriteFile.writeBitmap(pix);
+
+
+    }
+
 }

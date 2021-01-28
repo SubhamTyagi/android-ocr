@@ -1,7 +1,6 @@
 package io.github.subhamtyagi.ocr;
 
 import android.annotation.SuppressLint;
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -62,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     private static final int REQUEST_CODE_SETTINGS = 797;
     private static final int REQUEST_CODE_SELECT_IMAGE = 172;
+    static boolean isRefresh = false;
     /**
      * a progressDialog to show downloading Dialog and also reused for recognition dialog
      */
@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private CrashUtils crashUtils;
     private ConvertImageToTextTask convertImageToTextTask;
     private DownloadTrainingTask downloadTrainingTask;
-
     private File dirBest;
     private File dirStandard;
     private File dirFast;
@@ -317,7 +316,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     }
 
-
     /**
      * Check if language data exists
      *
@@ -345,7 +343,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         return r;
     }
-
 
     /**
      * select the image when button is clicked
@@ -375,13 +372,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             e.printStackTrace();
         }
         mBoxImageView.setImageURI(imageUri);
-        //TODO: do this in Task
         convertImageToTextTask = new ConvertImageToTextTask();
         convertImageToTextTask.execute(bitmap);
 
 
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -462,8 +457,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         }*/
     }
 
-
-    static boolean isRefresh = false;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -508,30 +501,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     }
 
-    void download2(String dataType, String lang) {
-
-        // boolean result = true;
-        String downloadURL;
-        //String location;
-
-        switch (dataType) {
-            case "best":
-                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang);
-                break;
-            case "standard":
-                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang);
-                break;
-            default:
-                downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
-        }
-        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadURL));
-        request.setTitle("Downloading training data..").setDescription("Downloding the training data for selected language");
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-
-        request.setDestinationInExternalFilesDir(this, null, "best/tessdata");
-        downloadManager.enqueue(request);
-    }
 
     public void saveBitmap(Bitmap bitmap) {
         FileOutputStream fileOutputStream;
@@ -580,8 +549,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
             isRefresh = false;
             saveBitmap(bitmap);
-            return "";
-            //  return mImageTextReader.getTextFromBitmap(bitmap);
+            Log.d(TAG, "doInBackground: hh");
+            return mImageTextReader.getTextFromBitmap(bitmap);
         }
 
         @Override

@@ -1,7 +1,6 @@
 package io.github.subhamtyagi.ocr.utils;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
@@ -18,9 +17,6 @@ import com.googlecode.leptonica.android.Rotate;
 import com.googlecode.leptonica.android.Skew;
 import com.googlecode.leptonica.android.WriteFile;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -142,23 +138,7 @@ public class Utils {
     }
 
 
-    public static void saveBitmap(Context context, Bitmap bitmap) {
-        FileOutputStream fileOutputStream;
-        try {
-            fileOutputStream = context.openFileOutput("last_file.jpeg", Context.MODE_PRIVATE);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fileOutputStream);
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public static Bitmap preProcessBitmap(Bitmap bitmap) {
-
-
         //
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         Pix pix = ReadFile.readBitmap(bitmap);
@@ -166,11 +146,16 @@ public class Utils {
         //  pix= AdaptiveMap.pixContrastNorm(pix);
 
         pix = Enhance.unsharpMasking(pix, 5, 2.5f);
-        //pix = Enhance.unsharpMasking(pix);
         pix = Binarize.otsuAdaptiveThreshold(pix);
-        float degree = Skew.findSkew(pix);
-        pix = Rotate.rotate(pix, degree);
+        //pix = Enhance.unsharpMasking(pix);
+        float f=Skew.findSkew(pix);
+
+       // pix=Skew.deskew(pix,0);
+       // float f2=Skew.findSkew(pix);
+        //Log.d("Utils", "preProcessBitmap: first skew:"+f+"  second:"+f2);
+        pix=Rotate.rotate(pix,f);
         return WriteFile.writeBitmap(pix);
+
 
 
     }

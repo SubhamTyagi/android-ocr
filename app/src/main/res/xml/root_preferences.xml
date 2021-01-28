@@ -47,5 +47,11 @@
         android:summary="@string/draw_box_summary"
         android:title="@string/draw_box_title" />
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/key_persist_data"
+        android:summary="@string/persist_data_summary"
+        android:title="@string/persist_data_title" />
+
 
 </PreferenceScreen>

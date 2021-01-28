@@ -159,19 +159,21 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         }*/
 
-        Bitmap bitmap = loadBitmap();
-        if (bitmap != null) {
-            mBoxImageView.setImageBitmap(bitmap);
-        }
+        if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
+            Bitmap bitmap = loadBitmap();
+            if (bitmap != null) {
+                mBoxImageView.setImageBitmap(bitmap);
+            }
 
-        /*
-         * check if there is previous image text
-         * if yes then show this on home screen
-         */
+            /*
+            * check if there is previous image text
+            * if yes then show this on home screen
+            */
 
-        String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
-        if (text != null) {
-            mTextResult.setText(Html.fromHtml(text));
+            String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
+            if (text != null) {
+                mTextResult.setText(Html.fromHtml(text));
+            }
         }
     }
 
@@ -605,7 +607,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             }
             //mTextResult.setText(text);
             mTextResult.setText(Html.fromHtml(text));
-            SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), text);
+            if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
+                SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), text);
+            }
 
             Bitmap bitmap = loadBitmap();
             if (bitmap != null) {

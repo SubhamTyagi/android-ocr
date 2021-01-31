@@ -1,0 +1,33 @@
+# OCR
+
+Un aplicativo OCR capaz de reconocer textos en imágenes. 
+
+Esta App está basada en <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4 </a> y es el primero en su tipo en desarrollarse con Tesseract 4
+Esta app es posible gracias a la librería <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a>.
+Después de descargar los datos de entrenamiento, la aplicación lo hará todo sin conexión. 
+
+🚀 <font color="#2467d6"><b>Características</b></font>
+* Gran precisión.
+* Extrae texto desde imágenes.
+* Copia los datos al portapapeles.
+* Selecciona cualquier parte de los datos.
+* Basado en los últimos <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Datos de Entrenamiento</a>
+* Reconocer cerca de 102 <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">idiomas</a>
+* 3 tipos de datos como <a href="https://github.com/tesseract-ocr/tessdata">Estándar</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">Mejor</a> y <a href="https://github.com/tesseract-ocr/tessdata_fast">Rápida</a>. Obtén <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">más información</a>.
+* Identifica fórmulas y ecuaciones matemáticas.
+* Procesa directamente la imagen desde de la Galería de tu dispositivo via menú compartir.
+
+ <font color="#2467d6"><b>Permisos Requeridos</b></font>
+
+* External Storage: Para almacenar los datos de entrenamiento
+* Internet : Descarga de datos de entrenamiento
+* Access Internet state: Para obtener los datos de entrenamiento.
+* Note: No comparte datos con nadie.
+
+
+📓 <font color="#2467d6"><b>Licencias </b></font>
+
+* Tesseract y Tesseract Data: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>
+* Tesseract4Android : <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>
+* BoxImageView : <a href="https://github.com/SubhamTyagi/android-cr/blob/master/app/src/main/java/io/github/subhamtyagi/ocr/views/BoxImageView.java">GNU Affero General Public License</a>
+* ImageCropper : <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>

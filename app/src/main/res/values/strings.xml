@@ -1,10 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="title_activity_settings">Settings</string>
-
-
     <!-- various key to store the setting values -->
-
     <string name="key_language_for_tesseract" translatable="false">language_for_tesseract</string>
     <string name="key_tess_training_data_source" translatable="false">tess_training_data_source</string>
     <string name="key_grayscale_image_ocr" translatable="false">grayscale_image_ocr</string>
@@ -12,33 +9,24 @@
     <string name="key_last_use_image_text" translatable="false">last_use_image_text</string>
     <string name="key_draw_box" translatable="false">key_draw_box</string>
     <string name="key_persist_data" translatable="false">persist_data</string>
-
     <string name="language">Language</string>
     <string name="use_gray_scale_image_for_ocr">Pre-Process Image</string>
     <string name="gray_scale_detail">Pre-process image for enhanced accuracy</string>
-
     <string name="tess_language_title">Select language for Tesseract</string>
-
-    <string name="download_language_data_please_wait">Downloading OCR data files. Please wait &#8230;</string>
-    <string name="installing_please_wait">Installing OCR data files.  Please wait&#8230;</string>
+    <string name="download_language_data_please_wait">Downloading OCR data files. Please wait …</string>
+    <string name="installing_please_wait">Installing OCR data files.  Please wait…</string>
     <string name="language_not_exists">Training data for language %s  does not exist; cannot do recognition</string>
-   
-    
     <string name="settings">Settings</string>
-
     <string name="draw_box_summary">App will draw text on image</string>
     <string name="draw_box_title">Draw text on image</string>
-    <string name="processing">Processing...</string>
-    <string name="converting_image">Converting Image to text...</string>
-    <string name="downloading">Downloading...</string>
-    <string name="downloading_language">Downloading language data...</string>
+    <string name="processing">Processing…</string>
+    <string name="converting_image">Converting Image to text…</string>
+    <string name="downloading">Downloading…</string>
+    <string name="downloading_language">Downloading language data…</string>
     <string name="text_goes_here">Text goes here</string>
-    <string name="data_copied">Data copied...</string>
-
-
+    <string name="data_copied">Data copied…</string>
     <string name="persist_data_summary">Save image and text after the app closes</string>
     <string name="persist_data_title">Save data</string>
-
     <string name="percentage_downloaded">% of total:</string>
     <string name="percentage_converted_to_text">% converted to text</string>
     <string name="you_are_not_connected_to_internet">You are not connected to internet</string>
@@ -46,7 +34,4 @@
     <string name="no">No</string>
     <string name="training_data_missing">Training data missing!</string>
     <string name="download_description">For proper functioning of Tesseract OCR additional training data needs to be downloaded to your device.\nDo you want to download selected language(%s) data?</string>
-
 </resources>
-
-

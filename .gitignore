@@ -3,6 +3,12 @@
 *.ap_
 *.ab_
 
+# Jar and Aar file
+*.jar
+*.aar
+app/libs/*.aar
+app/libs/*.jar
+
 
 
 app/src/release/*.json

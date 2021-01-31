@@ -17,41 +17,71 @@
 <PreferenceScreen
 
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference
-        android:defaultValue="best"
-        android:entries="@array/ocr_training_data_entries"
-        android:entryValues="@array/key_ocr_training_data_entries_values"
-        android:key="@string/key_tess_training_data_source"
-        android:summary="Fast/Best/Standard"
-        android:title="Select Tesseract Data type" />
 
-    <ListPreference
-        android:defaultValue="eng"
-        android:entries="@array/ocr_engine_language"
-        android:entryValues="@array/key_ocr_engine_language_value"
-        android:key="@string/key_language_for_tesseract"
-        android:summary="@string/language"
-        android:title="@string/tess_language_title" />
+    <PreferenceCategory android:title="@string/tesseract_data">
 
-    <PreferenceCategory android:title="Other Settings" />
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="@string/key_grayscale_image_ocr"
-        android:summary="@string/gray_scale_detail"
-        android:title="@string/use_gray_scale_image_for_ocr" />
+        <ListPreference
+            android:defaultValue="best"
+            android:entries="@array/ocr_training_data_entries"
+            android:entryValues="@array/key_ocr_training_data_entries_values"
+            android:key="@string/key_tess_training_data_source"
+            android:summary="@string/fbs"
+            android:title="@string/select_tesseract_data_type" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="@string/key_draw_box"
-        android:summary="@string/draw_box_summary"
-        android:title="@string/draw_box_title" />
+        <ListPreference
+            android:defaultValue="eng"
+            android:entries="@array/ocr_engine_language"
+            android:entryValues="@array/key_ocr_engine_language_value"
+            android:key="@string/key_language_for_tesseract"
+            android:summary="@string/language"
+            android:title="@string/tess_language_title" />
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="@string/key_persist_data"
-        android:summary="@string/persist_data_summary"
-        android:title="@string/persist_data_title" />
+        <MultiSelectListPreference
+
+            android:entries="@array/ocr_engine_language"
+            android:entryValues="@array/key_ocr_engine_language_value"
+            android:key="@string/key_language_for_tesseract_multi"
+            android:summary="@string/language"
+            android:title="@string/tess_language_title"
+
+            />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/others_settings">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_grayscale_image_ocr"
+            android:summary="@string/gray_scale_detail"
+            android:title="@string/use_gray_scale_image_for_ocr" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_draw_box"
+            android:summary="@string/draw_box_summary"
+            android:title="@string/draw_box_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_persist_data"
+            android:summary="@string/persist_data_summary"
+            android:title="@string/persist_data_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="About">
+
+        <Preference
+            android:summary="This app is open source at Github. Click to visit app repositiry"
+            android:title="Source code">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/github_url" />
+        </Preference>
+    </PreferenceCategory>
 
 
 </PreferenceScreen>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_settings">सेटिंग</string>
+    <string name="processing">प्रक्रिया हो रही है...</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="language_not_exists">%s भाषा के लिए प्रशिक्षण डाटा उपलब्ध नहीं है। लिपि की पहचान नहीं हो सकती</string>
+    <string name="installing_please_wait">ओसीआर डाटा इस्थापित हो रहा है …</string>
+    <string name="download_language_data_please_wait">ओसीआर के लिए डाटा डाउनलोड हो रहा है| कृपया प्रतीक्षा करे…</string>
+    <string name="tess_language_title">Tesseract के लिए भाषा चुने</string>
+    <string name="gray_scale_detail">ज्यादा बढ़िया सटीकता के लिए इमेज को पूर्व-प्रक्रिया फ़िल्टर</string>
+    <string name="use_gray_scale_image_for_ocr">फोटो को पूर्व प्रक्रिया द्वारा बढ़ाएँ</string>
+    <string name="language">भाषा</string>
+</resources>

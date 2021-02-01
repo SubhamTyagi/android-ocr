@@ -1,39 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-<string name="title_activity_settings">设置</string>
-
-
+    <string name="title_activity_settings">设置</string>
     <!-- various key to store the setting values -->
-    
-   
-    
-    
-    
-    
-    
-
     <string name="language">语言</string>
     <string name="use_gray_scale_image_for_ocr">图像预处理</string>
     <string name="gray_scale_detail">对图像进行预处理以提高精度</string>
-
     <string name="tess_language_title">选择 Tesseract 语言</string>
-
-    <string name="download_language_data_please_wait">下载光学字符识别数据文件中。请等待 &#8230;</string>
-    <string name="installing_please_wait">正在安装光学字符识别数据文件。请等待 &#8230;</string>
+    <string name="download_language_data_please_wait">下载光学字符识别数据文件中。请等待 …</string>
+    <string name="installing_please_wait">正在安装光学字符识别数据文件。请等待 …</string>
     <string name="language_not_exists">%s 语言的训练数据不存在; 无法识别</string>
     <string name="fast_mode_title">光学字符识别快速模式</string>
     <string name="fast_mode_summary">启用该选项时， Trivia Hack 会快速找到答案，但可能会发生故障（tesseract ocr 使用时不起作用）</string>
     <string name="settings">设置</string>
-
     <string name="draw_box_summary">应用程序将在图像上绘制文本</string>
     <string name="draw_box_title">在图片上绘制文本</string>
-    <string name="processing">处理中......</string>
-    <string name="converting_image">正在转换图片到文本......</string>
-    <string name="downloading">下载中......</string>
-    <string name="downloading_language">正在下载语言数据......</string>
+    <string name="processing">处理中……</string>
+    <string name="converting_image">正在转换图片到文本……</string>
+    <string name="downloading">下载中……</string>
+    <string name="downloading_language">正在下载语言数据……</string>
     <string name="text_goes_here">文本就在这里</string>
-    <string name="data_copied">数据已复制......</string>
-    
+    <string name="data_copied">数据已复制……</string>
     <string name="percentage_downloaded">已下载百分比：</string>
     <string name="percentage_converted_to_text">已转换到文本的百分比：</string>
     <string name="you_are_not_connected_to_internet">你未连接到互联网</string>
@@ -41,7 +27,4 @@
     <string name="no">否</string>
     <string name="training_data_missing">缺少训练数据！</string>
     <string name="download_description">为了让 Tesseract OCR 能正常工作，需要下载额外的训练数据到你的设备上。\n你想下载所选语言的数据吗？</string>
-
 </resources>
-
-

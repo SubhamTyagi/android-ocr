@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    def gitUrl="git config --get remote.origin.url".execute().text.trim()
+    def gitUrl = "git config --get remote.origin.url".execute().text.trim()
 
     defaultConfig {
         applicationId "io.github.subhamtyagi.ocr"

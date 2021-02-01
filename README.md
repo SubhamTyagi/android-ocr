@@ -14,7 +14,7 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 * Copy data to Clipboard.
 * Select any part of Text.
 * Based on latest [Training Data](https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md).
-* Recognize 102 [languages](https://tesseract-ocr.github.io/tessdoc/Data-Files)
+* Recognize 120+ [languages](https://tesseract-ocr.github.io/tessdoc/Data-Files)
 * 3 Type of data i.e 'Best', 'fast', 'standard' for more info [see](https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md)
 * Recognize Maths/equation detection
 

@@ -1,7 +1,9 @@
 - Option to disable remember last results(by @urlordjames)
 - New app icon (by @nucleus-ffm)
 
-- New Training data for following languages
+- Now Translate this app on Weblate
+
+- New Training data for following languages:
 
 - Chinese Simplified Vertical, Chinese Traditional Vertical,Japanese (vertical),Korean (vertical)
 - German Fraktur, Danish Fraktur,Slovak Fraktur
@@ -23,4 +25,4 @@
 - Tatar
 - Tonga (Tonga Islands)
 - Yoruba
-- OSD, PDF and Equation supports
+- OSD, PDF and Maths Equation supports

@@ -7,6 +7,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.googlecode.leptonica.android.Binarize;
 import com.googlecode.leptonica.android.Convert;
@@ -17,8 +18,14 @@ import com.googlecode.leptonica.android.Rotate;
 import com.googlecode.leptonica.android.Skew;
 import com.googlecode.leptonica.android.WriteFile;
 
+import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+
+import io.github.subhamtyagi.ocr.R;
 
 public class Utils {
 
@@ -130,7 +137,7 @@ public class Utils {
                     b.recycle();
                     b = b2;
                 }
-            } catch (OutOfMemoryError ex) {
+            } catch (OutOfMemoryError ignore) {
 
             }
         }
@@ -148,16 +155,42 @@ public class Utils {
         pix = Enhance.unsharpMasking(pix, 5, 2.5f);
         pix = Binarize.otsuAdaptiveThreshold(pix);
         //pix = Enhance.unsharpMasking(pix);
-        float f=Skew.findSkew(pix);
+        float f = Skew.findSkew(pix);
 
-       // pix=Skew.deskew(pix,0);
-       // float f2=Skew.findSkew(pix);
+        // pix=Skew.deskew(pix,0);
+        // float f2=Skew.findSkew(pix);
         //Log.d("Utils", "preProcessBitmap: first skew:"+f+"  second:"+f2);
-        pix=Rotate.rotate(pix,f);
+        pix = Rotate.rotate(pix, f);
         return WriteFile.writeBitmap(pix);
 
 
+    }
 
+    public static Bitmap preProcessBitmap2(Bitmap bitmap) {
+        return convertToGrayscale(binary(bitmap));
+    }
+
+    private static String getAllLanguage(Set<String> langs) {
+        if (langs==null) return "eng";
+        StringBuilder rLanguage = new StringBuilder();
+        for (String lang : langs) {
+            rLanguage.append(lang);
+            rLanguage.append("+");
+        }
+        String s = rLanguage.subSequence(0, rLanguage.toString().lastIndexOf('+')).toString();
+        return s;
+    }
+
+    public static String getTrainingDataType(){
+        return SpUtil.getInstance().getString(Constants.KEY_TESS_TRAINING_DATA_SOURCE, "best");
+    }
+
+    public static String getTrainingDataLanguage(){
+       return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, "eng");
+    }
+
+    public static String getTrainingDataMultipleLanguage(){
+        return getAllLanguage(SpUtil.getInstance().getStringSet(Constants.KEY_LANGUAGE_FOR_TESSERACT_MULTI,null));
     }
 
 }

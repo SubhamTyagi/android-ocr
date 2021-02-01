@@ -1,0 +1,2 @@
+- Option to disable remember last results(Thanks @urlordjames)
+-

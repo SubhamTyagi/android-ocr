@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="download_description">Für die korrekte Funktion von Tesseract OCR müssen zusätzliche Trainingsdaten auf dein Gerät heruntergeladen werden.
+\nMöchtest du die Daten der ausgewählten Sprache (%s) herunterladen\?</string>
+    <string name="training_data_missing">Trainingsdaten fehlen!</string>
+    <string name="no">Nein</string>
+    <string name="yes">Ja</string>
+    <string name="you_are_not_connected_to_internet">Du bist nicht mit dem Internet verbunden</string>
+    <string name="percentage_converted_to_text">% in Text umgewandelt</string>
+    <string name="percentage_downloaded">% von insgesamt:</string>
+    <string name="persist_data_title">Daten speichern</string>
+    <string name="persist_data_summary">Bild und Text nach dem Schließen der App speichern</string>
+    <string name="data_copied">Daten kopiert...</string>
+    <string name="text_goes_here">Text steht hier</string>
+    <string name="downloading_language">Herunterladen von Sprachdaten...</string>
+    <string name="downloading">Herunterladen...</string>
+    <string name="converting_image">Bild in Text umwandeln...</string>
+    <string name="processing">Verarbeitung ...</string>
+    <string name="draw_box_title">Text auf Bild anzeigen</string>
+    <string name="draw_box_summary">App zeigt den Text auf dem Bild an</string>
+    <string name="settings">Einstellungen</string>
+    <string name="language_not_exists">Trainingsdaten für Sprache %s sind nicht vorhanden; keine Erkennung möglich</string>
+    <string name="installing_please_wait">OCR-Dateien werden installiert. Bitte warten …</string>
+    <string name="download_language_data_please_wait">OCR-Dateien werden heruntergeladen. Bitte warten …</string>
+    <string name="tess_language_title">Sprache für Tesseract auswählen</string>
+    <string name="gray_scale_detail">Bild für verbesserte Genauigkeit vorbearbeiten</string>
+    <string name="use_gray_scale_image_for_ocr">Vorbearbeitung des Bildes</string>
+    <string name="language">Sprache</string>
+    <string name="title_activity_settings">Einstellungen</string>
+</resources>

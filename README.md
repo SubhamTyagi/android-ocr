@@ -36,13 +36,13 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 ## <font color="#2467d6"><b>[Icon ](https://github.com/SubhamTyagi/android-ocr/issues/15) </b></font>
 
 * App icon is designed by [Nucleus-ffm](https://github.com/nucleus-ffm)
-      
-      - Mastodon:[Nucleus](https://social.tchncs.de/@Nucleus) 
+ - Mastodon: [Nucleus](https://social.tchncs.de/@Nucleus) 
 
-* Old App icon is conceptualized by [mondstern](https://mastodon.technology/@mondstern)
- 
-     - Mastodon:  [mondstern](https://mastodon.technology/@mondstern)
-     - Website : [here](https://www.moooon.de/)
+
+* Old App icon was conceptualized by [mondstern](https://mastodon.technology/@mondstern)
+
+ - Mastodon:  [mondstern](https://mastodon.technology/@mondstern)
+ - Website :  [here](https://www.moooon.de/)
    
   
   

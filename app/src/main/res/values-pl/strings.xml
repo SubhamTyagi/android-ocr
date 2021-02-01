@@ -1,31 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-<string name="title_activity_settings">Ustawienia</string>
-
-
+    <string name="title_activity_settings">Ustawienia</string>
     <!-- various key to store the setting values -->
-
-
     <string name="language">Język</string>
     <string name="use_gray_scale_image_for_ocr">Wstępne Przetwarzanie Obrazu</string>
     <string name="gray_scale_detail">Wstępne przetwarzanie obrazu w celu zwiększenia dokładności</string>
-
     <string name="tess_language_title">Wybierz język dla Tesseract</string>
-
-    <string name="download_language_data_please_wait">Pobieranie plików danych OCR. Proszę czekać &#8230;</string>
-    <string name="installing_please_wait">Instalowanie plików danych OCR. Proszę czekać&#8230;</string>
+    <string name="download_language_data_please_wait">Pobieranie plików danych OCR. Proszę czekać …</string>
+    <string name="installing_please_wait">Instalowanie plików danych OCR. Proszę czekać…</string>
     <string name="language_not_exists">Przygotowanie danych dla języka %s nie istnieje; nie można rozpoznać</string>
     <string name="fast_mode_title">Tryb szybki dla OCR</string>
     <string name="fast_mode_summary">Gdy ta opcja jest włączona, Trivia Hack szybko znajdzie odpowiedź, ale może być źle zachowany przez Trivia Hack (nie działa, gdy jest używany tesseract ocr)</string>
     <string name="settings">Ustawienia</string>
-
     <string name="draw_box_summary">Aplikacja narysuje tekst na obrazie</string>
     <string name="draw_box_title">Rysowanie tekstu na obrazie</string>
-    <string name="processing">Przetwarzanie...</string>
-    <string name="converting_image">Konwertowanie obrazu na tekst...</string>
-    <string name="downloading">Pobieranie...</string>
-    <string name="downloading_language">Pobieranie danych językowych...</string>
+    <string name="processing">Przetwarzanie…</string>
+    <string name="converting_image">Konwertowanie obrazu na tekst…</string>
+    <string name="downloading">Pobieranie…</string>
+    <string name="downloading_language">Pobieranie danych językowych…</string>
     <string name="text_goes_here">Tekst idzie tutaj</string>
-    <string name="data_copied">Dane zostały skopiowane...</string>
-
+    <string name="data_copied">Dane zostały skopiowane…</string>
 </resources>

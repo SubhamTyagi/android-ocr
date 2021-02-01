@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     private static final int REQUEST_CODE_SETTINGS = 797;
     private static final int REQUEST_CODE_SELECT_IMAGE = 172;
-    static boolean isRefresh = false;
+    private static boolean isRefresh = false;
     /**
      * a progressDialog to show downloading Dialog and also reused for recognition dialog
      */
@@ -147,27 +147,16 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         });
 
 
-        /*
-         * check if there is previous image
-         * if yes then show this on home screen
-         */
-        /*Uri uri = Uri.parse(SpUtil.getInstance().getString(getString(R.string.key_last_use_image_location)));
-        if (uri != null) {
-            //TODO:
-            mBoxImageView.setImageURI(uri);
-
-        }*/
-
         if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
-            Bitmap bitmap = loadBitmap();
+            Bitmap bitmap = loadBitmapFromStorage();
             if (bitmap != null) {
                 mBoxImageView.setImageBitmap(bitmap);
             }
 
             /*
-            * check if there is previous image text
-            * if yes then show this on home screen
-            */
+             * check if there is previous image text
+             * if yes then show this on home screen
+             */
 
             String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
             if (text != null) {
@@ -220,8 +209,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private void initializeOCR() {
         File cf;
-        mTrainingDataType = SpUtil.getInstance().getString(getString(R.string.key_tess_training_data_source), "best");
-        mLanguage = SpUtil.getInstance().getString(this.getString(R.string.key_language_for_tesseract), "eng");
+        mTrainingDataType = Utils.getTrainingDataType();
+        mLanguage = Utils.getTrainingDataLanguage();
+
         switch (mTrainingDataType) {
             case "best":
                 currentDirectory = new File(dirBest, "tessdata");
@@ -240,6 +230,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
             try {
                 mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, this);
+                //check if current language data is valid
+                //if it is invalid(i.e. corrupted, half downloaded, tempered) then delete it and download it again
                 if (!ImageTextReader.success) {
                     File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, mLanguage));
                     destf.delete();
@@ -266,9 +258,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private void setLanguageData() {
 
-        mTrainingDataType = SpUtil.getInstance().getString(getString(R.string.key_tess_training_data_source), "best");
-        mLanguage = SpUtil.getInstance().getString(getString(R.string.key_language_for_tesseract), "eng");
-
+        mTrainingDataType = Utils.getTrainingDataType();
+        mLanguage = Utils.getTrainingDataLanguage();
 
         if (!isLanguageDataExists(mTrainingDataType, mLanguage)) {
             ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
@@ -337,13 +328,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 currentDirectory = new File(dirFast, "tessdata");
 
         }
-
         File language = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang));
-        boolean r = language.exists();
-        Log.d(TAG, "isLanguageDataExists: path name is ==" + language.getAbsolutePath());
-        Log.v(TAG, "training data for " + lang + " exists? " + r);
-
-        return r;
+        return language.exists();
     }
 
     /**
@@ -504,7 +490,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     }
 
 
-    public void saveBitmap(Bitmap bitmap) {
+    public void saveBitmapToStorage(Bitmap bitmap) {
         FileOutputStream fileOutputStream;
         try {
             fileOutputStream = openFileOutput("last_file.jpeg", Context.MODE_PRIVATE);
@@ -517,7 +503,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         }
     }
 
-    public Bitmap loadBitmap() {
+    public Bitmap loadBitmapFromStorage() {
         Bitmap bitmap = null;
         FileInputStream fileInputStream;
         try {
@@ -541,6 +527,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         @Override
         protected String doInBackground(Bitmap... bitmaps) {
             Bitmap bitmap = bitmaps[0];
+
             if (!isRefresh &&
                     SpUtil.getInstance().getBoolean(getString(R.string.key_grayscale_image_ocr), true)) {
 
@@ -550,8 +537,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             }
 
             isRefresh = false;
-            saveBitmap(bitmap);
-            Log.d(TAG, "doInBackground: hh");
+            saveBitmapToStorage(bitmap);
             return mImageTextReader.getTextFromBitmap(bitmap);
         }
 
@@ -580,7 +566,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), text);
             }
 
-            Bitmap bitmap = loadBitmap();
+            Bitmap bitmap = loadBitmapFromStorage();
             if (bitmap != null) {
                 mBoxImageView.setImageBitmap(bitmap);
             }

@@ -9,6 +9,9 @@
     <string name="key_last_use_image_text" translatable="false">last_use_image_text</string>
     <string name="key_draw_box" translatable="false">key_draw_box</string>
     <string name="key_persist_data" translatable="false">persist_data</string>
+
+    <string name="key_language_for_tesseract_multi" translatable="false">multi_languages</string>
+
     <string name="language">Language</string>
     <string name="use_gray_scale_image_for_ocr">Pre-Process Image</string>
     <string name="gray_scale_detail">Pre-process image for enhanced accuracy</string>
@@ -25,6 +28,7 @@
     <string name="downloading_language">Downloading language data…</string>
     <string name="text_goes_here">Text goes here</string>
     <string name="data_copied">Data copied…</string>
+
     <string name="persist_data_summary">Save image and text after the app closes</string>
     <string name="persist_data_title">Save data</string>
     <string name="percentage_downloaded">% of total:</string>
@@ -34,4 +38,11 @@
     <string name="no">No</string>
     <string name="training_data_missing">Training data missing!</string>
     <string name="download_description">For proper functioning of Tesseract OCR additional training data needs to be downloaded to your device.\nDo you want to download selected language(%s) data?</string>
+
+    <string name="refresh">Refresh</string>
+    <string name="tesseract_data">Tesseract Data</string>
+    <string name="select_tesseract_data_type">Select Tesseract Data type</string>
+    <string name="fbs" translatable="false" >Fast/Best/Standard</string>
+    <string name="others_settings">Other Settings</string>
+
 </resources>

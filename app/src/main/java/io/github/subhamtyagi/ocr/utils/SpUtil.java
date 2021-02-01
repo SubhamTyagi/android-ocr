@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 
 import androidx.annotation.Nullable;
 
+import java.util.Set;
+
 
 /**
  * A util class for SharedPreferences
@@ -76,6 +78,8 @@ public class SpUtil {
         editor.apply();
     }
 
+
+
     public boolean getBoolean(String key) {
         return mPref.getBoolean(key, false);
     }
@@ -92,6 +96,10 @@ public class SpUtil {
     @Nullable
     public String getString(String key, String def) {
         return mPref.getString(key, def);
+    }
+
+    public Set<String> getStringSet(String key, Set<String> def){
+        return mPref.getStringSet(key,def);
     }
 
     public long getLong(String key) {

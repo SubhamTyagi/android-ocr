@@ -1,2 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="text_goes_here">Tekst skal inn her</string>
+    <string name="language_not_exists">Opptreningsdata for språket %s finnes ikke; kan ikke utføre gjenkjennelse</string>
+    <string name="data_copied">Data kopiert …</string>
+    <string name="downloading_language">Laster ned språkdata …</string>
+    <string name="downloading">Laster ned …</string>
+    <string name="converting_image">Konverterer bilde til tekst …</string>
+    <string name="processing">Behandler …</string>
+    <string name="draw_box_summary">Programmet vil legge til tekst på bildet</string>
+    <string name="download_description">For best funksjon av Tesseract OCR må ytterligere opptreningsdata lastes ned på enheten din.
+\nØnsker du å laste ned data for valgt språk (%s)\?</string>
+    <string name="training_data_missing">Opptreningsdata mangler.</string>
+    <string name="no">Nei</string>
+    <string name="yes">Ja</string>
+    <string name="you_are_not_connected_to_internet">Du er ikke tilkoblet Internett</string>
+    <string name="percentage_converted_to_text">% konvertert til tekst</string>
+    <string name="percentage_downloaded">% av totalen:</string>
+    <string name="persist_data_title">Lagre data</string>
+    <string name="persist_data_summary">Lagre bilde og tekst etter at programmet lukkes</string>
+    <string name="draw_box_title">Tegn tekst på bilde</string>
+    <string name="settings">Innstillinger</string>
+    <string name="installing_please_wait">Installerer OCR-datafiler. Vent …</string>
+    <string name="download_language_data_please_wait">Laster ned OCR-datafiler. Vent …</string>
+    <string name="tess_language_title">Velg språk for Tesseract</string>
+    <string name="gray_scale_detail">Forhåndsbehandling av bilde for økt nøyaktighet</string>
+    <string name="use_gray_scale_image_for_ocr">Forhåndsbehandling av bilde</string>
+    <string name="language">Språk</string>
+    <string name="title_activity_settings">Innstillinger</string>
+</resources>

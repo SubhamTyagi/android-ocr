@@ -14,17 +14,20 @@
     <string name="settings">设置</string>
     <string name="draw_box_summary">应用程序将在图像上绘制文本</string>
     <string name="draw_box_title">在图片上绘制文本</string>
-    <string name="processing">处理中……</string>
+    <string name="processing">处理中…</string>
     <string name="converting_image">正在转换图片到文本……</string>
-    <string name="downloading">下载中……</string>
-    <string name="downloading_language">正在下载语言数据……</string>
+    <string name="downloading">下载中…</string>
+    <string name="downloading_language">正在下载语言数据…</string>
     <string name="text_goes_here">文本就在这里</string>
-    <string name="data_copied">数据已复制……</string>
+    <string name="data_copied">数据已复制…</string>
     <string name="percentage_downloaded">已下载百分比：</string>
-    <string name="percentage_converted_to_text">已转换到文本的百分比：</string>
+    <string name="percentage_converted_to_text">转换到文本的百分比</string>
     <string name="you_are_not_connected_to_internet">你未连接到互联网</string>
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="training_data_missing">缺少训练数据！</string>
-    <string name="download_description">为了让 Tesseract OCR 能正常工作，需要下载额外的训练数据到你的设备上。\n你想下载所选语言的数据吗？</string>
+    <string name="download_description">为了让 Tesseract OCR 能正常工作，需要下载额外的训练数据到你的设备上。
+\n你想下载所选语言 (%s) 的数据吗？</string>
+    <string name="persist_data_title">保存数据</string>
+    <string name="persist_data_summary">应用关闭后保存图像和文本</string>
 </resources>

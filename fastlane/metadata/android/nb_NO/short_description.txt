@@ -1,0 +1,1 @@
+OCR basert på Tesseract 4

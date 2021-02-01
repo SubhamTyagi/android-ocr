@@ -1,0 +1,3 @@
+*Tesseract 4-basert OCR
+
+*Feilfikser og strengforbedringer

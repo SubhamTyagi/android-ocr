@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_activity_settings">सेटिंग</string>
-    <string name="processing">प्रक्रिया हो रही है...</string>
+    <string name="processing">प्रक्रिया हो रही है…</string>
     <string name="settings">सेटिंग्स</string>
     <string name="language_not_exists">%s भाषा के लिए प्रशिक्षण डाटा उपलब्ध नहीं है। लिपि की पहचान नहीं हो सकती</string>
     <string name="installing_please_wait">ओसीआर डाटा इस्थापित हो रहा है …</string>

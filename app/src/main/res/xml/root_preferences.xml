@@ -37,16 +37,15 @@
             android:summary="@string/language"
             android:title="@string/tess_language_title" />
 
-        <MultiSelectListPreference
+       <!-- <MultiSelectListPreference
 
             android:entries="@array/ocr_engine_language"
             android:entryValues="@array/key_ocr_engine_language_value"
             android:key="@string/key_language_for_tesseract_multi"
             android:summary="@string/language"
             android:title="@string/tess_language_title"
-
-            />
-
+            android:visibility="invisible" />
+-->
 
     </PreferenceCategory>
 
@@ -75,8 +74,8 @@
     <PreferenceCategory android:title="About">
 
         <Preference
-            android:summary="This app is open source at Github. Click to visit app repositiry"
-            android:title="Source code">
+            android:summary="@string/open_source_statement"
+            android:title="@string/source_code">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/github_url" />

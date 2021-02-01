@@ -2,12 +2,7 @@ package io.github.subhamtyagi.ocr.utils;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.util.Log;
 
 import com.googlecode.leptonica.android.Binarize;
 import com.googlecode.leptonica.android.Convert;
@@ -18,14 +13,9 @@ import com.googlecode.leptonica.android.Rotate;
 import com.googlecode.leptonica.android.Skew;
 import com.googlecode.leptonica.android.WriteFile;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import io.github.subhamtyagi.ocr.R;
 
 public class Utils {
 
@@ -41,26 +31,7 @@ public class Utils {
         DigitCorrectDictionary.put('g', '9');
     }
 
-    /**
-     * convert the image into the grayscale
-     *
-     * @param bmpOriginal
-     * @return a grayscaled version of original image
-     */
-    public static Bitmap convertToGrayscale(Bitmap bmpOriginal) {
-        int width, height;
-        height = bmpOriginal.getHeight();
-        width = bmpOriginal.getWidth();
-        Bitmap bmpGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(bmpGrayscale);
-        Paint paint = new Paint();
-        ColorMatrix cm = new ColorMatrix();
-        cm.setSaturation(0);
-        ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
-        paint.setColorFilter(f);
-        c.drawBitmap(bmpOriginal, 0, 0, paint);
-        return bmpGrayscale;
-    }
+
 
     @SuppressLint("DefaultLocale")
     public static String getSize(int size) {
@@ -83,26 +54,7 @@ public class Utils {
         return s;
     }
 
-    public static Bitmap binary(Bitmap bitmap) {
-        Bitmap binaryBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        int width = binaryBitmap.getWidth();
-        int height = binaryBitmap.getHeight();
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                int pixel = binaryBitmap.getPixel(i, j);
-                int alpha = (pixel & 0xFF000000);
-                int red = (pixel & 0x00FF0000) >> 16;
-                int green = (pixel & 0x0000FF00) >> 8;
-                int blue = (pixel & 0x000000FF);
-                int gray = (int) (red * 0.3f + green * 0.59f + blue * 0.11f);
-                if (gray <= 127) gray = 0;
-                else gray = 255;
-                int color = alpha | (gray << 16) | (gray << 8) | gray;
-                binaryBitmap.setPixel(i, j, color);
-            }
-        }
-        return binaryBitmap;
-    }
+
 
     private static String correctDigit(String text) {
         StringBuilder correctedText = new StringBuilder();
@@ -166,9 +118,6 @@ public class Utils {
 
     }
 
-    public static Bitmap preProcessBitmap2(Bitmap bitmap) {
-        return convertToGrayscale(binary(bitmap));
-    }
 
     private static String getAllLanguage(Set<String> langs) {
         if (langs==null) return "eng";
@@ -177,8 +126,7 @@ public class Utils {
             rLanguage.append(lang);
             rLanguage.append("+");
         }
-        String s = rLanguage.subSequence(0, rLanguage.toString().lastIndexOf('+')).toString();
-        return s;
+        return rLanguage.subSequence(0, rLanguage.toString().lastIndexOf('+')).toString();
     }
 
     public static String getTrainingDataType(){

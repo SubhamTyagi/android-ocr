@@ -1,8 +1,5 @@
 <resources>
 
-    <string name="title_activity_settings">Settings</string>
-
-
     <!-- various key to store the setting values -->
 
     <string name="key_language_for_tesseract" translatable="false">language_for_tesseract</string>
@@ -13,6 +10,7 @@
     <string name="key_draw_box" translatable="false">key_draw_box</string>
     <string name="key_persist_data" translatable="false">persist_data</string>
     <string name="key_language_for_tesseract_multi" translatable="false">multi_languages</string>
+    <string name="fbs" translatable="false" >Fast/Best/Standard</string>
 
     <string name="language">Language</string>
     <string name="use_gray_scale_image_for_ocr">Pre-Process Image</string>
@@ -50,8 +48,10 @@
     <string name="refresh">Refresh</string>
     <string name="tesseract_data">Tesseract Data</string>
     <string name="select_tesseract_data_type">Select Tesseract Data type</string>
-    <string name="fbs" translatable="false" >Fast/Best/Standard</string>
+
     <string name="others_settings">Other Settings</string>
+    <string name="open_source_statement">This app is open sourced on Github. Click to visit app repository</string>
+    <string name="source_code">Source code</string>
 
 </resources>
 

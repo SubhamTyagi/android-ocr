@@ -533,6 +533,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
                 bitmap = Utils.preProcessBitmap(bitmap);
 
+                Log.d(TAG, "doInBackground: ");
+
                 // bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
             }
 
@@ -692,6 +694,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 result = false;
                 Log.e(TAG, "failed to download " + downloadURL + " : " + e);
                 e.printStackTrace();
+                crashUtils.logException(e);
             }
             return result;
         }

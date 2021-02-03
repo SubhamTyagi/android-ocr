@@ -8,8 +8,8 @@ android {
         applicationId "io.github.subhamtyagi.ocr"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 6
-        versionName "1.5"
+        versionCode 7
+        versionName "1.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "github_url", gitUrl
         vectorDrawables.useSupportLibrary = true

@@ -26,5 +26,5 @@
     <string name="gray_scale_detail">Bild für verbesserte Genauigkeit vorbearbeiten</string>
     <string name="use_gray_scale_image_for_ocr">Vorbearbeitung des Bildes</string>
     <string name="language">Sprache</string>
-    <string name="title_activity_settings">Einstellungen</string>
+
 </resources>

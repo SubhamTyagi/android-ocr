@@ -26,5 +26,5 @@
     <string name="gray_scale_detail">Forhåndsbehandling av bilde for økt nøyaktighet</string>
     <string name="use_gray_scale_image_for_ocr">Forhåndsbehandling av bilde</string>
     <string name="language">Språk</string>
-    <string name="title_activity_settings">Innstillinger</string>
+
 </resources>

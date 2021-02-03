@@ -5,6 +5,7 @@
     <string name="key_tess_training_data_source" translatable="false">tess_training_data_source</string>
     <string name="key_grayscale_image_ocr" translatable="false">grayscale_image_ocr</string>
     <string name="key_last_use_image_location" translatable="false">last_use_image_location</string>
+    <string name="key_last_use_image_text" translatable="false">last_use_image_text</string>
     <string name="key_draw_box" translatable="false">key_draw_box</string>
     <string name="key_persist_data" translatable="false">persist_data</string>
     <string name="key_language_for_tesseract_multi" translatable="false">multi_languages</string>
@@ -27,12 +28,13 @@
     <string name="converting_image">Converting Image to text…</string>
     <string name="downloading">Downloading…</string>
     <string name="downloading_language">Downloading language data…</string>
+    <string name="show_last_result">Show last result</string>
     <string name="text_goes_here">Text goes here</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="copy_to_clipboard">Copy to clipboard</string>
     <string name="share">Share</string>
 
-    <string name="persist_data_summary">Save image after the app closes</string>
+    <string name="persist_data_summary">Save image and text after the app closes</string>
     <string name="persist_data_title">Save data</string>
 
     <string name="percentage_downloaded">% of total:</string>

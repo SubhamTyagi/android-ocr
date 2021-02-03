@@ -20,6 +20,7 @@ public class Constants {
     public static final String KEY_LANGUAGE_FOR_TESSERACT_MULTI="multi_languages";
     public static final String KEY_GRAYSCALE_IMAGE_OCR="grayscale_image_ocr";
     public static final String KEY_LAST_USE_IMAGE_LOCATION="last_use_image_location";
+    public static final String KEY_LAST_USE_IMAGE_TEXT="last_use_image_text";
     public static final String KEY_PERSIST_DATA="persist_data";
 
 

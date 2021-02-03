@@ -26,6 +26,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -101,11 +102,14 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * SwipeRefreshLayout
      */
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
     /**
      * FloatingActionButton
      */
     private FloatingActionButton mFloatingActionButton;
+    /**
+     * CardView
+     */
+    private CardView mLastResultFrame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mProgressIndicator = findViewById(R.id.progress_indicator);
         mSwipeRefreshLayout = findViewById(R.id.swipe_to_refresh);
         mFloatingActionButton = findViewById(R.id.btn_scan);
+        mLastResultFrame = findViewById(R.id.last_result_frame);
 
         initDirectories();
         /*
@@ -134,6 +139,18 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     }
 
     private void initViews() {
+
+        mLastResultFrame.setOnClickListener(v -> {
+
+            if(mLastResultFrame.getTag() != null) {
+
+                mLastResultFrame.setVisibility(View.GONE);
+
+                BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance((String) mLastResultFrame.getTag());
+                bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
+
+            }
+        });
 
         mFloatingActionButton.setOnClickListener(v -> {
 
@@ -169,10 +186,20 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         });
 
         if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
+
             Bitmap bitmap = loadBitmapFromStorage();
 
             if (bitmap != null) {
                 mImageView.setImageBitmap(bitmap);
+            }
+
+            String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
+
+            if (text != null) {
+
+                mLastResultFrame.setTag(text);
+                mLastResultFrame.setVisibility(View.VISIBLE);
+
             }
         }
     }
@@ -472,12 +499,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     public void onProgressValues(final TessBaseAPI.ProgressValues progressValues) {
         Log.d(TAG, "onProgressValues: percent " + progressValues.getPercent());
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mProgressIndicator.setProgress((int) (progressValues.getPercent() * 1.46));
-            }
-        });
+        runOnUiThread(() -> mProgressIndicator.setProgress((int) (progressValues.getPercent() * 1.46)));
     }
 
 
@@ -538,12 +560,14 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         protected void onPreExecute() {
             super.onPreExecute();
 
+            mLastResultFrame.setVisibility(View.GONE);
             mProgressIndicator.setProgress(0);
             mProgressIndicator.setVisibility(View.VISIBLE);
 
             mImageView.animate()
                     .alpha(.2f)
-                    .setDuration(450);
+                    .setDuration(450)
+                    .start();
         }
 
         @Override
@@ -552,12 +576,17 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             mProgressIndicator.setVisibility(View.GONE);
             mImageView.animate()
                     .alpha(1f)
-                    .setDuration(450);
+                    .setDuration(450)
+                    .start();
 
             String clean_text = Html.fromHtml(text).toString().trim();
 
             BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(clean_text);
             bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
+
+            if(SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
+                SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), clean_text);
+            }
 
             Bitmap bitmap = loadBitmapFromStorage();
             if (bitmap != null) {

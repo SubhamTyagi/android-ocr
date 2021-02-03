@@ -3,6 +3,7 @@ package io.github.subhamtyagi.ocr;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -20,17 +23,8 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
 
     private static final String ARGUMENT_TEXT = "arg_text";
 
-    public static BottomSheetResultsFragment newInstance(String text) {
-
-        BottomSheetResultsFragment fragment = new BottomSheetResultsFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putString(ARGUMENT_TEXT, text);
-        fragment.setArguments(bundle);
-
-        return fragment;
-
-    }
+    private Context context;
+    private Bundle bundle;
 
     @Nullable
     @Override
@@ -39,8 +33,8 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
 
         View v = inflater.inflate(R.layout.bottom_sheet_dialog_results, container, false);
 
-        final Context context = getContext();
-        final Bundle bundle = getArguments();
+        context = getContext();
+        bundle = getArguments();
 
         assert bundle != null;
         assert context != null;
@@ -90,6 +84,35 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
         }
 
         return v;
+
+    }
+
+    @Override
+    public void onCancel(@NonNull DialogInterface dialog) {
+
+        dismiss();
+    }
+
+    @Override
+    public void dismiss() {
+
+        CardView lastResultFrame = requireActivity().findViewById(R.id.last_result_frame);
+        lastResultFrame.setTag(bundle.getString(ARGUMENT_TEXT));
+        lastResultFrame.setVisibility(View.VISIBLE);
+
+        super.dismiss();
+
+    }
+
+    public static BottomSheetResultsFragment newInstance(String text) {
+
+        BottomSheetResultsFragment fragment = new BottomSheetResultsFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(ARGUMENT_TEXT, text);
+        fragment.setArguments(bundle);
+
+        return fragment;
 
     }
 

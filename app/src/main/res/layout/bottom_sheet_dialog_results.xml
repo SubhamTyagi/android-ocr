@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -30,7 +30,7 @@
             android:id="@+id/btn_copy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="24dp"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/generic_image_description"
             app:srcCompat="@drawable/ic_baseline_copy_all_24" />
@@ -39,7 +39,7 @@
             android:id="@+id/btn_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="24dp"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/generic_image_description"
             app:srcCompat="@drawable/ic_baseline_share_24" />

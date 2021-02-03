@@ -23,18 +23,24 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:id="@+id/resultant_text"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar_layout"
-        android:paddingLeft="16dp"
-        android:paddingTop="6dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
-        android:textColor="@android:color/white"
-        android:textIsSelectable="true"
-        android:textSize="16sp"
-        tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." />
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar_layout"
+        android:fillViewport="true">
+
+        <TextView
+            android:id="@+id/resultant_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingTop="6dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            android:textColor="@android:color/white"
+            android:textIsSelectable="true"
+            android:textSize="16sp"
+            tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." />
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>

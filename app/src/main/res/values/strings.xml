@@ -23,7 +23,6 @@
     <string name="settings">Settings</string>
     <string name="draw_box_summary">App will draw text on image</string>
     <string name="draw_box_title">Draw text on image</string>
-    <string name="result">Result</string>
     <string name="no_results">No text could be recognized.</string>
     <string name="converting_image">Converting Image to text…</string>
     <string name="downloading">Downloading…</string>

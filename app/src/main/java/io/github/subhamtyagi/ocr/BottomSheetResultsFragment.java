@@ -10,12 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -40,41 +40,40 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
         assert context != null;
 
         TextView resultantText = v.findViewById(R.id.resultant_text);
-        Toolbar toolbar = v.findViewById(R.id.toolbar);
 
-        toolbar.setOnMenuItemClickListener(item -> {
+        ImageButton btnCopy = v.findViewById(R.id.btn_copy);
+        ImageButton btnShare = v.findViewById(R.id.btn_share);
 
-            int id = item.getItemId();
+        btnCopy.setOnClickListener(v12 -> {
 
-            if(id == R.id.action_copy) {
+            ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clipData = ClipData.newPlainText("nonsense_data", bundle.getString(ARGUMENT_TEXT));
+            clipboardManager.setPrimaryClip(clipData);
 
-                ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("nonsense_data", bundle.getString(ARGUMENT_TEXT));
-                clipboardManager.setPrimaryClip(clipData);
+            Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+            dismiss();
 
-                Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
-                dismiss();
+        });
 
-            } else if(id == R.id.action_share) {
+        btnShare.setOnClickListener(v1 -> {
 
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, bundle.getString(ARGUMENT_TEXT));
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, bundle.getString(ARGUMENT_TEXT));
 
-                startActivity(Intent.createChooser(intent, null));
-                dismiss();
-
-            }
-
-            return true;
+            startActivity(Intent.createChooser(intent, null));
+            dismiss();
 
         });
 
         if(bundle.getString(ARGUMENT_TEXT).trim().isEmpty()) {
 
-            toolbar.getMenu()
-                    .setGroupVisible(0, false);
+            btnCopy.setEnabled(false);
+            btnCopy.setAlpha(.3f);
+
+            btnShare.setEnabled(false);
+            btnShare.setAlpha(.3f);
 
             resultantText.setText(R.string.no_results);
 
@@ -90,17 +89,22 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
     @Override
     public void onCancel(@NonNull DialogInterface dialog) {
 
-        dismiss();
+        cancel();
     }
 
     @Override
     public void dismiss() {
 
+        cancel();
+        super.dismiss();
+
+    }
+
+    private void cancel() {
+
         Button lastResultButton = requireActivity().findViewById(R.id.btn_last_result);
         lastResultButton.setTag(bundle.getString(ARGUMENT_TEXT));
         lastResultButton.setVisibility(View.VISIBLE);
-
-        super.dismiss();
 
     }
 

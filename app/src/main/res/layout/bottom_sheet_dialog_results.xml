@@ -6,27 +6,37 @@
     android:layout_height="wrap_content"
     android:background="@color/background">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_layout"
+
+    <LinearLayout
+        android:id="@+id/action_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="2dp">
+        android:layout_height="55dp"
+        android:background="@color/elevatedSurface"
+        android:orientation="horizontal">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/elevatedSurface"
-            app:menu="@menu/menu_results"
-            app:title="@string/result"
-            app:titleTextColor="@android:color/white" />
+        <ImageButton
+            android:id="@+id/btn_copy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/generic_image_description"
+            app:srcCompat="@drawable/ic_baseline_copy_all_24" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <ImageButton
+            android:id="@+id/btn_share"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/generic_image_description"
+            app:srcCompat="@drawable/ic_baseline_share_24" />
+    </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/app_bar_layout"
+        android:layout_below="@id/action_bar"
         android:fillViewport="true">
 
         <TextView

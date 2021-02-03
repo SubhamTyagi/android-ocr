@@ -22,31 +22,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/last_result_frame"
+        <Button
+            android:id="@+id/btn_last_result"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:visibility="gone"
-            app:cardBackgroundColor="@color/elevatedSurface"
-            app:cardCornerRadius="3dp"
-            tools:visibility="visible">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="5dp"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"
-                android:text="@string/show_last_result"
-                android:textColor="@android:color/white"
-                app:drawableLeftCompat="@drawable/ic_baseline_history_24" />
-
-        </androidx.cardview.widget.CardView>
+            android:layout_marginTop="16dp"
+            android:drawableStart="@drawable/ic_baseline_history_24"
+            android:drawablePadding="5dp"
+            android:text="@string/show_last_result" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_to_refresh"

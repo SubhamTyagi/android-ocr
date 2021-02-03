@@ -9,13 +9,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -96,9 +96,9 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
     @Override
     public void dismiss() {
 
-        CardView lastResultFrame = requireActivity().findViewById(R.id.last_result_frame);
-        lastResultFrame.setTag(bundle.getString(ARGUMENT_TEXT));
-        lastResultFrame.setVisibility(View.VISIBLE);
+        Button lastResultButton = requireActivity().findViewById(R.id.btn_last_result);
+        lastResultButton.setTag(bundle.getString(ARGUMENT_TEXT));
+        lastResultButton.setVisibility(View.VISIBLE);
 
         super.dismiss();
 

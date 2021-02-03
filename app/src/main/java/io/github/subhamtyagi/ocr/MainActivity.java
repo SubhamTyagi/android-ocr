@@ -20,13 +20,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -107,9 +107,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private FloatingActionButton mFloatingActionButton;
     /**
-     * CardView
+     * Button
      */
-    private CardView mLastResultFrame;
+    private Button mLastResultButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mProgressIndicator = findViewById(R.id.progress_indicator);
         mSwipeRefreshLayout = findViewById(R.id.swipe_to_refresh);
         mFloatingActionButton = findViewById(R.id.btn_scan);
-        mLastResultFrame = findViewById(R.id.last_result_frame);
+        mLastResultButton = findViewById(R.id.btn_last_result);
 
         initDirectories();
         /*
@@ -140,13 +140,13 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     private void initViews() {
 
-        mLastResultFrame.setOnClickListener(v -> {
+        mLastResultButton.setOnClickListener(v -> {
 
-            if(mLastResultFrame.getTag() != null) {
+            if(mLastResultButton.getTag() != null) {
 
-                mLastResultFrame.setVisibility(View.GONE);
+                mLastResultButton.setVisibility(View.GONE);
 
-                BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance((String) mLastResultFrame.getTag());
+                BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance((String) mLastResultButton.getTag());
                 bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
 
             }
@@ -197,8 +197,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
             if (text != null) {
 
-                mLastResultFrame.setTag(text);
-                mLastResultFrame.setVisibility(View.VISIBLE);
+                mLastResultButton.setTag(text);
+                mLastResultButton.setVisibility(View.VISIBLE);
 
             }
         }
@@ -560,7 +560,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         protected void onPreExecute() {
             super.onPreExecute();
 
-            mLastResultFrame.setVisibility(View.GONE);
+            mLastResultButton.setVisibility(View.GONE);
             mProgressIndicator.setProgress(0);
             mProgressIndicator.setVisibility(View.VISIBLE);
 

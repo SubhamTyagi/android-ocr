@@ -19,7 +19,7 @@
     <string name="downloading">下载中…</string>
     <string name="downloading_language">正在下载语言数据…</string>
     <string name="text_goes_here">文本就在这里</string>
-    <string name="data_copied">数据已复制…</string>
+    <string name="copied_to_clipboard">数据已复制…</string>
     <string name="percentage_downloaded">已下载百分比：</string>
     <string name="percentage_converted_to_text">转换到文本的百分比</string>
     <string name="you_are_not_connected_to_internet">你未连接到互联网</string>

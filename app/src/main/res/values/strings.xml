@@ -5,7 +5,6 @@
     <string name="key_tess_training_data_source" translatable="false">tess_training_data_source</string>
     <string name="key_grayscale_image_ocr" translatable="false">grayscale_image_ocr</string>
     <string name="key_last_use_image_location" translatable="false">last_use_image_location</string>
-    <string name="key_last_use_image_text" translatable="false">last_use_image_text</string>
     <string name="key_draw_box" translatable="false">key_draw_box</string>
     <string name="key_persist_data" translatable="false">persist_data</string>
     <string name="key_language_for_tesseract_multi" translatable="false">multi_languages</string>
@@ -23,19 +22,18 @@
     <string name="settings">Settings</string>
     <string name="draw_box_summary">App will draw text on image</string>
     <string name="draw_box_title">Draw text on image</string>
-    <string name="processing">Processing…</string>
+    <string name="result">Result</string>
+    <string name="no_results">No text could be recognized.</string>
     <string name="converting_image">Converting Image to text…</string>
     <string name="downloading">Downloading…</string>
     <string name="downloading_language">Downloading language data…</string>
     <string name="text_goes_here">Text goes here</string>
-    <string name="data_copied">Data copied…</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
 
-
-    <string name="persist_data_summary">Save image and text after the app closes</string>
+    <string name="persist_data_summary">Save image after the app closes</string>
     <string name="persist_data_title">Save data</string>
 
     <string name="percentage_downloaded">% of total:</string>
-    <string name="percentage_converted_to_text">% converted to text</string>
     <string name="you_are_not_connected_to_internet">You are not connected to internet</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -48,5 +46,7 @@
     <string name="others_settings">Other Settings</string>
     <string name="open_source_statement">This app is open sourced on Github. Click to visit app repository</string>
     <string name="source_code">Source code</string>
+
+    <string name="generic_image_description">Image</string>
 
 </resources>

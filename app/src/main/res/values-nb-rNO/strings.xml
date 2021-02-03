@@ -2,7 +2,7 @@
 <resources>
     <string name="text_goes_here">Tekst skal inn her</string>
     <string name="language_not_exists">Opptreningsdata for språket %s finnes ikke; kan ikke utføre gjenkjennelse</string>
-    <string name="data_copied">Data kopiert …</string>
+    <string name="copied_to_clipboard">Data kopiert …</string>
     <string name="downloading_language">Laster ned språkdata …</string>
     <string name="downloading">Laster ned …</string>
     <string name="converting_image">Konverterer bilde til tekst …</string>

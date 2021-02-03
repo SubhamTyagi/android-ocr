@@ -29,6 +29,8 @@
     <string name="downloading_language">Downloading language data…</string>
     <string name="text_goes_here">Text goes here</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="share">Share</string>
 
     <string name="persist_data_summary">Save image after the app closes</string>
     <string name="persist_data_title">Save data</string>

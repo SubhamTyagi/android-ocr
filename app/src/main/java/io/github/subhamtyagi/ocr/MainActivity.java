@@ -435,7 +435,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

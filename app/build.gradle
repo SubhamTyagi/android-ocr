@@ -41,6 +41,9 @@ android {
             universalApk false
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {

@@ -10,12 +10,12 @@
     <string name="percentage_downloaded">% del total:</string>
     <string name="persist_data_title">Guardar datos</string>
     <string name="persist_data_summary">Guardar imagen y texto después de cerrar la app</string>
-    <string name="data_copied">Datos copiados...</string>
+    <string name="data_copied">Datos copiados…</string>
     <string name="text_goes_here">El texto irá aquí</string>
-    <string name="downloading_language">Descargando datos de idioma...</string>
-    <string name="downloading">Descargando...</string>
-    <string name="converting_image">Convirtiendo imagen a texto...</string>
-    <string name="processing">Procesando...</string>
+    <string name="downloading_language">Descargando datos de idioma…</string>
+    <string name="downloading">Descargando…</string>
+    <string name="converting_image">Convirtiendo imagen a texto…</string>
+    <string name="processing">Procesando…</string>
     <string name="draw_box_title">Dibujar texto en imagen</string>
     <string name="draw_box_summary">La aplicación dibujará texto en la imágen</string>
     <string name="settings">Ajustes</string>
@@ -26,5 +26,5 @@
     <string name="gray_scale_detail">Imagen preprocesada para mejorar la precisión</string>
     <string name="use_gray_scale_image_for_ocr">Imagen preprocesada</string>
     <string name="language">Idioma</string>
-    <string name="title_activity_settings">Ajustes</string>
+
 </resources>

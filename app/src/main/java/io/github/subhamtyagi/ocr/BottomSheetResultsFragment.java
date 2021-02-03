@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -49,37 +48,33 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
         TextView resultantText = v.findViewById(R.id.resultant_text);
         Toolbar toolbar = v.findViewById(R.id.toolbar);
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        toolbar.setOnMenuItemClickListener(item -> {
 
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            int id = item.getItemId();
 
-                int id = item.getItemId();
+            if(id == R.id.action_copy) {
 
-                if(id == R.id.action_copy) {
+                ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("nonsense_data", bundle.getString(ARGUMENT_TEXT));
+                clipboardManager.setPrimaryClip(clipData);
 
-                    ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clipData = ClipData.newPlainText("nonsense_data", bundle.getString(ARGUMENT_TEXT));
-                    clipboardManager.setPrimaryClip(clipData);
+                Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+                dismiss();
 
-                    Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
-                    dismiss();
+            } else if(id == R.id.action_share) {
 
-                } else if(id == R.id.action_share) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, bundle.getString(ARGUMENT_TEXT));
 
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, bundle.getString(ARGUMENT_TEXT));
-
-                    startActivity(Intent.createChooser(intent, null));
-                    dismiss();
-
-                }
-
-                return true;
+                startActivity(Intent.createChooser(intent, null));
+                dismiss();
 
             }
+
+            return true;
+
         });
 
         if(bundle.getString(ARGUMENT_TEXT).trim().isEmpty()) {

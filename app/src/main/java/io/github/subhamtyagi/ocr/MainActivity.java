@@ -135,42 +135,37 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     private void initViews() {
 
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mFloatingActionButton.setOnClickListener(v -> {
 
-                if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
-                    selectImage();
-                } else {
-                    setLanguageData();
-                }
-
+            if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
+                selectImage();
+            } else {
+                setLanguageData();
             }
+
         });
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
 
-                if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
+            if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
 
-                    Drawable drawable = mImageView.getDrawable();
+                Drawable drawable = mImageView.getDrawable();
 
-                    if (drawable != null) {
-                        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                        if (bitmap != null) {
-                            isRefresh = true;
-                            new ConvertImageToTextTask().execute(bitmap);
-                        }
+                if (drawable != null) {
+                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                    if (bitmap != null) {
+                        isRefresh = true;
+                        new ConvertImageToTextTask().execute(bitmap);
                     }
-
-                } else {
-                    setLanguageData();
                 }
 
-                mSwipeRefreshLayout.setRefreshing(false);
+            } else {
 
+                setLanguageData();
             }
+
+            mSwipeRefreshLayout.setRefreshing(false);
+
         });
 
         if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {

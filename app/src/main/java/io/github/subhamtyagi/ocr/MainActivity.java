@@ -2,8 +2,6 @@ package io.github.subhamtyagi.ocr;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,13 +20,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.ProgressIndicator;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -49,8 +51,6 @@ import io.github.subhamtyagi.ocr.utils.Constants;
 import io.github.subhamtyagi.ocr.utils.CrashUtils;
 import io.github.subhamtyagi.ocr.utils.SpUtil;
 import io.github.subhamtyagi.ocr.utils.Utils;
-import io.github.subhamtyagi.ocr.views.BoxImageView;
-
 
 /**
  * Apps MainActivity where all important works is going on
@@ -63,9 +63,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private static final int REQUEST_CODE_SELECT_IMAGE = 172;
     private static boolean isRefresh = false;
     /**
-     * a progressDialog to show downloading Dialog and also reused for recognition dialog
+     * a progressDialog to show downloading Dialog
      */
     ProgressDialog mProgressDialog;
+
     private CrashUtils crashUtils;
     private ConvertImageToTextTask convertImageToTextTask;
     private DownloadTrainingTask downloadTrainingTask;
@@ -90,13 +91,25 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private AlertDialog dialog;
     /**
-     * Custom Image View
+     * Image View
      */
-    private BoxImageView mBoxImageView;
+    private ImageView mImageView;
     /**
-     * Result
+     * ProgressIndicator
      */
-    private TextView mTextResult;
+    private ProgressIndicator mProgressIndicator;
+    /**
+     * SwipeRefreshLayout
+     */
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    /**
+     * FloatingActionButton
+     */
+    private FloatingActionButton mFloatingActionButton;
+    /**
+     * Button
+     */
+    private Button mLastResultButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +119,14 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         crashUtils = new CrashUtils(getApplicationContext(), "");
 
-        mBoxImageView = findViewById(R.id.source_image);
-        mTextResult = findViewById(R.id.resultant_text);
-        //boxImageView.setScaleType(ImageView.ScaleType.MATRIX);
+        mImageView = findViewById(R.id.source_image);
+        mProgressIndicator = findViewById(R.id.progress_indicator);
+        mSwipeRefreshLayout = findViewById(R.id.swipe_to_refresh);
+        mFloatingActionButton = findViewById(R.id.btn_scan);
+        mLastResultButton = findViewById(R.id.btn_last_result);
+
         initDirectories();
-        /**
+        /*
          *initialize the OCR for faster access at later time
          */
         initializeOCR();
@@ -123,44 +139,67 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     }
 
     private void initViews() {
-        // select button binding
-        findViewById(R.id.btn_select_image).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
-                    selectImage();
-                } else {
-                    setLanguageData();
+
+        mLastResultButton.setOnClickListener(v -> {
+
+            if(mLastResultButton.getTag() != null) {
+
+                mLastResultButton.setVisibility(View.GONE);
+
+                BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance((String) mLastResultButton.getTag());
+                bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
+
+            }
+        });
+
+        mFloatingActionButton.setOnClickListener(v -> {
+
+            if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
+                selectImage();
+            } else {
+                setLanguageData();
+            }
+
+        });
+
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+
+            if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
+
+                Drawable drawable = mImageView.getDrawable();
+
+                if (drawable != null) {
+                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                    if (bitmap != null) {
+                        isRefresh = true;
+                        new ConvertImageToTextTask().execute(bitmap);
+                    }
                 }
 
-            }
-        });
-        // copy button binding
-        findViewById(R.id.btn_copy).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("nonsense_data", mTextResult.getText());
-                clipboardManager.setPrimaryClip(clipData);
-                Toast.makeText(MainActivity.this, R.string.data_copied, Toast.LENGTH_SHORT).show();
-            }
-        });
+            } else {
 
+                setLanguageData();
+            }
+
+            mSwipeRefreshLayout.setRefreshing(false);
+
+        });
 
         if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
+
             Bitmap bitmap = loadBitmapFromStorage();
+
             if (bitmap != null) {
-                mBoxImageView.setImageBitmap(bitmap);
+                mImageView.setImageBitmap(bitmap);
             }
 
-            /*
-             * check if there is previous image text
-             * if yes then show this on home screen
-             */
-
             String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
+
             if (text != null) {
-                mTextResult.setText(Html.fromHtml(text));
+
+                mLastResultButton.setTag(text);
+                mLastResultButton.setVisibility(View.VISIBLE);
+
             }
         }
     }
@@ -175,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
                     //TODO: nothing to do
-                    mBoxImageView.setImageURI(imageUri);
+                    mImageView.setImageURI(imageUri);
                     CropImage.activity(imageUri).start(this);
                 }
             }
@@ -359,10 +398,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mBoxImageView.setImageURI(imageUri);
+
+        mImageView.setImageURI(imageUri);
         convertImageToTextTask = new ConvertImageToTextTask();
         convertImageToTextTask.execute(bitmap);
-
 
     }
 
@@ -418,7 +457,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -448,45 +487,19 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
         if (id == R.id.action_settings) {
             startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_CODE_SETTINGS);
-        } else if (id == R.id.action_refresh) {
-            if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
-
-                Drawable drawable = mBoxImageView.getDrawable();
-                if (drawable != null) {
-                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                    if (bitmap != null) {
-                        isRefresh = true;
-                        new ConvertImageToTextTask().execute(bitmap);
-                    }
-                } else {
-                    findViewById(R.id.btn_select_image).performClick();
-                }
-
-            } else {
-                setLanguageData();
-            }
-
-
         }
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onProgressValues(final TessBaseAPI.ProgressValues progressValues) {
         Log.d(TAG, "onProgressValues: percent " + progressValues.getPercent());
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mProgressDialog != null) {
-                    int temp = (int) (progressValues.getPercent() * 1.46);
-                    mProgressDialog.setMessage(temp + getString(R.string.percentage_converted_to_text));
-                    mProgressDialog.show();
-                }
-            }
-        });
 
+        runOnUiThread(() -> mProgressIndicator.setProgress((int) (progressValues.getPercent() * 1.46)));
     }
 
 
@@ -546,31 +559,38 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mProgressDialog = new ProgressDialog(MainActivity.this);
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setTitle(getString(R.string.processing));
-            mProgressDialog.setMessage(getString(R.string.converting_image));
-            mProgressDialog.show();
+
+            mLastResultButton.setVisibility(View.GONE);
+            mProgressIndicator.setProgress(0);
+            mProgressIndicator.setVisibility(View.VISIBLE);
+
+            mImageView.animate()
+                    .alpha(.2f)
+                    .setDuration(450)
+                    .start();
         }
 
         @Override
         protected void onPostExecute(String text) {
-            if (mProgressDialog != null) {
-                mProgressDialog.cancel();
-                mProgressDialog = null;
 
-            }
-            //mTextResult.setText(text);
-            mTextResult.setText(Html.fromHtml(text));
-            if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
-                SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), text);
+            mProgressIndicator.setVisibility(View.GONE);
+            mImageView.animate()
+                    .alpha(1f)
+                    .setDuration(450)
+                    .start();
+
+            String clean_text = Html.fromHtml(text).toString().trim();
+
+            BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(clean_text);
+            bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
+
+            if(SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
+                SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), clean_text);
             }
 
             Bitmap bitmap = loadBitmapFromStorage();
             if (bitmap != null) {
-                mBoxImageView.setImageBitmap(bitmap);
+                mImageView.setImageBitmap(bitmap);
             }
         }
 

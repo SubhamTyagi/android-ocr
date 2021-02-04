@@ -10,7 +10,7 @@
     <string name="percentage_downloaded">% del total:</string>
     <string name="persist_data_title">Guardar datos</string>
     <string name="persist_data_summary">Guardar imagen y texto después de cerrar la app</string>
-    <string name="data_copied">Datos copiados…</string>
+    <string name="copied_to_clipboard">Datos copiados...</string>
     <string name="text_goes_here">El texto irá aquí</string>
     <string name="downloading_language">Descargando datos de idioma…</string>
     <string name="downloading">Descargando…</string>

@@ -24,6 +24,4 @@ public class Constants {
     public static final String KEY_PERSIST_DATA="persist_data";
 
 
-
-
 }

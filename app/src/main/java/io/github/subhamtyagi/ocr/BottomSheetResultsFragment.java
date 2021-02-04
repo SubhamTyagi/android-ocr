@@ -83,9 +83,7 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
     }
 
     private void cancel() {
-        Button lastResultButton = requireActivity().findViewById(R.id.btn_last_result);
-        lastResultButton.setTag(bundle.getString(ARGUMENT_TEXT));
-        lastResultButton.setVisibility(View.VISIBLE);
+
     }
 
     public static BottomSheetResultsFragment newInstance(String text) {

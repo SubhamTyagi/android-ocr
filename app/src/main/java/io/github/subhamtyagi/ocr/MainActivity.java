@@ -107,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private FloatingActionButton mFloatingActionButton;
 
+    /**
+     *
+     */
+    private MenuItem mShowHistoryItem;
 
 
     @Override
@@ -411,6 +415,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        mShowHistoryItem=menu.findItem(R.id.action_history);
+        mShowHistoryItem.setVisible(SpUtil.getInstance().getBoolean(Constants.KEY_PERSIST_DATA));
         return true;
     }
 

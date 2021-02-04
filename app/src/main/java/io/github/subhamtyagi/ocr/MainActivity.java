@@ -106,10 +106,12 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * FloatingActionButton
      */
     private FloatingActionButton mFloatingActionButton;
+
     /**
      * Button
      */
     private Button mLastResultButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -458,6 +460,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_CODE_SETTINGS);
+        }else if (id==R.id.action_history){
+            //TODO: show the history...
+            BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text)));
+            bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -506,12 +513,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         @Override
         protected String doInBackground(Bitmap... bitmaps) {
             Bitmap bitmap = bitmaps[0];
-
             if (!isRefresh && SpUtil.getInstance().getBoolean(getString(R.string.key_grayscale_image_ocr), true)) {
                 bitmap = Utils.preProcessBitmap(bitmap);
                 // bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
             }
-
             isRefresh = false;
             saveBitmapToStorage(bitmap);
             return mImageTextReader.getTextFromBitmap(bitmap);
@@ -540,9 +545,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(clean_text);
             bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
 
-            if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
-                SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), clean_text);
-            }
+            SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), clean_text);
 
             Bitmap bitmap = loadBitmapFromStorage();
             if (bitmap != null) {

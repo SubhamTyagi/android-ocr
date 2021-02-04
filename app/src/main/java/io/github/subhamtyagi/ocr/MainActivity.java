@@ -26,6 +26,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -450,9 +451,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_CODE_SETTINGS);
         } else if (id == R.id.action_history) {
             //TODO: show the history...
-            BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(Utils.getLastUsedText());
-            bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
-
+            showOCRResult(Utils.getLastUsedText());
         }
         return super.onOptionsItemSelected(item);
     }
@@ -492,6 +491,14 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         return bitmap;
     }
 
+    public void showOCRResult(String text){
+        if (this.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+            BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(text);
+            bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
+        }
+
+    }
+
     /**
      * A Async Task to convert the image into text the return the text in String
      */
@@ -529,8 +536,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                     .setDuration(450)
                     .start();
             String clean_text = Html.fromHtml(text).toString().trim();
-            BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(clean_text);
-            bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
+            showOCRResult(clean_text);
 
             Utils.putLastUsedText(clean_text);
             Bitmap bitmap = loadBitmapFromStorage();

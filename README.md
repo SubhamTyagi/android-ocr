@@ -31,7 +31,12 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 
 | HOME | SETTING | RESULTS |LANGUAGE|
 |:-:|:-:|:-:|:-:|
-| ![home](fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg?raw=true "home") | ![settings](fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg?raw=true "settings") | ![result](fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg?raw=true "result") | ![language](fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg?raw=true "language") |
+| ![HOME](fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg?raw=true "home") | ![RESULT](fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg?raw=true "RESULT") | ![SETTINGS](fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg?raw=true "SETTINGS") | ![LANGUAGES](fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg?raw=true "LANGUAGES") |
+
+## <font color="#2467d6"><b>Code Contributors </b></font>
+
+* New UI is designed by [Hannes Gehrold](https://github.com/h4n23s)
+
 
 ## <font color="#2467d6"><b>[Icon ](https://github.com/SubhamTyagi/android-ocr/issues/15) </b></font>
 

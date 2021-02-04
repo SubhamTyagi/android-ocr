@@ -20,7 +20,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -107,19 +106,17 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private FloatingActionButton mFloatingActionButton;
 
-    /**
-     *
-     */
-    private MenuItem mShowHistoryItem;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SpUtil.getInstance().init(this);
 
-        crashUtils = new CrashUtils(getApplicationContext(), "");
+        /* Initialization of some application level variables */
+        {
+            SpUtil.getInstance().init(this);
+            crashUtils = new CrashUtils(getApplicationContext(), "");
+        }
 
         mImageView = findViewById(R.id.source_image);
         mProgressIndicator = findViewById(R.id.progress_indicator);
@@ -169,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         });
 
-        if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
+        if (Utils.isPersistData()) {
             Bitmap bitmap = loadBitmapFromStorage();
             if (bitmap != null) {
                 mImageView.setImageBitmap(bitmap);
@@ -352,7 +349,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * @param imageUri uri of selected image
      */
     private void convertImageToText(Uri imageUri) {
-        SpUtil.getInstance().putString(getString(R.string.key_last_use_image_location), imageUri.toString());
+        //TODO:inspect usage of this location
+        Utils.putLastUsedImageLocation(imageUri.toString());
         Bitmap bitmap = null;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
@@ -415,8 +413,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        mShowHistoryItem=menu.findItem(R.id.action_history);
-        mShowHistoryItem.setVisible(SpUtil.getInstance().getBoolean(Constants.KEY_PERSIST_DATA));
+
+        MenuItem showHistoryItem = menu.findItem(R.id.action_history);
+        showHistoryItem.setVisible(Utils.isPersistData());
         return true;
     }
 
@@ -448,9 +447,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_CODE_SETTINGS);
-        }else if (id==R.id.action_history){
+        } else if (id == R.id.action_history) {
             //TODO: show the history...
-            BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text)));
+            BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(Utils.getLastUsedText());
             bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
 
         }
@@ -501,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         @Override
         protected String doInBackground(Bitmap... bitmaps) {
             Bitmap bitmap = bitmaps[0];
-            if (!isRefresh && SpUtil.getInstance().getBoolean(getString(R.string.key_grayscale_image_ocr), true)) {
+            if (!isRefresh && Utils.isPreProcessImage()) {
                 bitmap = Utils.preProcessBitmap(bitmap);
                 // bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
             }
@@ -533,8 +532,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(clean_text);
             bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
 
-            SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), clean_text);
-
+            Utils.putLastUsedText(clean_text);
             Bitmap bitmap = loadBitmapFromStorage();
             if (bitmap != null) {
                 mImageView.setImageBitmap(bitmap);

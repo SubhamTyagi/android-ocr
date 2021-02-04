@@ -2,7 +2,6 @@ package io.github.subhamtyagi.ocr.utils;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 
 import com.googlecode.leptonica.android.Binarize;
 import com.googlecode.leptonica.android.Convert;
@@ -13,24 +12,9 @@ import com.googlecode.leptonica.android.Rotate;
 import com.googlecode.leptonica.android.Skew;
 import com.googlecode.leptonica.android.WriteFile;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 public class Utils {
-
-    public static Map<Character, Character> DigitCorrectDictionary;
-
-    static {
-        DigitCorrectDictionary = new HashMap<>();
-        DigitCorrectDictionary.put('D', '0');
-        DigitCorrectDictionary.put('l', '1');
-        DigitCorrectDictionary.put('I', '1');
-        DigitCorrectDictionary.put('S', '5');
-        DigitCorrectDictionary.put('s', '5');
-        DigitCorrectDictionary.put('g', '9');
-    }
-
 
     @SuppressLint("DefaultLocale")
     public static String getSize(int size) {
@@ -53,48 +37,6 @@ public class Utils {
         return s;
     }
 
-
-    private static String correctDigit(String text) {
-        StringBuilder correctedText = new StringBuilder();
-        int length = text.length();
-        for (int i = 0; i < length; i++) {
-            char c = text.charAt(i);
-            if (DigitCorrectDictionary.containsKey(c)) {
-                correctedText.append(DigitCorrectDictionary.get(c));
-            } else {
-                correctedText.append(c);
-            }
-        }
-        return correctedText.toString();
-    }
-
-
-    /**
-     * bitmap
-     *
-     * @param b
-     * @param degrees
-     * @return
-     */
-    public static Bitmap rotate(Bitmap b, int degrees) {
-        if (degrees != 0 && b != null) {
-            Matrix m = new Matrix();
-            m.setRotate(degrees, (float) b.getWidth() / 2, (float) b.getHeight() / 2);
-            try {
-                Bitmap b2 = Bitmap.createBitmap(
-                        b, 0, 0, b.getWidth(), b.getHeight(), m, true);
-                if (b != b2) {
-                    b.recycle();
-                    b = b2;
-                }
-            } catch (OutOfMemoryError ignore) {
-
-            }
-        }
-        return b;
-    }
-
-
     public static Bitmap preProcessBitmap(Bitmap bitmap) {
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         Pix pix = ReadFile.readBitmap(bitmap);
@@ -111,6 +53,13 @@ public class Utils {
         return WriteFile.writeBitmap(pix);
     }
 
+    public static boolean isPreProcessImage(){
+        return SpUtil.getInstance().getBoolean(Constants.KEY_GRAYSCALE_IMAGE_OCR, true);
+    }
+
+    public static boolean isPersistData(){
+        return SpUtil.getInstance().getBoolean(Constants.KEY_PERSIST_DATA,true);
+    }
 
     private static String getAllLanguage(Set<String> langs) {
         if (langs == null) return "eng";
@@ -128,6 +77,22 @@ public class Utils {
 
     public static String getTrainingDataLanguage() {
         return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, "eng");
+    }
+
+    public static void putLastUsedText(String text){
+        SpUtil.getInstance().putString(Constants.KEY_LAST_USE_IMAGE_TEXT, text);
+    }
+
+    public static String  getLastUsedText(){
+        return SpUtil.getInstance().getString(Constants.KEY_LAST_USE_IMAGE_TEXT,"");
+    }
+
+    public static String getLastUsedImageLocation(){
+        return SpUtil.getInstance().getString(Constants.KEY_LAST_USE_IMAGE_LOCATION);
+    }
+
+    public static void putLastUsedImageLocation(String imageURI){
+         SpUtil.getInstance().putString(Constants.KEY_LAST_USE_IMAGE_LOCATION,imageURI);
     }
 
     public static String getTrainingDataMultipleLanguage() {

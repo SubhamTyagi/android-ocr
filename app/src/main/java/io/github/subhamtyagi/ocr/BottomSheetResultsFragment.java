@@ -28,8 +28,7 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.bottom_sheet_dialog_results, container, false);
 
@@ -40,84 +39,61 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
         assert context != null;
 
         TextView resultantText = v.findViewById(R.id.resultant_text);
-
         ImageButton btnCopy = v.findViewById(R.id.btn_copy);
         ImageButton btnShare = v.findViewById(R.id.btn_share);
 
         btnCopy.setOnClickListener(v12 -> {
-
             ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clipData = ClipData.newPlainText("nonsense_data", bundle.getString(ARGUMENT_TEXT));
             clipboardManager.setPrimaryClip(clipData);
-
             Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
             dismiss();
-
         });
 
         btnShare.setOnClickListener(v1 -> {
-
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
             intent.setType("text/plain");
             intent.putExtra(Intent.EXTRA_TEXT, bundle.getString(ARGUMENT_TEXT));
-
             startActivity(Intent.createChooser(intent, null));
             dismiss();
-
         });
 
-        if(bundle.getString(ARGUMENT_TEXT).trim().isEmpty()) {
-
+        if (bundle.getString(ARGUMENT_TEXT).trim().isEmpty()) {
             btnCopy.setEnabled(false);
             btnCopy.setAlpha(.3f);
-
             btnShare.setEnabled(false);
             btnShare.setAlpha(.3f);
-
             resultantText.setText(R.string.no_results);
-
         } else {
-
             resultantText.setText(bundle.getString(ARGUMENT_TEXT));
         }
-
         return v;
-
     }
 
     @Override
     public void onCancel(@NonNull DialogInterface dialog) {
-
         cancel();
     }
 
     @Override
     public void dismiss() {
-
         cancel();
         super.dismiss();
-
     }
 
     private void cancel() {
-
         Button lastResultButton = requireActivity().findViewById(R.id.btn_last_result);
         lastResultButton.setTag(bundle.getString(ARGUMENT_TEXT));
         lastResultButton.setVisibility(View.VISIBLE);
-
     }
 
     public static BottomSheetResultsFragment newInstance(String text) {
-
         BottomSheetResultsFragment fragment = new BottomSheetResultsFragment();
-
         Bundle bundle = new Bundle();
         bundle.putString(ARGUMENT_TEXT, text);
         fragment.setArguments(bundle);
-
         return fragment;
-
     }
 
 }

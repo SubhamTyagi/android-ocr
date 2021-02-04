@@ -21,12 +21,8 @@ public class CrashUtils implements Thread.UncaughtExceptionHandler {
     private static final String CRASH_SUFFIX = "_crash";
     private static final String FILE_EXTENSION = ".txt";
     private static final String CRASH_REPORT_DIR = "crashReports";
-
     private static final String TAG = "CrashUtils";
-
-
     private final Thread.UncaughtExceptionHandler exceptionHandler;
-
     private final Context applicationContext;
     private final String crashReportPath;
 
@@ -39,39 +35,31 @@ public class CrashUtils implements Thread.UncaughtExceptionHandler {
         }
     }
 
-
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
         saveCrashReport(throwable);
         exceptionHandler.uncaughtException(thread, throwable);
     }
 
-
     private void saveCrashReport(final Throwable throwable) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         String filename = dateFormat.format(new Date()) + CRASH_SUFFIX + FILE_EXTENSION;
         writeToFile(crashReportPath, filename, getStackTrace(throwable));
-
     }
 
-
     private void writeToFile(String crashReportPath, String filename, String crashLog) {
-
         if (TextUtils.isEmpty(crashReportPath)) {
             crashReportPath = getDefaultPath();
         }
-
         File crashDir = new File(crashReportPath);
         if (!crashDir.exists() || !crashDir.isDirectory()) {
             crashReportPath = getDefaultPath();
             Log.e(TAG, "Path provided doesn't exists : " + crashDir + "\nSaving crash report at : " + getDefaultPath());
         }
-
         BufferedWriter bufferedWriter;
         try {
-            bufferedWriter = new BufferedWriter(new FileWriter(
-                    crashReportPath + File.separator + filename));
-
+            bufferedWriter = new BufferedWriter(
+                    new FileWriter(crashReportPath + File.separator + filename));
             bufferedWriter.write(crashLog);
             bufferedWriter.flush();
             bufferedWriter.close();

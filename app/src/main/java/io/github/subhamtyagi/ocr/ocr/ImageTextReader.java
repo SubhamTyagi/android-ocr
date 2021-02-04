@@ -11,8 +11,6 @@ public class ImageTextReader {
 
     public static final String TAG = "ImageTextReader";
     public static boolean success;
-
-
     /**
      * TessBaseAPI instance
      */
@@ -49,7 +47,6 @@ public class ImageTextReader {
         try {
             //textOnImage = api.getUTF8Text();
             textOnImage = api.getHOCRText(1);
-
         } catch (Exception e) {
             return "Scan Failed: WTF: Must be reported to developer!";
         }

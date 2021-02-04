@@ -142,10 +142,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         mLastResultButton.setOnClickListener(v -> {
 
-            if(mLastResultButton.getTag() != null) {
-
+            if (mLastResultButton.getTag() != null) {
                 mLastResultButton.setVisibility(View.GONE);
-
                 BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance((String) mLastResultButton.getTag());
                 bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
 
@@ -153,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         });
 
         mFloatingActionButton.setOnClickListener(v -> {
-
             if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
                 selectImage();
             } else {
@@ -163,11 +160,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         });
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
-
             if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
-
                 Drawable drawable = mImageView.getDrawable();
-
                 if (drawable != null) {
                     Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                     if (bitmap != null) {
@@ -177,29 +171,21 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 }
 
             } else {
-
                 setLanguageData();
             }
-
             mSwipeRefreshLayout.setRefreshing(false);
 
         });
 
         if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
-
             Bitmap bitmap = loadBitmapFromStorage();
-
             if (bitmap != null) {
                 mImageView.setImageBitmap(bitmap);
             }
-
             String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
-
             if (text != null) {
-
                 mLastResultButton.setTag(text);
                 mLastResultButton.setVisibility(View.VISIBLE);
-
             }
         }
     }
@@ -208,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
-
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if (type.startsWith("image/")) {
                 Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
@@ -223,23 +208,18 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void initDirectories() {
-
         dirBest = new File(getExternalFilesDir("best").getAbsolutePath());
         dirFast = new File(getExternalFilesDir("fast").getAbsolutePath());
         dirStandard = new File(getExternalFilesDir("standard").getAbsolutePath());
-
         dirBest.mkdirs();
         dirStandard.mkdirs();
         dirFast.mkdirs();
-
         currentDirectory = new File(dirBest, "tessdata");
         currentDirectory.mkdirs();
         currentDirectory = new File(dirStandard, "tessdata");
         currentDirectory.mkdirs();
         currentDirectory = new File(dirFast, "tessdata");
         currentDirectory.mkdirs();
-
-
     }
 
     /**
@@ -288,7 +268,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         } else {
             setLanguageData();
         }
-
     }
 
     /**
@@ -296,7 +275,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * if language training data is not exists then it will download it
      */
     private void setLanguageData() {
-
         mTrainingDataType = Utils.getTrainingDataType();
         mLanguage = Utils.getTrainingDataLanguage();
 
@@ -306,7 +284,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             NetworkInfo ni = cm.getActiveNetworkInfo();
             if (ni == null) {
                 //You are not connected to Internet
-
                 Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
             } else if (ni.isConnected()) {
                 // show confirmation dialog.
@@ -335,11 +312,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                             }
                         }).create();
                 dialog.show();
-
             } else {
-
                 Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
-
                 //You are not connected to Internet
             }
         } else {
@@ -391,18 +365,15 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private void convertImageToText(Uri imageUri) {
         SpUtil.getInstance().putString(getString(R.string.key_last_use_image_location), imageUri.toString());
-
         Bitmap bitmap = null;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         mImageView.setImageURI(imageUri);
         convertImageToTextTask = new ConvertImageToTextTask();
         convertImageToTextTask.execute(bitmap);
-
     }
 
     @Override
@@ -421,11 +392,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                     isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
                 }
                 Uri selectedImageUri;
-
                 selectedImageUri = data.getData();
                 if (selectedImageUri == null) return;
                 convertImageToText(selectedImageUri);
-
 
             } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
@@ -487,18 +456,15 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_settings) {
             startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_CODE_SETTINGS);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onProgressValues(final TessBaseAPI.ProgressValues progressValues) {
         Log.d(TAG, "onProgressValues: percent " + progressValues.getPercent());
-
         runOnUiThread(() -> mProgressIndicator.setProgress((int) (progressValues.getPercent() * 1.46)));
     }
 
@@ -541,13 +507,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         protected String doInBackground(Bitmap... bitmaps) {
             Bitmap bitmap = bitmaps[0];
 
-            if (!isRefresh &&
-                    SpUtil.getInstance().getBoolean(getString(R.string.key_grayscale_image_ocr), true)) {
-
+            if (!isRefresh && SpUtil.getInstance().getBoolean(getString(R.string.key_grayscale_image_ocr), true)) {
                 bitmap = Utils.preProcessBitmap(bitmap);
-
-                Log.d(TAG, "doInBackground: ");
-
                 // bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
             }
 
@@ -559,11 +520,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             mLastResultButton.setVisibility(View.GONE);
             mProgressIndicator.setProgress(0);
             mProgressIndicator.setVisibility(View.VISIBLE);
-
             mImageView.animate()
                     .alpha(.2f)
                     .setDuration(450)
@@ -572,19 +531,16 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         @Override
         protected void onPostExecute(String text) {
-
             mProgressIndicator.setVisibility(View.GONE);
             mImageView.animate()
                     .alpha(1f)
                     .setDuration(450)
                     .start();
-
             String clean_text = Html.fromHtml(text).toString().trim();
-
             BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(clean_text);
             bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
 
-            if(SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
+            if (SpUtil.getInstance().getBoolean(getString(R.string.key_persist_data), true)) {
                 SpUtil.getInstance().putString(getString(R.string.key_last_use_image_text), clean_text);
             }
 
@@ -600,7 +556,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * Download the training Data and save this to external storage
      */
     private class DownloadTrainingTask extends AsyncTask<String, Integer, Boolean> {
-
         String size;
 
         @Override
@@ -719,5 +674,4 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             return result;
         }
     }
-
 }

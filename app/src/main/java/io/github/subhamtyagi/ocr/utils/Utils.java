@@ -32,7 +32,6 @@ public class Utils {
     }
 
 
-
     @SuppressLint("DefaultLocale")
     public static String getSize(int size) {
         String s;
@@ -53,7 +52,6 @@ public class Utils {
         }
         return s;
     }
-
 
 
     private static String correctDigit(String text) {
@@ -98,29 +96,24 @@ public class Utils {
 
 
     public static Bitmap preProcessBitmap(Bitmap bitmap) {
-        //
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         Pix pix = ReadFile.readBitmap(bitmap);
         pix = Convert.convertTo8(pix);
         //  pix= AdaptiveMap.pixContrastNorm(pix);
-
         pix = Enhance.unsharpMasking(pix, 5, 2.5f);
         pix = Binarize.otsuAdaptiveThreshold(pix);
         //pix = Enhance.unsharpMasking(pix);
         float f = Skew.findSkew(pix);
-
         // pix=Skew.deskew(pix,0);
         // float f2=Skew.findSkew(pix);
         //Log.d("Utils", "preProcessBitmap: first skew:"+f+"  second:"+f2);
         pix = Rotate.rotate(pix, f);
         return WriteFile.writeBitmap(pix);
-
-
     }
 
 
     private static String getAllLanguage(Set<String> langs) {
-        if (langs==null) return "eng";
+        if (langs == null) return "eng";
         StringBuilder rLanguage = new StringBuilder();
         for (String lang : langs) {
             rLanguage.append(lang);
@@ -129,16 +122,16 @@ public class Utils {
         return rLanguage.subSequence(0, rLanguage.toString().lastIndexOf('+')).toString();
     }
 
-    public static String getTrainingDataType(){
+    public static String getTrainingDataType() {
         return SpUtil.getInstance().getString(Constants.KEY_TESS_TRAINING_DATA_SOURCE, "best");
     }
 
-    public static String getTrainingDataLanguage(){
-       return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, "eng");
+    public static String getTrainingDataLanguage() {
+        return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, "eng");
     }
 
-    public static String getTrainingDataMultipleLanguage(){
-        return getAllLanguage(SpUtil.getInstance().getStringSet(Constants.KEY_LANGUAGE_FOR_TESSERACT_MULTI,null));
+    public static String getTrainingDataMultipleLanguage() {
+        return getAllLanguage(SpUtil.getInstance().getStringSet(Constants.KEY_LANGUAGE_FOR_TESSERACT_MULTI, null));
     }
 
 }

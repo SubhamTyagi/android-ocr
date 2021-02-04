@@ -15,19 +15,15 @@ import java.util.Set;
  */
 public class SpUtil {
     private volatile static SpUtil mInstance;
-
     private Context mContext;
     private SharedPreferences mPref;
-
-    private boolean a;
-    private String b;
-
 
     private SpUtil() {
     }
 
     /**
      * A factory method for
+     *
      * @return a instance of this class
      */
     public static SpUtil getInstance() {
@@ -43,6 +39,7 @@ public class SpUtil {
 
     /**
      * initialization of context, use only first time later it will use this again and again
+     *
      * @param context app context: first time
      */
     public void init(Context context) {
@@ -79,7 +76,6 @@ public class SpUtil {
     }
 
 
-
     public boolean getBoolean(String key) {
         return mPref.getBoolean(key, false);
     }
@@ -98,8 +94,8 @@ public class SpUtil {
         return mPref.getString(key, def);
     }
 
-    public Set<String> getStringSet(String key, Set<String> def){
-        return mPref.getStringSet(key,def);
+    public Set<String> getStringSet(String key, Set<String> def) {
+        return mPref.getStringSet(key, def);
     }
 
     public long getLong(String key) {

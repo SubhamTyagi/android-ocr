@@ -107,10 +107,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private FloatingActionButton mFloatingActionButton;
 
-    /**
-     * Button
-     */
-    private Button mLastResultButton;
 
 
     @Override
@@ -125,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mProgressIndicator = findViewById(R.id.progress_indicator);
         mSwipeRefreshLayout = findViewById(R.id.swipe_to_refresh);
         mFloatingActionButton = findViewById(R.id.btn_scan);
-        mLastResultButton = findViewById(R.id.btn_last_result);
+
 
         initDirectories();
         /*
@@ -141,16 +137,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     }
 
     private void initViews() {
-
-        mLastResultButton.setOnClickListener(v -> {
-
-            if (mLastResultButton.getTag() != null) {
-                mLastResultButton.setVisibility(View.GONE);
-                BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance((String) mLastResultButton.getTag());
-                bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
-
-            }
-        });
 
         mFloatingActionButton.setOnClickListener(v -> {
             if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
@@ -184,12 +170,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             if (bitmap != null) {
                 mImageView.setImageBitmap(bitmap);
             }
-            String text = SpUtil.getInstance().getString(getString(R.string.key_last_use_image_text));
-            if (text != null) {
-                mLastResultButton.setTag(text);
-                mLastResultButton.setVisibility(View.VISIBLE);
-            }
         }
+
     }
 
     private void initIntent() {
@@ -525,7 +507,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mLastResultButton.setVisibility(View.GONE);
+            //TODO: set visibility of history item to Gone
             mProgressIndicator.setProgress(0);
             mProgressIndicator.setVisibility(View.VISIBLE);
             mImageView.animate()

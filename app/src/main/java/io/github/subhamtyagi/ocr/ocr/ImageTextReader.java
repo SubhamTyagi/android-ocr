@@ -1,16 +1,8 @@
 package io.github.subhamtyagi.ocr.ocr;
 
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 
-import com.googlecode.leptonica.android.Pixa;
-import com.googlecode.tesseract.android.ResultIterator;
 import com.googlecode.tesseract.android.TessBaseAPI;
-
-import java.util.ArrayList;
-
-import io.github.subhamtyagi.ocr.models.Blocks;
-import io.github.subhamtyagi.ocr.models.RecognizedResults;
 
 /**
  * This class convert the image to text and return the text on image
@@ -65,36 +57,6 @@ public class ImageTextReader {
             return "Scan Failed: Couldn't read the image\nProblem may be related to Tesseract or no Text on Image!";
         } else return textOnImage;
 
-    }
-
-
-    /**
-     * Get the RecognizedText from Bitmap
-     *
-     * @param bitmap a image
-     * @return RecognizedResult object that contains the text,rect,fullText
-     */
-    public RecognizedResults getRecognizedResultsFromBitmap(Bitmap bitmap) {
-        api.setImage(bitmap);
-        RecognizedResults results = new RecognizedResults();
-        String fullText = api.getUTF8Text();
-
-        ResultIterator it = api.getResultIterator();
-        it.begin();
-
-        Pixa pixa = api.getWords();
-        ArrayList<Rect> rects = pixa.getBoxRects();
-        for (int i = 0; i < rects.size(); i++) {
-            Blocks item = new Blocks();
-            item.setText(it.getUTF8Text(TessBaseAPI.PageIteratorLevel.RIL_WORD));
-            item.setRect(rects.get(i));
-            results.add(item);
-            it.next(TessBaseAPI.PageIteratorLevel.RIL_WORD);
-        }
-        pixa.recycle();
-        api.end();
-        results.setFullText(fullText);
-        return results;
     }
 
 }

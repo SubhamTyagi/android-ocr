@@ -56,4 +56,33 @@ public class ImageTextReader {
 
     }
 
+    /**
+     * stop the image TEXT reader
+     */
+    public void stop(){
+        api.stop();
+    }
+
+    /**
+     * find the confidence or
+     * @return confidence
+     */
+    public int getAccuracy(){
+        return api.meanConfidence();
+    }
+
+    /**
+     * Closes down tesseract and free up all memory.
+     */
+    public void tearDownEverything(){
+        api.end();
+    }
+
+    /**
+     *  Frees up recognition results and any stored image data,
+     */
+    public void clearPreviousImage(){
+        api.clear();
+    }
+
 }

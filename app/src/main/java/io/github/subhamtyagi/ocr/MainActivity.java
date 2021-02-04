@@ -106,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private FloatingActionButton mFloatingActionButton;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -408,6 +407,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             mProgressDialog.cancel();
             mProgressDialog = null;
         }
+
+        if (mImageTextReader!=null) mImageTextReader.tearDownEverything();
     }
 
     @Override
@@ -461,7 +462,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         Log.d(TAG, "onProgressValues: percent " + progressValues.getPercent());
         runOnUiThread(() -> mProgressIndicator.setProgress((int) (progressValues.getPercent() * 1.46)));
     }
-
 
     public void saveBitmapToStorage(Bitmap bitmap) {
         FileOutputStream fileOutputStream;

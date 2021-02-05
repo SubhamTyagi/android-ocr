@@ -1,0 +1,8 @@
+* Tesseract 4-basierte OCR
+
+* Fehlerbehebung für Einstellungen
+* Text aus Bildern extrahieren
+* Daten in die Zwischenablage kopieren
+* Einen beliebigen Teil der Daten auswählen
+* Erkennen von Mathematik/Gleichung
+* Bild direkt aus der Gerätegalerie verarbeiten

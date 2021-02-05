@@ -1,0 +1,3 @@
+* Tesseract 4-basierte OCR
+
+* Fehlerbehebung und Verbesserungen der Zeichenfolgen

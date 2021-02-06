@@ -11,6 +11,11 @@
     <string name="key_language_for_tesseract_multi" translatable="false">multi_languages</string>
     <string name="fbs" translatable="false" >Fast/Best/Standard</string>
 
+    <string name="key_contrast" translatable="false">process_contrast</string>
+    <string name="key_un_sharp_masking" translatable="false">un_sharp_mask</string>
+    <string name="key_otsu_threshold" translatable="false">otsu_threshold</string>
+    <string name="key_find_skew_and_deskew" translatable="false">deskew_img</string>
+
     <string name="language">Language</string>
     <string name="use_gray_scale_image_for_ocr">Pre-Process Image</string>
     <string name="gray_scale_detail">Pre-process image for enhanced accuracy</string>
@@ -52,4 +57,15 @@
 
     <string name="generic_image_description">Image</string>
 
+    <string name="contrast_summary">Adaptively attempts to expand the contrast to the full dynamic range</string>
+    <string name="un_sharp_masking_summary">Performs unsharp masking (edge enhancement) of image</string>
+    <string name="otsu_summary">Performs locally-adaptive Otsu threshold binarization of image</string>
+    <string name="deskew_summary">Find the Skew and Deskew the Image</string>
+    <string name="perform_contrast">Enhance Contrast</string>
+    <string name="un_sharp_masking">Un-Sharp Masking</string>
+    <string name="otsu_threshold">OTSU Threshold</string>
+    <string name="deskew_image">Deskew Image</string>
+    <string name="advance_settings">Advance Settings</string>
+    <string name="advance_setting_summary">Functions related to image processing</string>
+    <string name="image_enhancement">Image Enhancement</string>
 </resources>

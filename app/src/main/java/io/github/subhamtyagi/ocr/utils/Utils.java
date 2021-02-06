@@ -3,6 +3,7 @@ package io.github.subhamtyagi.ocr.utils;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 
+import com.googlecode.leptonica.android.AdaptiveMap;
 import com.googlecode.leptonica.android.Binarize;
 import com.googlecode.leptonica.android.Convert;
 import com.googlecode.leptonica.android.Enhance;
@@ -41,24 +42,32 @@ public class Utils {
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         Pix pix = ReadFile.readBitmap(bitmap);
         pix = Convert.convertTo8(pix);
-        //  pix= AdaptiveMap.pixContrastNorm(pix);
-        pix = Enhance.unsharpMasking(pix, 5, 2.5f);
-        pix = Binarize.otsuAdaptiveThreshold(pix);
-        //pix = Enhance.unsharpMasking(pix);
-        float f = Skew.findSkew(pix);
-        // pix=Skew.deskew(pix,0);
-        // float f2=Skew.findSkew(pix);
-        //Log.d("Utils", "preProcessBitmap: first skew:"+f+"  second:"+f2);
-        pix = Rotate.rotate(pix, f);
+
+        if (SpUtil.getInstance().getBoolean(Constants.KEY_CONTRAST,true)) {
+            pix=AdaptiveMap.backgroundNormMorph(pix);
+            pix = AdaptiveMap.pixContrastNorm(pix);
+        }
+
+        if (SpUtil.getInstance().getBoolean(Constants.KEY_UN_SHARP_MASKING,true))
+            pix = Enhance.unsharpMasking(pix);
+
+        if (SpUtil.getInstance().getBoolean(Constants.KEY_OTSU_THRESHOLD,true))
+            pix = Binarize.otsuAdaptiveThreshold(pix);
+
+        if (SpUtil.getInstance().getBoolean(Constants.KEY_FIND_SKEW_AND_DESKEW,true)) {
+            float f = Skew.findSkew(pix);
+            pix = Rotate.rotate(pix, f);
+        }
+
         return WriteFile.writeBitmap(pix);
     }
 
-    public static boolean isPreProcessImage(){
+    public static boolean isPreProcessImage() {
         return SpUtil.getInstance().getBoolean(Constants.KEY_GRAYSCALE_IMAGE_OCR, true);
     }
 
-    public static boolean isPersistData(){
-        return SpUtil.getInstance().getBoolean(Constants.KEY_PERSIST_DATA,true);
+    public static boolean isPersistData() {
+        return SpUtil.getInstance().getBoolean(Constants.KEY_PERSIST_DATA, true);
     }
 
     private static String getAllLanguage(Set<String> langs) {
@@ -79,20 +88,20 @@ public class Utils {
         return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, "eng");
     }
 
-    public static void putLastUsedText(String text){
+    public static void putLastUsedText(String text) {
         SpUtil.getInstance().putString(Constants.KEY_LAST_USE_IMAGE_TEXT, text);
     }
 
-    public static String  getLastUsedText(){
-        return SpUtil.getInstance().getString(Constants.KEY_LAST_USE_IMAGE_TEXT,"");
+    public static String getLastUsedText() {
+        return SpUtil.getInstance().getString(Constants.KEY_LAST_USE_IMAGE_TEXT, "");
     }
 
-    public static String getLastUsedImageLocation(){
+    public static String getLastUsedImageLocation() {
         return SpUtil.getInstance().getString(Constants.KEY_LAST_USE_IMAGE_LOCATION);
     }
 
-    public static void putLastUsedImageLocation(String imageURI){
-         SpUtil.getInstance().putString(Constants.KEY_LAST_USE_IMAGE_LOCATION,imageURI);
+    public static void putLastUsedImageLocation(String imageURI) {
+        SpUtil.getInstance().putString(Constants.KEY_LAST_USE_IMAGE_LOCATION, imageURI);
     }
 
     public static String getTrainingDataMultipleLanguage() {

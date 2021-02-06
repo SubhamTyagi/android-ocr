@@ -35,4 +35,13 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
+
+    public static class AdvanceSettingsFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            setPreferencesFromResource(R.xml.advance_preference, rootKey);
+        }
+
+
+    }
 }

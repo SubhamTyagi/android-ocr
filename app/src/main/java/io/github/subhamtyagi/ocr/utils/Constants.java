@@ -23,5 +23,12 @@ public class Constants {
     public static final String KEY_LAST_USE_IMAGE_TEXT = "last_use_image_text";
     public static final String KEY_PERSIST_DATA = "persist_data";
 
+    public static final String KEY_CONTRAST="process_contrast";
+    public static final String KEY_UN_SHARP_MASKING="un_sharp_mask";
+    public static final String KEY_OTSU_THRESHOLD="otsu_threshold";
+    public static final String KEY_FIND_SKEW_AND_DESKEW="deskew_img";
+
+
+
 
 }

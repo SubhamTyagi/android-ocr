@@ -44,7 +44,7 @@ public class Utils {
         pix = Convert.convertTo8(pix);
 
         if (SpUtil.getInstance().getBoolean(Constants.KEY_CONTRAST,true)) {
-            pix=AdaptiveMap.backgroundNormMorph(pix);
+           // pix=AdaptiveMap.backgroundNormMorph(pix);
             pix = AdaptiveMap.pixContrastNorm(pix);
         }
 

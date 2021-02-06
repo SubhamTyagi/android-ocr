@@ -32,8 +32,9 @@
                 android:id="@+id/source_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
                 android:contentDescription="@string/generic_image_description"
-                android:scaleType="centerInside"
+                android:scaleType="fitCenter"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

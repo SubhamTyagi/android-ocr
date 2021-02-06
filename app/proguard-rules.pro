@@ -21,9 +21,19 @@
 #-renamesourcefileattribute SourceFile
 #-keep class androidx.appcompat.widget.** { *; }
 
-#-repackageclasses
-#-optimizationpasses 2
-#-mergeinterfacesaggressively
-#-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*,method/inlining/short,class/merging/horizontal,class/merging/vertical
-#-allowaccessmodification
-#-repackageclasses
+#r8 ignore
+-dontpreverify
+-optimizationpasses 3
+-mergeinterfacesaggressively
+
+-repackageclasses
+-allowaccessmodification
+#-flattenpackagehierarchy
+-dontskipnonpubliclibraryclasses
+
+#r8 ignore
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*,method/inlining/short,class/merging/horizontal,class/merging/vertical
+
+#-obfuscationdictionary
+#-classobfuscationdictionary
+#-packageobfuscationdictionary

@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             mProgressDialog = null;
         }
 
-        if (mImageTextReader!=null) mImageTextReader.tearDownEverything();
+        if (mImageTextReader != null) mImageTextReader.tearDownEverything();
     }
 
     @Override
@@ -491,7 +491,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         return bitmap;
     }
 
-    public void showOCRResult(String text){
+    public void showOCRResult(String text) {
         if (this.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
             BottomSheetResultsFragment bottomSheetResultsFragment = BottomSheetResultsFragment.newInstance(text);
             bottomSheetResultsFragment.show(getSupportFragmentManager(), "bottomSheetResultsFragment");
@@ -536,9 +536,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                     .setDuration(450)
                     .start();
             String clean_text = Html.fromHtml(text).toString().trim();
-            Log.d(TAG, "onPostExecute: text\n"+clean_text);
+            Log.d(TAG, "onPostExecute: text\n" + clean_text);
             showOCRResult(clean_text);
-            Toast.makeText(MainActivity.this,"With Confidence:"+mImageTextReader.getAccuracy()+"%",Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "With Confidence:" + mImageTextReader.getAccuracy() + "%", Toast.LENGTH_SHORT).show();
 
             Utils.putLastUsedText(clean_text);
             Bitmap bitmap = loadBitmapFromStorage();

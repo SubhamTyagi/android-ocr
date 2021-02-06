@@ -16,6 +16,7 @@
 
 <PreferenceScreen
 
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/tesseract_data">
@@ -27,7 +28,8 @@
             android:entryValues="@array/key_ocr_training_data_entries_values"
             android:key="@string/key_tess_training_data_source"
             android:summary="@string/fbs"
-            android:title="@string/select_tesseract_data_type" />
+            android:title="@string/select_tesseract_data_type"
+            app:icon="@drawable/ic_baseline_more_horiz_32" />
 
         <ListPreference
             android:defaultValue="eng"
@@ -35,39 +37,54 @@
             android:entryValues="@array/key_ocr_engine_language_value"
             android:key="@string/key_language_for_tesseract"
             android:summary="@string/language"
-            android:title="@string/tess_language_title" />
-
-       <!-- <MultiSelectListPreference
-
-            android:entries="@array/ocr_engine_language"
-            android:entryValues="@array/key_ocr_engine_language_value"
-            android:key="@string/key_language_for_tesseract_multi"
-            android:summary="@string/language"
             android:title="@string/tess_language_title"
-            android:visibility="invisible" />
--->
+            app:icon="@drawable/ic_baseline_language_32" />
+
+        <!-- <MultiSelectListPreference
+
+             android:entries="@array/ocr_engine_language"
+             android:entryValues="@array/key_ocr_engine_language_value"
+             android:key="@string/key_language_for_tesseract_multi"
+             android:summary="@string/language"
+             android:title="@string/tess_language_title"
+             android:visibility="invisible" />
+ -->
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/others_settings">
-
+    <PreferenceCategory android:title="@string/image_enhancement">
         <SwitchPreference
             android:defaultValue="true"
+            android:icon="@drawable/ic_baseline_filter_32"
             android:key="@string/key_grayscale_image_ocr"
             android:summary="@string/gray_scale_detail"
             android:title="@string/use_gray_scale_image_for_ocr" />
 
+        <PreferenceScreen
+            android:fragment="io.github.subhamtyagi.ocr.SettingsActivity$AdvanceSettingsFragment"
+            android:icon="@drawable/ic_baseline_functions_32"
+            android:summary="@string/advance_setting_summary"
+            android:title="@string/advance_settings"
+            app:dependency="@string/key_grayscale_image_ocr" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/others_settings">
         <SwitchPreference
             android:defaultValue="true"
+            android:icon="@drawable/ic_baseline_save_32"
             android:key="@string/key_persist_data"
             android:summary="@string/persist_data_summary"
             android:title="@string/persist_data_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="About">
+    <PreferenceCategory
+        android:icon="@drawable/ic_baseline_info_16"
+        android:title="About">
 
         <Preference
+            android:icon="@drawable/ic_baseline_source_32"
             android:summary="@string/open_source_statement"
             android:title="@string/source_code">
             <intent

@@ -536,7 +536,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                     .setDuration(450)
                     .start();
             String clean_text = Html.fromHtml(text).toString().trim();
+            Log.d(TAG, "onPostExecute: text\n"+clean_text);
             showOCRResult(clean_text);
+            Toast.makeText(MainActivity.this,"With Confidence:"+mImageTextReader.getAccuracy()+"%",Toast.LENGTH_SHORT).show();
 
             Utils.putLastUsedText(clean_text);
             Bitmap bitmap = loadBitmapFromStorage();

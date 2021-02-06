@@ -35,7 +35,9 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 
 ## <font color="#2467d6"><b>Code Contributors </b></font>
 
+* Shubham Tyagi
 * New UI is designed by [Hannes Gehrold](https://github.com/h4n23s)
+* [urlordjames](https://github.com/urlordjames)
 
 
 ## <font color="#2467d6"><b>[Icon ](https://github.com/SubhamTyagi/android-ocr/issues/15) </b></font>
@@ -57,6 +59,5 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 * OCR : Apache 2.0
 * Tesseract and Tesseract Data: [Apache 2.0](https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE)
 * Tesseract4Android : [Apache 2.0](https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE)
-* BoxImageView : [GNU Affero General Public License](https://github.com/SubhamTyagi/android-cr/blob/master/app/src/main/java/io/github/subhamtyagi/ocr/views/BoxImageView.java)
 * ImageCropper : [Apache 2.0](https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt)
 

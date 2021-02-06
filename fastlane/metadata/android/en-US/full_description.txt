@@ -30,5 +30,4 @@ Translate this app on [Weblate](https://hosted.weblate.org/projects/android-ocr)
 
 * Tesseract and Tesseract Data: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>
 * Tesseract4Android : <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>
-* BoxImageView : <a href="https://github.com/SubhamTyagi/android-cr/blob/master/app/src/main/java/io/github/subhamtyagi/ocr/views/BoxImageView.java">GNU Affero General Public License</a>
 * ImageCropper : <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>

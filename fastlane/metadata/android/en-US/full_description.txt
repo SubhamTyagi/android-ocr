@@ -1,34 +1,34 @@
 # OCR
 
-A OCR app that can recognize texts on image. 
+An OCR app that can recognize texts on images.
 
-This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4 </a> and its is first of this which is based on Tesseract 4
-This app is made possible by a library <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a>.
-After downloading the Training data, app will do everything offline. 
+This app is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4 </a> and the first of which based on Tesseract 4.
+After downloading the Training data, the app does everything offline.
 
-Translate this app on [Weblate](https://hosted.weblate.org/projects/android-ocr).
+Translate this app on [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr).
 
 🚀 <font color="#2467d6"><b>Features</b></font>
-* Highest Accuracy  
-* Extract Text From Images.
-* Copy data to Clipboard.
-* Select any part of Data.
-* Based on latest <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Training Data</a>
-* Recognized 120+ <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">languages</a>
-* 3 Type of data i.e <a href="https://github.com/tesseract-ocr/tessdata">Standard</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">best</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">fast</a> for more info <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">see</a>
-* Recognize Maths/equation detection
-* Process image directly from Your device Gallery via share menu
+* Highest accuracy.
+* Extract text from images.
+* Copy data to clipboard.
+* Select any part of the data.
+* Based on latest <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Training Data</a>.
+* 120+ recognized <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">languages</a>.
+* 3 Type of data i.e <a href="https://github.com/tesseract-ocr/tessdata">Standard</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">best</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">fast</a> for more info <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">click here</a>.
+* Math recognition/equation detection.
+* Process images directly from the gallery on your device via the share menu.
 
- <font color="#2467d6"><b>Required Permissions </b></font>
+ <font color="#2467d6"><b>Required Permissions</b></font>
 
-* Internet : Downloading the training data 
-* Access Internet state: For downloading the training data.
-* Note: None of your data is send to anywhere
+* Internet: Downloading the training data
+* Access Internet state: To download the training data.
+* Note: None of your data is sent anywhere
 
+📓 <font color="#2467d6"><b>License</b></font>
 
-📓 <font color="#2467d6"><b>Licence </b></font>
+* Tesseract and Tesseract Data: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>.
+* Tesseract4Android: <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>.
+* BoxImageView: <a href="https://github.com/SubhamTyagi/android-cr/blob/master/app/src/main/java/io/github/subhamtyagi/ocr/views/BoxImageView.java">AGPLv3</a>.
+* ImageCropper: <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>.
 
-* Tesseract and Tesseract Data: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>
-* Tesseract4Android : <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>
-* BoxImageView : <a href="https://github.com/SubhamTyagi/android-cr/blob/master/app/src/main/java/io/github/subhamtyagi/ocr/views/BoxImageView.java">GNU Affero General Public License</a>
-* ImageCropper : <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>
+Made possible by the <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a> library.

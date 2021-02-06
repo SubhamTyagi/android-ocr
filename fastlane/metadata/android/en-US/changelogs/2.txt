@@ -1,4 +1,4 @@
- * Tesseract 4 based OCR
+* Tesseract 4 based OCR
 
 * Bug fixes 
 * Extract Text From Images.

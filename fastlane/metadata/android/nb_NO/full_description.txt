@@ -1,10 +1,12 @@
 # OCR
 
-Et  OCR-program som kan gjenkjenne tekst på bilder. 
+Et OCR-program som kan gjenkjenne tekst på bilder. 
 
 Dette programmet er basert på <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4 </a> og det er det første av sorten basert på Tesseract 4
 Programmet er muliggjort av <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a>.
 Etter å ha lastet ned opptreningsdataen vil programmet gjøre alt frakoblet. 
+
+Over sett dette programmet på [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr).
 
 🚀 <font color="#2467d6"><b>Funksjoner</b></font>
 * Høyeste nøyaktighet  
@@ -12,14 +14,13 @@ Etter å ha lastet ned opptreningsdataen vil programmet gjøre alt frakoblet.
 * Kopier data til utklippstavle.
 * Velg vilkårlig del av dataen.
 * Basert på siste tilgjengelige <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">opptreningsdata</a>
-* Gjenkjenner nesten 102 <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">språk</a>
+* Gjenkjenner 120+ <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">språk</a>
 * Tre typer data, altså <a href="https://github.com/tesseract-ocr/tessdata">forvalg</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">best</a>, og <a href="https://github.com/tesseract-ocr/tessdata_fast">rask</a>. <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Mer info</a>
 * Gjenkjenning av matte/ligningsgjenkjenning.
 * Behandler bildet direkte fra din enhets galleri via delingsmenyen.
 
  <font color="#2467d6"><b>Påkrevde tilganger</b></font>
 
-* Eksternlagring for opptreningsdataen.
 * Internett : Nedlasting av treningsdata.
 * Tilgang til Internett-tilstand: For nedlasting av opptreningsdata.
 * Merk: Ingen data fra deg blir sendt noensteds hen.

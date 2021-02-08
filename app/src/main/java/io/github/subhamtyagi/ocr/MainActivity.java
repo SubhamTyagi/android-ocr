@@ -45,7 +45,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Set;
 
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
 import io.github.subhamtyagi.ocr.utils.Constants;
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private String mLanguage;
     /**
-     *  AlertDialog for showing when language data doesn't exists
+     * AlertDialog for showing when language data doesn't exists
      */
     private AlertDialog dialog;
     /**
@@ -141,7 +140,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         mFloatingActionButton.setOnClickListener(v -> {
             if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
-                selectImage();
+                if (mImageTextReader != null) {
+                    selectImage();
+                } else {
+                    initializeOCR();
+                }
             } else {
                 downloadLanguageData(mTrainingDataType, mLanguage);
             }
@@ -150,15 +153,18 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
             if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
-                Drawable drawable = mImageView.getDrawable();
-                if (drawable != null) {
-                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                    if (bitmap != null) {
-                        isRefresh = true;
-                        new ConvertImageToTextTask().execute(bitmap);
+                if (mImageTextReader != null) {
+                    Drawable drawable = mImageView.getDrawable();
+                    if (drawable != null) {
+                        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                        if (bitmap != null) {
+                            isRefresh = true;
+                            new ConvertImageToTextTask().execute(bitmap);
+                        }
                     }
+                } else {
+                    initializeOCR();
                 }
-
             } else {
                 downloadLanguageData(mTrainingDataType, mLanguage);
             }
@@ -232,32 +238,32 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
             //region Initialize image text reader
-            try {
-                if (mImageTextReader != null) {
-                    mImageTextReader.tearDownEverything();
-                }
+             new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        if (mImageTextReader != null) {
+                            mImageTextReader.tearDownEverything();
+                        }
+                        mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, MainActivity.this::onProgressValues);
+                        //check if current language data is valid
+                        //if it is invalid(i.e. corrupted, half downloaded, tempered) then delete it
+                        if (!mImageTextReader.success) {
+                            File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, mLanguage));
+                            destf.delete();
+                            mImageTextReader = null;
+                        } else {
+                            Log.d(TAG, "initializeOCR: Reader is initialize with lang:" + mLanguage);
+                        }
 
-                mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, this);
-
-                //check if current language data is valid
-                //if it is invalid(i.e. corrupted, half downloaded, tempered) then delete it and download it again
-                if (!ImageTextReader.success) {
-                    File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, mLanguage));
-                    destf.delete();
-                    downloadLanguageData(mTrainingDataType, mLanguage);
-                } else {
-                    Log.d(TAG, "initializeOCR: Reader is initialize with lang:" + mLanguage);
+                    } catch (Exception e) {
+                        crashUtils.logException(e);
+                        File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, mLanguage));
+                        destf.delete();
+                        mImageTextReader = null;
+                    }
                 }
-                if (mImageTextReader == null) {
-                    // something is bad
-                }
-
-            } catch (Exception e) {
-                crashUtils.logException(e);
-                File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, mLanguage));
-                destf.delete();
-                downloadLanguageData(mTrainingDataType, mLanguage);
-            }
+             }.start();
             //endregion
         } else {
             downloadLanguageData(mTrainingDataType, mLanguage);

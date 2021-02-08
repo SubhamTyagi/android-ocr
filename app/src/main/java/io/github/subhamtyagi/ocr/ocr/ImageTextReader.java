@@ -10,7 +10,7 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 public class ImageTextReader {
 
     public static final String TAG = "ImageTextReader";
-    public static boolean success;
+    public  boolean success;
     /**
      * TessBaseAPI instance
      */
@@ -26,13 +26,15 @@ public class ImageTextReader {
      */
     public static ImageTextReader geInstance(String path, String language, TessBaseAPI.ProgressNotifier progressNotifier) {
         try {
+            ImageTextReader imageTextReader=new ImageTextReader();
             api = new TessBaseAPI(progressNotifier);
-            success = api.init(path, language);
+            imageTextReader.success = api.init(path, language);
             api.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO_OSD);
-            return new ImageTextReader();
+            return imageTextReader;
         } catch (Exception e) {
             return null;
         }
+
     }
 
     /**
@@ -59,29 +61,30 @@ public class ImageTextReader {
     /**
      * stop the image TEXT reader
      */
-    public void stop(){
+    public void stop() {
         api.stop();
     }
 
     /**
      * find the confidence or
+     *
      * @return confidence
      */
-    public int getAccuracy(){
+    public int getAccuracy() {
         return api.meanConfidence();
     }
 
     /**
      * Closes down tesseract and free up all memory.
      */
-    public void tearDownEverything(){
+    public void tearDownEverything() {
         api.end();
     }
 
     /**
-     *  Frees up recognition results and any stored image data,
+     * Frees up recognition results and any stored image data,
      */
-    public void clearPreviousImage(){
+    public void clearPreviousImage() {
         api.clear();
     }
 

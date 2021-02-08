@@ -1,6 +1,5 @@
 package io.github.subhamtyagi.ocr;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -45,6 +44,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Set;
 
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
 import io.github.subhamtyagi.ocr.utils.Constants;
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private String mLanguage;
     /**
-     * a AlertDialog for showing when language data doesn't exists
+     *  AlertDialog for showing when language data doesn't exists
      */
     private AlertDialog dialog;
     /**
@@ -112,21 +113,20 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* Initialization of some application level variables */
-        {
-            SpUtil.getInstance().init(this);
-            crashUtils = new CrashUtils(getApplicationContext(), "");
-        }
+        /*
+          Initialization of some application level variables
+         */
+        SpUtil.getInstance().init(this);
+        crashUtils = new CrashUtils(getApplicationContext(), "");
 
         mImageView = findViewById(R.id.source_image);
         mProgressIndicator = findViewById(R.id.progress_indicator);
         mSwipeRefreshLayout = findViewById(R.id.swipe_to_refresh);
         mFloatingActionButton = findViewById(R.id.btn_scan);
 
-
         initDirectories();
         /*
-         *initialize the OCR for faster access at later time
+         *initialize the OCR or download the training data
          */
         initializeOCR();
         /*
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
                 selectImage();
             } else {
-                setLanguageData();
+                downloadLanguageData(mTrainingDataType, mLanguage);
             }
 
         });
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 }
 
             } else {
-                setLanguageData();
+                downloadLanguageData(mTrainingDataType, mLanguage);
             }
             mSwipeRefreshLayout.setRefreshing(false);
 
@@ -183,7 +183,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             if (type.startsWith("image/")) {
                 Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
-                    //TODO: nothing to do
                     mImageView.setImageURI(imageUri);
                     CropImage.activity(imageUri).start(this);
                 }
@@ -209,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     /**
      * initialize the OCR i.e tesseract api
-     * if there is no language training data in directory than it will ask for download
+     * if there is no training data in directory than it will ask for download
      */
     private void initializeOCR() {
         File cf;
@@ -232,79 +231,88 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         }
 
         if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
+            //region Initialize image text reader
             try {
+                if (mImageTextReader != null) {
+                    mImageTextReader.tearDownEverything();
+                }
+
                 mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, this);
+
                 //check if current language data is valid
                 //if it is invalid(i.e. corrupted, half downloaded, tempered) then delete it and download it again
                 if (!ImageTextReader.success) {
                     File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, mLanguage));
                     destf.delete();
-                    setLanguageData();
+                    downloadLanguageData(mTrainingDataType, mLanguage);
+                } else {
+                    Log.d(TAG, "initializeOCR: Reader is initialize with lang:" + mLanguage);
                 }
                 if (mImageTextReader == null) {
                     // something is bad
                 }
+
             } catch (Exception e) {
                 crashUtils.logException(e);
                 File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, mLanguage));
                 destf.delete();
-                setLanguageData();
+                downloadLanguageData(mTrainingDataType, mLanguage);
             }
+            //endregion
         } else {
-            setLanguageData();
+            downloadLanguageData(mTrainingDataType, mLanguage);
         }
     }
 
-    /**
-     * set the language based on selected in Settings
-     * if language training data is not exists then it will download it
-     */
-    private void setLanguageData() {
-        mTrainingDataType = Utils.getTrainingDataType();
-        mLanguage = Utils.getTrainingDataLanguage();
+    private void downloadLanguageData(final String dataType, final String lang) {
 
-        if (!isLanguageDataExists(mTrainingDataType, mLanguage)) {
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-            @SuppressLint("MissingPermission")
-            NetworkInfo ni = cm.getActiveNetworkInfo();
-            if (ni == null) {
-                //You are not connected to Internet
-                Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
-            } else if (ni.isConnected()) {
-                // show confirmation dialog.
-                String msg = String.format(getString(R.string.download_description), mLanguage);
-                dialog = new AlertDialog.Builder(this)
-                        .setTitle(R.string.training_data_missing)
-                        .setCancelable(false)
-                        .setMessage(msg)
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                                //  download2(mTrainingDataType,mLanguage);
-                                downloadTrainingTask = new DownloadTrainingTask();
-                                downloadTrainingTask.execute(mTrainingDataType, mLanguage);
-                            }
-                        })
-                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                                if (!isLanguageDataExists(mTrainingDataType, mLanguage)) {
-                                    //  finish();
-                                }
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
 
-                            }
-                        }).create();
-                dialog.show();
-            } else {
-                Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
-                //You are not connected to Internet
+        ArrayList<String> langToDownload = new ArrayList<>();
+        if (lang.contains("+")) {
+            String[] lang_codes = lang.split("\\+");
+            for (String lang_code : lang_codes) {
+                if (!isLanguageDataExists(dataType, lang)) {
+                    langToDownload.add(lang_code);
+                }
             }
-        } else {
-            initializeOCR();
         }
 
+        if (ni == null) {
+            //You are not connected to Internet
+            Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
+        } else if (ni.isConnected()) {
+            //region show confirmation dialog, On 'yes' download the training data.
+            String msg = String.format(getString(R.string.download_description), lang);
+            dialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.training_data_missing)
+                    .setCancelable(false)
+                    .setMessage(msg)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            downloadTrainingTask = new DownloadTrainingTask();
+                            downloadTrainingTask.execute(dataType, lang);
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            if (!isLanguageDataExists(dataType, lang)) {
+                                //  show dialog to change language
+                            }
+
+                        }
+                    }).create();
+            dialog.show();
+            //endregion
+        } else {
+            Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
+            //You are not connected to Internet
+        }
     }
 
     /**
@@ -326,8 +334,17 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 currentDirectory = new File(dirFast, "tessdata");
 
         }
-        File language = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang));
-        return language.exists();
+        if (lang.contains("+")) {
+            String[] lang_codes = lang.split("\\+");
+            for (String code : lang_codes) {
+                File file = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, code));
+                if (!file.exists()) return false;
+            }
+            return true;
+        } else {
+            File language = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang));
+            return language.exists();
+        }
     }
 
     /**
@@ -349,8 +366,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * @param imageUri uri of selected image
      */
     private void convertImageToText(Uri imageUri) {
-        //TODO:inspect usage of this location
-        Utils.putLastUsedImageLocation(imageUri.toString());
+        //Utils.putLastUsedImageLocation(imageUri.toString());
         Bitmap bitmap = null;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
@@ -366,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SETTINGS) {
-            setLanguageData();
+            initializeOCR();
         }
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_SELECT_IMAGE) {
@@ -450,7 +466,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         if (id == R.id.action_settings) {
             startActivityForResult(new Intent(this, SettingsActivity.class), REQUEST_CODE_SETTINGS);
         } else if (id == R.id.action_history) {
-            //TODO: show the history...
             showOCRResult(Utils.getLastUsedText());
         }
         return super.onOptionsItemSelected(item);
@@ -519,7 +534,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //TODO: set visibility of history item to Gone
             mProgressIndicator.setProgress(0);
             mProgressIndicator.setVisibility(View.VISIBLE);
             mImageView.animate()
@@ -589,7 +603,20 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         @Override
         protected Boolean doInBackground(String... languages) {
-            return downloadTraningData(languages[0], languages[1]);
+            String dataType = languages[0];
+            String lang = languages[1];
+            boolean ret = true;
+            if (lang.contains("+")) {
+                String[] lang_codes = lang.split("\\+");
+                for (String code : lang_codes) {
+                    if (!isLanguageDataExists(dataType, code)) {
+                        ret &= downloadTraningData(dataType, code);
+                    }
+                }
+                return ret;
+            } else {
+                return downloadTraningData(dataType, lang);
+            }
         }
 
 

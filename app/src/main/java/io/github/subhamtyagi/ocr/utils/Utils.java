@@ -17,23 +17,19 @@ import java.util.Set;
 
 public class Utils {
 
+    private static final String DEFAULT_LANGUAGE = "eng";
+
     @SuppressLint("DefaultLocale")
     public static String getSize(int size) {
-        String s;
-        double kb = (size / 1024);
+        String s = "";
+        double kb = size / 1024;
         double mb = kb / 1024;
-        double gb = kb / 1024;
-        double tb = kb / 1024;
         if (size < 1024) {
             s = "$size Bytes";
         } else if (size < 1024 * 1024) {
             s = String.format("%.2f", kb) + " KB";
         } else if (size < 1024 * 1024 * 1024) {
             s = String.format("%.2f", mb) + " MB";
-        } else if (size < 1024 * 1024 * 1024 * 1024) {
-            s = String.format("%.2f", gb) + " GB";
-        } else {
-            s = String.format("%.2f", tb) + " TB";
         }
         return s;
     }
@@ -43,18 +39,18 @@ public class Utils {
         Pix pix = ReadFile.readBitmap(bitmap);
         pix = Convert.convertTo8(pix);
 
-        if (SpUtil.getInstance().getBoolean(Constants.KEY_CONTRAST,true)) {
-           // pix=AdaptiveMap.backgroundNormMorph(pix);
+        if (SpUtil.getInstance().getBoolean(Constants.KEY_CONTRAST, true)) {
+            // pix=AdaptiveMap.backgroundNormMorph(pix);
             pix = AdaptiveMap.pixContrastNorm(pix);
         }
 
-        if (SpUtil.getInstance().getBoolean(Constants.KEY_UN_SHARP_MASKING,true))
+        if (SpUtil.getInstance().getBoolean(Constants.KEY_UN_SHARP_MASKING, true))
             pix = Enhance.unsharpMasking(pix);
 
-        if (SpUtil.getInstance().getBoolean(Constants.KEY_OTSU_THRESHOLD,true))
+        if (SpUtil.getInstance().getBoolean(Constants.KEY_OTSU_THRESHOLD, true))
             pix = Binarize.otsuAdaptiveThreshold(pix);
 
-        if (SpUtil.getInstance().getBoolean(Constants.KEY_FIND_SKEW_AND_DESKEW,true)) {
+        if (SpUtil.getInstance().getBoolean(Constants.KEY_FIND_SKEW_AND_DESKEW, true)) {
             float f = Skew.findSkew(pix);
             pix = Rotate.rotate(pix, f);
         }
@@ -70,8 +66,8 @@ public class Utils {
         return SpUtil.getInstance().getBoolean(Constants.KEY_PERSIST_DATA, true);
     }
 
-    private static String getAllLanguage(Set<String> langs) {
-        if (langs == null) return "eng";
+    public static String getTesseractStringForMultipleLanguages(Set<String> langs) {
+        if (langs == null) return DEFAULT_LANGUAGE;
         StringBuilder rLanguage = new StringBuilder();
         for (String lang : langs) {
             rLanguage.append(lang);
@@ -85,7 +81,12 @@ public class Utils {
     }
 
     public static String getTrainingDataLanguage() {
-        return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, "eng");
+        if (SpUtil.getInstance().getBoolean(Constants.KEY_ENABLE_MULTI_LANG)) {
+            return getTesseractStringForMultipleLanguages(SpUtil.getInstance().getStringSet(Constants.KEY_LANGUAGE_FOR_TESSERACT_MULTI, null));
+        } else {
+            return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, DEFAULT_LANGUAGE);
+        }
+
     }
 
     public static void putLastUsedText(String text) {
@@ -96,16 +97,9 @@ public class Utils {
         return SpUtil.getInstance().getString(Constants.KEY_LAST_USE_IMAGE_TEXT, "");
     }
 
-    public static String getLastUsedImageLocation() {
-        return SpUtil.getInstance().getString(Constants.KEY_LAST_USE_IMAGE_LOCATION);
-    }
-
     public static void putLastUsedImageLocation(String imageURI) {
         SpUtil.getInstance().putString(Constants.KEY_LAST_USE_IMAGE_LOCATION, imageURI);
     }
 
-    public static String getTrainingDataMultipleLanguage() {
-        return getAllLanguage(SpUtil.getInstance().getStringSet(Constants.KEY_LANGUAGE_FOR_TESSERACT_MULTI, null));
-    }
 
 }

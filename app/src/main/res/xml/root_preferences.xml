@@ -16,20 +16,25 @@
 
 <PreferenceScreen
 
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/tesseract_data">
 
-
         <ListPreference
-            android:defaultValue="best"
+            android:defaultValue="standard"
             android:entries="@array/ocr_training_data_entries"
             android:entryValues="@array/key_ocr_training_data_entries_values"
             android:key="@string/key_tess_training_data_source"
             android:summary="@string/fbs"
             android:title="@string/select_tesseract_data_type"
             app:icon="@drawable/ic_baseline_more_horiz_32" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_enable_multiple_lang"
+            android:summary="@string/multiple_lang_summary"
+            android:title="@string/select_multi_languages_title" />
 
         <ListPreference
             android:defaultValue="eng"
@@ -40,15 +45,15 @@
             android:title="@string/tess_language_title"
             app:icon="@drawable/ic_baseline_language_32" />
 
-        <!-- <MultiSelectListPreference
+        <MultiSelectListPreference
 
-             android:entries="@array/ocr_engine_language"
-             android:entryValues="@array/key_ocr_engine_language_value"
-             android:key="@string/key_language_for_tesseract_multi"
-             android:summary="@string/language"
-             android:title="@string/tess_language_title"
-             android:visibility="invisible" />
- -->
+            android:entries="@array/ocr_engine_language"
+            android:entryValues="@array/key_ocr_engine_language_value"
+            android:key="@string/key_language_for_tesseract_multi"
+            android:summary="@string/languages"
+            android:title="@string/select_multi_training_data_title"
+            app:icon="@drawable/ic_baseline_language_32" />
+
 
     </PreferenceCategory>
 

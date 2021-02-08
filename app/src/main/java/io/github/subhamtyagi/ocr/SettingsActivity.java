@@ -3,7 +3,10 @@ package io.github.subhamtyagi.ocr;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.ListPreference;
+import androidx.preference.MultiSelectListPreference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreference;
 
 
 /**
@@ -31,6 +34,27 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+
+            SwitchPreference enableMultipleLang = findPreference(getString(R.string.key_enable_multiple_lang));
+            ListPreference listPreference = findPreference(getString(R.string.key_language_for_tesseract));
+            MultiSelectListPreference multiSelectListPreference = findPreference(getString(R.string.key_language_for_tesseract_multi));
+
+            if (enableMultipleLang.isChecked()) {
+                multiSelectListPreference.setVisible(true);
+                listPreference.setVisible(false);
+            } else {
+                multiSelectListPreference.setVisible(false);
+                listPreference.setVisible(true);
+            }
+
+            enableMultipleLang.setOnPreferenceChangeListener((preference, newValue) -> {
+                boolean b = (boolean) newValue;
+                multiSelectListPreference.setVisible(b);
+                listPreference.setVisible(!b);
+
+                return true;
+            });
+
         }
 
 

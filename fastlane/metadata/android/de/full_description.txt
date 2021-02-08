@@ -1,0 +1,34 @@
+# OCR
+
+Eine OCR-App, die Texte aus Bildern erkennen kann.
+
+Diese App basiert auf <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4</a> und ist die erste, die auf Tesseract 4 basiert.
+Nach dem Herunterladen der Trainingsdaten macht die App alles offline.
+
+Übersetze diese App auf [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr).
+
+🚀 <font color="#2467d6"><b>Leistungsmerkmale</b></font>
+* Höchste Genauigkeit
+* Extrahiert Text aus Bildern
+* Daten in die Zwischenablage kopieren
+* Wählen Sie einen beliebigen Teil der Daten aus
+* Basiert auf aktuellen <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Trainingsdaten</a>
+* 120+ erkennbare <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">Sprachen</a>
+* 3 Datentypen, d.h. <a href="https://github.com/tesseract-ocr/tessdata">Standard</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">Bestens</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">Schnell</a> für weitere Informationen <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Klicke hier</a>
+* Mathematikerkennung/Gleichungserkennung
+* Verarbeitet Bilder direkt aus der Galerie auf deinem Gerät über das Teilen-Menü
+
+ <font color="#2467d6"><b>Erforderliche Berechtigungen</b></font>
+
+* Internet: Zum Herunterladen der Trainingsdaten
+* Internetzugang: Für das Herunterladen der Trainingsdaten
+* Hinweis: Keine Ihrer Daten werden irgendwo hin gesendet
+
+📓 <font color="#2467d6"><b>Lizenz </b></font>
+
+* Tesseract und Tesseract-Daten: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>
+* Tesseract4Android : <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>
+* BoxImageView : <a href="https://github.com/SubhamTyagi/android-cr/blob/master/app/src/main/java/io/github/subhamtyagi/ocr/views/BoxImageView.java">AGPLv3</a>
+* ImageCropper : <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>
+
+Ermöglicht durch die <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a> Bibliothek.

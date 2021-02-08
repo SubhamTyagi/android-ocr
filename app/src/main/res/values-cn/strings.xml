@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- various key to store the setting values -->
     <string name="language">语言</string>
     <string name="use_gray_scale_image_for_ocr">图像预处理</string>
@@ -8,9 +7,7 @@
     <string name="tess_language_title">选择 Tesseract 语言</string>
     <string name="download_language_data_please_wait">下载光学字符识别数据文件中。请等待 …</string>
     <string name="installing_please_wait">正在安装光学字符识别数据文件。请等待 …</string>
-    <string name="language_not_exists">%s 语言的训练数据不存在; 无法识别</string>
-
-
+    <string name="language_not_exists">语言 %s 的训练数据不存在; 无法识别</string>
     <string name="settings">设置</string>
     <string name="draw_box_summary">应用程序将在图像上绘制文本</string>
     <string name="draw_box_title">在图片上绘制文本</string>
@@ -19,7 +16,7 @@
     <string name="downloading">下载中…</string>
     <string name="downloading_language">正在下载语言数据…</string>
     <string name="text_goes_here">文本就在这里</string>
-    <string name="copied_to_clipboard">数据已复制…</string>
+    <string name="copied_to_clipboard">数据已复制</string>
     <string name="percentage_downloaded">已下载百分比：</string>
     <string name="percentage_converted_to_text">转换到文本的百分比</string>
     <string name="you_are_not_connected_to_internet">你未连接到互联网</string>
@@ -30,4 +27,15 @@
 \n你想下载所选语言 (%s) 的数据吗？</string>
     <string name="persist_data_title">保存数据</string>
     <string name="persist_data_summary">应用关闭后保存图像和文本</string>
+    <string name="show_last_result">显示最后结果</string>
+    <string name="open_source_statement">Android OCR是自由软件.点击在GitHub上查看app</string>
+    <string name="generic_image_description">图像</string>
+    <string name="source_code">源代码</string>
+    <string name="others_settings">其他设置</string>
+    <string name="select_tesseract_data_type">选择Tesseract数据类型</string>
+    <string name="tesseract_data">Tesseract数据</string>
+    <string name="refresh">刷新</string>
+    <string name="share">分享</string>
+    <string name="copy_to_clipboard">复制到剪贴板</string>
+    <string name="no_results">无可识别文本.</string>
 </resources>

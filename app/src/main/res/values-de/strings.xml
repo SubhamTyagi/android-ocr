@@ -10,21 +10,31 @@
     <string name="percentage_downloaded">% von insgesamt:</string>
     <string name="persist_data_title">Daten speichern</string>
     <string name="persist_data_summary">Bild und Text nach dem Schließen der App speichern</string>
-    <string name="copied_to_clipboard">Daten kopiert…</string>
+    <string name="copied_to_clipboard">In die Zwischenablage kopiert</string>
     <string name="text_goes_here">Text steht hier</string>
     <string name="downloading_language">Herunterladen von Sprachdaten…</string>
     <string name="downloading">Herunterladen…</string>
     <string name="converting_image">Bild in Text umwandeln…</string>
-    <string name="processing">Verarbeitung …</string>
+    <string name="processing">Verarbeitung…</string>
     <string name="draw_box_title">Text auf Bild anzeigen</string>
     <string name="draw_box_summary">App zeigt den Text auf dem Bild an</string>
     <string name="settings">Einstellungen</string>
     <string name="language_not_exists">Trainingsdaten für Sprache %s sind nicht vorhanden; keine Erkennung möglich</string>
-    <string name="installing_please_wait">OCR-Dateien werden installiert. Bitte warten …</string>
-    <string name="download_language_data_please_wait">OCR-Dateien werden heruntergeladen. Bitte warten …</string>
+    <string name="installing_please_wait">OCR-Dateien werden installiert. Bitte warten…</string>
+    <string name="download_language_data_please_wait">OCR-Dateien werden heruntergeladen. Bitte warten…</string>
     <string name="tess_language_title">Sprache für Tesseract auswählen</string>
     <string name="gray_scale_detail">Bild für verbesserte Genauigkeit vorbearbeiten</string>
     <string name="use_gray_scale_image_for_ocr">Vorbearbeitung des Bildes</string>
     <string name="language">Sprache</string>
-
+    <string name="open_source_statement">Android OCR ist Freie Software. Klicke, um die App auf GitHub zu besuchen.</string>
+    <string name="generic_image_description">Bild</string>
+    <string name="source_code">Quellcode</string>
+    <string name="others_settings">Andere Einstellungen</string>
+    <string name="select_tesseract_data_type">Tesseract-Datentyp auswählen</string>
+    <string name="tesseract_data">Tesseract-Daten</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="share">Teilen</string>
+    <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
+    <string name="show_last_result">Letztes Ergebnis anzeigen</string>
+    <string name="no_results">Es konnte kein Text erkannt werden.</string>
 </resources>

@@ -1,15 +1,15 @@
 * before submission
 
-2... App Icon change
-4.   Change of tess data download location (if required)
-
 * further work
-7. Translate text(link generation)
 
-* For each release: 
+* For each release:
+
 3.  JavaDocs improvements
-5.   Screenshot and details.
+##5.   Screenshot and details.
 
 * Done
 6. Entry in share menu for images.
 1... App name change
+2... App Icon change
+4.   Change of tess data download location (if required)
+7. Translate text(link generation)

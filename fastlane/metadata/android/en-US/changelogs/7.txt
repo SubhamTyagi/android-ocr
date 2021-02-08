@@ -1,4 +1,6 @@
+**Major Release**
 - New UI By Hannes Gehrold(@h4n23s).
 - Advance Settings to Control various image enhancement functions.
+- Option to select multiple languages.
 - New Translations and improvement.
 - Source Code improvements and performance improvements.

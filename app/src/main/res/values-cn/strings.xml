@@ -28,7 +28,7 @@
     <string name="persist_data_title">保存数据</string>
     <string name="persist_data_summary">应用关闭后保存图像和文本</string>
     <string name="show_last_result">显示最后结果</string>
-    <string name="open_source_statement">Android OCR是自由软件.点击在GitHub上查看app</string>
+    <string name="open_source_statement">Android OCR 是自由软件。点击在 GitHub 上查看 app。</string>
     <string name="generic_image_description">图像</string>
     <string name="source_code">源代码</string>
     <string name="others_settings">其他设置</string>
@@ -38,4 +38,19 @@
     <string name="share">分享</string>
     <string name="copy_to_clipboard">复制到剪贴板</string>
     <string name="no_results">无可识别文本.</string>
+    <string name="otsu_threshold">Otsu 阈值</string>
+    <string name="multiple_lang_summary">多语言训练数据</string>
+    <string name="advance_settings">高级设置</string>
+    <string name="select_multi_languages_title">选择多种语言</string>
+    <string name="select_multi_training_data_title">为 Tesseract 选择多种语言</string>
+    <string name="languages">语言</string>
+    <string name="image_enhancement">图像增强</string>
+    <string name="advance_setting_summary">与图像处理相关的功能</string>
+    <string name="deskew_image">去除图像歪斜</string>
+    <string name="un_sharp_masking">非锐化掩蔽</string>
+    <string name="perform_contrast">增强对比度</string>
+    <string name="deskew_summary">查找歪斜和去除图像歪斜</string>
+    <string name="otsu_summary">对图像进行本地自适应 Otsu 阈值二值化</string>
+    <string name="un_sharp_masking_summary">对图像进行不清晰的掩蔽(边缘增强)</string>
+    <string name="contrast_summary">自适应地尝试将对比度扩展到全动态范围</string>
 </resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="generic_image_description">Imagem</string>
+    <string name="source_code">Código-fonte</string>
+    <string name="open_source_statement">Android OCR é um software livre. Clique para visitar a app no GitHub.</string>
+    <string name="others_settings">Outras configurações</string>
+    <string name="select_tesseract_data_type">Selecione o tipo de dados do Tesseract</string>
+    <string name="tesseract_data">Dados do Tesseract</string>
+    <string name="refresh">Atualizar</string>
+    <string name="download_description">Para o bom funcionamento do Tesseract OCR, é necessário descarregar dados adicionais de formação para o seu aparelho.
+\nDeseja descarregar dados de idioma selecionado(%s)\?</string>
+    <string name="training_data_missing">Faltam dados de formação!</string>
+    <string name="no">Não</string>
+    <string name="yes">Sim</string>
+    <string name="you_are_not_connected_to_internet">Não está conectado à Internet</string>
+    <string name="percentage_downloaded">% do total:</string>
+    <string name="persist_data_title">Gravar dados</string>
+    <string name="persist_data_summary">Gravar imagem e texto após o fechamento da app</string>
+    <string name="share">Compartilhar</string>
+    <string name="copy_to_clipboard">Copiar para a área de transferência</string>
+    <string name="copied_to_clipboard">Copiado para a área de transferência</string>
+    <string name="text_goes_here">Texto vai aqui</string>
+    <string name="show_last_result">Mostrar o último resultado</string>
+    <string name="downloading_language">A descarregar dados de idioma…</string>
+    <string name="downloading">A descarregar…</string>
+    <string name="converting_image">A converter a imagem para texto…</string>
+    <string name="no_results">Nenhum texto pôde ser reconhecido.</string>
+    <string name="draw_box_title">Desenhar texto na imagem</string>
+    <string name="draw_box_summary">A app irá desenhar texto na imagem</string>
+    <string name="settings">Configurações</string>
+    <string name="language_not_exists">Não existem dados de formação para o idioma %s; não é possível fazer o reconhecimento</string>
+    <string name="installing_please_wait">A instalar ficheiros de dados de OCR. Por favor, aguarde…</string>
+    <string name="download_language_data_please_wait">A descarregar ficheiros de dados de OCR. Por favor, aguarde…</string>
+    <string name="tess_language_title">Selecionar o idioma para Tesseract</string>
+    <string name="gray_scale_detail">Pré-processar a imagem para maior precisão</string>
+    <string name="use_gray_scale_image_for_ocr">Pré-processar imagem</string>
+    <string name="language">Idioma</string>
+</resources>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- various key to store the setting values -->
     <string name="language">Język</string>
     <string name="use_gray_scale_image_for_ocr">Wstępne Przetwarzanie Obrazu</string>
@@ -8,9 +7,7 @@
     <string name="tess_language_title">Wybierz język dla Tesseract</string>
     <string name="download_language_data_please_wait">Pobieranie plików danych OCR. Proszę czekać …</string>
     <string name="installing_please_wait">Instalowanie plików danych OCR. Proszę czekać…</string>
-    <string name="language_not_exists">Przygotowanie danych dla języka %s nie istnieje; nie można rozpoznać</string>
-
-
+    <string name="language_not_exists">Przykładowe dane dla języka %s nie istnieje; nie można rozpoznać</string>
     <string name="settings">Ustawienia</string>
     <string name="draw_box_summary">Aplikacja narysuje tekst na obrazie</string>
     <string name="draw_box_title">Rysowanie tekstu na obrazie</string>
@@ -18,6 +15,26 @@
     <string name="converting_image">Konwertowanie obrazu na tekst…</string>
     <string name="downloading">Pobieranie…</string>
     <string name="downloading_language">Pobieranie danych językowych…</string>
-    <string name="text_goes_here">Tekst idzie tutaj</string>
-    <string name="copied_to_clipboard">Dane zostały skopiowane…</string>
+    <string name="text_goes_here">Tekst jest tutaj</string>
+    <string name="copied_to_clipboard">Skopiowano do schowka</string>
+    <string name="training_data_missing">Brak przykładowych danych!</string>
+    <string name="percentage_downloaded">% z łącznej liczby:</string>
+    <string name="generic_image_description">Obraz</string>
+    <string name="source_code">Kod źródłowy</string>
+    <string name="open_source_statement">Android OCR jest wolnym oprogramowaniem. Kliknij, aby odwiedzić aplikację na GitHub.</string>
+    <string name="others_settings">Inne ustawienia</string>
+    <string name="select_tesseract_data_type">Wybierz typ danych Tesseract</string>
+    <string name="tesseract_data">Dane Tesseract</string>
+    <string name="download_description">Dla prawidłowego działania Tesseract OCR należy pobrać na urządzenie przykładowe dane.
+\nCzy chcesz pobrać dane dla wybranego języka(%s)\?</string>
+    <string name="refresh">Odśwież</string>
+    <string name="no">Nie</string>
+    <string name="yes">Tak</string>
+    <string name="you_are_not_connected_to_internet">Nie masz połączenia z internetem</string>
+    <string name="persist_data_title">Zapisz dane</string>
+    <string name="persist_data_summary">Zapisz obraz i tekst po zamknięciu aplikacji</string>
+    <string name="share">Udostępnij</string>
+    <string name="copy_to_clipboard">Skopiuj do schowka</string>
+    <string name="show_last_result">Pokaż ostatni wynik</string>
+    <string name="no_results">Nie można rozpoznać tekstu.</string>
 </resources>

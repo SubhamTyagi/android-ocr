@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="processing">प्रक्रिया हो रही है…</string>
     <string name="settings">सेटिंग्स</string>
     <string name="language_not_exists">%s भाषा के लिए प्रशिक्षण डाटा उपलब्ध नहीं है। लिपि की पहचान नहीं हो सकती</string>
@@ -10,4 +9,59 @@
     <string name="gray_scale_detail">ज्यादा बढ़िया सटीकता के लिए इमेज को पूर्व-प्रक्रिया फ़िल्टर</string>
     <string name="use_gray_scale_image_for_ocr">फोटो को पूर्व प्रक्रिया द्वारा बढ़ाएँ</string>
     <string name="language">भाषा</string>
+    <string name="key_language_for_tesseract" translatable="false"></string>
+    <string name="perform_contrast"></string>
+    <string name="select_multi_training_data_title"></string>
+    <string name="you_are_not_connected_to_internet"></string>
+    <string name="key_draw_box" translatable="false"></string>
+    <string name="key_language_for_tesseract_multi" translatable="false"></string>
+    <string name="percentage_downloaded"></string>
+    <string name="yes"></string>
+    <string name="key_last_use_image_text" translatable="false"></string>
+    <string name="key_find_skew_and_deskew" translatable="false"></string>
+    <string name="select_multi_languages_title"></string>
+    <string name="deskew_image"></string>
+    <string name="multiple_lang_summary"></string>
+    <string name="open_source_statement"></string>
+    <string name="key_un_sharp_masking" translatable="false"></string>
+    <string name="image_enhancement"></string>
+    <string name="download_description"></string>
+    <string name="key_tess_training_data_source" translatable="false"></string>
+    <string name="fbs" translatable="false"></string>
+    <string name="text_goes_here"></string>
+    <string name="persist_data_summary"></string>
+    <string name="key_enable_multiple_lang" translatable="false"></string>
+    <string name="languages"></string>
+    <string name="downloading"></string>
+    <string name="refresh"></string>
+    <string name="key_grayscale_image_ocr" translatable="false"></string>
+    <string name="tesseract_data"></string>
+    <string name="copy_to_clipboard"></string>
+    <string name="copied_to_clipboard"></string>
+    <string name="no"></string>
+    <string name="deskew_summary"></string>
+    <string name="un_sharp_masking"></string>
+    <string name="key_last_use_image_location" translatable="false"></string>
+    <string name="draw_box_summary"></string>
+    <string name="show_last_result"></string>
+    <string name="un_sharp_masking_summary"></string>
+    <string name="others_settings"></string>
+    <string name="advance_settings"></string>
+    <string name="select_tesseract_data_type"></string>
+    <string name="contrast_summary"></string>
+    <string name="otsu_threshold"></string>
+    <string name="key_otsu_threshold" translatable="false"></string>
+    <string name="generic_image_description"></string>
+    <string name="training_data_missing"></string>
+    <string name="persist_data_title"></string>
+    <string name="downloading_language"></string>
+    <string name="otsu_summary"></string>
+    <string name="converting_image"></string>
+    <string name="share"></string>
+    <string name="advance_setting_summary"></string>
+    <string name="no_results"></string>
+    <string name="draw_box_title"></string>
+    <string name="source_code"></string>
+    <string name="key_contrast" translatable="false"></string>
+    <string name="key_persist_data" translatable="false"></string>
 </resources>

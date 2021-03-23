@@ -35,4 +35,19 @@
     <string name="gray_scale_detail">Pré-processar a imagem para maior precisão</string>
     <string name="use_gray_scale_image_for_ocr">Pré-processar imagem</string>
     <string name="language">Idioma</string>
+    <string name="contrast_summary">Tenta expandir o contraste para toda a abrangência dinâmica de forma adaptável</string>
+    <string name="select_multi_languages_title">Selecione vários idiomas</string>
+    <string name="multiple_lang_summary">Dados de treino em vários idiomas</string>
+    <string name="select_multi_training_data_title">Selecione vários idiomas para Tesseract</string>
+    <string name="languages">Idiomas</string>
+    <string name="image_enhancement">Aprimoramento de imagem</string>
+    <string name="advance_setting_summary">Funções relacionadas ao processamento de imagens</string>
+    <string name="advance_settings">Configurações avançadas</string>
+    <string name="deskew_image">Retificar a imagem</string>
+    <string name="otsu_threshold">Limiar de Otsu</string>
+    <string name="un_sharp_masking">Mascaramento para desfocar</string>
+    <string name="perform_contrast">Melhorar o contraste</string>
+    <string name="deskew_summary">Encontrar a inclinação e distorção da imagem</string>
+    <string name="otsu_summary">Executa binarização de imagem com limiar de Otsu localmente adaptável</string>
+    <string name="un_sharp_masking_summary">Executa o mascaramento para desfocar (melhoramento de bordas) imagens</string>
 </resources>

@@ -37,4 +37,19 @@
     <string name="copy_to_clipboard">Kopier til utklippstavle</string>
     <string name="show_last_result">Vis siste resultat</string>
     <string name="no_results">Kunne ikke gjenkjenne noe tekst.</string>
+    <string name="deskew_summary">Finn helningen og rett opp tekslinjer i bildet</string>
+    <string name="deskew_image">Rett opp tekstlinjer</string>
+    <string name="multiple_lang_summary">Treningsdata på flere språk</string>
+    <string name="select_multi_training_data_title">Velg flere språk for Tesseract</string>
+    <string name="image_enhancement">Bildeforbedring</string>
+    <string name="advance_settings">Avanserte innstillinger</string>
+    <string name="select_multi_languages_title">Velg flere språk</string>
+    <string name="advance_setting_summary">Funksjoner som har med bildebehandling å gjøre</string>
+    <string name="otsu_threshold">Ōtsu-terskel</string>
+    <string name="un_sharp_masking">Uskarp maskering</string>
+    <string name="perform_contrast">Forbedre kontrasten</string>
+    <string name="un_sharp_masking_summary">Utfører uskarp maskering (kantforbedring) av bildet</string>
+    <string name="contrast_summary">Utvider forsøksvist kontrasten til fullt dynamisk spenn</string>
+    <string name="otsu_summary">Utfører lokaltilpasset binarisering av bildet med Ōtsu-terskel</string>
+    <string name="languages">Språk</string>
 </resources>

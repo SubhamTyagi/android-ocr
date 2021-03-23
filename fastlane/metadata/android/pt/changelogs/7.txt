@@ -1,0 +1,6 @@
+**Maior lançamento***
+- Nova UI Por Hannes Gehrold(@h4n23s).
+- Definições avançadas para controlar várias funções de melhoramento de imagem.
+- Opção para selecionar vários idiomas.
+- Novas traduções e melhorias.
+- Melhorias no código-fonte e melhorias de desempenho.

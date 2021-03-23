@@ -1,0 +1,3 @@
+* ROC (EN: OCR) à base de Tesseract 4
+
+* Correções de erros e melhorias de cadeias

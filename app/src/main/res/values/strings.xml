@@ -63,13 +63,11 @@
     <string name="un_sharp_masking">Un-Sharp Masking</string>
     <string name="otsu_threshold">OTSU Threshold</string>
     <string name="deskew_image">Deskew Image</string>
-    <string name="advance_settings">Advance Settings</string>
+    <string name="advance_settings">Advanced Settings</string>
     <string name="advance_setting_summary">Functions related to image processing</string>
     <string name="image_enhancement">Image Enhancement</string>
-    <string name="languages" >Languages</string>
+    <string name="languages">Languages</string>
     <string name="select_multi_training_data_title">Select Multiple languages for Tesseract</string>
-    <string name="multiple_lang_summary">Multiples language training data</string>
+    <string name="multiple_lang_summary">Training data in multiple languages</string>
     <string name="select_multi_languages_title">Select Multiple languages</string>
-
-
 </resources>

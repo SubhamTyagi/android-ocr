@@ -1,0 +1,6 @@
+**Major Release**
+- Neue Benutzeroberfläche von Hannes Gehrold(@h4n23s).
+- Erweiterte Einstellungen zur Steuerung verschiedener Bildverbesserungsfunktionen.
+- Option zur Auswahl mehrerer Sprachen.
+- Neue Übersetzungen und Verbesserungen.
+- Source Code Verbesserungen und Leistungsverbesserungen.

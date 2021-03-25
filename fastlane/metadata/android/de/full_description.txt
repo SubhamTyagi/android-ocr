@@ -12,11 +12,13 @@ Nach dem Herunterladen der Trainingsdaten macht die App alles offline.
 * Extrahiert Text aus Bildern
 * Daten in die Zwischenablage kopieren
 * Wählen Sie einen beliebigen Teil der Daten aus
+* Verarbeitet mehrere Sprachen in einem einzigen Bild
 * Basiert auf aktuellen <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Trainingsdaten</a>
 * 120+ erkennbare <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">Sprachen</a>
 * 3 Datentypen, d.h. <a href="https://github.com/tesseract-ocr/tessdata">Standard</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">Bestens</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">Schnell</a> für weitere Informationen <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Klicke hier</a>
 * Mathematikerkennung/Gleichungserkennung
 * Verarbeitet Bilder direkt aus der Galerie auf deinem Gerät über das Teilen-Menü
+
 
  <font color="#2467d6"><b>Erforderliche Berechtigungen</b></font>
 

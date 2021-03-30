@@ -37,33 +37,33 @@
     <string name="copy_to_clipboard">Skopiuj do schowka</string>
     <string name="show_last_result">Pokaż ostatni wynik</string>
     <string name="no_results">Nie można rozpoznać tekstu.</string>
-    <string name="key_grayscale_image_ocr" translatable="false"></string>
-    <string name="key_enable_multiple_lang" translatable="false"></string>
-    <string name="image_enhancement"></string>
-    <string name="select_multi_training_data_title"></string>
-    <string name="key_un_sharp_masking" translatable="false"></string>
-    <string name="deskew_image"></string>
-    <string name="deskew_summary"></string>
-    <string name="key_contrast" translatable="false"></string>
-    <string name="key_tess_training_data_source" translatable="false"></string>
-    <string name="perform_contrast"></string>
-    <string name="advance_settings"></string>
-    <string name="otsu_summary"></string>
-    <string name="fbs" translatable="false"></string>
-    <string name="key_language_for_tesseract" translatable="false"></string>
-    <string name="otsu_threshold"></string>
-    <string name="key_find_skew_and_deskew" translatable="false"></string>
-    <string name="key_otsu_threshold" translatable="false"></string>
-    <string name="key_last_use_image_text" translatable="false"></string>
-    <string name="key_last_use_image_location" translatable="false"></string>
-    <string name="key_persist_data" translatable="false"></string>
-    <string name="advance_setting_summary"></string>
-    <string name="un_sharp_masking_summary"></string>
-    <string name="key_draw_box" translatable="false"></string>
-    <string name="select_multi_languages_title"></string>
-    <string name="contrast_summary"></string>
-    <string name="key_language_for_tesseract_multi" translatable="false"></string>
-    <string name="multiple_lang_summary"></string>
-    <string name="languages"></string>
-    <string name="un_sharp_masking"></string>
+    <string name="key_grayscale_image_ocr" translatable="false"/>
+    <string name="key_enable_multiple_lang" translatable="false"/>
+    <string name="image_enhancement">Poprawa jakości obrazu</string>
+    <string name="select_multi_training_data_title">Wybierz wiele języków dla Tesseract</string>
+    <string name="key_un_sharp_masking" translatable="false"/>
+    <string name="deskew_image">Prostowanie obrazu</string>
+    <string name="deskew_summary">Znajdź pochylenie i usuń przekrzywienie obrazu</string>
+    <string name="key_contrast" translatable="false"/>
+    <string name="key_tess_training_data_source" translatable="false"/>
+    <string name="perform_contrast">Zwiększ kontrast</string>
+    <string name="advance_settings">Ustawienia zaawansowane</string>
+    <string name="otsu_summary">Wykonuje lokalnie adaptacyjną binaryzację progu Otsu obrazu</string>
+    <string name="fbs" translatable="false"/>
+    <string name="key_language_for_tesseract" translatable="false"/>
+    <string name="otsu_threshold">Próg OTSU</string>
+    <string name="key_find_skew_and_deskew" translatable="false"/>
+    <string name="key_otsu_threshold" translatable="false"/>
+    <string name="key_last_use_image_text" translatable="false"/>
+    <string name="key_last_use_image_location" translatable="false"/>
+    <string name="key_persist_data" translatable="false"/>
+    <string name="advance_setting_summary">Funkcje związane z przetwarzaniem obrazu</string>
+    <string name="un_sharp_masking_summary">Wykonuje maskowanie wyostrzające (wzmocnienie krawędzi) obrazu</string>
+    <string name="key_draw_box" translatable="false"/>
+    <string name="select_multi_languages_title">Wybierz wiele języków</string>
+    <string name="contrast_summary">Adaptacyjnie próbuje rozszerzyć kontrast do pełnego zakresu dynamicznego</string>
+    <string name="key_language_for_tesseract_multi" translatable="false"/>
+    <string name="multiple_lang_summary">Dane treningowe w wielu językach</string>
+    <string name="languages">Języki</string>
+    <string name="un_sharp_masking">Ostra maska</string>
 </resources>

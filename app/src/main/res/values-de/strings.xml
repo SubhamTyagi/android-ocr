@@ -37,9 +37,9 @@
     <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
     <string name="show_last_result">Letztes Ergebnis anzeigen</string>
     <string name="no_results">Es konnte kein Text erkannt werden.</string>
-    <string name="deskew_summary"/>
+    <string name="deskew_summary">Schräglage ermitteln und das Bild entzerren</string>
     <string name="key_tess_training_data_source" translatable="false"/>
-    <string name="deskew_image"/>
+    <string name="deskew_image">Bild entzerren</string>
     <string name="contrast_summary">Versucht adaptiv, den Kontrast auf den vollen Dynamikbereich zu erweitern</string>
     <string name="un_sharp_masking_summary">Führt eine unscharfe Maskierung (Kantenverbesserung) des Bildes durch</string>
     <string name="key_find_skew_and_deskew" translatable="false"/>

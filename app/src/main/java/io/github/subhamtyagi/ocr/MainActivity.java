@@ -29,7 +29,8 @@ import androidx.lifecycle.Lifecycle;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.progressindicator.ProgressIndicator;
+
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -89,6 +90,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     /**
      * AlertDialog for showing when language data doesn't exists
      */
+
+    /**
+     * Page segmentation mode
+     */
+    private int mPageSegMode;
     private AlertDialog dialog;
     /**
      * Image View
@@ -97,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     /**
      * ProgressIndicator
      */
-    private ProgressIndicator mProgressIndicator;
+    private LinearProgressIndicator mProgressIndicator;
     /**
      * SwipeRefreshLayout
      */
@@ -220,6 +226,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         File cf;
         mTrainingDataType = Utils.getTrainingDataType();
         mLanguage = Utils.getTrainingDataLanguage();
+        mPageSegMode=Utils.getPageSegMode();
+
 
         switch (mTrainingDataType) {
             case "best":
@@ -245,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         if (mImageTextReader != null) {
                             mImageTextReader.tearDownEverything();
                         }
-                        mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, MainActivity.this::onProgressValues);
+                        mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, mPageSegMode, MainActivity.this::onProgressValues);
                         //check if current language data is valid
                         //if it is invalid(i.e. corrupted, half downloaded, tempered) then delete it
                         if (!mImageTextReader.success) {

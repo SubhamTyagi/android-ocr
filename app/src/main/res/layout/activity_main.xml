@@ -7,7 +7,18 @@
     android:background="@color/background"
     android:orientation="vertical">
 
-    <com.google.android.material.progressindicator.ProgressIndicator
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_indicator"
+        style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:visibility="gone"
+        app:indicatorColor="@color/colorAccent"
+        tools:progress="20"
+        tools:visibility="visible"
+        />
+   <!-- <com.google.android.material.progressindicator.ProgressIndicator
         android:id="@+id/progress_indicator"
         style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Determinate"
         android:layout_width="match_parent"
@@ -16,7 +27,7 @@
         android:visibility="gone"
         app:indicatorColor="@color/colorAccent"
         tools:progress="20"
-        tools:visibility="visible" />
+        tools:visibility="visible" />-->
 
     <FrameLayout
         android:layout_width="match_parent"

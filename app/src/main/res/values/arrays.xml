@@ -279,5 +279,38 @@
         <item>standard</item>
     </string-array>
 
+    <string-array name="key_ocr_psm_mode">
+        <item>PSM_OSD_ONLY</item>
+        <item>PSM_AUTO_OSD</item>
+        <item>PSM_AUTO_ONLY</item>
+        <item>PSM_AUTO</item>
+        <item>PSM_SINGLE_COLUMN</item>
+        <item>PSM_SINGLE_BLOCK_VERT_TEXT</item>
+        <item>PSM_SINGLE_BLOCK</item>
+        <item>PSM_SINGLE_LINE</item>
+        <item>PSM_SINGLE_WORD</item>
+        <item>PSM_CIRCLE_WORD</item>
+        <item>PSM_SINGLE_CHAR</item>
+        <item>PSM_SPARSE_TEXT</item>
+        <item>PSM_SPARSE_TEXT_OSD</item>
+        <item>PSM_RAW_LINE</item>
+    </string-array>
+
+    <string-array name="value_ocr_psm_mode">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+    </string-array>
 
 </resources>

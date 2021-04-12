@@ -24,12 +24,12 @@ public class ImageTextReader {
      * @param language language code i.e. selected by user
      * @return the instance of this class for later use
      */
-    public static ImageTextReader geInstance(String path, String language, TessBaseAPI.ProgressNotifier progressNotifier) {
+    public static ImageTextReader geInstance(String path, String language,int pageSegMode, TessBaseAPI.ProgressNotifier progressNotifier) {
         try {
             ImageTextReader imageTextReader=new ImageTextReader();
             api = new TessBaseAPI(progressNotifier);
             imageTextReader.success = api.init(path, language);
-            api.setPageSegMode(TessBaseAPI.PageSegMode.PSM_AUTO_OSD);
+            api.setPageSegMode(pageSegMode);
             return imageTextReader;
         } catch (Exception e) {
             return null;

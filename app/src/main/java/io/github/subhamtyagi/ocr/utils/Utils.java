@@ -12,6 +12,7 @@ import com.googlecode.leptonica.android.ReadFile;
 import com.googlecode.leptonica.android.Rotate;
 import com.googlecode.leptonica.android.Skew;
 import com.googlecode.leptonica.android.WriteFile;
+import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.util.Set;
 
@@ -87,6 +88,10 @@ public class Utils {
             return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, DEFAULT_LANGUAGE);
         }
 
+    }
+
+    public static int getPageSegMode() {
+        return Integer.parseInt( SpUtil.getInstance().getString(Constants.KEY_PAGE_SEG_MODE, "1"));
     }
 
     public static void putLastUsedText(String text) {

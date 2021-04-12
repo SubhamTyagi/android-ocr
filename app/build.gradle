@@ -8,8 +8,8 @@ android {
         applicationId "io.github.subhamtyagi.ocr"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 7
-        versionName "2.0"
+        versionCode 8
+        versionName "2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "github_url", gitUrl
         multiDexEnabled true
@@ -78,11 +78,11 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation 'cz.adaptech.android:tesseract4android:2.1.0'
+    implementation 'cz.adaptech.android:tesseract4android:2.1.1'
 
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 
-    implementation 'com.google.android.material:material:1.4.0-alpha01'
+    implementation 'com.google.android.material:material:1.4.0-alpha02'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 

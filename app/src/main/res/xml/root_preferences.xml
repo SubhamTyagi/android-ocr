@@ -22,7 +22,7 @@
     <PreferenceCategory android:title="@string/tesseract_data">
 
         <ListPreference
-            android:defaultValue="standard"
+            android:defaultValue="best"
             android:entries="@array/ocr_training_data_entries"
             android:entryValues="@array/key_ocr_training_data_entries_values"
             android:key="@string/key_tess_training_data_source"
@@ -57,6 +57,19 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/advance_tesseract_settings">
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/key_ocr_psm_mode"
+            android:entryValues="@array/value_ocr_psm_mode"
+            android:key="@string/key_ocr_psm_mode"
+            android:summary="@string/psm_summary"
+            android:title="@string/segmentation_mode"
+            app:icon="@drawable/ic_baseline_page_seg_32" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/image_enhancement">
         <SwitchPreference
             android:defaultValue="true"
@@ -69,7 +82,7 @@
             android:fragment="io.github.subhamtyagi.ocr.SettingsActivity$AdvanceSettingsFragment"
             android:icon="@drawable/ic_baseline_functions_32"
             android:summary="@string/advance_setting_summary"
-            android:title="@string/advance_settings"
+            android:title="@string/image_processing_functions"
             app:dependency="@string/key_grayscale_image_ocr" />
 
     </PreferenceCategory>

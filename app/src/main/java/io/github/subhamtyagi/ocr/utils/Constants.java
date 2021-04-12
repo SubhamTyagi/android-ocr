@@ -28,6 +28,7 @@ public class Constants {
     public static final String KEY_UN_SHARP_MASKING = "un_sharp_mask";
     public static final String KEY_OTSU_THRESHOLD = "otsu_threshold";
     public static final String KEY_FIND_SKEW_AND_DESKEW = "deskew_img";
+    public static final String KEY_PAGE_SEG_MODE="key_ocr_psm_mode";
 
 
 }

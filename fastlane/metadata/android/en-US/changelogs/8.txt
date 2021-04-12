@@ -1,0 +1,3 @@
+* Advance Setting to Control Page Segmentation mode
+* Update core Libraries
+* Bug fix(Automatically change of data type)

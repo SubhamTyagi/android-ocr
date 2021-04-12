@@ -24,7 +24,7 @@ Translate this app on [Hosted Weblate](https://hosted.weblate.org/projects/andro
 
 * Internet: Downloading the training data
 * Access Internet state: To download the training data.
-* Note: None of your data is sent anywhere
+* Note: None of your data is sent to anywhere
 
 📓 <font color="#2467d6"><b>License</b></font>
 

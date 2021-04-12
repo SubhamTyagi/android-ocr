@@ -11,11 +11,11 @@
     <string name="select_tesseract_data_type">Sélectionner le type de données Tesseract</string>
     <string name="tesseract_data">Données Tesseract</string>
     <string name="refresh">Rafraîchir</string>
-    <string name="training_data_missing">Données d\'entraînement manquantes!</string>
+    <string name="training_data_missing">Données d\'entraînement manquantes !</string>
     <string name="no">Non</string>
     <string name="yes">Oui</string>
-    <string name="you_are_not_connected_to_internet">Vous n\'êtes pas connecté à internet</string>
-    <string name="percentage_downloaded">% du total:</string>
+    <string name="you_are_not_connected_to_internet">Vous n\'êtes pas connecté·e à internet</string>
+    <string name="percentage_downloaded">% du total :</string>
     <string name="persist_data_title">Enregistrer les données</string>
     <string name="persist_data_summary">Enregistrer l\'image et le texte après la fermeture de l\'application</string>
     <string name="share">Partager</string>
@@ -28,9 +28,26 @@
     <string name="settings">Préférences</string>
     <string name="gray_scale_detail">Prétraitement de l\'image pour améliorer la précision</string>
     <string name="use_gray_scale_image_for_ocr">Prétraitement de l\'image</string>
-    <string name="language_not_exists">Les données d\'entraînement pour la langue %s n\'existe pas; ne peut pas reconnaître</string>
-    <string name="installing_please_wait">Installation des fichiers de données OCR. Veuillez patienter …</string>
-    <string name="download_language_data_please_wait">Téléchargement des fichiers de données OCR. Veuillez patienter …</string>
+    <string name="language_not_exists">Les données d\'entraînement pour la langue %s n\'existe pas ; ne peut pas reconnaître</string>
+    <string name="installing_please_wait">Installation des fichiers de données OCR. Veuillez patienter…</string>
+    <string name="download_language_data_please_wait">Téléchargement des fichiers de données OCR. Veuillez patienter…</string>
     <string name="tess_language_title">Sélectionner la langue pour Tesseract</string>
     <string name="language">Langue</string>
+    <string name="multiple_lang_summary">Données d\'entraînement en plusieurs langues</string>
+    <string name="download_description">Pour le bon fonctionnement de Tesseract OCR, des données d\'entraînement supplémentaires doivent être téléchargées sur votre appareil.
+\nVoulez-vous télécharger les données de la langue sélectionnée (%s) \?</string>
+    <string name="select_multi_languages_title">Sélectionner plusieurs langues</string>
+    <string name="select_multi_training_data_title">Sélectionner plusieurs langues pour Tesseract</string>
+    <string name="advance_setting_summary">Fonctions liées au traitement de l\'image</string>
+    <string name="deskew_image">Redresser l\'image</string>
+    <string name="un_sharp_masking">Masquage flou</string>
+    <string name="deskew_summary">Trouver l\'inclinaison et redresser l\'image</string>
+    <string name="otsu_summary">Effectue une binarisation de l\'image avec un seuil d\'Otsu localement adaptable</string>
+    <string name="un_sharp_masking_summary">Effectue un masquage flou (amélioration des bords) de l\'image</string>
+    <string name="contrast_summary">Tente de manière adaptative d\'étendre le contraste à toute la gamme dynamique</string>
+    <string name="open_source_statement">Android OCR est un logiciel libre. Cliquez pour voir la page de l\'application sur GitHub.</string>
+    <string name="converting_image">Conversion de l\'image en texte…</string>
+    <string name="no_results">Aucun texte n\'a pu être reconnu.</string>
+    <string name="draw_box_title">Dessiner le texte sur l\'image</string>
+    <string name="draw_box_summary">L\'application dessinera le texte sur l\'image</string>
 </resources>

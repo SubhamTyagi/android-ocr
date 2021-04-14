@@ -66,4 +66,8 @@
     <string name="languages">Sprachen</string>
     <string name="key_grayscale_image_ocr" translatable="false"/>
     <string name="otsu_summary">Führt eine lokal-adaptive Otsu-Schwellenwert-Binarisierung des Bildes durch</string>
+    <string name="psm_summary">Es steuert, wie Tesseract das Bild in Textzeilen und Wörter aufteilt.</string>
+    <string name="advance_tesseract_settings">Erweiterte Tesseract-Einstellungen</string>
+    <string name="image_processing_functions">Bildverarbeitungsfunktionen</string>
+    <string name="segmentation_mode">Modus der Seitensegmentierung</string>
 </resources>

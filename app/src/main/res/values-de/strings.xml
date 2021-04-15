@@ -37,4 +37,37 @@
     <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
     <string name="show_last_result">Letztes Ergebnis anzeigen</string>
     <string name="no_results">Es konnte kein Text erkannt werden.</string>
+    <string name="deskew_summary">Schräglage ermitteln und das Bild entzerren</string>
+    <string name="key_tess_training_data_source" translatable="false"/>
+    <string name="deskew_image">Bild entzerren</string>
+    <string name="contrast_summary">Versucht adaptiv, den Kontrast auf den vollen Dynamikbereich zu erweitern</string>
+    <string name="un_sharp_masking_summary">Führt eine unscharfe Maskierung (Kantenverbesserung) des Bildes durch</string>
+    <string name="key_find_skew_and_deskew" translatable="false"/>
+    <string name="perform_contrast">Kontrast verstärken</string>
+    <string name="key_persist_data" translatable="false"/>
+    <string name="key_contrast" translatable="false"/>
+    <string name="image_enhancement">Bildverbesserung</string>
+    <string name="key_last_use_image_text" translatable="false"/>
+    <string name="key_draw_box" translatable="false"/>
+    <string name="advance_settings">Erweiterte Einstellungen</string>
+    <string name="key_un_sharp_masking" translatable="false"/>
+    <string name="otsu_threshold">OTSU-Schwellenwert</string>
+    <string name="key_enable_multiple_lang" translatable="false"/>
+    <string name="key_otsu_threshold" translatable="false"/>
+    <string name="select_multi_training_data_title">Mehrere Sprachen für Tesseract auswählen</string>
+    <string name="multiple_lang_summary">Trainingsdaten in mehreren Sprachen</string>
+    <string name="un_sharp_masking"/>
+    <string name="key_language_for_tesseract_multi" translatable="false"/>
+    <string name="key_language_for_tesseract" translatable="false"/>
+    <string name="fbs" translatable="false"/>
+    <string name="key_last_use_image_location" translatable="false"/>
+    <string name="select_multi_languages_title">Mehrere Sprachen auswählen</string>
+    <string name="advance_setting_summary">Funktionen im Zusammenhang mit der Bildverarbeitung</string>
+    <string name="languages">Sprachen</string>
+    <string name="key_grayscale_image_ocr" translatable="false"/>
+    <string name="otsu_summary">Führt eine lokal-adaptive Otsu-Schwellenwert-Binarisierung des Bildes durch</string>
+    <string name="psm_summary">Es steuert, wie Tesseract das Bild in Textzeilen und Wörter aufteilt.</string>
+    <string name="advance_tesseract_settings">Erweiterte Tesseract-Einstellungen</string>
+    <string name="image_processing_functions">Bildverarbeitungsfunktionen</string>
+    <string name="segmentation_mode">Modus der Seitensegmentierung</string>
 </resources>

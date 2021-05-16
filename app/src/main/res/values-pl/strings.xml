@@ -66,4 +66,8 @@
     <string name="multiple_lang_summary">Dane treningowe w wielu językach</string>
     <string name="languages">Języki</string>
     <string name="un_sharp_masking">Ostra maska</string>
+    <string name="psm_summary">Wskazuje, jak Tesseract dzieli obraz na linie tekstu i słowa.</string>
+    <string name="advance_tesseract_settings">Zaawansowane ustawienia Tesseract</string>
+    <string name="image_processing_functions">Funkcje przetwarzania obrazu</string>
+    <string name="segmentation_mode">Tryb segmentacji stron</string>
 </resources>

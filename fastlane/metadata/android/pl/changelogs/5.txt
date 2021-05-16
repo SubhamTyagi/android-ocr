@@ -1,0 +1,3 @@
+* OCR oparty na Tesseract 4
+
+* Naprawa błędów i ulepszenia ciągów

@@ -1,0 +1,3 @@
+* Zaawansowane ustawienie trybu segmentacji strony kontrolnej
+* Zaktualizowano podstawowe biblioteki
+* Naprawa błędów(Automatyczna zmiana typu danych)

@@ -50,4 +50,9 @@
     <string name="no_results">Aucun texte n\'a pu être reconnu.</string>
     <string name="draw_box_title">Dessiner le texte sur l\'image</string>
     <string name="draw_box_summary">L\'application dessinera le texte sur l\'image</string>
+    <string name="psm_summary">Il dirige la façon dont Tesseract divise l\'image en lignes de texte et de mots.</string>
+    <string name="advance_tesseract_settings">Paramètres avancés de Tesseract</string>
+    <string name="image_processing_functions">Fonctions de traitement d\'image</string>
+    <string name="key_ocr_psm_mode">clé _ocr_psm_mode</string>
+    <string name="segmentation_mode">Mode de segmentation de page</string>
 </resources>

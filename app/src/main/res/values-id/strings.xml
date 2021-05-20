@@ -1,2 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="image_processing_functions">Fungsi-fungsi pemroses gambar</string>
+    <string name="languages">Bahasa-bahasa</string>
+    <string name="image_enhancement">Peningkatan Gambar</string>
+    <string name="advance_setting_summary">Fungsi-fungsi terkait pemrosesan gambar</string>
+    <string name="generic_image_description">Gambar</string>
+    <string name="source_code">Kode sumber</string>
+    <string name="open_source_statement">Android OCR adalah perangkat lunak libre. Klik untuk mengunjungi aplikasi di GitHub.</string>
+    <string name="others_settings">Pengaturan Lain</string>
+    <string name="tesseract_data">Data Tesseract</string>
+    <string name="refresh">Muat ulang</string>
+    <string name="no">Tidak</string>
+    <string name="yes">Ya</string>
+    <string name="you_are_not_connected_to_internet">Anda tidak terhubung ke internet</string>
+    <string name="percentage_downloaded">% dari total:</string>
+    <string name="persist_data_title">Simpan data</string>
+    <string name="persist_data_summary">Simpan gambar dan teks setelah aplikasi ditutup</string>
+    <string name="share">Bagikan</string>
+    <string name="copy_to_clipboard">Salin ke papan klip</string>
+    <string name="text_goes_here">Teks berada di sini</string>
+    <string name="copied_to_clipboard">Disalin ke papan klip</string>
+    <string name="show_last_result">Tampilkan hasil terakhir</string>
+    <string name="downloading_language">Mengunduh data bahasa…</string>
+    <string name="downloading">Mengunduh…</string>
+    <string name="converting_image">Mengkonversi Gambar ke teks…</string>
+    <string name="settings">Pengaturan</string>
+    <string name="installing_please_wait">Memasang berkas data OCR. Mohon tunggu…</string>
+    <string name="download_language_data_please_wait">Mengunduh berkas data OCR. Mohon tunggu …</string>
+    <string name="tess_language_title">Pilih bahasa untuk Tesseract</string>
+    <string name="language">Bahasa</string>
+</resources>

@@ -1,0 +1,23 @@
+- Option, zuletzt Bearbeitetes zu vergessen (von @urlordjames)
+- Neues App-Symbol (von @nucleus-ffm)
+
+- Übersetzung nun auf Weblate
+
+- Neue Trainingsdaten für:
+- Chinesisch vereinfacht und traditionell, Japanisch, Koreanisch (vertikal)
+- Deutsch, Dänisch und Slowakisch Fraktur
+- Armenisch
+- Divehi
+- Filipino
+- Korsisch
+- Letzeburgesch
+- Maori
+- Mongolisch
+- Nordkurdisch
+- Okzitan (post 1500)
+- Quechua
+- Sindhi
+- Sundanesisch
+- und weitere
+
+- Unterstützt OSD, PDF und mathematische Formeln

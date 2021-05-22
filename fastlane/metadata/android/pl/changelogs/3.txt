@@ -1,0 +1,8 @@
+* OCR oparty na Tesseract 4
+
+* Poprawki błędów dla ustawień
+* Wyodrębnij tekst z obrazów.
+* Kopiuj dane do schowka.
+* Wybierz dowolną część danych.
+* Rozpoznaj matematykę/wykrywanie równań.
+* Przetwarzanie obrazu bezpośrednio z Galerii Twojego urządzenia.

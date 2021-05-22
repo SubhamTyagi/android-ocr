@@ -1,23 +1,23 @@
 # OCR
 
-Eine OCR-App, die Texte aus Bildern erkennen kann.
+Eine App zur Texterkennung auf Bildern.
 
 Diese App basiert auf <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4</a> und ist die erste, die auf Tesseract 4 basiert.
 Nach dem Herunterladen der Trainingsdaten macht die App alles offline.
 
-Übersetze diese App auf [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr).
+Diese App kann auf [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr) übersetzt werden.
 
 🚀 <font color="#2467d6"><b>Leistungsmerkmale</b></font>
 * Höchste Genauigkeit
-* Extrahiert Text aus Bildern
+* Texte aus Bildern extrahieren
 * Daten in die Zwischenablage kopieren
-* Wählen Sie einen beliebigen Teil der Daten aus
-* Verarbeitet mehrere Sprachen in einem einzigen Bild
-* Basiert auf aktuellen <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Trainingsdaten</a>
-* 120+ erkennbare <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">Sprachen</a>
-* 3 Datentypen, d.h. <a href="https://github.com/tesseract-ocr/tessdata">Standard</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">Bestens</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">Schnell</a> für weitere Informationen <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Klicke hier</a>
-* Mathematikerkennung/Gleichungserkennung
-* Verarbeitet Bilder direkt aus der Galerie auf deinem Gerät über das Teilen-Menü
+* Beliebigen Teil der Daten auswählen
+* Mehrere Sprachen in einem Bild verarbeiten
+* Basiert auf den neusten <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Trainingsdaten</a>
+* Mehr als 120 erkannte <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">Sprachen</a>
+* 3 Datentypen, d.h. <a href="https://github.com/tesseract-ocr/tessdata">Standard</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">Bestens</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">Schnell</a>, weitere Informationen dazu gibt es <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">hier</a>
+* Erkennung mathematischer Zeichen und Gleichungen
+* Bildbearbeitung direkt aus der Galerie über das Teilen-Menü
 
 
  <font color="#2467d6"><b>Erforderliche Berechtigungen</b></font>

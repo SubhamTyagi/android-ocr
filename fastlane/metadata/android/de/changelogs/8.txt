@@ -1,0 +1,3 @@
+* Erweiterte Einstellungen zur Steuerung der Seitensegmentierung
+* Aktualisierung der Basisbibliotheken
+* Fehlerkorrektur (Automatischer Wechsel des Datentyps)

@@ -9,59 +9,61 @@
     <string name="gray_scale_detail">ज्यादा बढ़िया सटीकता के लिए इमेज को पूर्व-प्रक्रिया फ़िल्टर</string>
     <string name="use_gray_scale_image_for_ocr">फोटो को पूर्व प्रक्रिया द्वारा बढ़ाएँ</string>
     <string name="language">भाषा</string>
-    <string name="key_language_for_tesseract" translatable="false"></string>
-    <string name="perform_contrast"></string>
-    <string name="select_multi_training_data_title"></string>
-    <string name="you_are_not_connected_to_internet"></string>
-    <string name="key_draw_box" translatable="false"></string>
-    <string name="key_language_for_tesseract_multi" translatable="false"></string>
-    <string name="percentage_downloaded"></string>
-    <string name="yes"></string>
-    <string name="key_last_use_image_text" translatable="false"></string>
-    <string name="key_find_skew_and_deskew" translatable="false"></string>
-    <string name="select_multi_languages_title"></string>
-    <string name="deskew_image"></string>
-    <string name="multiple_lang_summary"></string>
-    <string name="open_source_statement"></string>
-    <string name="key_un_sharp_masking" translatable="false"></string>
-    <string name="image_enhancement"></string>
-    <string name="download_description"></string>
-    <string name="key_tess_training_data_source" translatable="false"></string>
-    <string name="fbs" translatable="false"></string>
-    <string name="text_goes_here"></string>
-    <string name="persist_data_summary"></string>
-    <string name="key_enable_multiple_lang" translatable="false"></string>
-    <string name="languages"></string>
-    <string name="downloading"></string>
-    <string name="refresh"></string>
-    <string name="key_grayscale_image_ocr" translatable="false"></string>
-    <string name="tesseract_data"></string>
-    <string name="copy_to_clipboard"></string>
-    <string name="copied_to_clipboard"></string>
-    <string name="no"></string>
-    <string name="deskew_summary"></string>
-    <string name="un_sharp_masking"></string>
-    <string name="key_last_use_image_location" translatable="false"></string>
-    <string name="draw_box_summary"></string>
-    <string name="show_last_result"></string>
-    <string name="un_sharp_masking_summary"></string>
-    <string name="others_settings"></string>
-    <string name="advance_settings"></string>
-    <string name="select_tesseract_data_type"></string>
-    <string name="contrast_summary"></string>
-    <string name="otsu_threshold"></string>
-    <string name="key_otsu_threshold" translatable="false"></string>
-    <string name="generic_image_description"></string>
-    <string name="training_data_missing"></string>
-    <string name="persist_data_title"></string>
-    <string name="downloading_language"></string>
-    <string name="otsu_summary"></string>
-    <string name="converting_image"></string>
-    <string name="share"></string>
-    <string name="advance_setting_summary"></string>
-    <string name="no_results"></string>
-    <string name="draw_box_title"></string>
-    <string name="source_code"></string>
-    <string name="key_contrast" translatable="false"></string>
-    <string name="key_persist_data" translatable="false"></string>
+    <string name="key_language_for_tesseract" translatable="false"/>
+    <string name="perform_contrast"/>
+    <string name="select_multi_training_data_title"/>
+    <string name="you_are_not_connected_to_internet">आप इंटरनेट से कनेक्ट नहीं हैं</string>
+    <string name="key_draw_box" translatable="false"/>
+    <string name="key_language_for_tesseract_multi" translatable="false"/>
+    <string name="percentage_downloaded">% का कुल</string>
+    <string name="yes">हाँ</string>
+    <string name="key_last_use_image_text" translatable="false"/>
+    <string name="key_find_skew_and_deskew" translatable="false"/>
+    <string name="select_multi_languages_title"/>
+    <string name="deskew_image"/>
+    <string name="multiple_lang_summary"/>
+    <string name="open_source_statement"/>
+    <string name="key_un_sharp_masking" translatable="false"/>
+    <string name="image_enhancement"/>
+    <string name="download_description">Tesseract OCR के उचित कामकाज के लिए आपके डिवाइस पर अतिरिक्त प्रशिक्षण डेटा डाउनलोड करने की आवश्यकता है।
+\n क्या आप चयनित भाषा(%s) डेटा डाउनलोड करना चाहते हैं\?</string>
+    <string name="key_tess_training_data_source" translatable="false"/>
+    <string name="fbs" translatable="false"/>
+    <string name="text_goes_here"/>
+    <string name="persist_data_summary">ऐप बंद होने के बाद इमेज और टेक्स्ट सेव करें</string>
+    <string name="key_enable_multiple_lang" translatable="false"/>
+    <string name="languages"/>
+    <string name="downloading">डाउनलोड हो रहा है…</string>
+    <string name="refresh"/>
+    <string name="key_grayscale_image_ocr" translatable="false"/>
+    <string name="tesseract_data"/>
+    <string name="copy_to_clipboard">क्लिपबोर्ड पर कॉपी करें</string>
+    <string name="copied_to_clipboard">क्लिपबोर्ड पर कॉपी किया गया</string>
+    <string name="no">नहीं</string>
+    <string name="deskew_summary"/>
+    <string name="un_sharp_masking"/>
+    <string name="key_last_use_image_location" translatable="false"/>
+    <string name="draw_box_summary"/>
+    <string name="show_last_result">अंतिम परिणाम दिखाएं</string>
+    <string name="un_sharp_masking_summary"/>
+    <string name="others_settings"/>
+    <string name="advance_settings"/>
+    <string name="select_tesseract_data_type"/>
+    <string name="contrast_summary"/>
+    <string name="otsu_threshold"/>
+    <string name="key_otsu_threshold" translatable="false"/>
+    <string name="generic_image_description"/>
+    <string name="training_data_missing">प्रशिक्षण डेटा गायब!</string>
+    <string name="persist_data_title">डेटा सहेजें</string>
+    <string name="downloading_language">भाषा डेटा डाउनलोड किया जा रहा है…</string>
+    <string name="otsu_summary"/>
+    <string name="converting_image">छवि को पाठ में परिवर्तित किया जा रहा है…</string>
+    <string name="share">शेयर करें</string>
+    <string name="advance_setting_summary"/>
+    <string name="no_results">कोई पाठ पहचाना नहीं जा सका।</string>
+    <string name="draw_box_title"/>
+    <string name="source_code"/>
+    <string name="key_contrast" translatable="false"/>
+    <string name="key_persist_data" translatable="false"/>
+    <string name="segmentation_mode">पृष्ठ विभाजन मोड</string>
 </resources>

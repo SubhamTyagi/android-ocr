@@ -1,5 +1,6 @@
 package io.github.subhamtyagi.ocr;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,7 +30,6 @@ import androidx.lifecycle.Lifecycle;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
                     mImageView.setImageURI(imageUri);
+
                     CropImage.activity(imageUri).start(this);
                 }
             }
@@ -298,6 +299,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
         } else if (ni.isConnected()) {
             //region show confirmation dialog, On 'yes' download the training data.
+            @SuppressLint("StringFormatInvalid")
             String msg = String.format(getString(R.string.download_description), lang);
             dialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.training_data_missing)
@@ -363,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     /**
      * select the image when button is clicked
-     * using edmodo
+     * using
      */
     private void selectImage() {
         CropImage.activity()

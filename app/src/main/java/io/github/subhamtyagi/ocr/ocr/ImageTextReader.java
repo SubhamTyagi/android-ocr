@@ -78,7 +78,7 @@ public class ImageTextReader {
      * Closes down tesseract and free up all memory.
      */
     public void tearDownEverything() {
-        api.end();
+        api.recycle();
     }
 
     /**

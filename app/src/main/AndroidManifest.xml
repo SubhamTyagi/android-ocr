@@ -21,6 +21,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,6 +37,7 @@
         </activity>
 
         <activity
+            android:exported="true"
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
     </application>

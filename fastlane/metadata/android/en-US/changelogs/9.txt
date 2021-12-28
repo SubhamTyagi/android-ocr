@@ -1,0 +1,8 @@
+*Whats New in this Update*
+
+* Now app uses Tesseract 5, Which is 50% faster than previous version (as claimed).
+* Now app uses 'fast' trained data as default.
+* Base Libraries(Leptonica,libjpeg,libpng) updated.
+* Enabled Fast Float(This will increase performance 2x when using 'best' trained data )
+* Compiled with NEON SIMD, This greatly improve processing time when using LSTM engine with 'standard' or 'fast' trained data.
+* For more info See Tesseract4Android library repo.

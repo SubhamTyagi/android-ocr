@@ -1,1 +1,1 @@
-OCR based on Tesseract 4
+OCR based on Tesseract 5

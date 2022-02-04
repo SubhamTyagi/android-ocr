@@ -64,4 +64,9 @@
     <string name="key_last_use_image_location" translatable="false"/>
     <string name="key_language_for_tesseract" translatable="false"/>
     <string name="key_language_for_tesseract_multi" translatable="false"/>
+    <string name="key_ocr_psm_mode">key_ocr_psm_mode</string>
+    <string name="psm_summary">Direciona como o Tesseract divide a imagem em linhas de texto e palavras.</string>
+    <string name="advance_tesseract_settings">Configurações avançadas de Tesseract</string>
+    <string name="image_processing_functions">Funções de processamento de imagem</string>
+    <string name="segmentation_mode">Modo de segmentação de páginas</string>
 </resources>

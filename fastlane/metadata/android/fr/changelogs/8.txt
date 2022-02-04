@@ -1,0 +1,3 @@
+* Paramètres avancés pour contrôler le mode de segmentation de la page
+ * Mettre à jour les bibliothèques de base
+ * Correction de bogue (changement automatique du type de données)

@@ -1,0 +1,3 @@
+* Definição avançada para controlar o modo de segmentação de página
+* Atualizar bibliotecas principais
+* Correção de erros (Mudança automática do tipo de dados)

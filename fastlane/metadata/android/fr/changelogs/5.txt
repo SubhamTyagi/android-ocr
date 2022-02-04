@@ -1,0 +1,3 @@
+* OCR basé sur Tesseract 4
+
+ * Correction de bugs et améliorations de la chaîne

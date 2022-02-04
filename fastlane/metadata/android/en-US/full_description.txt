@@ -1,19 +1,18 @@
 # OCR
 
-An Android OCR app that can recognize texts on images.
+An OCR app that can recognize texts on images.
 
-This app is now based(Since v3.0) on <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 5 </a> and the first of android app which is based on Tesseract 5.
-
-###After downloading the Training data, the app does everything offline on your device.
+This app is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4 </a> and the first of which based on Tesseract 4.
+After downloading the Training data, the app does everything offline.
 
 Translate this app on [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr).
 
 🚀 <font color="#2467d6"><b>Features</b></font>
-* Highest accuracy and fastest result.
+* Highest accuracy.
 * Extract text from images.
 * Copy data to clipboard.
 * Select any part of the data.
-* Process multiple languages in single image(Required changes in settings).
+* Process multiple languages in single image.
 * Based on latest <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Training Data</a>.
 * 120+ recognized <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">languages</a>.
 * 3 Type of data i.e <a href="https://github.com/tesseract-ocr/tessdata">Standard</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">best</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">fast</a> for more info <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">click here</a>.
@@ -25,7 +24,7 @@ Translate this app on [Hosted Weblate](https://hosted.weblate.org/projects/andro
 
 * Internet: Downloading the training data
 * Access Internet state: To download the training data.
-* Note: None of your data is sent to anywhere.
+* Note: None of your data is sent to anywhere
 
 📓 <font color="#2467d6"><b>License</b></font>
 
@@ -35,5 +34,3 @@ Translate this app on [Hosted Weblate](https://hosted.weblate.org/projects/andro
 * ImageCropper: <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>.
 
 Made possible by the <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a> library.
-
-If you want to use Tesseract 4 based version, you can use the old version of this app(Before v3.0)

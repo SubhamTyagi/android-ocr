@@ -1,0 +1,6 @@
+** Version majeure **
+ - Nouvelle interface utilisateur par Hannes Gehrold (@ h4n23s).
+ - Avancez les paramètres pour contrôler diverses fonctions d'amélioration de l'image.
+ - Option pour sélectionner plusieurs langues.
+ - Nouvelles traductions et amélioration.
+ - Améliorations du code source et des performances.

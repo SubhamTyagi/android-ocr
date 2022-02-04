@@ -1,1 +1,1 @@
-Recognize text in Images based on Tesseract 5
+OCR based on Tesseract 4

@@ -2,7 +2,7 @@
 
 Uma app de ROC (EN: OCR) que reconhece textos em imagens.
 
-Esta app é baseado em <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4 </a> e o primeiro baseado em Tesseract 4.
+Esta app é baseada em <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4 </a> e a primeira baseada em Tesseract 4.
 Após descarregar os dados de treino, a app faz tudo sem rede.
 
 Traduza esta app em [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr).

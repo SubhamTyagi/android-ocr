@@ -1,0 +1,8 @@
+* OCR basé sur Tesseract 4
+
+ * Correction de bugs
+ * Extraire le texte des images.
+ * Copiez les données dans le presse-papiers.
+ * Sélectionnez n'importe quelle partie des données.
+ * Reconnaître la détection des mathématiques / équation
+ * Processus d'image directement à partir de la galerie de votre appareil.

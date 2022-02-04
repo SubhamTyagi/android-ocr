@@ -29,4 +29,30 @@
     <string name="download_language_data_please_wait">Mengunduh berkas data OCR. Mohon tunggu …</string>
     <string name="tess_language_title">Pilih bahasa untuk Tesseract</string>
     <string name="language">Bahasa</string>
+    <string name="psm_summary">Ini mengarahkan bagaimana Tesseract membagi gambar dalam baris teks dan kata-kata.</string>
+    <string name="advance_tesseract_settings">Pengaturan Lanjut Tesseract</string>
+    <string name="select_multi_languages_title">Pilih beberapa bahasa</string>
+    <string name="multiple_lang_summary">Data pelatihan dalam berbagai bahasa</string>
+    <string name="select_multi_training_data_title">Pilih Beberapa bahasa untuk Tesseract</string>
+    <string name="deskew_image">Gambar Deskew</string>
+    <string name="un_sharp_masking">Un-Sharp Masking</string>
+    <string name="perform_contrast">Tingkatkan Kontras</string>
+    <string name="deskew_summary">Temukan Skew dan Deskew Gambar</string>
+    <string name="otsu_summary">Melakukan binarisasi ambang batas Otsu secara lokal</string>
+    <string name="un_sharp_masking_summary">Melakukan masking unsharp (peningkatan edge) gambar</string>
+    <string name="contrast_summary">Secara adaptif memperluas kontras ke rentang dinamis penuh</string>
+    <string name="language_not_exists">Data pelatihan bahasa %s tidak ada; tidak dapat melakukan pengenalan</string>
+    <string name="key_ocr_psm_mode">key_ocr_psm_mode</string>
+    <string name="advance_settings">Pengaturan Lanjutan</string>
+    <string name="download_description">Agar Tesseract OCR berfungsi dengan baik, data pelatihan tambahan perlu diunduh ke perangkat Anda.
+\nApakah Anda ingin mengunduh data bahasa (%s) yang dipilih\?</string>
+    <string name="training_data_missing">Data latihan hilang!</string>
+    <string name="select_tesseract_data_type">Pilih Tipe Data Tesseract</string>
+    <string name="otsu_threshold">Batas OTSU</string>
+    <string name="gray_scale_detail">Gambar pra-proses untuk ditingkatkan akurasinya</string>
+    <string name="use_gray_scale_image_for_ocr">Gambar Pra-Proses</string>
+    <string name="no_results">Tak ada teks yang bisa dikenali.</string>
+    <string name="draw_box_title">Menggambar teks pada gambar</string>
+    <string name="draw_box_summary">Aplikasi akan menggambar teks pada gambar</string>
+    <string name="segmentation_mode">Mode segmentasi halaman</string>
 </resources>

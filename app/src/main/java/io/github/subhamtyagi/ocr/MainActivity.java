@@ -426,8 +426,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 convertImageToText(result.getUri());
-            } else if (requestCode == REQUEST_MEDIA_PROJECTION) {
-
             }
         }
     }

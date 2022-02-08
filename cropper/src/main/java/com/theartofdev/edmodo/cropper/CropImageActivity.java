@@ -22,19 +22,18 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Built-in activity for image cropping.<br>
@@ -100,6 +99,16 @@ public class CropImageActivity extends AppCompatActivity
                     : getResources().getString(R.string.crop_image_activity_title);
             actionBar.setTitle(title);
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mCropImageUri = savedInstanceState.getParcelable(CropImage.CROP_IMAGE_EXTRA_SOURCE);
+        if (mCropImageUri != null && !mCropImageUri.equals(Uri.EMPTY)) {
+            mCropImageView.setImageUriAsync(mCropImageUri);
         }
     }
 
@@ -197,7 +206,7 @@ public class CropImageActivity extends AppCompatActivity
     @Override
     @SuppressLint("NewApi")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        super.onActivityResult(requestCode, resultCode, data);
         // handle result of pick image chooser
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -226,6 +235,7 @@ public class CropImageActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE) {
             if (mCropImageUri != null
                     && grantResults.length > 0
@@ -298,15 +308,13 @@ public class CropImageActivity extends AppCompatActivity
     protected Uri getOutputUri() {
         Uri outputUri = mOptions.outputUri;
         if (outputUri == null || outputUri.equals(Uri.EMPTY)) {
-            try {
-                String ext =
-                        mOptions.outputCompressFormat == Bitmap.CompressFormat.JPEG
-                                ? ".jpg"
-                                : mOptions.outputCompressFormat == Bitmap.CompressFormat.PNG ? ".png" : ".webp";
-                outputUri = Uri.fromFile(File.createTempFile("cropped", ext, getCacheDir()));
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to create temp file for output image", e);
-            }
+
+            String ext =
+                    mOptions.outputCompressFormat == Bitmap.CompressFormat.JPEG
+                            ? ".jpg"
+                            : mOptions.outputCompressFormat == Bitmap.CompressFormat.PNG ? ".png" : ".webp";
+            File file = CropFileProvider.file(this, ext);
+            outputUri = FileProvider.getUriForFile(getApplicationContext(), CropFileProvider.authority(getApplicationContext()), file);
         }
         return outputUri;
     }

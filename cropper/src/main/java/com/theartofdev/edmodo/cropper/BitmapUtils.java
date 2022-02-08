@@ -24,6 +24,9 @@ import android.net.Uri;
 import android.util.Log;
 import android.util.Pair;
 
+import androidx.core.content.FileProvider;
+import androidx.exifinterface.media.ExifInterface;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,8 +39,6 @@ import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
-
-import androidx.exifinterface.media.ExifInterface;
 
 /**
  * Utility class that deals with operations with an ImageView.
@@ -407,9 +408,8 @@ final class BitmapUtils {
         try {
             boolean needSave = true;
             if (uri == null) {
-                uri =
-                        Uri.fromFile(
-                                File.createTempFile("aic_state_store_temp", ".jpg", context.getCacheDir()));
+                File file = CropFileProvider.file(context, ".jpg");
+                uri = FileProvider.getUriForFile(context, CropFileProvider.authority(context), file);
             } else if (new File(uri.getPath()).exists()) {
                 needSave = false;
             }

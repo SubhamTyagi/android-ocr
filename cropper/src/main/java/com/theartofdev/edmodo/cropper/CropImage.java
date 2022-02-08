@@ -14,6 +14,8 @@ package com.theartofdev.edmodo.cropper;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Fragment;
+import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -31,21 +33,20 @@ import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-
-import java.io.File;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
+import androidx.core.content.FileProvider;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Helper to simplify crop image work like starting pick-image acitvity and handling camera/gallery
@@ -231,6 +232,8 @@ public final class CropImage {
         return chooserIntent;
     }
 
+    static Uri outputFileUri;
+
     /**
      * Get the main Camera intent for capturing image using device camera app. If the outputFileUri is
      * null, a default Uri will be created with {@link #getCaptureImageOutputUri(Context)}, so then
@@ -243,11 +246,21 @@ public final class CropImage {
      */
     public static Intent getCameraIntent(@NonNull Context context, Uri outputFileUri) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (outputFileUri == null) {
-            outputFileUri = getCaptureImageOutputUri(context);
-        }
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        // if (outputFileUri == null) {
+        //     outputFileUri = getCaptureImageOutputUri(context);
+        // }
+        //intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        addOutputWithPermission(context, intent, outputFileUri);
         return intent;
+    }
+
+    private static void addOutputWithPermission(@NonNull Context context, Intent intent, Uri outputUri) {
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            ClipData clip = ClipData.newUri(context.getContentResolver(), "A photo", outputUri);
+            intent.setClipData(clip);
+        }
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
     }
 
     /**
@@ -259,7 +272,7 @@ public final class CropImage {
         List<Intent> allIntents = new ArrayList<>();
 
         // Determine Uri of camera image to  save.
-        Uri outputFileUri = getCaptureImageOutputUri(context);
+        outputFileUri = getCaptureImageOutputUri(context);
 
         Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
@@ -267,9 +280,10 @@ public final class CropImage {
             Intent intent = new Intent(captureIntent);
             intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
             intent.setPackage(res.activityInfo.packageName);
-            if (outputFileUri != null) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            }
+            //if (outputFileUri != null) {
+            // intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            addOutputWithPermission(context, intent, outputFileUri);
+            //}
             allIntents.add(intent);
         }
 
@@ -358,12 +372,14 @@ public final class CropImage {
      *                activity/fragment/widget.
      */
     public static Uri getCaptureImageOutputUri(@NonNull Context context) {
-        Uri outputFileUri = null;
-        File getImage = context.getExternalCacheDir();
-        if (getImage != null) {
-            outputFileUri = Uri.fromFile(new File(getImage.getPath(), "pickImageResult.jpeg"));
+        //////////////////
+        try {
+            File file = CropFileProvider.file(context, ".jpg");
+            return FileProvider.getUriForFile(context, CropFileProvider.authority(context), file);
+        } catch (Exception e) {
+            return null;
         }
-        return outputFileUri;
+
     }
 
     /**
@@ -375,12 +391,16 @@ public final class CropImage {
      * @param data    the returned data of the activity result
      */
     public static Uri getPickImageResultUri(@NonNull Context context, @Nullable Intent data) {
+
+
         boolean isCamera = true;
         if (data != null && data.getData() != null) {
             String action = data.getAction();
             isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
         }
-        return isCamera || data.getData() == null ? getCaptureImageOutputUri(context) : data.getData();
+
+        return isCamera || data.getData() == null ? outputFileUri : data.getData();
+
     }
 
     /**
@@ -427,7 +447,7 @@ public final class CropImage {
     /**
      * Create {@link ActivityBuilder} instance to open image picker for cropping and then start {@link
      * CropImageActivity} to crop the selected image.<br>
-     * Result will be received in {@link Activity#onActivityResult(int, int, Intent)} and can be
+     * Result will be received in {@link Activity# onActivityResult(int, int, Intent)} and can be
      * retrieved using {@link #getActivityResult(Intent)}.
      *
      * @return builder for Crop Image Activity
@@ -439,7 +459,7 @@ public final class CropImage {
     /**
      * Create {@link ActivityBuilder} instance to start {@link CropImageActivity} to crop the given
      * image.<br>
-     * Result will be received in {@link Activity#onActivityResult(int, int, Intent)} and can be
+     * Result will be received in {@link Activity# onActivityResult(int, int, Intent)} and can be
      * retrieved using {@link #getActivityResult(Intent)}.
      *
      * @param uri the image Android uri source to crop or null to start a picker
@@ -453,7 +473,7 @@ public final class CropImage {
      * Get {@link CropImageActivity} result data object for crop image activity started using {@link
      * #activity(Uri)}.
      *
-     * @param data result data intent as received in {@link Activity#onActivityResult(int, int,
+     * @param data result data intent as received in {@link Activity# onActivityResult(int, int,
      *             Intent)}.
      * @return Crop Image Activity Result object or null if none exists
      */
@@ -526,14 +546,6 @@ public final class CropImage {
             activity.startActivityForResult(getIntent(activity, cls), CROP_IMAGE_ACTIVITY_REQUEST_CODE);
         }
 
-        /**
-         * Start {@link CropImageActivity}.
-         *
-         * @param fragment fragment to receive result
-         */
-        public void start(@NonNull Context context, @NonNull Fragment fragment) {
-            fragment.startActivityForResult(getIntent(context), CROP_IMAGE_ACTIVITY_REQUEST_CODE);
-        }
 
         /**
          * Start {@link CropImageActivity}.
@@ -545,15 +557,6 @@ public final class CropImage {
             fragment.startActivityForResult(getIntent(context), CROP_IMAGE_ACTIVITY_REQUEST_CODE);
         }
 
-        /**
-         * Start {@link CropImageActivity}.
-         *
-         * @param fragment fragment to receive result
-         */
-        public void start(
-                @NonNull Context context, @NonNull Fragment fragment, @Nullable Class<?> cls) {
-            fragment.startActivityForResult(getIntent(context, cls), CROP_IMAGE_ACTIVITY_REQUEST_CODE);
-        }
 
         /**
          * Start {@link CropImageActivity}.

@@ -1,10 +1,9 @@
+package io.github.subhamtyagi.ocr.screenshot;
 
-package ;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.PixelFormat;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
 import android.media.Image;
@@ -15,15 +14,13 @@ import android.util.Log;
 
 import java.nio.Buffer;
 
-import ai.loko.hk.ui.utils.Logger;
+import static android.graphics.PixelFormat.RGBA_8888;
 
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class Screenshotter implements ImageReader.OnImageAvailableListener {
 
     private static final String TAG = "Screenshotter";
-    private Screenshotter mInstance;
-    private Context context;
     private VirtualDisplay virtualDisplay;
     private int width;
     private int height;
@@ -31,8 +28,8 @@ public class Screenshotter implements ImageReader.OnImageAvailableListener {
     private ImageReader mImageReader;
     private MediaProjection mMediaProjection;
 
-    public Screenshotter(Context context) {
-        this.context = context;
+    public Screenshotter(MediaProjection mediaProjection) {
+        mMediaProjection = mediaProjection;
     }
 
     /**
@@ -40,27 +37,20 @@ public class Screenshotter implements ImageReader.OnImageAvailableListener {
      *
      * @param cb the cb
      */
+    @SuppressLint("WrongConstant")
     public void takeScreenshot(final ScreenshotCallback cb) {
         this.cb = cb;
-        mImageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 1);
-        if (mMediaProjection == null) {
-            mMediaProjection = MediaProjectionHelper.getMediaProjection(context);
-            if (mMediaProjection == null) {
-                Log.e(TAG, "MediaProjection null. Cannot take the screenshot.");
+        mImageReader = ImageReader.newInstance(width, height, RGBA_8888, 1);
+        if (mMediaProjection != null) {
+            try {
+                virtualDisplay = mMediaProjection.createVirtualDisplay("Screenshotter",
+                        width, height, 50,
+                        DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                        mImageReader.getSurface(), null, null);
+                mImageReader.setOnImageAvailableListener(Screenshotter.this, null);
+            } catch (Exception e) {
+                //do if something goes wrong
             }
-        }
-        try {
-            virtualDisplay = mMediaProjection.createVirtualDisplay(
-                    "Screenshotter",
-                    width, height, 50,
-                    DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                    mImageReader.getSurface(),
-                    null,
-                    null);
-            mImageReader.setOnImageAvailableListener(Screenshotter.this, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Logger.logException(e);
         }
 
     }

@@ -1,9 +1,0 @@
-final Screenshotter screenshotter = new Screenshotter(getApplicationContext());
-        screenshotter.setSize(width, height);
-
-screenshotter.takeScreenshot(new Screenshotter.ScreenshotCallback() {
-                    @Override
-                    public void onScreenshot(Bitmap bitmap) {
-                       //BIT MAP IS HERE
-                    }
-                });

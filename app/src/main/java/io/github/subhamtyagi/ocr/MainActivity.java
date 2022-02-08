@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     private static final int REQUEST_CODE_SETTINGS = 797;
     private static final int REQUEST_CODE_SELECT_IMAGE = 172;
+
     private static boolean isRefresh = false;
     /**
      * a progressDialog to show downloading Dialog
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * FloatingActionButton
      */
     private FloatingActionButton mFloatingActionButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,12 +198,14 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
                     mImageView.setImageURI(imageUri);
-
                     CropImage.activity(imageUri).start(this);
                 }
             }
+        } else if (action.equals("screenshot")) {
+            // uri
         }
     }
+
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void initDirectories() {
@@ -227,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         File cf;
         mTrainingDataType = Utils.getTrainingDataType();
         mLanguage = Utils.getTrainingDataLanguage();
-        mPageSegMode=Utils.getPageSegMode();
+        mPageSegMode = Utils.getPageSegMode();
 
 
         switch (mTrainingDataType) {
@@ -247,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
             //region Initialize image text reader
-             new Thread() {
+            new Thread() {
                 @Override
                 public void run() {
                     try {
@@ -272,13 +276,14 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         mImageTextReader = null;
                     }
                 }
-             }.start();
+            }.start();
             //endregion
         } else {
             downloadLanguageData(mTrainingDataType, mLanguage);
         }
     }
 
+    @SuppressLint("StringFormatInvalid")
     private void downloadLanguageData(final String dataType, final String lang) {
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
@@ -299,8 +304,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
         } else if (ni.isConnected()) {
             //region show confirmation dialog, On 'yes' download the training data.
-            @SuppressLint("StringFormatInvalid")
+
+
             String msg = String.format(getString(R.string.download_description), lang);
+
             dialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.training_data_missing)
                     .setCancelable(false)
@@ -388,6 +395,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
         } catch (IOException e) {
             e.printStackTrace();
+            crashUtils.logException(e);
+
         }
         mImageView.setImageURI(imageUri);
         convertImageToTextTask = new ConvertImageToTextTask();
@@ -417,10 +426,12 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 convertImageToText(result.getUri());
+            } else if (requestCode == REQUEST_MEDIA_PROJECTION) {
+
             }
         }
-
     }
+
 
     @Override
     protected void onDestroy() {
@@ -456,7 +467,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     @Override
     protected void onStop() {
         super.onStop();
-
         Log.d(TAG, "onStop: called");
         /*if (dialog != null) {
             dialog.dismiss();
@@ -501,8 +511,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            crashUtils.logException(e);
         } catch (IOException e) {
             e.printStackTrace();
+            crashUtils.logException(e);
         }
     }
 
@@ -516,8 +528,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            crashUtils.logException(e);
         } catch (IOException e) {
             e.printStackTrace();
+            crashUtils.logException(e);
         }
         return bitmap;
     }
@@ -668,6 +682,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         url = new URL(downloadURL);
                     } catch (java.net.MalformedURLException ex) {
                         Log.e(TAG, "url " + downloadURL + " is bad: " + ex);
+                        crashUtils.logException(ex);
                         return false;
                     }
                     conn = (HttpURLConnection) url.openConnection();

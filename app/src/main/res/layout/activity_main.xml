@@ -16,18 +16,37 @@
         android:visibility="gone"
         app:indicatorColor="@color/colorAccent"
         tools:progress="20"
-        tools:visibility="visible"
-        />
-   <!-- <com.google.android.material.progressindicator.ProgressIndicator
-        android:id="@+id/progress_indicator"
-        style="@style/Widget.MaterialComponents.ProgressIndicator.Linear.Determinate"
+        tools:visibility="visible" />
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="100"
-        android:visibility="gone"
-        app:indicatorColor="@color/colorAccent"
-        tools:progress="20"
-        tools:visibility="visible" />-->
+        android:layout_gravity="center"
+        android:foregroundGravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5sp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|end"
+            android:text="@string/selected_language"
+            android:textColor="@color/colorGray"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/language_name1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5sp"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:textColor="@color/colorGray"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

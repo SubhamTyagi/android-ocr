@@ -10,4 +10,11 @@
    <!-- <color name="background">#CCC8C4</color> #FF5722 #ff5253  -->
     <color name="image_background">#FFC400</color>
 
+
+    <color name="colorBlack">#FFFF</color>
+
+    <color name="colorLightGray">#FFFF</color>
+    <color name="colorDarkGray">#949494</color>
+    <color name="colorGray">#C9C9C9</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>

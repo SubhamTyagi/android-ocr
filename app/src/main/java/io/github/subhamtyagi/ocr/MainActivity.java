@@ -21,6 +21,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -46,8 +48,10 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
+import io.github.subhamtyagi.ocr.spinner.SpinnerDialog;
 import io.github.subhamtyagi.ocr.utils.Constants;
 import io.github.subhamtyagi.ocr.utils.CrashUtils;
 import io.github.subhamtyagi.ocr.utils.SpUtil;
@@ -58,17 +62,16 @@ import io.github.subhamtyagi.ocr.utils.Utils;
  */
 public class MainActivity extends AppCompatActivity implements TessBaseAPI.ProgressNotifier {
 
-    private static final String TAG = "MainActivity";
-
+    public static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_SETTINGS = 797;
-    private static final int REQUEST_CODE_SELECT_IMAGE = 172;
-
     private static boolean isRefresh = false;
     /**
      * a progressDialog to show downloading Dialog
      */
     ProgressDialog mProgressDialog;
-
+    SpinnerDialog spinnerDialog;
+    ArrayList<String> languagesNames;
+    ArrayList<String> languagesCodes;
     private CrashUtils crashUtils;
     private ConvertImageToTextTask convertImageToTextTask;
     private DownloadTrainingTask downloadTrainingTask;
@@ -89,13 +92,12 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private String mLanguage;
     /**
-     * AlertDialog for showing when language data doesn't exists
-     */
-
-    /**
      * Page segmentation mode
      */
     private int mPageSegMode;
+    /**
+     * AlertDialog for showing when language data doesn't exists
+     */
     private AlertDialog dialog;
     /**
      * Image View
@@ -113,7 +115,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * FloatingActionButton
      */
     private FloatingActionButton mFloatingActionButton;
-
+    /**
+     * Language name to be displayed
+     */
+    private TextView mLanguageName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,16 +131,20 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         SpUtil.getInstance().init(this);
         crashUtils = new CrashUtils(getApplicationContext(), "");
 
+        languagesNames = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.ocr_engine_language)));
+        languagesCodes = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.key_ocr_engine_language_value)));
+
         mImageView = findViewById(R.id.source_image);
         mProgressIndicator = findViewById(R.id.progress_indicator);
         mSwipeRefreshLayout = findViewById(R.id.swipe_to_refresh);
         mFloatingActionButton = findViewById(R.id.btn_scan);
+        mLanguageName = findViewById(R.id.language_name1);
 
         initDirectories();
         /*
          *initialize the OCR or download the training data
          */
-        initializeOCR();
+        initializeOCR(null);
         /*
          * check if this was initiated by shared menu if yes then get the image uri and get the text
          * language will be preselected by user in settings
@@ -151,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 if (mImageTextReader != null) {
                     selectImage();
                 } else {
-                    initializeOCR();
+                    initializeOCR(null);
                 }
             } else {
                 downloadLanguageData(mTrainingDataType, mLanguage);
@@ -171,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         }
                     }
                 } else {
-                    initializeOCR();
+                    initializeOCR(null);
                 }
             } else {
                 downloadLanguageData(mTrainingDataType, mLanguage);
@@ -198,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 if (imageUri != null) {
                     mImageView.setImageURI(imageUri);
-                    CropImage.activity(imageUri).start(this);
+                    showLanguageSelectionDialog(imageUri);
                 }
             }
         } else if (action.equals("screenshot")) {
@@ -206,6 +215,56 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         }
     }
 
+
+    private void showLanguageSelectionDialog(Uri imageUri) {
+        spinnerDialog = new SpinnerDialog(MainActivity.this, languagesNames, getString(R.string.select_search_language), R.style.DialogAnimations_SmileWindow);
+        spinnerDialog.setShowKeyboard(false);
+
+        spinnerDialog.bindOnSpinnerListener((item, position) -> {
+            startOCRFromShareMenu(getResources().getStringArray(R.array.key_ocr_engine_language_value)[position], imageUri);
+        });
+
+        spinnerDialog.showSpinnerDialog();
+        View view = spinnerDialog.getView();
+        RadioButton radioButton1 = view.findViewById(R.id.rb_language1);
+        RadioButton radioButton2 = view.findViewById(R.id.rb_language2);
+        RadioButton radioButton3 = view.findViewById(R.id.rb_language3);
+        String[] la = Utils.getLast3UsedLanguage();
+
+        radioButton1.setText(languagesNames.get(languagesCodes.indexOf(la[0])));
+        radioButton2.setText(languagesNames.get(languagesCodes.indexOf(la[1])));
+        radioButton3.setText(languagesNames.get(languagesCodes.indexOf(la[2])));
+
+        radioButton1.setOnClickListener(view1 -> {
+            startOCRFromShareMenu(la[0], imageUri);
+        });
+        radioButton2.setOnClickListener(view1 -> {
+            startOCRFromShareMenu(la[1], imageUri);
+        });
+        radioButton3.setOnClickListener(view1 -> {
+            startOCRFromShareMenu(la[2], imageUri);
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLanguageName.setText(languagesNames.get(languagesCodes.indexOf(mLanguage)));
+    }
+
+    public void startOCRFromShareMenu(String lang, Uri imageUri) {
+        if (!lang.contentEquals(mLanguage)) {
+            mLanguage = lang;
+            initializeOCR(mLanguage);
+        }
+        Utils.setLastUsedLanguage(mLanguage);
+        Log.d("radio", "showLanguageSelectionDialog: " + mLanguage);
+        spinnerDialog.closeSpinnerDialog();
+        mImageView.setImageURI(imageUri);
+        if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
+            CropImage.activity(imageUri).start(MainActivity.this);
+        }
+    }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void initDirectories() {
@@ -227,12 +286,13 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * initialize the OCR i.e tesseract api
      * if there is no training data in directory than it will ask for download
      */
-    private void initializeOCR() {
+    private void initializeOCR(String languageFromShareImage) {
         File cf;
         mTrainingDataType = Utils.getTrainingDataType();
-        mLanguage = Utils.getTrainingDataLanguage();
+        if (languageFromShareImage == null)
+            mLanguage = Utils.getTrainingDataLanguage();
+        Log.d(TAG, "initializeOCR: " + mLanguage);
         mPageSegMode = Utils.getPageSegMode();
-
 
         switch (mTrainingDataType) {
             case "best":
@@ -265,8 +325,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                             File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, mLanguage));
                             destf.delete();
                             mImageTextReader = null;
-                        } else {
-                            Log.d(TAG, "initializeOCR: Reader is initialize with lang:" + mLanguage);
                         }
 
                     } catch (Exception e) {
@@ -279,6 +337,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             }.start();
             //endregion
         } else {
+            Log.d(TAG, "initializeOCR: language data doesn't exist " + mLanguage);
             downloadLanguageData(mTrainingDataType, mLanguage);
         }
     }
@@ -407,36 +466,24 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SETTINGS) {
-            initializeOCR();
+            initializeOCR(null);
         }
         if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE_SELECT_IMAGE) {
-                final boolean isCamera;
-                if (data == null || data.getData() == null) {
-                    isCamera = true;
-                } else {
-                    final String action = data.getAction();
-                    isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
-                }
-                Uri selectedImageUri;
-                selectedImageUri = data.getData();
-                if (selectedImageUri == null) return;
-                convertImageToText(selectedImageUri);
+            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    convertImageToText(result.getUri());
+                } else initializeOCR(mLanguage);
 
-            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                convertImageToText(result.getUri());
             }
         }
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (convertImageToTextTask != null && convertImageToTextTask.getStatus() == AsyncTask.Status.RUNNING) {
             convertImageToTextTask.cancel(true);
-            Log.d(TAG, "onDestroy: image processing canceled");
         }
         if (downloadTrainingTask != null && downloadTrainingTask.getStatus() == AsyncTask.Status.RUNNING) {
             downloadTrainingTask.cancel(true);
@@ -465,7 +512,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop: called");
+
         /*if (dialog != null) {
             dialog.dismiss();
             dialog = null;
@@ -497,7 +544,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     @Override
     public void onProgressValues(final TessBaseAPI.ProgressValues progressValues) {
-        Log.d(TAG, "onProgressValues: percent " + progressValues.getPercent());
         runOnUiThread(() -> mProgressIndicator.setProgress((int) (progressValues.getPercent() * 1.46)));
     }
 
@@ -578,7 +624,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                     .setDuration(450)
                     .start();
             String clean_text = Html.fromHtml(text).toString().trim();
-            Log.d(TAG, "onPostExecute: text\n" + clean_text);
             showOCRResult(clean_text);
             Toast.makeText(MainActivity.this, "With Confidence:" + mImageTextReader.getAccuracy() + "%", Toast.LENGTH_SHORT).show();
 
@@ -625,7 +670,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 mProgressDialog.cancel();
                 mProgressDialog = null;
             }
-            initializeOCR();
+            initializeOCR(null);
         }
 
 
@@ -675,11 +720,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             HttpURLConnection conn;
             try {
                 while (true) {
-                    Log.v(TAG, "downloading " + downloadURL);
                     try {
                         url = new URL(downloadURL);
                     } catch (java.net.MalformedURLException ex) {
-                        Log.e(TAG, "url " + downloadURL + " is bad: " + ex);
                         crashUtils.logException(ex);
                         return false;
                     }
@@ -720,7 +763,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 input.close();
             } catch (Exception e) {
                 result = false;
-                Log.e(TAG, "failed to download " + downloadURL + " : " + e);
                 e.printStackTrace();
                 crashUtils.logException(e);
             }

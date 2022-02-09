@@ -12,7 +12,6 @@ import com.googlecode.leptonica.android.ReadFile;
 import com.googlecode.leptonica.android.Rotate;
 import com.googlecode.leptonica.android.Skew;
 import com.googlecode.leptonica.android.WriteFile;
-import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.util.Set;
 
@@ -90,8 +89,17 @@ public class Utils {
 
     }
 
+    public static String setTrainingDataLanguage(String language) {
+        if (SpUtil.getInstance().getBoolean(Constants.KEY_ENABLE_MULTI_LANG)) {
+            return getTesseractStringForMultipleLanguages(SpUtil.getInstance().getStringSet(Constants.KEY_LANGUAGE_FOR_TESSERACT_MULTI, null));
+        } else {
+            return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, DEFAULT_LANGUAGE);
+        }
+
+    }
+
     public static int getPageSegMode() {
-        return Integer.parseInt( SpUtil.getInstance().getString(Constants.KEY_PAGE_SEG_MODE, "1"));
+        return Integer.parseInt(SpUtil.getInstance().getString(Constants.KEY_PAGE_SEG_MODE, "1"));
     }
 
     public static void putLastUsedText(String text) {
@@ -100,6 +108,31 @@ public class Utils {
 
     public static String getLastUsedText() {
         return SpUtil.getInstance().getString(Constants.KEY_LAST_USE_IMAGE_TEXT, "");
+    }
+
+    public static String[] getLast3UsedLanguage() {
+        return new String[]{
+                SpUtil.getInstance().getString(Constants.KEY_LAST_USED_LANGUAGE_1, "eng"),
+                SpUtil.getInstance().getString(Constants.KEY_LAST_USED_LANGUAGE_2, "hin"),
+                SpUtil.getInstance().getString(Constants.KEY_LAST_USED_LANGUAGE_3, "deu")
+        };
+    }
+
+    public static void setLastUsedLanguage(String lastUsedLanguage) {
+        String l1 = SpUtil.getInstance().getString(Constants.KEY_LAST_USED_LANGUAGE_1, "eng");
+        if (lastUsedLanguage.contentEquals(l1)) {
+            return;
+        }
+        String l2 = SpUtil.getInstance().getString(Constants.KEY_LAST_USED_LANGUAGE_2, "hin");
+        if (l2.contentEquals(lastUsedLanguage)) {
+            SpUtil.getInstance().putString(Constants.KEY_LAST_USED_LANGUAGE_2, l1);
+            SpUtil.getInstance().putString(Constants.KEY_LAST_USED_LANGUAGE_1, lastUsedLanguage);
+        } else {
+            SpUtil.getInstance().putString(Constants.KEY_LAST_USED_LANGUAGE_3, l2);
+            SpUtil.getInstance().putString(Constants.KEY_LAST_USED_LANGUAGE_2, l1);
+            SpUtil.getInstance().putString(Constants.KEY_LAST_USED_LANGUAGE_1, lastUsedLanguage);
+        }
+
     }
 
     public static void putLastUsedImageLocation(String imageURI) {

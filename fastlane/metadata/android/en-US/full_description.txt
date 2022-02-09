@@ -33,6 +33,7 @@ Translate this app on [Hosted Weblate](https://hosted.weblate.org/projects/andro
 * Tesseract4Android: <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>.
 * BoxImageView: <a href="https://github.com/SubhamTyagi/android-cr/blob/master/app/src/main/java/io/github/subhamtyagi/ocr/views/BoxImageView.java">AGPLv3</a>.
 * ImageCropper: <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>.
+* SpinnerDialog: <a href="https://github.com/MdFarhanRaja/SearchableSpinner/blob/master/LICENSE">[Apache 2.0</a>
 
 Made possible by the <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a> library.
 

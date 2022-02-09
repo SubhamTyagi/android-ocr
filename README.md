@@ -5,7 +5,7 @@
 
 An OCR app that can recognize texts on image. 
 
-This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4 </a> and its is first app which is based on Tesseract 4. This app is made possible by a library [Tesseract4Android](https://github.com/adaptech-cz/Tesseract4Android).
+This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 5 </a> and its is first app which is based on Tesseract 5. This app is made possible by a library [Tesseract4Android](https://github.com/adaptech-cz/Tesseract4Android).
 
 
 ## 🚀<font color="#2467d6"><b>Features</b></font>
@@ -13,6 +13,8 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 * Extract Text From Images.
 * Copy data to Clipboard.
 * Select any part of Text.
+*  Process multiple languages in single image(Required changes in settings).
+*  Process images directly from the gallery on your device via the share menu.
 * Based on latest [Training Data](https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md).
 * Recognize 120+ [languages](https://tesseract-ocr.github.io/tessdoc/Data-Files)
 * 3 Type of data i.e 'Best', 'fast', 'standard' for more info [see](https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md)
@@ -54,10 +56,8 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
    
   
   
-## 📓 <font color="#2467d6"><b>Licence </b></font>
-
-* OCR : Apache 2.0
-* Tesseract and Tesseract Data: [Apache 2.0](https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE)
+## 📓 <font color="#2467d6"><b>Licenses of various Libraries</b></font>
+ * Tesseract and Tesseract Data: [Apache 2.0](https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE)
 * Tesseract4Android : [Apache 2.0](https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE)
 * ImageCropper : [Apache 2.0](https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt)
-
+* SpinnerDialog: [Apache 2.0](https://github.com/MdFarhanRaja/SearchableSpinner/blob/master/LICENSE)

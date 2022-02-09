@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "io.github.subhamtyagi.ocr"
-        minSdkVersion 17
+        minSdkVersion 18
         targetSdkVersion 31
         versionCode 9
-        versionName "3.0"
+        versionName "3.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "github_url", gitUrl
         multiDexEnabled true

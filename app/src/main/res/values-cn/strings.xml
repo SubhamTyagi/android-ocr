@@ -11,14 +11,12 @@
     <string name="settings">设置</string>
     <string name="draw_box_summary">应用程序将在图像上绘制文本</string>
     <string name="draw_box_title">在图片上绘制文本</string>
-    <string name="processing">处理中…</string>
     <string name="converting_image">正在转换图片到文本……</string>
     <string name="downloading">下载中…</string>
     <string name="downloading_language">正在下载语言数据…</string>
     <string name="text_goes_here">文本就在这里</string>
     <string name="copied_to_clipboard">数据已复制</string>
     <string name="percentage_downloaded">已下载百分比：</string>
-    <string name="percentage_converted_to_text">转换到文本的百分比</string>
     <string name="you_are_not_connected_to_internet">你未连接到互联网</string>
     <string name="yes">是</string>
     <string name="no">否</string>
@@ -57,5 +55,4 @@
     <string name="advance_tesseract_settings">高级 Tesseract 设置</string>
     <string name="image_processing_functions">图片处理功能</string>
     <string name="segmentation_mode">页面分割模式</string>
-    <string name="key_ocr_psm_mode">key_ocr_psm_mode</string>
 </resources>

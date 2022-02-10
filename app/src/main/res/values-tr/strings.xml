@@ -54,5 +54,4 @@
     <string name="gray_scale_detail">Gelişmiş doğruluk için işlem öncesi görüntü</string>
     <string name="use_gray_scale_image_for_ocr">İşlem Öncesi Görüntü</string>
     <string name="language">Dil</string>
-    <string name="key_ocr_psm_mode">key_ocr_psm_mode</string>
 </resources>

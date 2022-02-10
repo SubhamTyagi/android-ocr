@@ -36,7 +36,6 @@
     <string name="use_gray_scale_image_for_ocr">Předem zpracovat obrázek</string>
     <string name="text_goes_here">Sem patří text</string>
     <string name="persist_data_summary">Uložit obrázek a text po zavření aplikace</string>
-    <string name="key_ocr_psm_mode">key_ocr_psm_mode</string>
     <string name="download_language_data_please_wait">Stahování souborů dat OCR. Čekejte prosím…</string>
     <string name="language_not_exists">Tréninková data pro jazyk %s nejsou k dispozici; nelze provádět rozpoznávání</string>
     <string name="settings">Nastavení</string>

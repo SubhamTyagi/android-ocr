@@ -6,7 +6,6 @@
     <string name="no">Nein</string>
     <string name="yes">Ja</string>
     <string name="you_are_not_connected_to_internet">Du bist nicht mit dem Internet verbunden</string>
-    <string name="percentage_converted_to_text">% in Text umgewandelt</string>
     <string name="percentage_downloaded">% von insgesamt:</string>
     <string name="persist_data_title">Daten speichern</string>
     <string name="persist_data_summary">Bild und Text nach dem Schließen der App speichern</string>
@@ -15,7 +14,6 @@
     <string name="downloading_language">Herunterladen von Sprachdaten…</string>
     <string name="downloading">Herunterladen…</string>
     <string name="converting_image">Bild in Text umwandeln…</string>
-    <string name="processing">Verarbeitung…</string>
     <string name="draw_box_title">Text auf Bild anzeigen</string>
     <string name="draw_box_summary">App zeigt den Text auf dem Bild an</string>
     <string name="settings">Einstellungen</string>

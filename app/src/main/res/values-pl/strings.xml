@@ -11,7 +11,6 @@
     <string name="settings">Ustawienia</string>
     <string name="draw_box_summary">Aplikacja narysuje tekst na obrazie</string>
     <string name="draw_box_title">Rysowanie tekstu na obrazie</string>
-    <string name="processing">Przetwarzanie…</string>
     <string name="converting_image">Konwertowanie obrazu na tekst…</string>
     <string name="downloading">Pobieranie…</string>
     <string name="downloading_language">Pobieranie danych językowych…</string>
@@ -56,5 +55,4 @@
     <string name="advance_tesseract_settings">Zaawansowane ustawienia Tesseract</string>
     <string name="image_processing_functions">Funkcje przetwarzania obrazu</string>
     <string name="segmentation_mode">Tryb segmentacji stron</string>
-    <string name="key_ocr_psm_mode">key_ocr_psm_mode</string>
 </resources>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="processing">प्रक्रिया हो रही है…</string>
     <string name="settings">सेटिंग्स</string>
     <string name="language_not_exists">%s भाषा के लिए प्रशिक्षण डाटा उपलब्ध नहीं है। लिपि की पहचान नहीं हो सकती</string>
     <string name="installing_please_wait">ओसीआर डाटा इस्थापित हो रहा है …</string>
@@ -9,47 +8,22 @@
     <string name="gray_scale_detail">ज्यादा बढ़िया सटीकता के लिए इमेज को पूर्व-प्रक्रिया फ़िल्टर</string>
     <string name="use_gray_scale_image_for_ocr">फोटो को पूर्व प्रक्रिया द्वारा बढ़ाएँ</string>
     <string name="language">भाषा</string>
-    <string name="perform_contrast"/>
-    <string name="select_multi_training_data_title"/>
     <string name="you_are_not_connected_to_internet">आप इंटरनेट से कनेक्ट नहीं हैं</string>
     <string name="percentage_downloaded">% का कुल</string>
     <string name="yes">हाँ</string>
-    <string name="select_multi_languages_title"/>
-    <string name="deskew_image"/>
-    <string name="multiple_lang_summary"/>
-    <string name="open_source_statement"/>
-    <string name="image_enhancement"/>
     <string name="download_description">Tesseract OCR के उचित कामकाज के लिए आपके डिवाइस पर अतिरिक्त प्रशिक्षण डेटा डाउनलोड करने की आवश्यकता है।
 \n क्या आप चयनित भाषा(%s) डेटा डाउनलोड करना चाहते हैं\?</string>
-    <string name="text_goes_here"/>
     <string name="persist_data_summary">ऐप बंद होने के बाद इमेज और टेक्स्ट सेव करें</string>
-    <string name="languages"/>
     <string name="downloading">डाउनलोड हो रहा है…</string>
-    <string name="refresh"/>
-    <string name="tesseract_data"/>
     <string name="copy_to_clipboard">क्लिपबोर्ड पर कॉपी करें</string>
     <string name="copied_to_clipboard">क्लिपबोर्ड पर कॉपी किया गया</string>
     <string name="no">नहीं</string>
-    <string name="deskew_summary"/>
-    <string name="un_sharp_masking"/>
-    <string name="draw_box_summary"/>
     <string name="show_last_result">अंतिम परिणाम दिखाएं</string>
-    <string name="un_sharp_masking_summary"/>
-    <string name="others_settings"/>
-    <string name="advance_settings"/>
-    <string name="select_tesseract_data_type"/>
-    <string name="contrast_summary"/>
-    <string name="otsu_threshold"/>
-    <string name="generic_image_description"/>
     <string name="training_data_missing">प्रशिक्षण डेटा गायब!</string>
     <string name="persist_data_title">डेटा सहेजें</string>
     <string name="downloading_language">भाषा डेटा डाउनलोड किया जा रहा है…</string>
-    <string name="otsu_summary"/>
     <string name="converting_image">छवि को पाठ में परिवर्तित किया जा रहा है…</string>
     <string name="share">शेयर करें</string>
-    <string name="advance_setting_summary"/>
     <string name="no_results">कोई पाठ पहचाना नहीं जा सका।</string>
-    <string name="draw_box_title"/>
-    <string name="source_code"/>
     <string name="segmentation_mode">पृष्ठ विभाजन मोड</string>
 </resources>

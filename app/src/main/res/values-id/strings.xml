@@ -42,7 +42,6 @@
     <string name="un_sharp_masking_summary">Melakukan masking unsharp (peningkatan edge) gambar</string>
     <string name="contrast_summary">Secara adaptif memperluas kontras ke rentang dinamis penuh</string>
     <string name="language_not_exists">Data pelatihan bahasa %s tidak ada; tidak dapat melakukan pengenalan</string>
-    <string name="key_ocr_psm_mode">key_ocr_psm_mode</string>
     <string name="advance_settings">Pengaturan Lanjutan</string>
     <string name="download_description">Agar Tesseract OCR berfungsi dengan baik, data pelatihan tambahan perlu diunduh ke perangkat Anda.
 \nApakah Anda ingin mengunduh data bahasa (%s) yang dipilih\?</string>

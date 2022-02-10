@@ -6,7 +6,6 @@
     <string name="downloading_language">Laster ned språkdata …</string>
     <string name="downloading">Laster ned …</string>
     <string name="converting_image">Konverterer bilde til tekst …</string>
-    <string name="processing">Behandler …</string>
     <string name="draw_box_summary">Programmet vil legge til tekst på bildet</string>
     <string name="download_description">For best funksjon av Tesseract OCR må ytterligere opptreningsdata lastes ned på enheten din.
 \nØnsker du å laste ned data for valgt språk (%s)\?</string>
@@ -14,7 +13,6 @@
     <string name="no">Nei</string>
     <string name="yes">Ja</string>
     <string name="you_are_not_connected_to_internet">Du er ikke tilkoblet Internett</string>
-    <string name="percentage_converted_to_text">% konvertert til tekst</string>
     <string name="percentage_downloaded">% av totalen:</string>
     <string name="persist_data_title">Lagre data</string>
     <string name="persist_data_summary">Lagre bilde og tekst etter at programmet lukkes</string>
@@ -52,7 +50,6 @@
     <string name="contrast_summary">Utvider forsøksvist kontrasten til fullt dynamisk spenn</string>
     <string name="otsu_summary">Utfører lokaltilpasset binarisering av bildet med Ōtsu-terskel</string>
     <string name="languages">Språk</string>
-    <string name="key_ocr_psm_mode">key_ocr_psm_mode</string>
     <string name="segmentation_mode">Sidesegmenteringsfeil</string>
     <string name="psm_summary">Angir hvordan Tesseract deler bilder i linjer av tekst og ord.</string>
     <string name="advance_tesseract_settings">Avanserte Tesseract-innstillinger</string>

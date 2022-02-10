@@ -50,7 +50,6 @@
     <string name="deskew_summary">Encontrar a inclinação e distorção da imagem</string>
     <string name="otsu_summary">Executa binarização de imagem com limiar de Otsu localmente adaptável</string>
     <string name="un_sharp_masking_summary">Executa o mascaramento para desfocar (melhoramento de bordas) imagens</string>
-    <string name="key_ocr_psm_mode">key_ocr_psm_mode</string>
     <string name="psm_summary">Direciona como o Tesseract divide a imagem em linhas de texto e palavras.</string>
     <string name="advance_tesseract_settings">Configurações avançadas de Tesseract</string>
     <string name="image_processing_functions">Funções de processamento de imagem</string>

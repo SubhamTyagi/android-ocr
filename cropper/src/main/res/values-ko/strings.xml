@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="crop_image_activity_title"></string>
-    <string name="crop_image_menu_rotate_left">반시계 회전</string>
+
+<string name="crop_image_menu_rotate_left">반시계 회전</string>
     <string name="crop_image_menu_rotate_right">회전</string>
     <string name="crop_image_menu_crop">자르기</string>
     <string name="crop_image_menu_flip">반전</string>

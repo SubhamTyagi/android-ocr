@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
-    <string name="crop_image_activity_title"></string>
-    <string name="crop_image_menu_rotate_left">Tegen de klok in draaien</string>
+
+<string name="crop_image_menu_rotate_left">Tegen de klok in draaien</string>
     <string name="crop_image_menu_rotate_right">Draaien</string>
     <string name="crop_image_menu_crop">Bijsnijden</string>
     <string name="crop_image_menu_flip">Spiegelen</string>

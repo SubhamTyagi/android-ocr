@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="crop_image_activity_title"></string>
     <string name="crop_image_menu_rotate_left">Rotar a la izquierda</string>
     <string name="crop_image_menu_rotate_right">Rotar a la derecha</string>
     <string name="crop_image_menu_crop">Cortar</string>

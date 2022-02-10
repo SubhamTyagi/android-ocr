@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
-    <string name="crop_image_activity_title"></string>
-    <string name="crop_image_menu_rotate_left">Ruota in senso antiorario</string>
+
+<string name="crop_image_menu_rotate_left">Ruota in senso antiorario</string>
     <string name="crop_image_menu_rotate_right">Ruota</string>
     <string name="crop_image_menu_crop">Ritaglia</string>
     <string name="crop_image_menu_flip">Capovolgi</string>

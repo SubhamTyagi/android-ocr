@@ -3,7 +3,6 @@ package io.github.subhamtyagi.ocr;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -68,10 +67,13 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     /**
      * a progressDialog to show downloading Dialog
      */
-    ProgressDialog mProgressDialog;
-    SpinnerDialog spinnerDialog;
-    ArrayList<String> languagesNames;
-    ArrayList<String> languagesCodes;
+    private ProgressDialog mProgressDialog;
+    /**
+     * A spinner dialog shown on share menu
+     */
+    private SpinnerDialog spinnerDialog;
+    private ArrayList<String> languagesNames;
+    private ArrayList<String> languagesCodes;
     private CrashUtils crashUtils;
     private ConvertImageToTextTask convertImageToTextTask;
     private DownloadTrainingTask downloadTrainingTask;
@@ -231,25 +233,23 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         RadioButton radioButton3 = view.findViewById(R.id.rb_language3);
         String[] la = Utils.getLast3UsedLanguage();
 
-        radioButton1.setText(languagesNames.get(languagesCodes.indexOf(la[0])));
-        radioButton2.setText(languagesNames.get(languagesCodes.indexOf(la[1])));
-        radioButton3.setText(languagesNames.get(languagesCodes.indexOf(la[2])));
+        radioButton1.setText(getLanguageNameFromCode(la[0]));
+        radioButton2.setText(getLanguageNameFromCode(la[1]));
+        radioButton3.setText(getLanguageNameFromCode(la[2]));
 
-        radioButton1.setOnClickListener(view1 -> {
-            startOCRFromShareMenu(la[0], imageUri);
-        });
-        radioButton2.setOnClickListener(view1 -> {
-            startOCRFromShareMenu(la[1], imageUri);
-        });
-        radioButton3.setOnClickListener(view1 -> {
-            startOCRFromShareMenu(la[2], imageUri);
-        });
+        radioButton1.setOnClickListener(view1 -> startOCRFromShareMenu(la[0], imageUri));
+        radioButton2.setOnClickListener(view1 -> startOCRFromShareMenu(la[1], imageUri));
+        radioButton3.setOnClickListener(view1 -> startOCRFromShareMenu(la[2], imageUri));
+    }
+
+    private String getLanguageNameFromCode(String code) {
+        return languagesNames.get(languagesCodes.indexOf(code));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mLanguageName.setText(languagesNames.get(languagesCodes.indexOf(mLanguage)));
+        mLanguageName.setText(getLanguageNameFromCode(mLanguage));
     }
 
     public void startOCRFromShareMenu(String lang, Uri imageUri) {
@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             initializeOCR(mLanguage);
         }
         Utils.setLastUsedLanguage(mLanguage);
-        Log.d("radio", "showLanguageSelectionDialog: " + mLanguage);
+        // Log.d("radio", "showLanguageSelectionDialog: " + mLanguage);
         spinnerDialog.closeSpinnerDialog();
         mImageView.setImageURI(imageUri);
         if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
@@ -344,50 +344,27 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     @SuppressLint("StringFormatInvalid")
     private void downloadLanguageData(final String dataType, final String lang) {
-
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
 
-        ArrayList<String> langToDownload = new ArrayList<>();
-        if (lang.contains("+")) {
-            String[] lang_codes = lang.split("\\+");
-            for (String lang_code : lang_codes) {
-                if (!isLanguageDataExists(dataType, lang)) {
-                    langToDownload.add(lang_code);
-                }
-            }
-        }
-
-        if (ni == null) {
-            //You are not connected to Internet
-            Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
-        } else if (ni.isConnected()) {
+        if (ni != null && ni.isConnected()) {
             //region show confirmation dialog, On 'yes' download the training data.
-
-
-            String msg = String.format(getString(R.string.download_description), lang);
-
+            String msg = String.format(getString(R.string.download_description), getLanguageNameFromCode(lang));
             dialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.training_data_missing)
                     .setCancelable(false)
                     .setMessage(msg)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                            downloadTrainingTask = new DownloadTrainingTask();
-                            downloadTrainingTask.execute(dataType, lang);
-                        }
+                    .setPositiveButton(R.string.yes, (dialog, which) -> {
+                        dialog.cancel();
+                        downloadTrainingTask = new DownloadTrainingTask();
+                        downloadTrainingTask.execute(dataType, lang);
                     })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                            if (!isLanguageDataExists(dataType, lang)) {
-                                //  show dialog to change language
-                            }
-
+                    .setNegativeButton(R.string.no, (dialog, which) -> {
+                        dialog.cancel();
+                        if (!isLanguageDataExists(dataType, lang)) {
+                            //  show dialog to change language
                         }
+
                     }).create();
             dialog.show();
             //endregion
@@ -448,7 +425,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * @param imageUri uri of selected image
      */
     private void convertImageToText(Uri imageUri) {
-        //Utils.putLastUsedImageLocation(imageUri.toString());
         Bitmap bitmap = null;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
@@ -673,7 +649,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             initializeOCR(null);
         }
 
-
         @Override
         protected Boolean doInBackground(String... languages) {
             String dataType = languages[0];
@@ -691,7 +666,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 return downloadTraningData(dataType, lang);
             }
         }
-
 
         /**
          * done the actual work of download

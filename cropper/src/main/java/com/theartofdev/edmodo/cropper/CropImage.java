@@ -534,6 +534,7 @@ public final class CropImage {
         public void start(@NonNull Activity activity) {
             mOptions.validate();
             activity.startActivityForResult(getIntent(activity), CROP_IMAGE_ACTIVITY_REQUEST_CODE);
+            activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
 
         /**
@@ -544,6 +545,7 @@ public final class CropImage {
         public void start(@NonNull Activity activity, @Nullable Class<?> cls) {
             mOptions.validate();
             activity.startActivityForResult(getIntent(activity, cls), CROP_IMAGE_ACTIVITY_REQUEST_CODE);
+            activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
 
 

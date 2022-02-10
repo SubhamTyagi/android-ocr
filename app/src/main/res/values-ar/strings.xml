@@ -5,22 +5,16 @@
     <string name="select_tesseract_data_type"/>
     <string name="you_are_not_connected_to_internet">انت لست متصلا بالانترنت</string>
     <string name="tess_language_title"/>
-    <string name="key_last_use_image_location" translatable="false"/>
     <string name="perform_contrast"/>
     <string name="select_multi_languages_title"/>
     <string name="yes">نعم</string>
-    <string name="key_otsu_threshold" translatable="false"/>
     <string name="percentage_downloaded"/>
     <string name="languages"/>
     <string name="deskew_summary"/>
-    <string name="fbs" translatable="false"/>
     <string name="draw_box_title"/>
     <string name="downloading_language">تحميل معلومات اللغة…</string>
     <string name="otsu_summary"/>
-    <string name="key_language_for_tesseract_multi" translatable="false"/>
-    <string name="key_tess_training_data_source" translatable="false"/>
     <string name="language">اللغة</string>
-    <string name="key_persist_data" translatable="false"/>
     <string name="draw_box_summary"/>
     <string name="installing_please_wait"/>
     <string name="advance_setting_summary"/>
@@ -32,23 +26,16 @@
     <string name="copy_to_clipboard">نسخ الى الحافظة</string>
     <string name="refresh">تحديث</string>
     <string name="downloading">جار التحميل…</string>
-    <string name="key_enable_multiple_lang" translatable="false"/>
     <string name="use_gray_scale_image_for_ocr"/>
     <string name="training_data_missing"/>
-    <string name="key_last_use_image_text" translatable="false"/>
     <string name="share">مشاركة</string>
-    <string name="key_find_skew_and_deskew" translatable="false"/>
     <string name="download_language_data_please_wait"/>
-    <string name="key_un_sharp_masking" translatable="false"/>
-    <string name="key_draw_box" translatable="false"/>
     <string name="persist_data_summary">حفظ الصوة والنص عند إغلاق التطبيق</string>
-    <string name="key_language_for_tesseract" translatable="false"/>
     <string name="no">لا</string>
     <string name="source_code">الكود المصدري</string>
     <string name="un_sharp_masking"/>
     <string name="multiple_lang_summary"/>
     <string name="persist_data_title">حفظ البيانات</string>
-    <string name="key_contrast" translatable="false"/>
     <string name="show_last_result">عرض النتيجة الاخيرة</string>
     <string name="open_source_statement"/>
     <string name="converting_image">يتم تحويل الصورة الى نص…</string>
@@ -61,6 +48,5 @@
     <string name="deskew_image"/>
     <string name="gray_scale_detail"/>
     <string name="settings">الاعدادات</string>
-    <string name="key_grayscale_image_ocr" translatable="false"/>
     <string name="others_settings">الاعدادات الاخرى</string>
 </resources>

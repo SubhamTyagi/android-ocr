@@ -53,20 +53,6 @@
     <string name="otsu_summary">对图像进行本地自适应 Otsu 阈值二值化</string>
     <string name="un_sharp_masking_summary">对图像进行不清晰的掩蔽(边缘增强)</string>
     <string name="contrast_summary">自适应地尝试将对比度扩展到全动态范围</string>
-    <string name="key_draw_box" translatable="false"/>
-    <string name="key_persist_data" translatable="false"/>
-    <string name="key_un_sharp_masking" translatable="false"/>
-    <string name="key_last_use_image_location" translatable="false"/>
-    <string name="key_language_for_tesseract_multi" translatable="false"/>
-    <string name="key_language_for_tesseract" translatable="false"/>
-    <string name="key_find_skew_and_deskew" translatable="false"/>
-    <string name="key_grayscale_image_ocr" translatable="false"/>
-    <string name="key_enable_multiple_lang" translatable="false"/>
-    <string name="key_otsu_threshold" translatable="false"/>
-    <string name="fbs" translatable="false"/>
-    <string name="key_last_use_image_text" translatable="false"/>
-    <string name="key_tess_training_data_source" translatable="false"/>
-    <string name="key_contrast" translatable="false"/>
     <string name="psm_summary">它指示Tesseract如何将图像按文本和单词的行进行分割。</string>
     <string name="advance_tesseract_settings">高级 Tesseract 设置</string>
     <string name="image_processing_functions">图片处理功能</string>

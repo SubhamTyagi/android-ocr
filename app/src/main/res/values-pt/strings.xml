@@ -53,5 +53,5 @@
     <string name="psm_summary">Direciona como o Tesseract divide a imagem em linhas de texto e palavras.</string>
     <string name="advance_tesseract_settings">Configurações avançadas de Tesseract</string>
     <string name="image_processing_functions">Funções de processamento de imagem</string>
-    <string name="segmentation_mode">Modo de segmentação de páginas</string>
+    <string name="segmentation_mode">Modo de segmentação de página</string>
 </resources>

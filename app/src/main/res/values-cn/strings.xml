@@ -55,4 +55,8 @@
     <string name="advance_tesseract_settings">高级 Tesseract 设置</string>
     <string name="image_processing_functions">图片处理功能</string>
     <string name="segmentation_mode">页面分割模式</string>
+    <string name="selected_language">所选语言：</string>
+    <string name="what_language_this_image_have">此图中的文字是什么语言？</string>
+    <string name="language_name">语言名</string>
+    <string name="select_search_language">选择或搜索语言</string>
 </resources>

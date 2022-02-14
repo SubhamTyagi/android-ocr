@@ -1,0 +1,7 @@
+*O que há de novo*
+* Agora usa o Tesseract 5, sendo 50% mais rápido que a versão anterior.
+* Agora usa dados treinados 'rápido' como padrão.
+* Bibliotecas de base (Leptonica,libjpeg,libpng) atualizadas.
+* Fast Float ativado (isto aumenta o desempenho 2x ao usar dados treinados 'melhores')
+* Compilado com NEON SIMD que melhora muito o tempo de processamento ao usar o motor LSTM com dados treinados 'padrão' ou 'rápido'.
+* Para mais informações consulte a biblioteca Tesseract4Android.

@@ -1,0 +1,24 @@
+- Opção para desativar a memória dos últimos resultados
+- Novo ícone de maçã
+- Possibilidade de traduzir em Weblate
+- Novos dados de treinamento para vários idiomas
+- Chinês,Japonês,Coreano
+- Fraktur
+- Córsego
+- Dhivehi; Maldivian
+- Gaélico
+- Luxemburguês;
+- Mongol, maori
+- Filipino
+- Frísio ocidental
+- Curdo do norte
+- Arménio
+- Faroês
+- Occitano (pos 1500)
+- Quechua
+- Sindhi
+- Sundanês
+- Tártaro
+- Tonga (Ilhas Tonga)
+- Iorubá
+- Suporta OSD, PDF e Equação Matemática

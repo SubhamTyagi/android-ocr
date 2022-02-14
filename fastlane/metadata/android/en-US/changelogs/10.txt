@@ -1,0 +1,12 @@
+*Whats New in this Update*
+
+* Select language option when app is opened by Share Menu.
+* Selected language now will be also displayed on main screen.
+* Now Fast data type is set as default.
+* Smooth app transition in crop functionality.
+*
+* Bug Fix on Android 10+.
+* Crash Fix on Non-english locale devices (Chris <chris@d*****t>).
+*
+* Code Improvement and optimisation.
+* Updated tesseract4android.

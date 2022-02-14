@@ -13,8 +13,8 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 * Extract Text From Images.
 * Copy data to Clipboard.
 * Select any part of Text.
-*  Process multiple languages in single image(Required changes in settings).
-*  Process images directly from the gallery on your device via the share menu.
+* Process multiple languages in single image(Required changes in settings).
+* Process images directly from the gallery on your device via the share menu.
 * Based on latest [Training Data](https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md).
 * Recognize 120+ [languages](https://tesseract-ocr.github.io/tessdoc/Data-Files)
 * 3 Type of data i.e 'Best', 'fast', 'standard' for more info [see](https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md)

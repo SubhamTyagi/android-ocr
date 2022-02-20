@@ -1,0 +1,12 @@
+*O que há de novo nesta atualização*
+
+* Selecione a opção de idioma quando a app for aberta pelo menu Compartilhar.
+* O idioma selecionado agora também será exibido no ecrã principal.
+* Agora o tipo de dados rápido é definido como padrão.
+* Transição suave da app na funcionalidade de corte.
+*
+* Correção de bug no Android 10+.
+* Correção de travar em aparelhos de localidade não inglesa (Chris <chris@d*****t>).
+*
+* Melhoria e otimização do código.
+* Tesseract4android atualizado.

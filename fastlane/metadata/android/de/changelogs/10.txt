@@ -1,0 +1,12 @@
+*Was ist neu in diesem Update*
+
+* Auswahl der Sprachoption beim Öffnen der App über das Freigabemenü.
+* Die gewählte Sprache wird nun auch auf dem Hauptbildschirm angezeigt.
+* Der Datentyp "Schnell" ist jetzt als Standard eingestellt.
+* Reibungsloser Übergang der App bei der Schneidefunktion.
+*
+* Fehlerbehebung auf Android 10+.
+* Crash Fix auf Geräten mit nicht-englischem Gebietsschema (Chris <chris@d*****t>).
+*
+* Code-Verbesserung und Optimierung.
+* Aktualisiertes tesseract4android.

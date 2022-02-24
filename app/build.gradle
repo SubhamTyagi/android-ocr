@@ -79,7 +79,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation 'cz.adaptech:tesseract4android:4.1.0'
+    implementation 'cz.adaptech:tesseract4android:4.1.1'
 
     implementation 'com.google.android.material:material:1.6.0-alpha02'
 

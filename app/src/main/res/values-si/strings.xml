@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="installing_please_wait">OCR දත්ත ගොනු ස්ථාපනය වෙමින්. රැඳෙන්න…</string>
+    <string name="settings">සැකසුම්</string>
+    <string name="download_language_data_please_wait">ප්‍ර.අ.හ.(OCR) දත්ත ගොනු බාගැනෙමින්. රැඳෙන්න…</string>
+    <string name="yes">ඔව්</string>
+    <string name="language">භාෂාව</string>
+    <string name="persist_data_summary">යෙදුම වැසුනු පසු අනුරුව හා පෙළ සුරකින්න</string>
+    <string name="no">නැහැ</string>
+    <string name="downloading_language">භාෂා දත්ත බාගැනෙමින්…</string>
+    <string name="copied_to_clipboard">පසුරු පුවරුවට පිටපත් විය</string>
+    <string name="copy_to_clipboard">පසුරු පුවරුවට පිටපත්</string>
+    <string name="share">බෙදාගන්න</string>
+    <string name="persist_data_title">දත්ත සුරකින්න</string>
+    <string name="you_are_not_connected_to_internet">ඔබ අන්තර්ජාලයට සම්බන්ධ වී නැත</string>
+    <string name="refresh">නැවුම් කරන්න</string>
+    <string name="others_settings">වෙනත් සැකසුම්</string>
+    <string name="source_code">ප්‍රභව කේතය</string>
+    <string name="generic_image_description">අනුරුව</string>
+    <string name="downloading">බාගැනෙමින්…</string>
+    <string name="show_last_result">අවසාන ප්‍රතිඵලය පෙන්වන්න</string>
+</resources>

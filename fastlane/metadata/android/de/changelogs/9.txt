@@ -1,0 +1,8 @@
+*Was ist neu in diesem Update?*
+
+* App nutzt nun Tesseract 5, 50% schneller als die vorherige Version.
+* App nutzt nun Daten-Typ ‚schnell‘ als Standard.
+* Aktualisierte Basisbibliotheken (Leptonica,libjpeg,libpng).
+* Fast Float aktiviert (2-fache Leistungssteigerung bei Nutzung von ‚bestens‘-Daten)
+* Mit NEON SIMD kompiliert, verbesserte Verarbeitungszeit bei Nutzung der LSTM-Engine mit ‚Standard‘- oder ‚schnell‘-Daten.
+* Weitere Infos im Repo der Tesseract4Android-Bibliothek.

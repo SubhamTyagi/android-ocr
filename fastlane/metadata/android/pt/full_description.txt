@@ -1,6 +1,6 @@
 # OCR
 
-Uma aplicação de reconhecimento de caracteres (OCR) que reconhece textos em imagens.
+Uma aplicação de reconhecimento de caracteres (OCR) baseada em Tesseract que reconhece textos em imagens.
 
 Esta aplicação é baseada em <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 4</a> e a primeira baseada em Tesseract 4.
 Após descarregar os dados de treino, a aplicação faz tudo sem ligação à Internet.
@@ -16,7 +16,7 @@ Traduza esta aplicação no [Weblate](https://hosted.weblate.org/projects/androi
 * Baseado nos últimos <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Dados de treino</a>.
 * Mais que 120 <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">idiomas</a> reconhecidos.
 * 3 tipo de dados, ou seja, <a href="https://github.com/tesseract-ocr/tessdata">Padrão</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">melhor</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">rápido</a>, para mais informações <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">clique aqui</a>.
-* Reconhecimento/deteção de equações matemáticas.
+* Reconhecimento/deteção de equações matemáticas (ainda não testado).
 * Processa imagens diretamente da galeria do seu dispositivo através do menu partilhar.
 
 
@@ -30,7 +30,6 @@ Traduza esta aplicação no [Weblate](https://hosted.weblate.org/projects/androi
 
 * Tesseract e dados de Tesseract: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>.
 * Tesseract4Android: <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>.
-* BoxImageView: <a href="https://github.com/SubhamTyagi/android-cr/blob/master/app/src/main/java/io/github/subhamtyagi/ocr/views/BoxImageView.java">AGPLv3</a>.
 * ImageCropper: <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>.
 
 Tornado possível graças à biblioteca <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a>.

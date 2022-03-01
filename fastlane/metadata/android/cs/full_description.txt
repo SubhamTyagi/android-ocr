@@ -1,0 +1,38 @@
+# OCR
+
+Android OCR aplikace založená na Tesseractu, která dokáže rozpoznávat text na obrázcích.
+Tato aplikace je od verze 3.0 založena na <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 5 </a> a je tak první aplikací založenou na tomto systému.
+
+###Po stažení tréninkových dat za vás aplikace vše udělá offline na vašem zařízení.
+
+Pomozte s překladem této aplikace na [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr).
+
+🚀 <font color="#2467d6"><b>Funkce</b></font>
+* Vysoká přesnost a rychlé výsledky.
+* Extrakce textu z obrázků.
+* Kopírování dat do schránky.
+* Výběr jakékoli části dat.
+* Zpracování několika jazyků v jednom obrázku (vyžaduje změny v nastavení).
+* Založeno na nejnovějších <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">tréninkových datech</a>.
+* 120+ rozpoznaných <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">jazyků</a>.
+* 3 typy dat - <a href="https://github.com/tesseract-ocr/tessdata">standardní</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">nejlepší</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">rychlá</a>. Pro více informací <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">klikněte sem</a>.
+* Rozpoznávání matematiky/detekce rovnic (zatím nevyzkoušeno).
+* Zpracování obrázků přímo z galerie na vašem zařízení přes menu sdílení.
+
+
+ <font color="#2467d6"><b>Vyžadovaná oprávnění</b></font>
+
+* Internet: stažení tréninkových dat
+* Zobrazování síťových připojení: ke stažení tréninkových dat.
+* Poznámka: žádná vaše data nejsou nikam odesílána.
+
+📓 <font color="#2467d6"><b>Licence</b></font>
+
+* Tesseract a data Tesseract: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>.
+* Tesseract4Android: <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>.
+* ImageCropper: <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>.
+* SpinnerDialog: <a href="https://github.com/MdFarhanRaja/SearchableSpinner/blob/master/LICENSE">Apache 2.0</a>
+
+Existuje díky knihovně <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a>.
+
+Pokud chcete použít verzi aplikace založenou na Tesseract 4, můžete použít starší verzi této aplikace (před v3.0)

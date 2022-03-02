@@ -54,4 +54,8 @@
     <string name="perform_contrast">Vylepšit kontrast</string>
     <string name="un_sharp_masking">Neostré maskování</string>
     <string name="languages">Jazyky</string>
+    <string name="selected_language">Vybraný jazyk:</string>
+    <string name="what_language_this_image_have">Jaký jazyk je na tomto obrázku\?</string>
+    <string name="language_name">Název jazyka</string>
+    <string name="select_search_language">Vybrat nebo hledat jazyky</string>
 </resources>

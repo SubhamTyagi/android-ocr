@@ -8,8 +8,8 @@ android {
         applicationId "io.github.subhamtyagi.ocr"
         minSdkVersion 18
         targetSdkVersion 31
-        versionCode 10
-        versionName "3.1"
+        versionCode 11
+        versionName "3.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "github_url", gitUrl
         multiDexEnabled true

@@ -1,0 +1,6 @@
+**Velké vydání**
+- Nové UI od Hannese Gehrolda (@h4n23s).
+- Pokročilá nastavení pro ovládání různých funkcí vylepšení obrázků.
+- Možnost vybrání více jazyků.
+- Nové překlady a vylepšení.
+- Vylepšení zdrojového kódu a výkonu.

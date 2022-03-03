@@ -1,5 +1,6 @@
  🇺🇦 
 
+Glory to Ukraine!
 * Select language option when app is opened by Share Menu.
 * Selected language now will be also displayed on main screen.
 * Now Fast data type is set as default.

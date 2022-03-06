@@ -1,0 +1,17 @@
+- Option to disable remember last results(by @urlordjames)
+- New app icon (by @nucleus-ffm)
+
+- Now Translate this app on Weblate
+
+- New Training data for following languages:
+
+- Chinese Simplified Vertical, Chinese Traditional Vertical,Japanese (vertical),Korean (vertical)
+- German Fraktur, Danish Fraktur,Slovak Fraktur
+- Corsican
+- Dhivehi; Divehi; Maldivian
+- Scottish Gaelic; Gaelic
+- Dhivehi; Divehi; Maldivian
+- Luxembourgish; Letzeburgesch
+- Mongolian, Maori
+- Filipino: Pilipino
+- ...

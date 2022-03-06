@@ -1,0 +1,13 @@
+🇺🇦 
+
+Sláva Ukrajině!
+* Možnost výběru jazyka při otevření aplikace nabídkou sdílení.
+* Vybraný jazyk nyní bude zobrazen také na hlavní obrazovce.
+* Rychlý typ dat je nyní nastaven jako výchozí.
+* Plynulý přechod aplikace ve funkci oříznutí.
+*
+* Oprava chyb na Android 10+.
+* Oprava pádu na zařízeních s jiným jazykem než angličtinou (Chris <chris@d*****t>).
+*
+* Vylepšení a optimalizace kódu.
+* Aktualizace tesseract4android.

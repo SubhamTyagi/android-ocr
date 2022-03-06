@@ -1,0 +1,7 @@
+* Tesseract 4 based OCR
+
+* Extract Text From Images.
+* Copy data to Clipboard.
+* Select any part of Data.
+* Recognize Maths/equation detection
+* Process image directly from Your device Gallery

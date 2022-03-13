@@ -1,2 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="language">Lingua</string>
+    <string name="use_gray_scale_image_for_ocr">Pre-Elaborazione Immagine</string>
+    <string name="gray_scale_detail">Pre-elaborazione Immagine per maggiore precisione</string>
+    <string name="tess_language_title">Seleziona la lingua per Tesseract</string>
+    <string name="download_language_data_please_wait">Scaricamento dati OCR. Attendi …</string>
+    <string name="installing_please_wait">Installazione dati OCR. Attendi…</string>
+    <string name="language_not_exists">Dati di training per la lingua %s non esistenti; riconoscimento non possibile</string>
+    <string name="settings">Impostazioni</string>
+    <string name="segmentation_mode">Modalità di segmentazione della pagina</string>
+    <string name="draw_box_summary">L\'app scriverà del testo sull\'immagine</string>
+    <string name="draw_box_title">Scrivi testo sull\'immagine</string>
+    <string name="converting_image">Conversione dell\'immagine in testo…</string>
+    <string name="downloading">Scaricamento…</string>
+    <string name="show_last_result">Mostra ultimo risultato</string>
+    <string name="text_goes_here">Il testo va qui</string>
+    <string name="copied_to_clipboard">Copiato negli appunti</string>
+    <string name="copy_to_clipboard">Copia negli appunti</string>
+    <string name="share">Condividi</string>
+    <string name="persist_data_summary">Salva immagine e testo dopo che la app viene chiusa</string>
+    <string name="persist_data_title">Salva dati</string>
+    <string name="percentage_downloaded">% del totale:</string>
+    <string name="you_are_not_connected_to_internet">Non sei connesso a internet</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="training_data_missing">Dati di training mancanti!</string>
+    <string name="download_description">Per il corretto funzionamento di Tesseract OCR è necessario scaricare sul tuo dispositivo ulteriori dati di training.
+\nVuoi scaricare i dati della lingua(%s) selezionata\?</string>
+    <string name="select_tesseract_data_type">Seleziona il tipo di dati Tesseract</string>
+    <string name="open_source_statement">Android OCR è software libero. Clicca per vedere l\'app su GitHub.</string>
+    <string name="source_code">Codice sorgente</string>
+    <string name="generic_image_description">Immagine</string>
+    <string name="contrast_summary">Cerca di espandere in modo adattivo il contrasto a tutta la gamma dinamica</string>
+    <string name="otsu_summary">Esegue la binarizzazione a soglia Otsu localmente adattata dell\'immagine</string>
+    <string name="deskew_summary">Trovare lo Skew e Deskew dell\'immagine</string>
+    <string name="perform_contrast">Migliora Contrasto</string>
+    <string name="un_sharp_masking">Mascheramento non nitido</string>
+    <string name="un_sharp_masking_summary">Esegue il mascheramento non nitido (miglioramento dei bordi) dell\'immagine</string>
+    <string name="otsu_threshold">Soglia OTSU</string>
+    <string name="deskew_image">Deskew Immagine</string>
+    <string name="advance_setting_summary">Funzioni relative all\'elaborazione delle immagini</string>
+    <string name="image_enhancement">Miglioramento Immgine</string>
+    <string name="languages">Lingue</string>
+    <string name="select_multi_training_data_title">Seleziona più lingue per Tesseract</string>
+    <string name="psm_summary">Definisce come Tesseract divide l\'immagine in linee di testo e parole.</string>
+    <string name="selected_language">Lingue Selezionate:</string>
+    <string name="what_language_this_image_have">Che lingua ha questa immagine\?</string>
+    <string name="language_name">Nome Lingua</string>
+    <string name="select_search_language">Seleziona o Cerca Lingue</string>
+    <string name="no_results">Nessun testo riconosciuto.</string>
+    <string name="downloading_language">Scaricamento dati della lingua…</string>
+    <string name="refresh">Ricarica</string>
+    <string name="others_settings">Altre impostazioni</string>
+    <string name="advance_settings">Impostazioni avanzate</string>
+    <string name="tesseract_data">Dati Tesseract</string>
+    <string name="multiple_lang_summary">Dati di training per più lingue</string>
+    <string name="select_multi_languages_title">Seleziona più lingue</string>
+    <string name="image_processing_functions">Funzioni di elaborazione dell\'immagine</string>
+    <string name="advance_tesseract_settings">Impostazioni Avanzate Tesseract</string>
+</resources>

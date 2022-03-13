@@ -1,0 +1,13 @@
+🇺🇦 
+
+Gloria all'Ucraina!
+* Seleziona la lingua quando l'app è aperta dal Menu Condivisione.
+* La lingua selezionata ora sarà visualizzata anche sullo schermo principale.
+* Ora il tipo di dati veloce è impostato come predefinito.
+* Transizione app liscia in funzionalità di ritaglio.
+*
+* Bug Fix su Android 10+.
+* Crash Fix su dispositivi con localizzazione non inglese (Chris <chris@d*****t>).
+*
+* Miglioramento e ottimizzazione del codice.
+* Aggiornato tesseract4android.

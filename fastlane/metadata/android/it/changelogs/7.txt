@@ -1,0 +1,6 @@
+**Major Release**
+- Nuova UI di Hannes Gehrold(@h4n23s).
+- Impostazioni avanzate per controllare varie funzioni di miglioramento dell'immagine.
+- Opzione per selezionare più lingue.
+- Nuove traduzioni e miglioramenti.
+- Miglioramenti del codice sorgente e delle prestazioni.

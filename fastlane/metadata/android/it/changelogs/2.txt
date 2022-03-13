@@ -1,0 +1,8 @@
+* OCR basato su Tesseract 4
+
+* Correzioni di bug 
+* Estrazione testo dalle immagini.
+* Copia i dati negli appunti.
+* Selezione di qualsiasi parte dei dati.
+* Riconoscimento di matematica/equazione
+* Elaborazione immagini direttamente dalla Galleria del tuo dispositivo

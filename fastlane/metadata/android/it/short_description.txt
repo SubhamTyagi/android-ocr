@@ -1,0 +1,1 @@
+OCR basato su Tesseract 5

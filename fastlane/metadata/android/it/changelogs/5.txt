@@ -1,0 +1,3 @@
+* OCR basato su Tesseract 4
+
+* Correzione di bug e miglioramenti delle stringhe

@@ -25,12 +25,12 @@
     <string name="show_last_result">Montrer le dernier résultat</string>
     <string name="downloading_language">Téléchargement des données de langue…</string>
     <string name="downloading">Téléchargement…</string>
-    <string name="settings">Préférences</string>
+    <string name="settings">Paramètres</string>
     <string name="gray_scale_detail">Prétraitement de l\'image pour améliorer la précision</string>
     <string name="use_gray_scale_image_for_ocr">Prétraitement de l\'image</string>
     <string name="language_not_exists">Les données d\'entraînement pour la langue %s n\'existe pas ; ne peut pas reconnaître</string>
-    <string name="installing_please_wait">Installation des fichiers de données OCR. Veuillez patienter…</string>
-    <string name="download_language_data_please_wait">Téléchargement des fichiers de données OCR. Veuillez patienter…</string>
+    <string name="installing_please_wait">Installation des fichiers de données ROC. Veuillez patienter…</string>
+    <string name="download_language_data_please_wait">Téléchargement des fichiers de données ROC. Veuillez patienter…</string>
     <string name="tess_language_title">Sélectionner la langue pour Tesseract</string>
     <string name="language">Langue</string>
     <string name="multiple_lang_summary">Données d\'entraînement en plusieurs langues</string>
@@ -54,4 +54,8 @@
     <string name="advance_tesseract_settings">Paramètres avancés de Tesseract</string>
     <string name="image_processing_functions">Fonctions de traitement d\'image</string>
     <string name="segmentation_mode">Mode de segmentation de page</string>
+    <string name="selected_language">Langue sélectionnée :</string>
+    <string name="what_language_this_image_have">Quelle est la langue de cette image \?</string>
+    <string name="language_name">Nom de la langue</string>
+    <string name="select_search_language">Sélectionner ou rechercher des langues</string>
 </resources>

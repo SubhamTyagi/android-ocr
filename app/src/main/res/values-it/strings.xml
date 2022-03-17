@@ -22,9 +22,9 @@
     <string name="persist_data_title">Salva dati</string>
     <string name="percentage_downloaded">% del totale:</string>
     <string name="you_are_not_connected_to_internet">Non sei connesso a internet</string>
-    <string name="yes">Si</string>
+    <string name="yes">Sì</string>
     <string name="no">No</string>
-    <string name="training_data_missing">Dati di training mancanti!</string>
+    <string name="training_data_missing">Mancano i dati di allenamento!</string>
     <string name="download_description">Per il corretto funzionamento di Tesseract OCR è necessario scaricare sul tuo dispositivo ulteriori dati di training.
 \nVuoi scaricare i dati della lingua(%s) selezionata\?</string>
     <string name="select_tesseract_data_type">Seleziona il tipo di dati Tesseract</string>
@@ -44,10 +44,10 @@
     <string name="languages">Lingue</string>
     <string name="select_multi_training_data_title">Seleziona più lingue per Tesseract</string>
     <string name="psm_summary">Definisce come Tesseract divide l\'immagine in linee di testo e parole.</string>
-    <string name="selected_language">Lingue Selezionate:</string>
+    <string name="selected_language">Lingua selezionata:</string>
     <string name="what_language_this_image_have">Che lingua ha questa immagine\?</string>
-    <string name="language_name">Nome Lingua</string>
-    <string name="select_search_language">Seleziona o Cerca Lingue</string>
+    <string name="language_name">Nome lingua</string>
+    <string name="select_search_language">Seleziona o cerca lingue</string>
     <string name="no_results">Nessun testo riconosciuto.</string>
     <string name="downloading_language">Scaricamento dati della lingua…</string>
     <string name="refresh">Ricarica</string>

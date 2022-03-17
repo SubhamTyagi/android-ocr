@@ -9,7 +9,7 @@
     <string name="percentage_downloaded">% del total:</string>
     <string name="persist_data_title">Guardar datos</string>
     <string name="persist_data_summary">Guardar imagen y texto después de cerrar la app</string>
-    <string name="copied_to_clipboard">Datos copiados…</string>
+    <string name="copied_to_clipboard">Copiado en el portapapeles</string>
     <string name="text_goes_here">El texto irá aquí</string>
     <string name="downloading_language">Descargando datos de idioma…</string>
     <string name="downloading">Descargando…</string>
@@ -24,4 +24,27 @@
     <string name="gray_scale_detail">Imagen preprocesada para mejorar la precisión</string>
     <string name="use_gray_scale_image_for_ocr">Imagen preprocesada</string>
     <string name="language">Idioma</string>
+    <string name="contrast_summary">Intenta ampliar de forma adaptativa el contraste a todo el rango dinámico</string>
+    <string name="refresh">Actualizar</string>
+    <string name="segmentation_mode">Modo de segmentación de la página</string>
+    <string name="generic_image_description">Imagen</string>
+    <string name="open_source_statement">Android OCR es un software libre. Haga clic para visitar la aplicación en GitHub.</string>
+    <string name="un_sharp_masking_summary">Realiza una máscara de desenfoque (mejora de los bordes) de la imagen</string>
+    <string name="advance_tesseract_settings">Configuración avanzada de Tesseract</string>
+    <string name="select_multi_languages_title">Seleccione varios idiomas</string>
+    <string name="select_tesseract_data_type">Seleccione el tipo de datos Tesseract</string>
+    <string name="languages">Idiomas</string>
+    <string name="select_multi_training_data_title">Seleccionar varios idiomas para Tesseract</string>
+    <string name="advance_settings">Opciones avanzadas</string>
+    <string name="others_settings">Otros ajustes</string>
+    <string name="no_results">No se ha podido reconocer ningún texto.</string>
+    <string name="tesseract_data">Datos de Tesseract</string>
+    <string name="show_last_result">Mostrar el último resultado</string>
+    <string name="share">Compartir</string>
+    <string name="source_code">Código fuente</string>
+    <string name="copy_to_clipboard">Copiar al portapapeles</string>
+    <string name="selected_language">Idioma seleccionado:</string>
+    <string name="what_language_this_image_have">¿Qué idioma tiene esta imagen\?</string>
+    <string name="language_name">Nombre de la lengua</string>
+    <string name="select_search_language">Seleccionar o buscar idiomas</string>
 </resources>

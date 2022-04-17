@@ -1,4 +1,4 @@
-- Option, zuletzt Bearbeitetes zu vergessen (von @urlordjames)
+- Option, um zuletzt Bearbeitetes zu vergessen (von @urlordjames)
 - Neues App-Symbol (von @nucleus-ffm)
 
 - Übersetzung nun auf Weblate

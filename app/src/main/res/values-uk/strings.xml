@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="use_gray_scale_image_for_ocr">Зображення попередньої обробки</string>
+    <string name="language">Мова</string>
+    <string name="language_not_exists">Навчальних даних для мови %s не існує; розпізнавання не вдається</string>
+    <string name="gray_scale_detail">Зображення попередньої обробки для підвищеної точності</string>
+    <string name="tess_language_title">Оберіть мову для Tesseract</string>
+    <string name="installing_please_wait">Встановлення даних OCR. Будь ласка, зачекайте…</string>
+    <string name="settings">Налаштування</string>
+    <string name="segmentation_mode">Режим сегментації сторінок</string>
+    <string name="draw_box_summary">Програма намалює текст на зображенні</string>
+    <string name="draw_box_title">Написати текст на зображенні</string>
+    <string name="no_results">Не вдалося розпізнати текст.</string>
+    <string name="download_language_data_please_wait">Завантаження даних OCR. Будь ласка, зачекайте…</string>
+</resources>

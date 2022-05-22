@@ -12,4 +12,7 @@
     <string name="draw_box_title">Написати текст на зображенні</string>
     <string name="no_results">Не вдалося розпізнати текст.</string>
     <string name="download_language_data_please_wait">Завантаження даних OCR. Будь ласка, зачекайте…</string>
+    <string name="converting_image">Конвертація зображення в текст…</string>
+    <string name="downloading">Звантажується…</string>
+    <string name="downloading_language">Звантажуються мовні дані…</string>
 </resources>

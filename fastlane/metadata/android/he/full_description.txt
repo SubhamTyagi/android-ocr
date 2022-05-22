@@ -1,0 +1,39 @@
+# OCR
+
+אפליקציית OCR לאנדרואיד המבוססת על Tesseract שיכולה לזהות טקסטים בתמונות.
+
+אפליקציה זו מבוססת כעת (מאז v3.0) על <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 5 </a> והראשון באנדרואיד אפליקציה המבוססת על Tesseract 5.
+
+###לאחר הורדת נתוני האימון, האפליקציה עושה הכל במצב לא מקוון במכשיר שלך.
+
+תרגם את האפליקציה הזו [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr).
+
+🚀 <font color="#2467d6"><b>תכונות</b></font>
+* הדיוק הגבוה ביותר והתוצאה המהירה ביותר.
+* חלץ טקסט מתמונות.
+* העתק נתונים ללוח.
+* בחר כל חלק מהנתונים.
+* עיבוד שפות מרובות בתמונה אחת (שינויים נדרשים בהגדרות).
+* מבוסס על האחרון <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">נתוני אימון</a>.
+* 120+ recognized <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">שפות</a>.
+* 3 Type of data i.e <a href="https://github.com/tesseract-ocr/tessdata">Standard</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">best</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">fast</a> למידע נוסף <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">לחץ כאן</a>.
+* זיהוי מתמטי/זיהוי משוואות (עדיין לא נבדק).
+* עבד תמונות ישירות מהגלריה במכשיר שלך דרך תפריט השיתוף.
+
+
+<font color="#2467d6"><b>הרשאות נדרשות</b></font>
+
+* אינטרנט: הורדת נתוני ההדרכה
+* גישה לאינטרנט: להורדת נתוני האימון.
+* הערה: אף אחד מהנתונים שלך לא נשלח לשום מקום.
+
+📓 <font color="#2467d6"><b>רישיון</b></font>
+
+* Tesseract and Tesseract Data: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>.
+* Tesseract4Android: <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>.
+* ImageCropper: <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>.
+* SpinnerDialog: <a href="https://github.com/MdFarhanRaja/SearchableSpinner/blob/master/LICENSE">[Apache 2.0</a>
+
+התאפשר על ידי ה<a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a> library.
+
+אם אתה רוצה להשתמש בגרסה מבוססת Tesseract 4, אתה יכול להשתמש בגרסה הישנה של אפליקציה זו (לפני v3.0)

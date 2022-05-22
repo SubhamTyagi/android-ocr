@@ -1,0 +1,1 @@
+OCR מבוסס על Tesseract 5

@@ -55,4 +55,8 @@
     <string name="advance_tesseract_settings">Zaawansowane ustawienia Tesseract</string>
     <string name="image_processing_functions">Funkcje przetwarzania obrazu</string>
     <string name="segmentation_mode">Tryb segmentacji stron</string>
+    <string name="what_language_this_image_have">W jakim języku jest ten obraz\?</string>
+    <string name="selected_language">Wybrany język:</string>
+    <string name="language_name">Nazwa języka</string>
+    <string name="select_search_language">Wybierz lub wyszukaj języki</string>
 </resources>

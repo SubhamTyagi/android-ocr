@@ -1,0 +1,13 @@
+🇺🇦
+
+Chwała Ukrainie!
+* Wybierz opcję języka, gdy aplikacja jest otwierana przez menu udostępniania.
+* Wybrany język będzie teraz wyświetlany również na ekranie głównym.
+* Domyślny jest typ danych Now Fast.
+* Płynne przejście aplikacji w funkcji przycinania.
+*
+* Poprawka błędu w systemie Android 10+.
+* Crash Fix na urządzeniach z lokalizacją w innym języku niż angielski (Chris <chris@d*****t>).
+*
+* Poprawa i optymalizacja kodu.
+* Zaktualizowany tesseract4android.

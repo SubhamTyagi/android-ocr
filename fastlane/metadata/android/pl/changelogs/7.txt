@@ -1,0 +1,6 @@
+**Większa wersja**
+- Nowy interfejs użytkownika autorstwa Hannesa Gehrolda(@h4n23s).
+- Ustawienia zaawansowane, aby kontrolować różne funkcje ulepszania obrazu.
+- Możliwość wyboru wielu języków.
+- Nowe tłumaczenia i ulepszenia.
+- Ulepszenia kodu źródłowego i ulepszenia wydajności.

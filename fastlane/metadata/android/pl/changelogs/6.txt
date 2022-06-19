@@ -1,0 +1,28 @@
+- Opcja wyłączenia zapamiętywania ostatnich wyników (przez @urlordjames)
+- Nowa ikona aplikacji (autor: @nucleus-ffm)
+
+- Teraz przetłumacz tę aplikację na Weblate
+
+- Nowe dane treningowe dla następujących języków:
+
+- Chiński uproszczony pionowy, chiński tradycyjny pionowy, japoński (pionowy), koreański (pionowy)
+- Fraktur niemiecki, fraktur duński, fraktur słowacki
+- Korsykański
+- diwehi; Diwehi; Malediwski
+- gaelicki szkocki; celtycki
+- diwehi; Diwehi; Malediwski
+- luksemburski; Letzeburgesch
+- mongolski, maoryski
+- filipiński: Pilipino
+- zachodniofryzyjskie
+- Północny Kurdyjski
+- ormiański
+- farerski
+- Occitan (po 1500)
+- keczua
+- Sindhi
+- sundajski
+- tatarski
+- Tonga (Wyspy Tonga)
+- Joruba
+- Obsługa OSD, PDF i równań matematycznych

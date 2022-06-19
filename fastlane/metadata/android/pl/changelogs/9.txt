@@ -1,0 +1,8 @@
+*Co nowego w tej aktualizacji*
+
+* Teraz aplikacja korzysta z Tesseract 5, który jest o 50% szybszy niż poprzednia wersja (jak twierdzono).
+* Teraz aplikacja używa domyślnie „szybkich” wytrenowanych danych.
+* Zaktualizowano podstawowe biblioteki (Leptonica,libjpeg,libpng).
+* Włączone szybkie pływanie (zwiększy to wydajność 2x przy użyciu „najlepiej” wytrenowanych danych)
+* Skompilowany z NEON SIMD, co znacznie poprawia czas przetwarzania podczas korzystania z silnika LSTM ze „standardowymi” lub „szybkimi” wytrenowanymi danymi.
+* Aby uzyskać więcej informacji, zobacz repozytorium biblioteki Tesserac4Android.

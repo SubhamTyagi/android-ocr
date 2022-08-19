@@ -1,0 +1,39 @@
+# OCR
+
+App do Android de reconhecimento ótico de caracteres baseado no Tesseract que reconhece textos em imagens.
+
+Este app é baseado (desde v3.0) no <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 5 </a> e é o primeiro app do Android baseado no Tesseract 5.
+
+###Após baixar os dados de treinamento, o app faz tudo offline, no seu dispositivo.
+
+Traduza este app no [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr).
+
+🚀 <font color="#2467d6"><b>Funcionalidades</b></font>
+* Alta precisão e resultados mais rápidos.
+* Extrai texto de imagens.
+* Copia dados ao clipboard.
+* Pode selecionar qualquer parte de dados.
+* Processa vários idiomas numa única imagem (opção disponível em configurações).
+* Baseado nos últimos <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Dados de treinamento</a>.
+* 120+ <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">idiomas reconhecidos</a>.
+* 3 Tipo de dados <a href="https://github.com/tesseract-ocr/tessdata">Padrão</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">melhor</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">rápido</a> para mais detalhes <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">clique aqui</a>.
+* Reconhecimento/detecção de equações matemáticas (ainda não testado).
+* Processa imagens diretamente da galeria do seu dispositivo via menu de compartilhar.
+
+
+ <font color="#2467d6"><b>Permissões necessárias</b></font>
+
+* Internet: Para baixar os dados de treinamento
+* Acesso ao estado da internet: Para baixar os dados de treinamento.
+* Observação: Nenhum dado é enviado para servidores externos.
+
+📓 <font color="#2467d6"><b>Licença</b></font>
+
+* Tesseract e dados do Tesseract: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>.
+* Tesseract4Android: <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>.
+* ImageCropper: <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>.
+* SpinnerDialog: <a href="https://github.com/MdFarhanRaja/SearchableSpinner/blob/master/LICENSE">[Apache 2.0</a>
+
+Tornado possível graças à biblioteca <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a>.
+
+Se você quiser usar a versão baseada no Tesseract 4, você pode usar a versão anterior deste app (antes da v3.0)

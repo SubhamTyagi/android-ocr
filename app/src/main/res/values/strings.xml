@@ -11,13 +11,11 @@
     <string name="key_language_for_tesseract_multi" translatable="false">multi_languages</string>
     <string name="key_ocr_psm_mode" translatable="false">key_ocr_psm_mode</string>
     <string name="fbs" translatable="false">Fast/Best/Standard</string>
-
     <string name="key_contrast" translatable="false">process_contrast</string>
     <string name="key_un_sharp_masking" translatable="false">un_sharp_mask</string>
     <string name="key_otsu_threshold" translatable="false">otsu_threshold</string>
     <string name="key_find_skew_and_deskew" translatable="false">deskew_img</string>
     <string name="key_enable_multiple_lang" translatable="false">key_enable_multiple_lang</string>
-
     <string name="language">Language</string>
     <string name="use_gray_scale_image_for_ocr">Pre-Process Image</string>
     <string name="gray_scale_detail">Pre-process image for enhanced accuracy</string>
@@ -27,7 +25,6 @@
     <string name="language_not_exists">Training data for language %s  does not exist; cannot do recognition</string>
     <string name="settings">Settings</string>
     <string name="segmentation_mode">Page segmentation mode</string>
-
     <string name="draw_box_summary">App will draw text on image</string>
     <string name="draw_box_title">Draw text on image</string>
     <string name="no_results">No text could be recognized.</string>
@@ -45,7 +42,7 @@
     <string name="you_are_not_connected_to_internet">You are not connected to internet</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="training_data_missing">Training data missing!</string>
+    <string name="training_data_missing">training data missing!</string>
     <string name="download_description">For proper functioning of Tesseract OCR additional training data needs to be downloaded to your device.\nDo you want to download selected language(%s) data?</string>
     <string name="refresh">Refresh</string>
     <string name="tesseract_data">Tesseract Data</string>
@@ -54,10 +51,8 @@
     <string name="open_source_statement">Android OCR is libre software. Click to visit app on GitHub.</string>
     <string name="source_code">Source code</string>
     <string name="generic_image_description">Image</string>
-
     <string name="contrast_summary">Adaptively attempts to expand the contrast to the full dynamic range</string>
     <string name="un_sharp_masking_summary">Performs unsharp masking (edge enhancement) of image</string>
-
     <string name="otsu_summary">Performs locally-adaptive Otsu threshold binarization of image</string>
     <string name="deskew_summary">Find the Skew and Deskew the Image</string>
     <string name="perform_contrast">Enhance Contrast</string>

@@ -1,2 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="share">ভাগ করো</string>
+    <string name="source_code">উৎস কোড</string>
+    <string name="settings">পছন্দসমূহ</string>
+    <string name="no">না</string>
+    <string name="persist_data_title">তথ্য সংরক্ষণ করো</string>
+    <string name="refresh">সতেজ করো</string>
+    <string name="generic_image_description">ছবি</string>
+    <string name="language">ভাষা</string>
+    <string name="downloading">নামানো হচ্ছে…</string>
+    <string name="yes">হ্যাঁ</string>
+    <string name="languages">ভাষা</string>
+    <string name="use_gray_scale_image_for_ocr">ছবি আগে প্রক্রিয়া করো</string>
+    <string name="tesseract_data">টেসাররক্ট তথ্য</string>
+    <string name="others_settings">অন্য পছন্দসমূহ</string>
+</resources>

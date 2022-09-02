@@ -11,7 +11,7 @@
     <string name="select_tesseract_data_type">Sélectionner le type de données Tesseract</string>
     <string name="tesseract_data">Données Tesseract</string>
     <string name="refresh">Rafraîchir</string>
-    <string name="training_data_missing">Données d\'entraînement manquantes !</string>
+    <string name="training_data_missing">données d\'entraînement manquantes !</string>
     <string name="no">Non</string>
     <string name="yes">Oui</string>
     <string name="you_are_not_connected_to_internet">Vous n\'êtes pas connecté·e à internet</string>

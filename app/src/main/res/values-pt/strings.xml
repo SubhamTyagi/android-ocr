@@ -9,7 +9,7 @@
     <string name="refresh">Atualizar</string>
     <string name="download_description">Para o bom funcionamento do Tesseract OCR, é necessário descarregar dados adicionais de formação para o seu aparelho.
 \nDeseja descarregar dados de idioma selecionado(%s)\?</string>
-    <string name="training_data_missing">Faltam dados de formação!</string>
+    <string name="training_data_missing">faltam dados de formação!</string>
     <string name="no">Não</string>
     <string name="yes">Sim</string>
     <string name="you_are_not_connected_to_internet">Não está conectado à Internet</string>

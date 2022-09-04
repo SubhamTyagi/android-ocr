@@ -1,0 +1,7 @@
+* Tesseract 4 baseado em ROC (EN: OCR)
+
+* Extrair textos de imagens.
+* Copiar dados para a área de transferência.
+* Selecionar qualquer parte dos dados.
+* Reconhecer a matemática / detecção de equações.
+* Processar imagem diretamente da galeria do seu aparelho.

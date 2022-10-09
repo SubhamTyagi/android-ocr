@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tess_language_title">Selecteer taal voor Tesseract</string>
+    <string name="language">Taal</string>
+    <string name="gray_scale_detail">Afbeelding voor bewerking voor verhoogde nauwkeurigheid</string>
+    <string name="download_language_data_please_wait">OCR-gegevensbestanden worden gedownload. Even geduld …</string>
+    <string name="settings">Instellingen</string>
+    <string name="draw_box_summary">App tekent tekst op afbeelding</string>
+    <string name="draw_box_title">Teken tekst op afbeelding</string>
+    <string name="no_results">Er kon geen tekst worden herkend.</string>
+    <string name="downloading">Wordt gedownload…</string>
+    <string name="downloading_language">Taalgegevens worden gedownload…</string>
+    <string name="show_last_result">Toon laatste resultaat</string>
+    <string name="share">Deel</string>
+    <string name="language_not_exists">Trainingsgegevens voor taal %s bestaan niet; kan geen herkenning doen</string>
+    <string name="you_are_not_connected_to_internet">U bent niet verbonden met internet</string>
+    <string name="use_gray_scale_image_for_ocr">Afbeelding voor verwerking</string>
+    <string name="installing_please_wait">OCR-gegevensbestanden worden geïnstalleerd. Een ogenblik geduld…</string>
+    <string name="converting_image">Afbeelding converteren naar tekst…</string>
+    <string name="segmentation_mode">Paginasegmentatiemodus</string>
+    <string name="yes">Ja</string>
+    <string name="text_goes_here">Tekst staat hier</string>
+    <string name="copied_to_clipboard">Gekopieerd naar klembord</string>
+    <string name="copy_to_clipboard">Kopieer naar klembord</string>
+    <string name="percentage_downloaded">% van totaal:</string>
+    <string name="training_data_missing">trainingsgegevens ontbreken!</string>
+    <string name="persist_data_summary">Afbeelding en tekst opslaan bij afsluiten app</string>
+    <string name="persist_data_title">Gegevens opslaan</string>
+    <string name="no">Nee</string>
+    <string name="open_source_statement">Android OCR is vrije software. Klik om de app op GitHub te bezoeken.</string>
+    <string name="download_description">Voor een goede werking van Tesseract OCR moeten extra trainingsgegevens worden gedownload naar uw apparaat.
+\nWilt u geselecteerde taal (%s) gegevens downloaden\?</string>
+    <string name="select_tesseract_data_type">Selecteer Tesseract-gegevenstype</string>
+    <string name="others_settings">Andere instellingen</string>
+    <string name="refresh">Vernieuwen</string>
+    <string name="tesseract_data">Tesseract-gegevens</string>
+    <string name="source_code">Broncode</string>
+    <string name="generic_image_description">Afbeelding</string>
+    <string name="contrast_summary">Probeert adaptief het contrast uit te breiden naar het volledige dynamische bereik</string>
+</resources>

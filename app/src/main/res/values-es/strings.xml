@@ -2,7 +2,7 @@
 <resources>
     <string name="download_description">Para el correcto funcionamiento de Tesseract OCR es necesario descargar datos de entrenamiento adicionales en su dispositivo.
 \n¿Deseas descargar los datos de los idiomas seleccionados (%s)\?</string>
-    <string name="training_data_missing">¡Datos de entrenamiento perdidos!</string>
+    <string name="training_data_missing">¡Faltan datos para el entrenamiento!</string>
     <string name="no">No</string>
     <string name="yes">Sí</string>
     <string name="you_are_not_connected_to_internet">No estás conectado a Internet</string>
@@ -47,4 +47,15 @@
     <string name="what_language_this_image_have">¿Qué idioma tiene esta imagen\?</string>
     <string name="language_name">Nombre de la lengua</string>
     <string name="select_search_language">Seleccionar o buscar idiomas</string>
+    <string name="deskew_summary">Encuentre la inclinación y la desviación de la imagen</string>
+    <string name="otsu_summary">Realiza la binarización de umbral de Otsu adaptativa de la imagen</string>
+    <string name="perform_contrast">Mejorar el contraste</string>
+    <string name="deskew_image">Imagen alineada</string>
+    <string name="un_sharp_masking">Enmascaramiento no nítido</string>
+    <string name="advance_setting_summary">Funciones relacionadas con el procesamiento de imágenes</string>
+    <string name="image_enhancement">Mejora de la imagen</string>
+    <string name="multiple_lang_summary">Datos de entrenamiento en varios idiomas</string>
+    <string name="otsu_threshold">Umbral de OTSU</string>
+    <string name="image_processing_functions">Funciones para el tratamiento de las imágenes</string>
+    <string name="psm_summary">Dirige cómo Tesseract divide la imagen en líneas de texto y palabras.</string>
 </resources>

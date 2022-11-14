@@ -45,7 +45,7 @@
     <string name="advance_settings">Pengaturan Lanjutan</string>
     <string name="download_description">Agar Tesseract OCR berfungsi dengan baik, data pelatihan tambahan perlu diunduh ke perangkat Anda.
 \nApakah Anda ingin mengunduh data bahasa (%s) yang dipilih\?</string>
-    <string name="training_data_missing">Data latihan hilang!</string>
+    <string name="training_data_missing">data latihan hilang!</string>
     <string name="select_tesseract_data_type">Pilih Tipe Data Tesseract</string>
     <string name="otsu_threshold">Batas OTSU</string>
     <string name="gray_scale_detail">Gambar pra-proses untuk ditingkatkan akurasinya</string>

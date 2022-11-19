@@ -1,0 +1,3 @@
+* Configuración avanzada para controlar la segmentación de páginas
+* Actualización de las librerías base
+* Corrección de errores (cambio automático de tipo de datos)

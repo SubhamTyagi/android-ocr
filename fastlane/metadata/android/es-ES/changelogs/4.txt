@@ -1,0 +1,8 @@
+* OCR basado en Tesseract 4
+
+* Corrección de errores para la configuración
+* Extraer texto de imágenes
+* Copiar datos al portapapeles
+* Seleccione cualquier parte de los datos
+* Reconocer matemáticas/ecuaciones
+* Procesar imagen directamente desde la galería de dispositivos.

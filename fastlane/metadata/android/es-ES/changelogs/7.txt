@@ -1,0 +1,6 @@
+**Lanzamiento principal**
+- Nueva interfaz de usuario de Hannes Gehrold(@h4n23s).
+- Configuración avanzada para controlar varias funciones de mejora de imagen.
+- Opción para seleccionar varios idiomas.
+- Nuevas Traducciones y mejoras.
+- Mejoras de código fuente y mejoras de rendimiento.

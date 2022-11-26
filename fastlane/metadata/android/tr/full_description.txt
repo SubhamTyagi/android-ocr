@@ -1,0 +1,39 @@
+# OCR
+
+Resimlerdeki metinleri tanıyabilen Tesseract tabanlı bir Android OCR uygulaması.
+
+Bu uygulama artık (3.0 sürümünden beri) <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 5 </a> ve Tesseract 5 tabanlı android uygulamasının ilkine dayanmaktadır.
+
+###Eğitim verilerini indirdikten sonra, uygulama her şeyi aygıtınızda çevrim dışı olarak yapar.
+
+Bu uygulamayı [Hosted Weblate] (https://hosted.weblate.org/projects/android-ocr) üzerinde çevirin.
+
+🚀 <font color="#2467d6"><b>Özellikler</b></font>
+* En yüksek doğruluk ve en hızlı sonuç.
+* Resimlerden metin ayıklayın.
+* Verileri panoya kopyalayın.
+* Verilerin herhangi bir bölümünü seçin.
+* Tek resimde birden fazla dili işleyin (Ayarlarda değişiklikler yapılmasını gerektirir).
+* En son <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Eğitim Verilerine dayanmaktadır</a>.
+* 120'den fazla <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">dili</a> tanır.
+* 3 tür veri, yani <a href="https://github.com/tesseract-ocr/tessdata">Standart</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">en iyi</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">hızlı</a>, daha fazla bilgi için <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">buraya tıklayın</a>.
+* Matematik tanıma / denklem algılama (Henüz test edilmedi).
+* Paylaş menüsü aracılığıyla doğrudan aygıtınızdaki galeriden resimleri işleyin.
+
+
+ <font color="#2467d6"><b>Gerekli İzinler</b></font>
+
+* İnternet: Eğitim verilerinin indirilmesi
+* İnternet durumuna erişim: Eğitim verilerini indirmek için.
+* Not: Verilerinizin hiçbiri herhangi bir yere gönderilmez.
+
+📓 <font color="#2467d6"><b>Lisans</b></font>
+
+* Tesseract ve Tesseract Verileri: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>.
+* Tesseract4Android: <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>.
+* ImageCropper: <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>.
+* SpinnerDialog: <a href="https://github.com/MdFarhanRaja/SearchableSpinner/blob/master/LICENSE">[Apache 2.0</a>
+
+ <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a> kütüphanesi tarafından mümkün kılınmıştır.
+
+Tesseract 4 tabanlı sürümü kullanmak istiyorsanız, bu uygulamanın eski sürümünü kullanabilirsiniz (3.0 sürümünden önce)

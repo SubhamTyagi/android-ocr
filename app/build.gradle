@@ -80,7 +80,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
    // implementation 'cz.adaptech:tesseract4android:4.1.1'
-    implementation 'cz.adaptech.tesseract4android:tesseract4android-openmp:4.1.1a'
+    implementation 'cz.adaptech.tesseract4android:tesseract4android-openmp:4.3.0'
     implementation 'com.google.android.material:material:1.6.0-alpha02'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'

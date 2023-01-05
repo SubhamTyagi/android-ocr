@@ -1,0 +1,39 @@
+# 文字辨識（OCR）
+
+一個基於Tesseract的安桌OCR程序以用作辨識圖像中的文字。
+
+這程序（由v3.0）是基於<a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 5 </a>及是第一款基於Tesseract 5的安桌程序。
+
+###下載訓練數據後，這程序所有運行都可以在裝置離線中進行。
+
+這程序在[Hosted Weblate](https://hosted.weblate.org/projects/android-ocr)翻譯。
+
+<font color="#2467d6"><b>功能</b></font>
+* 最準確及最快的結果。
+* 在圖像中摘取文字。
+* 複雜數據到剪貼板。
+* 選擇數據的任何部分。
+* 在單圖像中處理多種語言（需要更改設定）。
+* 基於最新的 <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">訓練數據</a>.
+* 120+ 可辨識的 <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">語言</a>.
+* 3 類型的數據 ： <a href="https://github.com/tesseract-ocr/tessdata">標準</a>，<a href="https://github.com/tesseract-ocr/tessdata_best">最佳</a>，<a href="https://github.com/tesseract-ocr/tessdata_fast">最快</a> 更多詳情 <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">在此</a>。
+* 數學辨識/公式檢測（未經測試）。
+* 由你裝置中圖片庫的分享菜單直接處理圖像。
+
+
+ <font color="#2467d6"><b>權限要求</b></font>
+
+* 互聯網：下載訓練數據。
+* 上網狀態：下載訓練數據。
+* 注意：您的數據都不會發送到任何地方。
+
+📓 <font color="#2467d6"><b>許可</b></font>
+
+* Tesseract 及 Tesseract 數據: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>。
+* Tesseract4Android: <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>。
+* ImageCropper: <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>。
+* SpinnerDialog: <a href="https://github.com/MdFarhanRaja/SearchableSpinner/blob/master/LICENSE">[Apache 2.0</a>。
+
+可能使用 <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a> 庫。
+
+如你想使用基於Tesseract 4的版本，你可以使用此程序的舊版本（v3.0之前）

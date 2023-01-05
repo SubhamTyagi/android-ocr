@@ -16,7 +16,7 @@
     <string name="downloading_language">Pobieranie danych językowych…</string>
     <string name="text_goes_here">Tekst jest tutaj</string>
     <string name="copied_to_clipboard">Skopiowano do schowka</string>
-    <string name="training_data_missing">Brak przykładowych danych!</string>
+    <string name="training_data_missing">brak danych treningowych!</string>
     <string name="percentage_downloaded">% z łącznej liczby:</string>
     <string name="generic_image_description">Obraz</string>
     <string name="source_code">Kod źródłowy</string>

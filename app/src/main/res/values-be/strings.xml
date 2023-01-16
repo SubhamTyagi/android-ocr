@@ -1,2 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="language">Мова</string>
+    <string name="use_gray_scale_image_for_ocr">Папярэдняе апрацоўванне выявы</string>
+    <string name="gray_scale_detail">Папярэдняе апрацоўванне выявы для павышэння дакладнасці</string>
+    <string name="tess_language_title">Абраць мову для Tesseract</string>
+    <string name="download_language_data_please_wait">Спампоўванне файлаў даных OCR. Пачакайце …</string>
+    <string name="installing_please_wait">Усталяванне файлаў даных OCR. Пачакайце…</string>
+    <string name="settings">Налады</string>
+    <string name="segmentation_mode">Рэжым сегментацыі старонкі</string>
+    <string name="draw_box_summary">Праграма намалюе тэкст на выяве</string>
+    <string name="draw_box_title">Маляванне тэксту на выяве</string>
+    <string name="no_results">Тэкст не распазнаны.</string>
+    <string name="converting_image">Пераўтварэнне выявы ў тэкст…</string>
+    <string name="downloading">Спампоўванне…</string>
+    <string name="downloading_language">Спампоўванне даных мовы…</string>
+    <string name="text_goes_here">Тэкст будзе тут</string>
+    <string name="copied_to_clipboard">Скапіявана ў буфер абмену</string>
+    <string name="copy_to_clipboard">Скапіяваць у буфер абмену</string>
+    <string name="share">Падзяліцца</string>
+    <string name="persist_data_title">Захаваць даныя</string>
+    <string name="percentage_downloaded">% ад поўнага памеру:</string>
+    <string name="yes">Так</string>
+    <string name="no">Не</string>
+    <string name="training_data_missing">няма навучальных даных!</string>
+    <string name="refresh">Абнавіць</string>
+    <string name="tesseract_data">Даныя tesseract</string>
+    <string name="others_settings">Іншыя налады</string>
+    <string name="source_code">Зыходны код</string>
+    <string name="generic_image_description">Выява</string>
+    <string name="contrast_summary">Спрабуе прыстасаваць кантраснасць да поўнага дынамічнага дыяпазону</string>
+    <string name="otsu_summary">Выконваецца лакальна-прыстасавальная парогавая бінарызацыя Оцу</string>
+    <string name="deskew_summary">Пошук і выпраўленне нахілення выявы</string>
+    <string name="perform_contrast">Павышэнне кантраснасці</string>
+    <string name="un_sharp_masking">Плаўнае маскіраванне</string>
+    <string name="otsu_threshold">Парог Оцу</string>
+    <string name="advance_setting_summary">Функцыі, звязаныя з апрацоўваннем выявы</string>
+    <string name="languages">Мовы</string>
+    <string name="select_multi_training_data_title">Абраць некалькі моў для tesseract</string>
+    <string name="multiple_lang_summary">Навучальныя даныя для некалькіх моў</string>
+    <string name="select_multi_languages_title">Абраць некалькі моў</string>
+    <string name="image_processing_functions">Функцыі апрацоўвання выявы</string>
+    <string name="advance_tesseract_settings">Дадатковыя налады tesseract</string>
+    <string name="psm_summary">Вызначэнне дзялення выявы на радкі тэксту і словы.</string>
+    <string name="selected_language">Абраная мова:</string>
+    <string name="what_language_this_image_have">Якая мова на гэтай выяве\?</string>
+    <string name="language_name">Назва мовы</string>
+    <string name="select_search_language">Абраць або знайсці мовы</string>
+    <string name="select_tesseract_data_type">Абраць тып даных tesseract</string>
+    <string name="open_source_statement">Android OCR - свабодная праграма. Націсніце, каб паглядзець праграму на GitHub.</string>
+    <string name="download_description">Для належнага функцыянавання Tesseract OCR неабходна спампаваць на вашую прыладу дадатковыя навучальныя даныя.
+\nХочаце спампаваць даныя абранай мовы (%s)\?</string>
+    <string name="language_not_exists">Навучальных даных для мовы %s не існуе; немагчыма распазнаць</string>
+    <string name="un_sharp_masking_summary">Выконваецца плаўнае маскіраванне (паляпшэнне краёў) выявы</string>
+    <string name="show_last_result">Паказаць апошнія вынікі</string>
+    <string name="persist_data_summary">Захоўваць выяву і тэкст пасля закрыцця праграмы</string>
+    <string name="you_are_not_connected_to_internet">Вы не падлучаныя да інтэрнэту</string>
+    <string name="deskew_image">Выраўноўванне выявы</string>
+    <string name="advance_settings">Дадатковыя налады</string>
+    <string name="image_enhancement">Паляпшэнне выявы</string>
+</resources>

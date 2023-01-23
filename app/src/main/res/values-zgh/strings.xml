@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="language">ⵜⵓⵜⵍⴰⵢⵜ</string>
+    <string name="gray_scale_detail">ⵜⴰⵡⵍⴰⴼⵜ ⴷⴰⵜ ⵏ ⵓⵣⵣⵔⴰⵢ ⴰⴼⴰⴷ ⴰⴷ ⵜⵖⵓⴱⵍⵓ ⵜⵕⵡⵉ</string>
+    <string name="tess_language_title">ⵙⵜⵉ ⵜⵓⵜⵍⴰⵢⵜ ⵉ Tesseract</string>
+</resources>

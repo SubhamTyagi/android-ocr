@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="language">ⵜⵓⵜⵍⴰⵢⵜ</string>
-    <string name="gray_scale_detail">ⵜⴰⵡⵍⴰⴼⵜ ⴷⴰⵜ ⵏ ⵓⵣⵣⵔⴰⵢ ⴰⴼⴰⴷ ⴰⴷ ⵜⵖⵓⴱⵍⵓ ⵜⵕⵡⵉ</string>
+    <string name="gray_scale_detail">ⵜⴰⵡⵍⴰⴼⵜ ⴷⴰⵜ ⵏ ⵓⵙⵎⴽⵍ ⴰⴼⴰⴷ ⴰⴷ ⵜⵖⵓⴱⵍⵓ ⵜⵕⵡⵉ</string>
     <string name="tess_language_title">ⵙⵜⵉ ⵜⵓⵜⵍⴰⵢⵜ ⵉ Tesseract</string>
+    <string name="settings">ⵜⵉⵙⵖⴰⵍ</string>
+    <string name="segmentation_mode">ⴰⵙⵔⵜⵓ ⵏ ⵓⴳⵣⴰⵎ ⵏ ⵜⵙⵏⴰ</string>
+    <string name="use_gray_scale_image_for_ocr">ⵜⴰⵡⵍⴰⴼⵜ ⴷⴰⵜ ⵏ ⵓⵙⵎⴽⵍ</string>
+    <string name="share">ⴱⴹⵓ</string>
+    <string name="persist_data_title">ⵃⴹⵓ ⵜⵉⵎⵓⵛⴰ</string>
+    <string name="percentage_downloaded">% ⵙⴳ ⵜⵎⵓⵜⵜⵔⵜ:</string>
+    <string name="you_are_not_connected_to_internet">ⵓⵔ ⵜⵎⵢⴰⵡⴰⴹⴷ ⴷ ⵡⴰⵏⵜⵉⵔⵏⵉⵜ</string>
+    <string name="yes">ⵡⴰⵀ</string>
+    <string name="no">ⵓⵀⵓ</string>
+    <string name="image_enhancement">ⴰⵙⵖⵓⴷⵓ ⵏ ⵜⵡⵍⴰⴼⵜ</string>
+    <string name="languages">ⵜⵓⵜⵍⴰⵢⵉⵏ</string>
+    <string name="select_multi_training_data_title">ⵙⵜⵉ ⵎⵏⵏⴰⵡ ⵏ ⵜⵓⵜⵍⴰⵢⵉⵏ ⵉ Tesseract</string>
+    <string name="multiple_lang_summary">ⵜⵉⵎⵓⵛⴰ ⵏ ⵓⵙⴰⵏⵓⵏ ⵙ ⵎⵏⵏⴰⵡ ⵏ ⵜⵓⵜⵍⴰⵢⵉⵏ</string>
+    <string name="select_multi_languages_title">ⵙⵜⵉ ⵎⵏⵏⴰⵡ ⵏ ⵜⵓⵜⵍⴰⵢⵉⵏ</string>
+    <string name="image_processing_functions">ⵜⵉⵙⵖⴰⵏ ⵏ ⵓⵙⵎⴽⵍ ⵏ ⵜⵡⵍⴰⴼⵜ</string>
+    <string name="select_search_language">ⵙⵜⵉ ⵏⵉⵖ ⵔⵣⵓ ⵅⴼ ⵜⵓⵜⵍⴰⵢⵉⵏ</string>
+    <string name="copy_to_clipboard">ⵉⵜⵜⵓⵙⵙⵏⵖⵍ ⴳ ⵜⵣⵣⵏⴱⵉⵍⵜ</string>
+    <string name="downloading">ⴰⴳⴰⵎ…</string>
+    <string name="advance_tesseract_settings">ⵜⵉⵙⵖⴰⵍ ⵢⵓⵍⵉⵏ ⵏ Tesseract</string>
+    <string name="text_goes_here">ⴷⴰ ⴰⴹⵕⵉⵚ</string>
+    <string name="what_language_this_image_have">ⵎⴰⵜⵜⴰ ⵜⵓⵜⵍⴰⵢⵜ ⵏ ⵜⵡⵍⴰⴼⵜ ⴰⴷ\?</string>
+    <string name="language_name">ⵉⵙⵎ ⵏ ⵜⵓⵜⵍⴰⵢⵜ</string>
+    <string name="selected_language">ⵜⴻⵜⵜⵓⵙⵜⴰⵢ ⵜⵓⵜⵍⴰⵢⵜ:</string>
+    <string name="draw_box_summary">ⵔⴰⴷ ⵜⵙⴼⵉⵔⵙ ⵜⵙⵏⵙⵉ ⴰⴹⵕⵉⵚ ⵅⴼ ⵜⵡⵍⴰⴼⵜ</string>
+    <string name="draw_box_title">ⵙⴼⵉⵔⵙ ⴰⴹⵕⵉⵚ ⵅⴼ ⵜⵡⵍⴰⴼⵜ</string>
+    <string name="copied_to_clipboard">ⵉⵜⵜⵓⵃⴹⵓ ⴳ ⵜⵣⵣⵏⴱⵉⵍⵜ</string>
+    <string name="downloading_language">ⴰⴳⴰⵎ ⵏ ⵜⵎⵓⵛⴰ ⵏ ⵜⵓⵜⵍⴰⵢⵜ…</string>
+    <string name="converting_image">ⴰⵔ ⵜⵜⴰⵡⵙⵏⴼⴰⵍ ⵜⵡⵍⴰⴼⵜ ⵖⵔ ⵓⴹⵕⵉⵚ…</string>
+    <string name="show_last_result">ⵥⵕ ⵜⴰⵢⴰⴼⵓⵜ ⵜⴰⵎⴳⴳⴰⵔⵓⵜ</string>
 </resources>

@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     def gitUrl = getRepositoryURL()
 
     defaultConfig {
         applicationId "io.github.subhamtyagi.ocr"
         minSdkVersion 18
-        targetSdkVersion 31
-        versionCode 11
-        versionName "3.2"
+        targetSdkVersion 33
+        versionCode 12
+        versionName "4.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "github_url", gitUrl
         multiDexEnabled true
@@ -75,15 +75,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     implementation project(':cropper')
 
-    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'androidx.preference:preference:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
    // implementation 'cz.adaptech:tesseract4android:4.1.1'
     implementation 'cz.adaptech.tesseract4android:tesseract4android-openmp:4.3.0'
-    implementation 'com.google.android.material:material:1.6.0-alpha02'
+    implementation 'com.google.android.material:material:1.9.0-alpha01'
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
 
 }
 

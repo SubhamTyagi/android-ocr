@@ -48,6 +48,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
 import io.github.subhamtyagi.ocr.spinner.SpinnerDialog;
@@ -73,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private SpinnerDialog spinnerDialog;
     private ArrayList<String> languagesNames;
-    private ArrayList<String> languagesCodes;
     private CrashUtils crashUtils;
     private ConvertImageToTextTask convertImageToTextTask;
     private DownloadTrainingTask downloadTrainingTask;
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     /**
      * selected language on image or used for detection
      */
-    private String mLanguage;
+    private Set<Language> mLanguage;
     /**
      * Page segmentation mode
      */
@@ -127,14 +128,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
-          Initialization of some application level variables
-         */
         SpUtil.getInstance().init(this);
         crashUtils = new CrashUtils(getApplicationContext(), "");
 
         languagesNames = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.ocr_engine_language)));
-        languagesCodes = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.key_ocr_engine_language_value)));
 
         mImageView = findViewById(R.id.source_image);
         mProgressIndicator = findViewById(R.id.progress_indicator);
@@ -143,10 +140,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mLanguageName = findViewById(R.id.language_name1);
 
         initDirectories();
-        /*
-         *initialize the OCR or download the training data
-         */
-        initializeOCR(null);
+        mLanguage = Utils.getTrainingDataLanguage(this);
+        initializeOCR();
         /*
          * check if this was initiated by shared menu if yes then get the image uri and get the text
          * language will be preselected by user in settings
@@ -162,16 +157,17 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 if (mImageTextReader != null) {
                     selectImage();
                 } else {
-                    initializeOCR(null);
+                    mLanguage = Utils.getTrainingDataLanguage(this);
+                    initializeOCR();
                 }
             } else {
-                downloadLanguageData(mTrainingDataType, mLanguage);
+                downloadLanguageData(mTrainingDataType);
             }
 
         });
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
+            if (isLanguageDataExists(mTrainingDataType, Utils.getTrainingDataLanguage(this))) {
                 if (mImageTextReader != null) {
                     Drawable drawable = mImageView.getDrawable();
                     if (drawable != null) {
@@ -182,10 +178,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         }
                     }
                 } else {
-                    initializeOCR(null);
+                    mLanguage = Utils.getTrainingDataLanguage(this);
+                    initializeOCR();
                 }
             } else {
-                downloadLanguageData(mTrainingDataType, mLanguage);
+                downloadLanguageData(mTrainingDataType);
             }
             mSwipeRefreshLayout.setRefreshing(false);
 
@@ -223,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         spinnerDialog.setShowKeyboard(false);
 
         spinnerDialog.bindOnSpinnerListener((item, position) -> {
-            startOCRFromShareMenu(getResources().getStringArray(R.array.key_ocr_engine_language_value)[position], imageUri);
+            startOCRFromShareMenu(imageUri);
         });
 
         spinnerDialog.showSpinnerDialog();
@@ -231,33 +228,32 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         RadioButton radioButton1 = view.findViewById(R.id.rb_language1);
         RadioButton radioButton2 = view.findViewById(R.id.rb_language2);
         RadioButton radioButton3 = view.findViewById(R.id.rb_language3);
-        String[] la = Utils.getLast3UsedLanguage();
+        Language[] la = Utils.getLast3UsedLanguage(this);
 
-        radioButton1.setText(getLanguageNameFromCode(la[0]));
-        radioButton2.setText(getLanguageNameFromCode(la[1]));
-        radioButton3.setText(getLanguageNameFromCode(la[2]));
+        radioButton1.setText(la[0].getName());
+        radioButton2.setText(la[1].getName());
+        radioButton3.setText(la[2].getName());
 
-        radioButton1.setOnClickListener(view1 -> startOCRFromShareMenu(la[0], imageUri));
-        radioButton2.setOnClickListener(view1 -> startOCRFromShareMenu(la[1], imageUri));
-        radioButton3.setOnClickListener(view1 -> startOCRFromShareMenu(la[2], imageUri));
-    }
-
-    private String getLanguageNameFromCode(String code) {
-        return languagesNames.get(languagesCodes.indexOf(code));
+        radioButton1.setOnClickListener(view1 -> startOCRFromShareMenu(imageUri));
+        radioButton2.setOnClickListener(view1 -> startOCRFromShareMenu(imageUri));
+        radioButton3.setOnClickListener(view1 -> startOCRFromShareMenu(imageUri));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mLanguageName.setText(getLanguageNameFromCode(mLanguage));
+        mLanguageName.setText(mLanguage
+                .stream()
+                .map(Language::getName)
+                .collect(Collectors.joining(", ")));
     }
 
-    public void startOCRFromShareMenu(String lang, Uri imageUri) {
-        if (!lang.contentEquals(mLanguage)) {
-            mLanguage = lang;
-            initializeOCR(mLanguage);
+    public void startOCRFromShareMenu(Uri imageUri) {
+        Language last = Utils.getLast3UsedLanguage(this)[0];
+        if (!last.equals(mLanguage)) {
+            initializeOCR();
         }
-        Utils.setLastUsedLanguage(mLanguage);
+        Utils.setLastUsedLanguage(this, last);
         // Log.d("radio", "showLanguageSelectionDialog: " + mLanguage);
         spinnerDialog.closeSpinnerDialog();
         mImageView.setImageURI(imageUri);
@@ -286,11 +282,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * initialize the OCR i.e tesseract api
      * if there is no training data in directory than it will ask for download
      */
-    private void initializeOCR(String languageFromShareImage) {
+    private void initializeOCR() {
         File cf;
         mTrainingDataType = Utils.getTrainingDataType();
-        if (languageFromShareImage == null)
-            mLanguage = Utils.getTrainingDataLanguage();
         Log.d(TAG, "initializeOCR: " + mLanguage);
         mPageSegMode = Utils.getPageSegMode();
 
@@ -318,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         if (mImageTextReader != null) {
                             mImageTextReader.tearDownEverything();
                         }
-                        mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, mPageSegMode, MainActivity.this::onProgressValues);
+                        mImageTextReader = ImageTextReader.getInstance(cf.getAbsolutePath(), mLanguage, mPageSegMode, MainActivity.this::onProgressValues);
                         //check if current language data is valid
                         //if it is invalid(i.e. corrupted, half downloaded, tempered) then delete it
                         if (!mImageTextReader.success) {
@@ -338,50 +332,52 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             //endregion
         } else {
             Log.d(TAG, "initializeOCR: language data doesn't exist " + mLanguage);
-            downloadLanguageData(mTrainingDataType, mLanguage);
+            downloadLanguageData(mTrainingDataType);
         }
     }
 
     @SuppressLint("StringFormatInvalid")
-    private void downloadLanguageData(final String dataType, final String lang) {
+    private void downloadLanguageData(final String dataType) {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-
-        if (ni != null && ni.isConnected()) {
-            //region show confirmation dialog, On 'yes' download the training data.
-            String msg = String.format(getString(R.string.download_description), getLanguageNameFromCode(lang));
-            dialog = new AlertDialog.Builder(this)
-                    .setTitle(R.string.training_data_missing)
-                    .setCancelable(false)
-                    .setMessage(msg)
-                    .setPositiveButton(R.string.yes, (dialog, which) -> {
-                        dialog.cancel();
-                        downloadTrainingTask = new DownloadTrainingTask();
-                        downloadTrainingTask.execute(dataType, lang);
-                    })
-                    .setNegativeButton(R.string.no, (dialog, which) -> {
-                        dialog.cancel();
-                        if (!isLanguageDataExists(dataType, lang)) {
-                            //  show dialog to change language
-                        }
-
-                    }).create();
-            dialog.show();
-            //endregion
-        } else {
-            Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
-            //You are not connected to Internet
-        }
+        
+        Set<Language> langs = Utils.getTrainingDataLanguage(this);
+        
+        for (Language l: langs)
+            if (ni != null && ni.isConnected()) {
+                //region show confirmation dialog, On 'yes' download the training data.
+                String msg = String.format(getString(R.string.download_description), l.getName());
+                dialog = new AlertDialog.Builder(this)
+                        .setTitle(R.string.training_data_missing)
+                        .setCancelable(false)
+                        .setMessage(msg)
+                        .setPositiveButton(R.string.yes, (dialog, which) -> {
+                            dialog.cancel();
+                            new DownloadTrainingTask().execute(dataType, l.getCode());
+                        })
+                        .setNegativeButton(R.string.no, (dialog, which) -> {
+                            dialog.cancel();
+                            if (!isLanguageDataExists(dataType, langs)) {
+                                //  show dialog to change language
+                            }
+    
+                        }).create();
+                dialog.show();
+                //endregion
+            } else {
+                Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
+                //You are not connected to Internet
+            }
     }
 
     /**
      * Check if language data exists
      *
      * @param dataType data type i.e best, fast, standard
-     * @param lang     language
+     * @param langs     language
      * @return true if language data exists
      */
-    private boolean isLanguageDataExists(final String dataType, final String lang) {
+    private boolean isLanguageDataExists(final String dataType, final Set<Language> langs) {
         switch (dataType) {
             case "best":
                 currentDirectory = new File(dirBest, "tessdata");
@@ -393,17 +389,12 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 currentDirectory = new File(dirFast, "tessdata");
 
         }
-        if (lang.contains("+")) {
-            String[] lang_codes = lang.split("\\+");
-            for (String code : lang_codes) {
-                File file = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, code));
-                if (!file.exists()) return false;
-            }
-            return true;
-        } else {
-            File language = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang));
-            return language.exists();
+        for (Language language : langs) {
+            File file = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, language.getCode()));
+            if (!file.exists()) return false;
         }
+        return true;
+    
     }
 
     /**
@@ -442,14 +433,15 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SETTINGS) {
-            initializeOCR(null);
+            mLanguage = Utils.getTrainingDataLanguage(this);
+            initializeOCR();
         }
         if (resultCode == RESULT_OK) {
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 if (isLanguageDataExists(mTrainingDataType, mLanguage)) {
                     CropImage.ActivityResult result = CropImage.getActivityResult(data);
                     convertImageToText(result.getUri());
-                } else initializeOCR(mLanguage);
+                } else initializeOCR();
 
             }
         }
@@ -646,25 +638,15 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 mProgressDialog.cancel();
                 mProgressDialog = null;
             }
-            initializeOCR(null);
+            mLanguage = Utils.getTrainingDataLanguage(MainActivity.this);
+            initializeOCR();
         }
 
         @Override
         protected Boolean doInBackground(String... languages) {
             String dataType = languages[0];
             String lang = languages[1];
-            boolean ret = true;
-            if (lang.contains("+")) {
-                String[] lang_codes = lang.split("\\+");
-                for (String code : lang_codes) {
-                    if (!isLanguageDataExists(dataType, code)) {
-                        ret &= downloadTraningData(dataType, code);
-                    }
-                }
-                return ret;
-            } else {
-                return downloadTraningData(dataType, lang);
-            }
+            return downloadTraningData(dataType, lang);
         }
 
         /**

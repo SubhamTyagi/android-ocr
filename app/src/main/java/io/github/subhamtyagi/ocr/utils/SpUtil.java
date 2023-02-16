@@ -133,4 +133,9 @@ public class SpUtil {
     }
 
 
+    public void putStringSet(String key, Set<String> value) {
+        Editor editor = mPref.edit();
+        editor.putStringSet(key, value);
+        editor.apply();
+    }
 }

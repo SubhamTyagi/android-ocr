@@ -30,21 +30,6 @@
             android:title="@string/select_tesseract_data_type"
             app:icon="@drawable/ic_baseline_more_horiz_32" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/key_enable_multiple_lang"
-            android:summary="@string/multiple_lang_summary"
-            android:title="@string/select_multi_languages_title" />
-
-        <ListPreference
-            android:defaultValue="eng"
-            android:entries="@array/ocr_engine_language"
-            android:entryValues="@array/key_ocr_engine_language_value"
-            android:key="@string/key_language_for_tesseract"
-            android:summary="@string/language"
-            android:title="@string/tess_language_title"
-            app:icon="@drawable/ic_baseline_language_32" />
-
         <MultiSelectListPreference
 
             android:entries="@array/ocr_engine_language"

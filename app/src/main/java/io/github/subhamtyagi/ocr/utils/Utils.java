@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
+
 import com.googlecode.leptonica.android.AdaptiveMap;
 import com.googlecode.leptonica.android.Binarize;
 import com.googlecode.leptonica.android.Convert;
@@ -75,13 +77,15 @@ public class Utils {
         return SpUtil.getInstance().getString(Constants.KEY_TESS_TRAINING_DATA_SOURCE, "best");
     }
 
-    public static Set<Language> getTrainingDataLanguage(Context c) {
+    public static @NonNull Set<Language> getTrainingDataLanguages(Context c) {
         if (SpUtil.getInstance().getBoolean(Constants.KEY_ENABLE_MULTI_LANG)) {
             return SpUtil.getInstance()
                     .getStringSet(Constants.KEY_LANGUAGE_FOR_TESSERACT_MULTI, Collections.singleton(DEFAULT_LANGUAGE))
-                    .stream().map(code -> new Language(c, code)).collect(Collectors.toSet());
+                    .stream()
+                    .map(code -> new Language(c, code))
+                    .collect(Collectors.toSet());
         } else {
-            return Collections.singleton(new Language(c, SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT)));
+            return Collections.singleton(new Language(c, SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, DEFAULT_LANGUAGE)));
         }
     }
 

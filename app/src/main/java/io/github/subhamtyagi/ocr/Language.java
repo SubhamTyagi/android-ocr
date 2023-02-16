@@ -1,6 +1,7 @@
 package io.github.subhamtyagi.ocr;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -17,7 +18,7 @@ public class Language {
     }
 
     private String code, name;
-    public Language(@NonNull Context c, String code) {
+    public Language(@NonNull Context c, @NonNull String code) {
         String[] languagesNames = c.getResources().getStringArray(R.array.ocr_engine_language);
         String[] languagesCodes = c.getResources().getStringArray(R.array.key_ocr_engine_language_value);
         for (int i = 0; i < languagesCodes.length; i++) {
@@ -26,5 +27,9 @@ public class Language {
                 this.name = languagesNames[i];
             }
         }
+    }
+
+    @Override public String toString() {
+        return getCode();
     }
 }

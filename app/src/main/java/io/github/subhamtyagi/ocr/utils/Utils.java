@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import io.github.subhamtyagi.ocr.Language;
+import io.github.subhamtyagi.ocr.R;
 import kotlin.Triple;
 
 public class Utils {
@@ -80,7 +81,9 @@ public class Utils {
     }
 
     public static @NonNull Set<Language> getTrainingDataLanguages(Context c) {
-        return allLangs(c, SpUtil.getInstance().getStringSet(Constants.KEY_LAST_USED_LANGUAGE_1, Collections.singleton("eng")));
+        return allLangs(c,SpUtil.getInstance().getStringSet(
+                c.getString(R.string.key_language_for_tesseract_multi),
+                Collections.singleton("eng")));
     }
 
     public static int getPageSegMode() {
@@ -97,7 +100,7 @@ public class Utils {
 
     public static Triple<Set<Language>, Set<Language>, Set<Language>> getLast3UsedLanguage(Context c) {
         return new Triple<>(
-                allLangs(c, SpUtil.getInstance().getStringSet(Constants.KEY_LAST_USED_LANGUAGE_1, Collections.singleton("eng"))),
+                allLangs(c, SpUtil.getInstance().getStringSet(c.getString(R.string.key_language_for_tesseract_multi), Collections.singleton("eng"))),
                 allLangs(c, SpUtil.getInstance().getStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, Collections.singleton("hin"))),
                 allLangs(c, SpUtil.getInstance().getStringSet(Constants.KEY_LAST_USED_LANGUAGE_3, Collections.singleton("deu")))
         );
@@ -118,11 +121,11 @@ public class Utils {
         Set<String> l2Codes = l2.stream().map(Language::getCode).collect(Collectors.toSet());
         if (l2.equals(lastUsedLanguage)) {
             SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, l1Codes);
-            SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_1, lastCodes);
+            SpUtil.getInstance().putStringSet(c.getString(R.string.key_language_for_tesseract_multi), lastCodes);
         } else {
             SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_3, l2Codes);
             SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, l1Codes);
-            SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_1, lastCodes);
+            SpUtil.getInstance().putStringSet(c.getString(R.string.key_language_for_tesseract_multi), lastCodes);
         }
 
     }

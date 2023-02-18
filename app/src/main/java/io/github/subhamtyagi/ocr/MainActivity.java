@@ -340,8 +340,12 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
 
-        for (Language language: languages)
-            if (ni != null && ni.isConnected() && languageDataMissing(dataType, language)) {
+        for (Language language: languages) {
+            if (languageDataMissing(dataType, language)) {
+                if (ni == null || !ni.isConnected()) {
+                    Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 //region show confirmation dialog, On 'yes' download the training data.
                 String msg = String.format(getString(R.string.download_description), language.getName());
                 dialog = new AlertDialog.Builder(this)
@@ -357,10 +361,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         }).create();
                 dialog.show();
                 //endregion
-            } else {
-                Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
-                //You are not connected to Internet
             }
+
+        }
     }
     private void downloadLanguageData(final String dataType) {
         downloadLanguageData(dataType, Utils.getTrainingDataLanguages(this));

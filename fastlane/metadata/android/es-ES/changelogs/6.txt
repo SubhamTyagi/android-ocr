@@ -3,7 +3,7 @@
 
 - Ahora Traduce esta aplicación en Weblate
 
-- Nuevos datos de entrenamiento para los siguientes idiomas:
+- Nuevos idiomas:
 
 - Chino simplificado vertical, chino tradicional vertical, japonés (vertical), coreano (vertical)
 - Fraktur alemán, Fraktur danés, Fraktur eslovaco

@@ -1,9 +1,9 @@
 🇺🇦 
 
 ¡Gloria a Ucrania!
-* Seleccione la opción de idioma cuando la aplicación se abre mediante el menú Compartir.
+* Selecciona idioma cuando la aplicación se abre en el menú Compartir.
 * El idioma seleccionado ahora también se mostrará en la pantalla principal.
-* Ahora el tipo de datos Rápido está configurado como predeterminado.
+* Datos Rápido está configurado como predeterminado.
 * Transición suave de la aplicación en la funcionalidad de recorte.
 *
 * Corrección de errores en Android 10+.

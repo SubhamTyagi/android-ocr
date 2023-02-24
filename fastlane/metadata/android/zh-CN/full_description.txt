@@ -1,0 +1,38 @@
+# 文字识别
+
+一款基于Teserat的可识别图片上的文本的文字识别应用。
+
+此应用当前基于 <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 5 </a> ，也是首款基于Tesseract 5的安卓应用。
+
+### 下载了训练数据之后，所有的功能均为离线状态完成
+
+此应用的翻译在 [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr)上。
+
+<font color="#2467d6"><b>特性</b></font>
+* 准度最高，速度最快。
+* 从图像中提取文本。
+* 复制数据到粘贴板。
+* 可任意选择部分数据。
+* 处理同一张图像上的多种语言文本(需要更改设置)。
+* 基于最新的训练数据 <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">Training Data</a>。
+* 120+可识别的 <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">语言</a>。
+* 3类数据，例如：i <a href="https://github.com/tesseract-ocr/tessdata">标准</a>, <a href="https://github.com/tesseract-ocr/tessdata_best">最好</a>, <a href="https://github.com/tesseract-ocr/tessdata_fast">最快</a> ,<a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">详情参考</a>。
+* 数学公式识别/方程式检测(尚未测试)。
+
+
+<font color="#2467d6">权限需求</font>
+
+* 互联网: 用于下载训练数据。
+* 互联网接入状态: 用于下载训练数据。
+* 注意: 任何私人数据均不会发送。
+
+<font color="#2467d6"><b>授权许可</b></font>
+
+* Tesseract and Tesseract 数据:<a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>。
+* Tesseract4Android: <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>。
+* ImageCropper: <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>。
+* SpinnerDialog: <a href="https://github.com/MdFarhanRaja/SearchableSpinner/blob/master/LICENSE">[Apache 2.0</a>。
+
+可能由 <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a> 库产生。
+
+如果你想使用基于Tesseract 4 的版本，你可以此应用的老版本(早于v3.0)。

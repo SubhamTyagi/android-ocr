@@ -1,28 +1,28 @@
-- Opción para deshabilitar recordar los últimos resultados (por @urlordjames)
-- Nuevo ícono de aplicación (por @nucleus-ffm)
+- Desactivar recordar últimos resultados(por @urlordjames)
+- Nuevo icono (por @nucleus-ffm)
 
-- Ahora Traduce esta aplicación en Weblate
+- Traducir en Weblate
 
-- Nuevos datos de entrenamiento para los siguientes idiomas:
+- Nuevos idiomas:
 
-- Chino simplificado vertical, chino tradicional vertical, japonés (vertical), coreano (vertical)
-- Fraktur alemán, Fraktur danés, Fraktur eslovaco
-- corso
-- Dhivehi; Divehi; maldivo
-- Gaélico escocés; gaélico
-- Dhivehi; Divehi; maldivo
-- luxemburgués; luxemburgués
-- mongol, maorí
-- Filipino: Filipino
-- frisón occidental
-- kurdo del norte
-- armenio
-- feroés
+- Chino Simplificado Vertical, Chino Tradicional Vertical,Japonés (vertical),Coreano (vertical)
+- Alemán Fraktur, Danés Fraktur,Eslovaco Fraktur
+- Corso
+- Dhivehi; Divehi; Maldivo
+- Gaélico escocés; Gaélico
+- Dhivehi; Divehi; Maldivo
+- Luxemburgués; Letzeburgesch
+- Mongol; Maorí
+- Filipino Pilipino
+- Frisón occidental
+- Kurdo septentrional
+- Armenio
+- Feroés
 - Occitano (después de 1500)
-- Quechua
+- quechua
 - Sindhi
 - Sundanés
-- tártaro
+- Tártaro
 - Tonga (Islas Tonga)
 - Yoruba
-- Compatible con OSD, PDF y ecuaciones matemáticas
+- OSD, PDF y ecuaciones

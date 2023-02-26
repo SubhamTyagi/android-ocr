@@ -1,0 +1,5 @@
+* Podpora OpenMP (vícevláknový systém poskytuje vyšší výkon)
+* Aktualizace knihovny Tesseract4Android na verzi 4.3.0
+* Aktualizace Tesseract na verzi 4.3.0
+* Aktualizace různých knihoven
+* Přidány nové překlady pro různé jazyky

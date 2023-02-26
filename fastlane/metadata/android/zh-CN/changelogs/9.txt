@@ -1,0 +1,8 @@
+*更新内容*
+
+* 应用采用Tesseract 5，比前一版本提速50%(声称的)。
+* 应用设置默认已训练数据为'fast'。
+* 更新库(Leptonica,libjpeg,libpng)。
+* 开启 Fast Float(当使用 'best'模式已训练数据时，性能翻倍 )。
+* 采用NEON SIMD编译, 在LSTM引擎使用 'standard' 或者'fast'数据时,大幅缩减处理时间。
+* 更多信息参考Tesseract4Android库仓库.

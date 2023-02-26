@@ -1,12 +1,12 @@
-*Qué hay de nuevo en esta actualización*
+*Novedades en esta actualización
 
-* Seleccione la opción de idioma cuando la aplicación se abre mediante el menú Compartir.
+* Selecciona idioma cuando la aplicación se abre por Menú Compartir.
 * El idioma seleccionado ahora también se mostrará en la pantalla principal.
-* Ahora el tipo de datos Rápido está configurado como predeterminado.
-* Transición suave de la aplicación en la funcionalidad de recorte.
+* Datos rápidos está configurado por defecto.
+* Transición suave de la aplicación en la función de recorte.
 *
 * Corrección de errores en Android 10+.
-* Corrección de fallas en dispositivos que no están en inglés (Chris <chris@d*****t>).
+* Corrección de fallos en dispositivos de localización no inglesa (Chris <chris@d*****t>).
 *
-* Mejora y optimización de código.
-* Tesseract4android actualizado.
+* Mejora y optimización del código.
+* Actualizado tesseract4android.

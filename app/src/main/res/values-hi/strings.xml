@@ -26,4 +26,8 @@
     <string name="share">शेयर करें</string>
     <string name="no_results">कोई पाठ पहचाना नहीं जा सका।</string>
     <string name="segmentation_mode">पृष्ठ विभाजन मोड</string>
+    <string name="text_goes_here">यहाँ टेक्स्ट टाइप करें</string>
+    <string name="refresh">ताज़ा</string>
+    <string name="draw_box_summary">ऐप छवि पर पाठ खींचेगा</string>
+    <string name="draw_box_title">छवि पर पाठ ड्रा करें</string>
 </resources>

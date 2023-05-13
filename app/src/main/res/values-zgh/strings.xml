@@ -32,4 +32,11 @@
     <string name="downloading_language">ⴰⴳⴰⵎ ⵏ ⵜⵎⵓⵛⴰ ⵏ ⵜⵓⵜⵍⴰⵢⵜ…</string>
     <string name="converting_image">ⴰⵔ ⵜⵜⴰⵡⵙⵏⴼⴰⵍ ⵜⵡⵍⴰⴼⵜ ⵖⵔ ⵓⴹⵕⵉⵚ…</string>
     <string name="show_last_result">ⵥⵕ ⵜⴰⵢⴰⴼⵓⵜ ⵜⴰⵎⴳⴳⴰⵔⵓⵜ</string>
+    <string name="download_language_data_please_wait">ⴰⴳⴰⵎ ⵏ ⵉⴼⴰⵢⵍⵓⵜⵏ ⵏ ⵜⵎⵓⵛⴰ ⵏ OCR. ⴳⴳⴰⵏⵉ ⵉⵎⵉⴽ …</string>
+    <string name="installing_please_wait">ⴰⵙⵡⴰⵔ ⵏ ⵉⴼⴰⵢⵍⵓⵜⵏ ⵏ ⵜⵎⵓⵛⴰ ⵏ OCR. ⴳⴳⴰⵏⵉ ⵉⵎⵉⴽ…</string>
+    <string name="refresh">ⵣⵣⵓⵣⵡⵓ</string>
+    <string name="tesseract_data">ⵜⵉⵎⵓⵛⴰ ⵏ Tesseract</string>
+    <string name="select_tesseract_data_type">ⵙⵜⵉ ⴰⵏⴰⵡ ⵏ ⵜⵎⵓⵛⴰ ⵏ Tesseract</string>
+    <string name="others_settings">ⵜⵉⵙⵖⴰⵍ ⵢⴰⴹⵏ</string>
+    <string name="source_code">ⵉⵏⵉⴳ ⵏ ⵓⵙⴰⴳⵎ</string>
 </resources>

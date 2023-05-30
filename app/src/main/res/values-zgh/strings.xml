@@ -39,4 +39,8 @@
     <string name="select_tesseract_data_type">ⵙⵜⵉ ⴰⵏⴰⵡ ⵏ ⵜⵎⵓⵛⴰ ⵏ Tesseract</string>
     <string name="others_settings">ⵜⵉⵙⵖⴰⵍ ⵢⴰⴹⵏ</string>
     <string name="source_code">ⵉⵏⵉⴳ ⵏ ⵓⵙⴰⴳⵎ</string>
+    <string name="language_not_exists">ⵓⵔ ⵍⵍⵉⵏⵜ ⵜⵎⵓⵛⴰ ⵏ ⵓⵙⴰⵏⵓⵏ ⵏ ⵜⵓⵜⵍⴰⵢⵜ %s ; ⵓⵔ ⵉⵜⵜⵉⵍⵉ ⵢⵉⴽⵉⵣ</string>
+    <string name="no_results">ⵓⵔ ⵉⵣⵔⵉ ⵢⵉⴽⵉⵣ ⵏ ⴽⵔⴰ ⵏ ⵓⴹⵕⵉⵚ.</string>
+    <string name="persist_data_summary">ⵃⴹⵓ ⵜⴰⵡⵍⴰⴼⵜ ⴷ ⵓⴹⵕⵉⵚ ⴷⴼⴼⵉⵔ ⵏ ⵡⵓⴼⵓⵖ ⵙⴳ ⵜⵙⵏⵙⵉ</string>
+    <string name="training_data_missing">ⵓⵔ ⵍⵍⵉⵏⵜ ⵜⵎⵓⵛⴰ ⵏ ⵓⵙⴰⵏⵓⵏ!</string>
 </resources>

@@ -1,2 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="training_data_missing">داده‌های آموزشی در دسترس نیست!</string>
+    <string name="language">زبان</string>
+    <string name="gray_scale_detail">پیش‌پردازش تصویر برای دقت بیشتر</string>
+    <string name="use_gray_scale_image_for_ocr">پیش‌پردازش تصویر</string>
+    <string name="tess_language_title">زبان را برای Tesseract انتخاب نمایید</string>
+    <string name="download_language_data_please_wait">در حال بارگیری فایل‌های داده OCR. لطفا صبر نمایید…</string>
+    <string name="installing_please_wait">در حال نصب فایل‌های داده OCR. لطفا صبر نمایید…</string>
+    <string name="language_not_exists">داده‌های آموزشی برای زبان %s وجود ندارد؛ تشخیص ممکن نیست</string>
+    <string name="settings">تنظیمات</string>
+    <string name="segmentation_mode">حالت تقسیم‌بندی صفحه</string>
+    <string name="draw_box_summary">برنامه متن را روی تصویر رسم می‌کند</string>
+    <string name="draw_box_title">رسم متن روی تصویر</string>
+    <string name="no_results">هیچ متنی شناسایی نشد.</string>
+    <string name="converting_image">در حال تبدیل تصویر به متن…</string>
+    <string name="copy_to_clipboard">روگرفت به حافظه موقت</string>
+    <string name="share">هم‌رسانی</string>
+    <string name="persist_data_summary">پس از بسته شدن برنامه، تصویر و متن ذخیره شود</string>
+    <string name="persist_data_title">دخیره داده‌ها</string>
+    <string name="percentage_downloaded">% از مجموع:</string>
+    <string name="you_are_not_connected_to_internet">شما به اینترنت متصل نیستید</string>
+    <string name="yes">بلی</string>
+    <string name="no">خیر</string>
+    <string name="refresh">بازآوری</string>
+    <string name="tesseract_data">داده‌های Tesseract</string>
+    <string name="select_tesseract_data_type">نوع داده‌های Tesseract را انتخاب نمایید</string>
+    <string name="others_settings">تنظیمات دیگر</string>
+    <string name="open_source_statement">Android OCR یک نرم افزار رایگان است. برای بازدید برنامه در گیت‌هاب کلیک نمایید.</string>
+    <string name="source_code">کد منبع</string>
+    <string name="download_description">برای عملکرد صحیح Tesseract OCR باید داده‌های آموزشی اضافی در دستگاه شما بارگیری شود.
+\nآیا می‌خواهید داده‌های زبان انتخابی (%s) را بارگیری نمایید؟</string>
+    <string name="perform_contrast">بهبود کنتراست</string>
+    <string name="deskew_image">اصلاح تصویر</string>
+    <string name="advance_settings">تنظیمات پیشرفته</string>
+    <string name="image_enhancement">بهبود تصویر</string>
+    <string name="languages">زبان‌ها</string>
+    <string name="image_processing_functions">وظایف پردازش تصویر</string>
+    <string name="advance_tesseract_settings">تنظیمات پیشرفته Tesseract</string>
+    <string name="psm_summary">این کار Tesseract را هدایت می‌کند چگونه تصویر را به خطوط متن و کلمات تقسیم کند.</string>
+    <string name="selected_language">زبان انتخابی:</string>
+    <string name="what_language_this_image_have">این تصویر چه زبانی دارد؟</string>
+    <string name="language_name">نام زبان</string>
+    <string name="contrast_summary">انطباقی تلاش می‌کند کنتراست را تا محدوده دینامیکی کامل گسترش دهد</string>
+    <string name="un_sharp_masking_summary">پوشش غیر واضح (افزایش لبه) را روی تصویر انجام می‌دهد</string>
+    <string name="otsu_threshold">آستانه OTSU</string>
+    <string name="un_sharp_masking">پوشش‌دهی تیره</string>
+    <string name="downloading">در حال بارگیری…</string>
+    <string name="downloading_language">در حال بارگیری داده‌های زبان…</string>
+    <string name="show_last_result">نمایش آخرین نتیجه</string>
+    <string name="text_goes_here">متن اینجا قرار می‌گیرد</string>
+    <string name="copied_to_clipboard">به حافظه موقت روگرفت شد</string>
+    <string name="generic_image_description">تصویر</string>
+    <string name="multiple_lang_summary">داده‌های آموزشی در چندین زبان</string>
+    <string name="select_multi_training_data_title">چند زبان برای Tesseract انتخاب نمایید</string>
+    <string name="select_multi_languages_title">چندین زبان انتخاب نمایید</string>
+    <string name="select_search_language">زبان‌ها را انتخاب یا جستجو نمایید</string>
+    <string name="advance_setting_summary">وظایف مربوط به پردازش تصویر</string>
+    <string name="deskew_summary">انحراف را پیدا کرده و تصویر را اصلاح نمایید</string>
+    <string name="otsu_summary">انجام باینری‌سازی آستانه Otsu تطبیقی محلی تصاویر</string>
+</resources>

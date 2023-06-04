@@ -1,0 +1,39 @@
+# OCR
+
+یک برنامه اندروید OCR مبتنی بر Tesseract که می‌تواند متون روی تصاویر را تشخیص دهد.
+
+حال این برنامه مبتنی بر <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 5 </a> است (از نسخه ۳) و اولین برنامه اندرویدی مبتنی بر Tesseract 5 است.
+
+###پس از بارگیری داده‌های آموزشی، برنامه همه کارها را به‌صورت آفلاین در دستگاه شما انجام می‌دهد.
+
+ترجمه این برنامه در [Hosted Weblate](https://hosted.weblate.org/projects/android-ocr).
+
+🚀 <font color="#2467d6"><b>امکانات</b></font>
+* بالاترین دقت و سریع‌ترین نتیجه.
+* استخراج متن از تصاویر.
+* روگرفت داده‌ها به حافظه موقت.
+* انتخاب هر بخشی از داده‌ها.
+* پردازش چندین زبان در یک تصویر (نیازمند تغییرات در تنظیمات).
+* مبتنی بر آخرین <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">داده‌های آموزشی</a>
+* بیش از ۱۲۰ <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files">زبان</a> شناسایی شده.
+* ۳ نوع داده برای مثال <a href="https://github.com/tesseract-ocr/tessdata">استاندارد</a>، <a href="https://github.com/tesseract-ocr/tessdata_best">بهترین</a>، <a href="https://github.com/tesseract-ocr/tessdata_fast">سریع</a>و برای اطلاعات بیشتر <a href="https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md">اینجا را کلیک نمایید</a>.
+* تشخیص ریاضی/شناسایی معادله (هنوز آزمایش نشده)
+* پردازش مستقیم تصاویر گالری وسیله شما از طریق منوی هم‌رسانی.
+
+
+<font color="#2467d6"><b>مجوزهای مورد نیاز</b></font>
+
+* اینترنت: بارگیری داده‌های آموزشی
+* وضعیت دسترسی به اینترنت: برای بارگیری داده‌های آموزشی.
+* توجه: هیچ یک از داده‌های شما به جایی ارسال نمی‌شود.
+
+📓 <font color="#2467d6"><b>مجوز</b></font>
+
+* Tesseract and Tesseract Data: <a href="https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE">Apache 2.0</a>.
+* Tesseract4Android: <a href="https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE">Apache 2.0</a>.
+* ImageCropper: <a href="https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt">Apache 2.0</a>.
+* SpinnerDialog: <a href="https://github.com/MdFarhanRaja/SearchableSpinner/blob/master/LICENSE">[Apache 2.0</a>
+
+ممکن شده توسط کتابخانه <a href="https://github.com/adaptech-cz/Tesseract4Android">Tesseract4Android</a>.
+
+اگر می‌خواهید از نسخه مبتنی بر Tesseract 4 استفاده کنید، می‌توانید از نسخه قدیمی این برنامه (قبل از نسخه ۳) استفاده کنید.

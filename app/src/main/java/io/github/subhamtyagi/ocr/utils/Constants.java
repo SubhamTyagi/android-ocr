@@ -13,6 +13,10 @@ public class Constants {
     public static final String TESSERACT_DATA_DOWNLOAD_URL_STANDARD = "https://github.com/tesseract-ocr/tessdata/raw/4.0.0/%s.traineddata";
     public static final String TESSERACT_DATA_DOWNLOAD_URL_FAST = "https://github.com/tesseract-ocr/tessdata_fast/raw/4.0.0/%s.traineddata";
 
+    public static final String TESSERACT_DATA_DOWNLOAD_URL_AKK_BEST = "https://github.com/tesseract-ocr/tessdata_contrib/raw/main/akk/best/akk.traineddata";
+    public static final String TESSERACT_DATA_DOWNLOAD_URL_AKK_STANDARD = "https://github.com/tesseract-ocr/tessdata_contrib/raw/main/akk/legacy/akk.traineddata";
+    public static final String TESSERACT_DATA_DOWNLOAD_URL_AKK_FAST = "https://github.com/tesseract-ocr/tessdata_contrib/raw/main/akk/fast/akk.traineddata";
+
     public static final String LANGUAGE_CODE = "%s.traineddata";
 
     public static final String KEY_LANGUAGE_FOR_TESSERACT = "language_for_tesseract";

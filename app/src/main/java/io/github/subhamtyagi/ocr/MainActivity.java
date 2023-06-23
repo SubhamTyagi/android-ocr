@@ -681,13 +681,22 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
             switch (dataType) {
                 case "best":
-                    downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang);
+                    if (lang.equals("akk"))
+                        downloadURL = Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_BEST;
+                    else
+                        downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang);
                     break;
                 case "standard":
-                    downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang);
+                    if (lang.equals("akk"))
+                        downloadURL = Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_STANDARD;
+                    else
+                        downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang);
                     break;
                 default:
-                    downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
+                    if (lang.equals("akk"))
+                        downloadURL = Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_FAST;
+                    else
+                        downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
             }
 
             URL url, base, next;

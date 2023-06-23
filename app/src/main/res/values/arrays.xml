@@ -2,6 +2,7 @@
     <!--language array-->
     <string-array name="ocr_engine_language">
         <item>Afrikaans</item>
+        <item>Akkadian</item>
         <item>Amharic</item>
         <item>Arabic</item>
         <item>Assamese</item>
@@ -136,6 +137,7 @@
     <!--language keys mapped to tessertact training data -->
     <string-array name="key_ocr_engine_language_value">
         <item>afr</item>
+        <item>akk</item>
         <item>amh</item>
         <item>ara</item>
         <item>asm</item>

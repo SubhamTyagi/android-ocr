@@ -2,7 +2,7 @@
 <resources>
     <string name="download_description">Para el correcto funcionamiento de Tesseract OCR es necesario descargar datos de entrenamiento adicionales en su dispositivo.
 \n¿Deseas descargar los datos de los idiomas seleccionados (%s)\?</string>
-    <string name="training_data_missing">¡Faltan datos para el entrenamiento!</string>
+    <string name="training_data_missing">¡Faltan los datos del entrenamiento!</string>
     <string name="no">No</string>
     <string name="yes">Sí</string>
     <string name="you_are_not_connected_to_internet">No estás conectado a Internet</string>

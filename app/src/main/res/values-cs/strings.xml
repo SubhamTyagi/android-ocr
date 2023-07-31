@@ -14,7 +14,7 @@
     <string name="persist_data_title">Uložit data</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
-    <string name="training_data_missing">chybí tréninková data!</string>
+    <string name="training_data_missing">Chybí tréninková data!</string>
     <string name="refresh">Obnovit</string>
     <string name="others_settings">Další nastavení</string>
     <string name="source_code">Zdrojový kód</string>

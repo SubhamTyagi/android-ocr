@@ -42,7 +42,7 @@
     <string name="you_are_not_connected_to_internet">You are not connected to internet</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="training_data_missing">training data missing!</string>
+    <string name="training_data_missing">Training data missing!</string>
     <string name="download_description">For proper functioning of Tesseract OCR additional training data needs to be downloaded to your device.\nDo you want to download selected language(%s) data?</string>
     <string name="refresh">Refresh</string>
     <string name="tesseract_data">Tesseract Data</string>

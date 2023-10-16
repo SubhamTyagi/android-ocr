@@ -28,7 +28,7 @@
     <string name="advance_tesseract_settings">הגדרות מתקדמות של Tesseract</string>
     <string name="psm_summary">הוא מנחה כיצד Tesseract מפצל תמונה בשורות טקסט ומילים.</string>
     <string name="selected_language">בחירת שפה:</string>
-    <string name="what_language_this_image_have">איזו שפה יש לתמונה הזו\?</string>
+    <string name="what_language_this_image_have">באיזו שפה נעשה שימוש בתמונה הזאת\?</string>
     <string name="language_name">שם השפה</string>
     <string name="select_search_language">בחירה או חיפוש שפות</string>
     <string name="download_language_data_please_wait">קובצי נתוני OCR מתקבלים. נא להמתין…</string>

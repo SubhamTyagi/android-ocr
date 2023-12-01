@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TaskerPluginLibrary</string>
+    <string name="tasker_plugin_service">Tasker Plugin Service</string>
+    <string name="tasker_plugin_service_description">Used to run Tasker actions and conditions</string>
+    <string name="running_tasker_plugin">Running Tasker plugin...</string>
+    <string name="error_code">Error Code</string>
+    <string name="error_code_description">If there\'s an error, contains an error code</string>
+    <string name="error_message">Error Message</string>
+    <string name="error_message_description">If there\'s an error, contains an error message</string>
+    <string name="explanation_for_special_use_action">Tasker plugin service that executes the app\'s actions from Tasker</string>
+    <string name="explanation_for_special_use_condition">Tasker plugin service that checks the app\'s conditions from Tasker</string>
+</resources>

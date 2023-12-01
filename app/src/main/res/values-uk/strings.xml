@@ -58,4 +58,5 @@
     <string name="what_language_this_image_have">Якою мовою є це зображення\?</string>
     <string name="language_name">Назва мови</string>
     <string name="select_search_language">Вибір або пошук мов</string>
+    <string name="oem_summary">Визначає точність і ефективність</string>
 </resources>

@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Html;
@@ -33,6 +34,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.theartofdev.edmodo.cropper.CropFileProvider;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -212,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                     showLanguageSelectionDialog(imageUri);
                 }
             }
-        } else if (action.equals("screenshot")) {
+        } else if ("screenshot".equals(action)) {
             // uri
         }
     }
@@ -233,23 +235,23 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         RadioButton radioButton3 = view.findViewById(R.id.rb_language3);
         String[] la = Utils.getLast3UsedLanguage();
 
-        radioButton1.setText(getLanguageNameFromCode(la[0]));
-        radioButton2.setText(getLanguageNameFromCode(la[1]));
-        radioButton3.setText(getLanguageNameFromCode(la[2]));
+        radioButton1.setText(getLanguageNameFromCode(la[0], false));
+        radioButton2.setText(getLanguageNameFromCode(la[1], false));
+        radioButton3.setText(getLanguageNameFromCode(la[2], false));
 
         radioButton1.setOnClickListener(view1 -> startOCRFromShareMenu(la[0], imageUri));
         radioButton2.setOnClickListener(view1 -> startOCRFromShareMenu(la[1], imageUri));
         radioButton3.setOnClickListener(view1 -> startOCRFromShareMenu(la[2], imageUri));
     }
 
-    private String getLanguageNameFromCode(String code) {
-        return languagesNames.get(languagesCodes.indexOf(code));
+    private String getLanguageNameFromCode(String code, boolean multipleLanguages) {
+        return multipleLanguages ? code : languagesNames.get(languagesCodes.indexOf(code));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mLanguageName.setText(getLanguageNameFromCode(mLanguage));
+        mLanguageName.setText(getLanguageNameFromCode(mLanguage,true));
     }
 
     public void startOCRFromShareMenu(String lang, Uri imageUri) {
@@ -349,7 +351,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         if (ni != null && ni.isConnected()) {
             //region show confirmation dialog, On 'yes' download the training data.
-            String msg = String.format(getString(R.string.download_description), getLanguageNameFromCode(lang));
+            String msg = String.format(getString(R.string.download_description), getLanguageNameFromCode(lang, true));
             dialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.training_data_missing)
                     .setCancelable(false)
@@ -525,8 +527,18 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     public void saveBitmapToStorage(Bitmap bitmap) {
         FileOutputStream fileOutputStream;
+        File dir;
+        File file;
         try {
-            fileOutputStream = openFileOutput("last_file.jpeg", Context.MODE_PRIVATE);
+//          openFileOutput(..) will open file: /data/user/0/${packageName}/files/last_file.jpeg
+//          App data in "/storage/emulated/0/Android/data" on Android R
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                dir = CropFileProvider.filesDir(getApplicationContext());
+                file = new File(dir, "last_file.jpeg");
+                fileOutputStream = new FileOutputStream(file);
+            } else {
+                fileOutputStream = openFileOutput("last_file.jpeg", Context.MODE_PRIVATE);
+            }
             bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fileOutputStream);
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
@@ -541,8 +553,18 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     public Bitmap loadBitmapFromStorage() {
         Bitmap bitmap = null;
         FileInputStream fileInputStream;
+        File dir;
+        File file;
         try {
-            fileInputStream = openFileInput("last_file.jpeg");
+//            openFileInput(..) will open file: /data/user/0/${packageName}/files/last_file.jpeg
+//            App data in "/storage/emulated/0/Android/data" on Android R
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                dir = CropFileProvider.filesDir(getApplicationContext());
+                file = new File(dir, "last_file.jpeg");
+                fileInputStream = new FileInputStream(file);
+            } else {
+                fileInputStream = openFileInput("last_file.jpeg");;
+            }
             bitmap = BitmapFactory.decodeStream(fileInputStream);
             fileInputStream.close();
 

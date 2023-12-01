@@ -2,17 +2,22 @@ apply plugin: 'com.android.library'
 
 android {
 
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 33
+        targetSdkVersion 34
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility "$java_version"
+        targetCompatibility "$java_version"
     }
-    lintOptions {
+    namespace 'com.theartofdev.edmodo.cropper'
+    buildFeatures {
+        viewBinding true
+    }
+    lint {
         abortOnError false
     }
 }

@@ -43,4 +43,5 @@
     <string name="no_results">ⵓⵔ ⵉⵣⵔⵉ ⵢⵉⴽⵉⵣ ⵏ ⴽⵔⴰ ⵏ ⵓⴹⵕⵉⵚ.</string>
     <string name="persist_data_summary">ⵃⴹⵓ ⵜⴰⵡⵍⴰⴼⵜ ⴷ ⵓⴹⵕⵉⵚ ⴷⴼⴼⵉⵔ ⵏ ⵡⵓⴼⵓⵖ ⵙⴳ ⵜⵙⵏⵙⵉ</string>
     <string name="training_data_missing">ⵓⵔ ⵍⵍⵉⵏⵜ ⵜⵎⵓⵛⴰ ⵏ ⵓⵙⴰⵏⵓⵏ!</string>
+    <string name="oem_summary">Determines accuracy and efficiency</string>
 </resources>

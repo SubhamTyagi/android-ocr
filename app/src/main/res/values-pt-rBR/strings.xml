@@ -58,4 +58,5 @@
     <string name="draw_box_title">Desenhar texto na imagem</string>
     <string name="segmentation_mode">Modo de segmentação de página</string>
     <string name="training_data_missing">Não há dados de treinamento!</string>
+    <string name="oem_summary">Determina precisão e eficiência</string>
 </resources>

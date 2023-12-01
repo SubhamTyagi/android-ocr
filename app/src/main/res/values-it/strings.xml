@@ -58,4 +58,5 @@
     <string name="select_multi_languages_title">Seleziona più lingue</string>
     <string name="image_processing_functions">Funzioni di elaborazione dell\'immagine</string>
     <string name="advance_tesseract_settings">Impostazioni Avanzate Tesseract</string>
+    <string name="oem_summary">Determina l\'accuratezza e l\'efficienza</string>
 </resources>

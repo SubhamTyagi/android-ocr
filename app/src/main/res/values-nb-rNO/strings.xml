@@ -54,4 +54,5 @@
     <string name="psm_summary">Angir hvordan Tesseract deler bilder i linjer av tekst og ord.</string>
     <string name="advance_tesseract_settings">Avanserte Tesseract-innstillinger</string>
     <string name="image_processing_functions">Bildebehandlingsfunksjoner</string>
+    <string name="oem_summary">Bestemmer nøyaktighet og effektivitet</string>
 </resources>

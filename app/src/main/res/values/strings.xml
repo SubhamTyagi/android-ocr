@@ -73,4 +73,11 @@
     <string name="what_language_this_image_have">What language this image have?</string>
     <string name="language_name">Language Name</string>
     <string name="select_search_language">Select or Search Languages</string>
+    <string name="image_path_name_title">Image path name</string>
+    <string name="result_variable_name_title">Result variable name</string>
+    <string name="result_variable_name_description">Optional variable name that stores image text</string>
+    <string name="result_description">OCR text result</string>
+    <string name="oem_summary">Determines accuracy and efficiency</string>
+    <string name="engine_mode" translatable="false">OCR Engine mode</string>
+    <string name="image_path_name_description">The absolute path of the image in the application storage space</string>
 </resources>

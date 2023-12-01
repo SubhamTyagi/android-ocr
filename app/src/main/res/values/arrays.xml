@@ -312,5 +312,17 @@
         <item>12</item>
         <item>13</item>
     </string-array>
+    <string-array name="key_ocr_oem_mode">
+        <item>OEM_TESSERACT_ONLY</item>
+        <item>OEM_LSTM_ONLY</item>
+        <item>OEM_TESSERACT_LSTM_COMBINED</item>
+        <item>OEM_DEFAULT</item>
+    </string-array>
+    <string-array name="value_ocr_oem_mode">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 
 </resources>

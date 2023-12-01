@@ -33,6 +33,7 @@ public class Constants {
     public static final String KEY_OTSU_THRESHOLD = "otsu_threshold";
     public static final String KEY_FIND_SKEW_AND_DESKEW = "deskew_img";
     public static final String KEY_PAGE_SEG_MODE = "key_ocr_psm_mode";
+    public static final String KEY_ENGINE_MODE = "key_oem_mode";
 
 
 }

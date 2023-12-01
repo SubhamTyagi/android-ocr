@@ -59,4 +59,5 @@
     <string name="selected_language">Wybrany język:</string>
     <string name="language_name">Nazwa języka</string>
     <string name="select_search_language">Wybierz lub wyszukaj języki</string>
+    <string name="oem_summary">Określa dokładność i wydajność</string>
 </resources>

@@ -14,4 +14,5 @@
     <string name="use_gray_scale_image_for_ocr">ছবি আগে প্রক্রিয়া করো</string>
     <string name="tesseract_data">টেসাররক্ট তথ্য</string>
     <string name="others_settings">অন্য পছন্দসমূহ</string>
+    <string name="oem_summary">Determines accuracy and efficiency</string>
 </resources>

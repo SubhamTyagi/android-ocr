@@ -30,4 +30,5 @@
     <string name="refresh">ताज़ा</string>
     <string name="draw_box_summary">ऐप छवि पर पाठ खींचेगा</string>
     <string name="draw_box_title">छवि पर पाठ ड्रा करें</string>
+    <string name="oem_summary">सटीकता और दक्षता निर्धारित करता है</string>
 </resources>

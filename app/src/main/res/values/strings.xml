@@ -80,4 +80,5 @@
     <string name="oem_summary">Determines accuracy and efficiency</string>
     <string name="engine_mode" translatable="false">OCR Engine mode</string>
     <string name="image_path_name_description">The absolute path of the image in the application storage space</string>
+    <string name="coordinates_description">The key-value information for the coordinates of each individual character</string>
 </resources>

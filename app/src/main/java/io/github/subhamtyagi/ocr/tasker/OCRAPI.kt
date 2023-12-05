@@ -1,4 +1,4 @@
-package io.github.subhamtyagi.ocr.tasker;
+package io.github.subhamtyagi.ocr.tasker
 
 import android.content.Context
 import com.googlecode.tesseract.android.TessBaseAPI
@@ -16,7 +16,7 @@ class TessBaseOCRFactory(private val context: Context) : OCRFactory{
         val mLanguage = Utils.getTrainingDataLanguage()
         val mPageSegMode = Utils.getPageSegMode()
         val dir = File(context.getExternalFilesDir(Utils.getTrainingDataType().toString())!!.absolutePath)
-        val mEngineMode = Utils.getEngineMode();
+        val mEngineMode = Utils.getEngineMode()
         val api = TessBaseAPI()
         api.init(dir.absolutePath, mLanguage, mEngineMode)
         api.pageSegMode = mPageSegMode

@@ -13,7 +13,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.runBlocking
 
 object ChannelManager {
-    val channelResult = Channel<String>()
+    val channelResult = Channel<OCROutput>()
 }
 const val TAG = "OCRRunner"
 class OCRRunner : TaskerPluginRunnerAction<OCRInput, OCROutput>() {
@@ -22,9 +22,8 @@ class OCRRunner : TaskerPluginRunnerAction<OCRInput, OCROutput>() {
     override fun run(context: Context,input: TaskerInput<OCRInput>): TaskerPluginResult<OCROutput> {
         val imagePathName = input.regular.imagePathName?: ""
         val output = runBlocking {
-            BackgroundWork().readText(context, imagePathName);
-            val result = channelResult.receive()
-            OCROutput(result)
+            BackgroundWork().readText(context, imagePathName)
+            channelResult.receive()
         }
         return TaskerPluginResultSucess(output)
     }

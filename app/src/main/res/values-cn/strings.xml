@@ -61,6 +61,7 @@
     <string name="select_search_language">选择或搜索语言</string>
     <string name="oem_summary">决定功能和速度</string>
     <string name="result_description">文字识别结果</string>
+    <string name="coordinates_description">每一个文字的坐标键值信息</string>
     <string name="image_path_name_description">应用存储空间下的图片绝对路径</string>
     <string name="result_variable_name_description">存储文字识别结果的可选变量名</string>
     <string name="result_variable_name_title">文字识别结果变量名</string>

@@ -3,8 +3,11 @@ package io.github.subhamtyagi.ocr.tasker
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.core.content.FileProvider
+import com.googlecode.tesseract.android.TessBaseAPI
+import com.googlecode.tesseract.android.TessBaseAPI.PageIteratorLevel
 import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfig
 import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfigHelper
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
@@ -18,6 +21,8 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.File
 
 
@@ -33,27 +38,65 @@ class BackgroundWork: CoroutineScope by MainScope() {
             }
         }
     }
-    private fun readTextFromOCRAPI(context: Context, pathName: String): String {
-        pathName.ifEmpty { return "Scan Failed: Must choose image file!" }
+    private fun readTextFromOCRAPI(context: Context, pathName: String): OCROutput {
+        pathName.ifEmpty { return OCROutput("Scan Failed: Must choose image file!","") }
         val imageFile = File(pathName)
         val imageUri = FileProvider.getUriForFile(context, CropFileProvider.authority(context), imageFile)
         var bitmap = BitmapUtils.decodeSampledBitMap(context, imageUri)?.bitmap
-
         // call image reader api
-        val result = TessBaseOCRFactory(context).let {
+        val output = TessBaseOCRFactory(context).let {
             val api = it.createAPI()
             if (Utils.isPreProcessImage()) bitmap = Utils.preProcessBitmap(bitmap)
             api.setImage(bitmap)
             val textOnImage = try {
-                api.utF8Text;
+                api.utF8Text
             } catch (e: Exception) {
                 "Scan Failed: WTF: Must be reported to developer!"
             }
             textOnImage.ifEmpty {
-                "Scan Failed: Couldn't read the image\nProblem may be related to Tesseract or no Text on Image!"
+                OCROutput("Scan Failed: Couldn't read the image\nProblem may be related to Tesseract or no Text on Image!","")
             }
+            val coordinatesData = assembleCoordinatesData(api)
+            OCROutput(textOnImage, coordinatesData)
         }
-        return result
+        return output
+    }
+
+    /**
+     * coordinates with top-left of the top-left contained pixel
+     * to the bottom-right of the bottom-right contained pixel
+     * @return A map. Key for each individual symbol, value for an array of coordinates
+     */
+    private fun readCoordinates(api: TessBaseAPI): Map<String, Array<IntArray>> {
+        val coordinatesMap: MutableMap<String, Array<IntArray>> = mutableMapOf()
+        val resultIterator = api.resultIterator
+        resultIterator.begin()
+        do {
+            val symbol = resultIterator.getUTF8Text(PageIteratorLevel.RIL_SYMBOL)
+            val boundingBox = resultIterator.getBoundingBox(PageIteratorLevel.RIL_SYMBOL)
+
+            if (symbol.isNotBlank()) {
+                coordinatesMap[symbol] = arrayOf(boundingBox)
+            }
+
+        } while (resultIterator.next(PageIteratorLevel.RIL_SYMBOL))
+        resultIterator.delete()
+
+        return coordinatesMap
+    }
+
+    /**
+     * Assemble the key-value information for the coordinates of each individual symbol.
+     * @return JSON string. eg:{"1":[[151,33,154,72]],"0":[[151,33,171,67]],"g":[[176,44,196,72]]}
+     */
+    private fun assembleCoordinatesData(api: TessBaseAPI): String {
+        val coordinatesMap = readCoordinates(api)
+        val jsonObject = JSONObject()
+        coordinatesMap.forEach { (symbol, boundingBoxes) ->
+            jsonObject.put(symbol, JSONArray(boundingBoxes.map { JSONArray(it) }))
+        }
+        Log.d("json data","===>$jsonObject")
+        return jsonObject.toString()
     }
 
 }
@@ -88,7 +131,7 @@ class ActivityConfigOCR : ActivityConfigTasker<OCRInput,OCROutput,OCRRunner,Back
         selectOne("Select a Tasker variable", relevantVariables) { binding?.editImagePathName?.setText(it) }
     }
     private fun finishForTasker() {
-        taskHelper.finishForTasker();
+        taskHelper.finishForTasker()
     }
 
     override fun getNewHelper(config: TaskerPluginConfig<OCRInput>) = BackgroundHelper(config)

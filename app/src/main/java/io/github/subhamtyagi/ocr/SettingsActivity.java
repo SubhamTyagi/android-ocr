@@ -1,6 +1,8 @@
 package io.github.subhamtyagi.ocr;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.ListPreference;
@@ -37,8 +39,13 @@ public class SettingsActivity extends AppCompatActivity {
 
             SwitchPreference enableMultipleLang = findPreference(getString(R.string.key_enable_multiple_lang));
             ListPreference listPreference = findPreference(getString(R.string.key_language_for_tesseract));
+            ListPreference listPreferenceLanguage = findPreference(getString(R.string.key_language));
+            String oldValue = listPreferenceLanguage.getValue();
+            listPreferenceLanguage.setOnPreferenceChangeListener((preference, newValue) -> {
+                if(!oldValue.equals(newValue)) showRestartAppDialog(requireContext());
+                return true;
+            });
             MultiSelectListPreference multiSelectListPreference = findPreference(getString(R.string.key_language_for_tesseract_multi));
-
             if (enableMultipleLang.isChecked()) {
                 multiSelectListPreference.setVisible(true);
                 listPreference.setVisible(false);
@@ -58,6 +65,11 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
+
+    }
+
+    private static void showRestartAppDialog(Context context){
+        Toast.makeText(context, context.getString(R.string.the_app_needs_to_be_restarted), Toast.LENGTH_SHORT).show();
     }
 
     public static class AdvanceSettingsFragment extends PreferenceFragmentCompat {
@@ -68,4 +80,6 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
+
+
 }

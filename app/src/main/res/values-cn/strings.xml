@@ -66,4 +66,7 @@
     <string name="result_variable_name_description">存储文字识别结果的可选变量名</string>
     <string name="result_variable_name_title">文字识别结果变量名</string>
     <string name="image_path_name_title">图片路径名</string>
+    <string name="engine_mode">引擎模式</string>
+    <string name="localization">界面语言</string>
+    <string name="the_app_needs_to_be_restarted">需要重启应用才能生效</string>
 </resources>

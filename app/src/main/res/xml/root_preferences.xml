@@ -19,6 +19,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory android:title="@string/localization">
+        <ListPreference
+            android:defaultValue="en"
+            android:title="@string/language"
+            android:key="@string/key_language"
+            android:entries="@array/key_language_entries"
+            android:entryValues="@array/key_language_entries_value"
+            android:icon="@drawable/ic_baseline_language_32" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/tesseract_data">
 
         <ListPreference

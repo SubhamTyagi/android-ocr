@@ -59,4 +59,5 @@
     <string name="language_name">Назва мови</string>
     <string name="select_search_language">Вибір або пошук мов</string>
     <string name="oem_summary">Визначає точність і ефективність</string>
+    <string name="localization">localization</string>
 </resources>

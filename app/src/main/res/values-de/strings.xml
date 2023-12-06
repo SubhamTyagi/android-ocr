@@ -59,4 +59,5 @@
     <string name="what_language_this_image_have">Welche Sprache hat dieses Bild\?</string>
     <string name="language_name">Name der Sprache</string>
     <string name="oem_summary">Bestimmt Genauigkeit und Effizienz</string>
+    <string name="localization">localization</string>
 </resources>

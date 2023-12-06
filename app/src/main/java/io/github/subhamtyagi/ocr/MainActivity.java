@@ -55,6 +55,7 @@ import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
 import io.github.subhamtyagi.ocr.spinner.SpinnerDialog;
 import io.github.subhamtyagi.ocr.utils.Constants;
 import io.github.subhamtyagi.ocr.utils.CrashUtils;
+import io.github.subhamtyagi.ocr.utils.LanguageUtil;
 import io.github.subhamtyagi.ocr.utils.SpUtil;
 import io.github.subhamtyagi.ocr.utils.Utils;
 
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * A spinner dialog shown on share menu
      */
     private SpinnerDialog spinnerDialog;
+    private ArrayList<String> countryCodes;
     private ArrayList<String> languagesNames;
     private ArrayList<String> languagesCodes;
     private CrashUtils crashUtils;
@@ -124,9 +126,22 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private TextView mLanguageName;
 
+    private void setLanguage() {
+        SpUtil.getInstance().init(this);
+        languagesCodes = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.key_language_entries_value)));
+        countryCodes = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.key_country_entries_value)));
+        String currentLanguage = SpUtil.getInstance().getString(Constants.CURRENT_LANGUAGE, "");
+        if (getApplicationContext() == null || currentLanguage.isEmpty()) {
+            return;
+        }
+        String currentCountry = getCountryCodeFromLanguage(currentLanguage);
+        LanguageUtil.changeLanguage(MainActivity.this, currentLanguage, currentCountry);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setLanguage();
         setContentView(R.layout.activity_main);
 
         /*
@@ -246,6 +261,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     private String getLanguageNameFromCode(String code, boolean multipleLanguages) {
         return multipleLanguages ? code : languagesNames.get(languagesCodes.indexOf(code));
+    }
+
+    private String getCountryCodeFromLanguage(String mLanguage){
+        return countryCodes.isEmpty() ? "US" : countryCodes.get(languagesCodes.indexOf(mLanguage));
     }
 
     @Override

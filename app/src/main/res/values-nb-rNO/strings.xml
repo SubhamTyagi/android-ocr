@@ -55,4 +55,5 @@
     <string name="advance_tesseract_settings">Avanserte Tesseract-innstillinger</string>
     <string name="image_processing_functions">Bildebehandlingsfunksjoner</string>
     <string name="oem_summary">Bestemmer nøyaktighet og effektivitet</string>
+    <string name="localization">localization</string>
 </resources>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="oem_summary">துல்லியம் மற்றும் செயல்திறனை தீர்மானிக்கிறது</string>
+    <string name="localization">localization</string>
 </resources>

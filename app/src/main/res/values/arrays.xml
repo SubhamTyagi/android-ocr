@@ -324,5 +324,17 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+    <string-array name="key_language_entries">
+        <item>Chinese-Simplified</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="key_language_entries_value">
+        <item>cn</item>
+        <item>en</item>
+    </string-array>
+    <string-array name="key_country_entries_value">
+        <item>CN</item>
+        <item>US</item>
+    </string-array>
 
 </resources>

@@ -59,4 +59,5 @@
     <string name="image_processing_functions">Funciones para el tratamiento de las imágenes</string>
     <string name="psm_summary">Dirige cómo Tesseract divide la imagen en líneas de texto y palabras.</string>
     <string name="oem_summary">Determina la precisión y la eficiencia.</string>
+    <string name="localization">localization</string>
 </resources>

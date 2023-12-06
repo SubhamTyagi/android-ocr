@@ -59,4 +59,5 @@
     <string name="select_search_language">Selecionar ou pesquisar idiomas</string>
     <string name="selected_language">Idioma selecionado:</string>
     <string name="oem_summary">Determina precisão e eficiência</string>
+    <string name="localization">localization</string>
 </resources>

@@ -59,4 +59,5 @@
     <string name="language_name">Nama bahasa</string>
     <string name="select_search_language">Pilih atau cari bahasa</string>
     <string name="oem_summary">Menentukan akurasi dan efisiensi</string>
+    <string name="localization">localization</string>
 </resources>

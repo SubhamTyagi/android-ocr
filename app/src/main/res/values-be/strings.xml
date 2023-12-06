@@ -59,4 +59,5 @@
     <string name="advance_settings">Дадатковыя налады</string>
     <string name="image_enhancement">Паляпшэнне выявы</string>
     <string name="oem_summary">Вызначае дакладнасць і эфектыўнасць</string>
+    <string name="localization">localization</string>
 </resources>

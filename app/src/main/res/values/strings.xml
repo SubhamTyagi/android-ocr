@@ -78,7 +78,11 @@
     <string name="result_variable_name_description">Optional variable name that stores image text</string>
     <string name="result_description">OCR text result</string>
     <string name="oem_summary">Determines accuracy and efficiency</string>
-    <string name="engine_mode" translatable="false">OCR Engine mode</string>
+    <string name="engine_mode">OCR Engine mode</string>
+    <string name="key_engine_mode" translatable="false">key_ocr_oem_mode</string>
     <string name="image_path_name_description">The absolute path of the image in the application storage space</string>
     <string name="coordinates_description">The key-value information for the coordinates of each individual character</string>
+    <string name="localization">localization</string>
+    <string name="key_language" translatable="false">key_language</string>
+    <string name="the_app_needs_to_be_restarted">You need to restart the application for it to take effect</string>
 </resources>

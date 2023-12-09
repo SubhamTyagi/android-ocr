@@ -67,8 +67,8 @@ class BackgroundWork: CoroutineScope by MainScope() {
      * to the bottom-right of the bottom-right contained pixel
      * @return A map. Key for each individual symbol, value for an array of coordinates
      */
-    private fun readCoordinates(api: TessBaseAPI): Map<String, Array<IntArray>> {
-        val coordinatesMap: MutableMap<String, Array<IntArray>> = mutableMapOf()
+    private fun readCoordinates(api: TessBaseAPI): Map<String, IntArray> {
+        val coordinatesMap: MutableMap<String, IntArray> = mutableMapOf()
         val resultIterator = api.resultIterator
         resultIterator.begin()
         do {
@@ -76,7 +76,7 @@ class BackgroundWork: CoroutineScope by MainScope() {
             val boundingBox = resultIterator.getBoundingBox(PageIteratorLevel.RIL_SYMBOL)
 
             if (symbol.isNotBlank()) {
-                coordinatesMap[symbol] = arrayOf(boundingBox)
+                coordinatesMap[symbol] = boundingBox
             }
 
         } while (resultIterator.next(PageIteratorLevel.RIL_SYMBOL))
@@ -87,13 +87,13 @@ class BackgroundWork: CoroutineScope by MainScope() {
 
     /**
      * Assemble the key-value information for the coordinates of each individual symbol.
-     * @return JSON string. eg:{"1":[[151,33,154,72]],"0":[[151,33,171,67]],"g":[[176,44,196,72]]}
+     * @return JSON string. eg:{"1":[151,33,154,72],"0":[151,33,171,67],"g":[176,44,196,72]}
      */
     private fun assembleCoordinatesData(api: TessBaseAPI): String {
         val coordinatesMap = readCoordinates(api)
         val jsonObject = JSONObject()
-        coordinatesMap.forEach { (symbol, boundingBoxes) ->
-            jsonObject.put(symbol, JSONArray(boundingBoxes.map { JSONArray(it) }))
+        coordinatesMap.forEach { (symbol, boundingBox) ->
+            jsonObject.put(symbol, JSONArray().apply { boundingBox.forEach { put(it) } })
         }
         Log.d("json data","===>$jsonObject")
         return jsonObject.toString()

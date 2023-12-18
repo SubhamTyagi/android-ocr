@@ -38,5 +38,5 @@
     <string name="generic_image_description">Afbeelding</string>
     <string name="contrast_summary">Probeert adaptief het contrast uit te breiden naar het volledige dynamische bereik</string>
     <string name="oem_summary">Bepaalt nauwkeurigheid en efficiëntie</string>
-    <string name="localization">localization</string>
+    <string name="localization">Localization</string>
 </resources>

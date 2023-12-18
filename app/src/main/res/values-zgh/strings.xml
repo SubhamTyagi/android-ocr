@@ -44,5 +44,5 @@
     <string name="persist_data_summary">ⵃⴹⵓ ⵜⴰⵡⵍⴰⴼⵜ ⴷ ⵓⴹⵕⵉⵚ ⴷⴼⴼⵉⵔ ⵏ ⵡⵓⴼⵓⵖ ⵙⴳ ⵜⵙⵏⵙⵉ</string>
     <string name="training_data_missing">ⵓⵔ ⵍⵍⵉⵏⵜ ⵜⵎⵓⵛⴰ ⵏ ⵓⵙⴰⵏⵓⵏ!</string>
     <string name="oem_summary">Determines accuracy and efficiency</string>
-    <string name="localization">localization</string>
+    <string name="localization">Localization</string>
 </resources>

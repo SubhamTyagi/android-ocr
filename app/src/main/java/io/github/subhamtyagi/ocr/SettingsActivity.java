@@ -62,9 +62,30 @@ public class SettingsActivity extends AppCompatActivity {
                 return true;
             });
 
+            ListPreference tessTrainingDataPreference = findPreference(getString(R.string.key_tess_training_data_source));
+            tessTrainingDataPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                String selectedTrainingData = (String) newValue;
+                updateOcrOemModeOptions(selectedTrainingData);
+                return true;
+            });
+
         }
 
-
+        /**
+         *  tessdata-best and tessdata-fast DO NOT support legacy OCR engine mode
+         * @see <a href="https://tesseract-ocr.github.io/tessdoc/Data-Files.html">Traineddata Files for Version 4.00 + </a>
+         * @param selectedTrainingData
+         */
+        private void updateOcrOemModeOptions(String selectedTrainingData) {
+            ListPreference ocrOemModePreference = findPreference(getString(R.string.key_engine_mode));
+            if ("fast".equals(selectedTrainingData) || "best".equals(selectedTrainingData)) {
+                ocrOemModePreference.setEntries(R.array.key_lstm_ocr_oem_mode);
+                ocrOemModePreference.setEntryValues(R.array.value_lstm_ocr_oem_mode);
+            } else {
+                ocrOemModePreference.setEntries(R.array.key_ocr_oem_mode);
+                ocrOemModePreference.setEntryValues(R.array.value_ocr_oem_mode);
+            }
+        }
 
     }
 

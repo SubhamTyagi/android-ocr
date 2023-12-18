@@ -81,7 +81,7 @@
             android:defaultValue="3"
             android:entries="@array/key_ocr_oem_mode"
             android:entryValues="@array/value_ocr_oem_mode"
-            android:key="key_ocr_oem_mode"
+            android:key="@string/key_engine_mode"
             android:summary="@string/oem_summary"
             android:title="@string/engine_mode"
             app:icon="@drawable/ic_baseline_engine_mode_32">

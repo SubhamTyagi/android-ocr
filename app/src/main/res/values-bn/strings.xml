@@ -15,5 +15,5 @@
     <string name="tesseract_data">টেসাররক্ট তথ্য</string>
     <string name="others_settings">অন্য পছন্দসমূহ</string>
     <string name="oem_summary">Determines accuracy and efficiency</string>
-    <string name="localization">localization</string>
+    <string name="localization">Localization</string>
 </resources>

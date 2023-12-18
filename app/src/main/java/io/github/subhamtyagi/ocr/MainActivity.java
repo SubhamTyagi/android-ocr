@@ -2,7 +2,6 @@ package io.github.subhamtyagi.ocr;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,7 +11,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Html;
@@ -549,15 +547,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         File dir;
         File file;
         try {
-//          openFileOutput(..) will open file: /data/user/0/${packageName}/files/last_file.jpeg
-//          App data in "/storage/emulated/0/Android/data" on Android R
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                dir = CropFileProvider.filesDir(getApplicationContext());
-                file = new File(dir, "last_file.jpeg");
-                fileOutputStream = new FileOutputStream(file);
-            } else {
-                fileOutputStream = openFileOutput("last_file.jpeg", Context.MODE_PRIVATE);
-            }
+            dir = CropFileProvider.filesDir(getApplicationContext());
+            file = new File(dir, "last_file.jpeg");
+            fileOutputStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fileOutputStream);
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
@@ -575,18 +567,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         File dir;
         File file;
         try {
-//            openFileInput(..) will open file: /data/user/0/${packageName}/files/last_file.jpeg
-//            App data in "/storage/emulated/0/Android/data" on Android R
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                dir = CropFileProvider.filesDir(getApplicationContext());
-                file = new File(dir, "last_file.jpeg");
-                fileInputStream = new FileInputStream(file);
-            } else {
-                fileInputStream = openFileInput("last_file.jpeg");;
-            }
+            dir = CropFileProvider.filesDir(getApplicationContext());
+            file = new File(dir, "last_file.jpeg");
+            fileInputStream = new FileInputStream(file);
             bitmap = BitmapFactory.decodeStream(fileInputStream);
             fileInputStream.close();
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             crashUtils.logException(e);

@@ -273,9 +273,17 @@
         <item>Standard</item>
     </string-array>
 
+    <string-array name="ocr_training_data_legacy_entries">
+        <item>Standard</item>
+    </string-array>
+
     <string-array name="key_ocr_training_data_entries_values">
         <item>fast</item>
         <item>best</item>
+        <item>standard</item>
+    </string-array>
+
+    <string-array name="key_ocr_training_data_legacy_entries_values">
         <item>standard</item>
     </string-array>
 

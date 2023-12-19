@@ -337,7 +337,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         if (mImageTextReader != null) {
                             mImageTextReader.tearDownEverything();
                         }
-                        mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, mPageSegMode, MainActivity.this::onProgressValues);
+                        int mEngineMode = Utils.getEngineMode();
+                        mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, mPageSegMode, mEngineMode, MainActivity.this::onProgressValues);
                         //check if current language data is valid
                         //if it is invalid(i.e. corrupted, half downloaded, tempered) then delete it
                         if (!mImageTextReader.success) {

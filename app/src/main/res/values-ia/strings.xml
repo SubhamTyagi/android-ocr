@@ -6,7 +6,7 @@
     <string name="language_not_exists">Le datos de trainamento pro le lingua %s non existe; impossibile facer le recognition</string>
     <string name="downloading">Discargante…</string>
     <string name="segmentation_mode">Modo segmentation del pagina</string>
-    <string name="downloading_language">Discargante datos del linguag…</string>
+    <string name="downloading_language">Discargante datos del lingua…</string>
     <string name="download_language_data_please_wait">Discargante files de datos del OCR. Attende…</string>
     <string name="show_last_result">Monstrar le ultime resultato</string>
     <string name="language">Lingua</string>
@@ -14,4 +14,17 @@
     <string name="installing_please_wait">Installante files de datos del OCR. Attende…</string>
     <string name="tess_language_title">Eliger le lingua pro Tesseract</string>
     <string name="no_results">Nulle texto pote esser recognoscite.</string>
+    <string name="languages">Linguas</string>
+    <string name="copy_to_clipboard">Copiar al area de transferentia</string>
+    <string name="copied_to_clipboard">Copiate al area de transferentia</string>
+    <string name="no">Non</string>
+    <string name="language_name">Nomine del lingua</string>
+    <string name="generic_image_description">Imagine</string>
+    <string name="others_settings">Altere parametros</string>
+    <string name="yes">Si</string>
+    <string name="source_code">Codice fonte</string>
+    <string name="refresh">Refrescar</string>
+    <string name="settings">Parametros</string>
+    <string name="share">Compartir</string>
+    <string name="tesseract_data">Datos de Tesseract</string>
 </resources>

@@ -55,7 +55,7 @@
     <string name="image_processing_functions">Fonctions de traitement d\'image</string>
     <string name="segmentation_mode">Mode de segmentation de page</string>
     <string name="selected_language">Langue sélectionnée :</string>
-    <string name="what_language_this_image_have">Quelle est la langue de cette image \?</string>
+    <string name="what_language_this_image_have">Quelle langue est utilisée dans cette image ?</string>
     <string name="language_name">Nom de la langue</string>
     <string name="select_search_language">Sélectionner ou rechercher des langues</string>
     <string name="oem_summary">Détermine la précision et l’efficacité</string>

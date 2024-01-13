@@ -56,7 +56,7 @@
     <string name="segmentation_mode">Modus der Seitensegmentierung</string>
     <string name="select_search_language">Sprachen auswählen oder suchen</string>
     <string name="selected_language">Ausgewählte Sprache:</string>
-    <string name="what_language_this_image_have">Welche Sprache hat dieses Bild\?</string>
+    <string name="what_language_this_image_have">Welche Sprache wird in diesem Bild verwendet\?</string>
     <string name="language_name">Name der Sprache</string>
     <string name="oem_summary">Bestimmt Genauigkeit und Effizienz</string>
     <string name="localization">Localization</string>

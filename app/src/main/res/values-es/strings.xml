@@ -44,7 +44,7 @@
     <string name="source_code">Código fuente</string>
     <string name="copy_to_clipboard">Copiar al portapapeles</string>
     <string name="selected_language">Idioma seleccionado:</string>
-    <string name="what_language_this_image_have">¿Qué idioma tiene esta imagen\?</string>
+    <string name="what_language_this_image_have">¿Qué idioma se utiliza en la imagen\?</string>
     <string name="language_name">Nombre de la lengua</string>
     <string name="select_search_language">Seleccionar o buscar idiomas</string>
     <string name="deskew_summary">Encuentre la inclinación y la desviación de la imagen</string>

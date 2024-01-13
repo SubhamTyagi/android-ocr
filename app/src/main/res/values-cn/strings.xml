@@ -20,7 +20,7 @@
     <string name="you_are_not_connected_to_internet">你未连接到互联网</string>
     <string name="yes">是</string>
     <string name="no">否</string>
-    <string name="training_data_missing">缺少训练数据！</string>
+    <string name="training_data_missing">训练数据缺失！</string>
     <string name="download_description">为了让 Tesseract OCR 能正常工作，需要下载额外的训练数据到你的设备上。
 \n你想下载所选语言 (%s) 的数据吗？</string>
     <string name="persist_data_title">保存数据</string>

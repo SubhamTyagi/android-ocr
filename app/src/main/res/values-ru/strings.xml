@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="converting_image">Конвертация изображения в текст…</string>
+    <string name="draw_box_title">Нарисовать текст на изображении</string>
+    <string name="copy_to_clipboard">Скопировать в буфер обмена</string>
+    <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
+    <string name="text_goes_here">Текст будет тут</string>
+    <string name="downloading">Загрузка…</string>
+    <string name="no">Нет</string>
+    <string name="you_are_not_connected_to_internet">Вы не подключены к интернету</string>
+    <string name="segmentation_mode">Режим сегментации страниц</string>
+    <string name="yes">Да</string>
+    <string name="downloading_language">Загрузка языковых данных…</string>
+    <string name="download_language_data_please_wait">Загрузка файлов данных OCR. Пожалуйста, подождите…</string>
+    <string name="gray_scale_detail">Предварительная обработка изображения для повышения точности</string>
+    <string name="show_last_result">Показать последний результат</string>
+    <string name="use_gray_scale_image_for_ocr">Пре-Обработка Изображения</string>
+    <string name="percentage_downloaded">% Всего:</string>
+    <string name="language">Язык</string>
+    <string name="persist_data_title">Сохранить данные</string>
+    <string name="draw_box_summary">Приложение нарисует текст на изображении</string>
+    <string name="persist_data_summary">Сохранить изображение и текст после закрытия приложения</string>
+    <string name="settings">Настройки</string>
+    <string name="installing_please_wait">Установка файлов данных OCR. Пожалуйста, подождите…</string>
+    <string name="share">Поделиться</string>
+    <string name="no_results">Невозможно распознать текст.</string>
+</resources>

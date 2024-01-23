@@ -2,7 +2,6 @@ package io.github.subhamtyagi.ocr;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,6 +32,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.googlecode.tesseract.android.TessBaseAPI;
+import com.theartofdev.edmodo.cropper.CropFileProvider;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -53,6 +53,7 @@ import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
 import io.github.subhamtyagi.ocr.spinner.SpinnerDialog;
 import io.github.subhamtyagi.ocr.utils.Constants;
 import io.github.subhamtyagi.ocr.utils.CrashUtils;
+import io.github.subhamtyagi.ocr.utils.LanguageUtil;
 import io.github.subhamtyagi.ocr.utils.SpUtil;
 import io.github.subhamtyagi.ocr.utils.Utils;
 
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * A spinner dialog shown on share menu
      */
     private SpinnerDialog spinnerDialog;
+    private ArrayList<String> countryCodes;
     private ArrayList<String> languagesNames;
     private ArrayList<String> languagesCodes;
     private CrashUtils crashUtils;
@@ -122,9 +124,22 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private TextView mLanguageName;
 
+    private void setLanguage() {
+        SpUtil.getInstance().init(this);
+        languagesCodes = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.key_language_entries_value)));
+        countryCodes = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.key_country_entries_value)));
+        String currentLanguage = SpUtil.getInstance().getString(Constants.CURRENT_LANGUAGE, "");
+        if (getApplicationContext() == null || currentLanguage.isEmpty()) {
+            return;
+        }
+        String currentCountry = getCountryCodeFromLanguage(currentLanguage);
+        LanguageUtil.changeLanguage(MainActivity.this, currentLanguage, currentCountry);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setLanguage();
         setContentView(R.layout.activity_main);
 
         /*
@@ -212,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                     showLanguageSelectionDialog(imageUri);
                 }
             }
-        } else if (action.equals("screenshot")) {
+        } else if ("screenshot".equals(action)) {
             // uri
         }
     }
@@ -233,23 +248,27 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         RadioButton radioButton3 = view.findViewById(R.id.rb_language3);
         String[] la = Utils.getLast3UsedLanguage();
 
-        radioButton1.setText(getLanguageNameFromCode(la[0]));
-        radioButton2.setText(getLanguageNameFromCode(la[1]));
-        radioButton3.setText(getLanguageNameFromCode(la[2]));
+        radioButton1.setText(getLanguageNameFromCode(la[0], false));
+        radioButton2.setText(getLanguageNameFromCode(la[1], false));
+        radioButton3.setText(getLanguageNameFromCode(la[2], false));
 
         radioButton1.setOnClickListener(view1 -> startOCRFromShareMenu(la[0], imageUri));
         radioButton2.setOnClickListener(view1 -> startOCRFromShareMenu(la[1], imageUri));
         radioButton3.setOnClickListener(view1 -> startOCRFromShareMenu(la[2], imageUri));
     }
 
-    private String getLanguageNameFromCode(String code) {
-        return languagesNames.get(languagesCodes.indexOf(code));
+    private String getLanguageNameFromCode(String code, boolean multipleLanguages) {
+        return multipleLanguages ? code : languagesNames.get(languagesCodes.indexOf(code));
+    }
+
+    private String getCountryCodeFromLanguage(String mLanguage){
+        return countryCodes.isEmpty() ? "US" : countryCodes.get(languagesCodes.indexOf(mLanguage));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mLanguageName.setText(getLanguageNameFromCode(mLanguage));
+        mLanguageName.setText(getLanguageNameFromCode(mLanguage,true));
     }
 
     public void startOCRFromShareMenu(String lang, Uri imageUri) {
@@ -318,7 +337,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         if (mImageTextReader != null) {
                             mImageTextReader.tearDownEverything();
                         }
-                        mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, mPageSegMode, MainActivity.this::onProgressValues);
+                        int mEngineMode = Utils.getEngineMode();
+                        mImageTextReader = ImageTextReader.geInstance(cf.getAbsolutePath(), mLanguage, mPageSegMode, mEngineMode, MainActivity.this::onProgressValues);
                         //check if current language data is valid
                         //if it is invalid(i.e. corrupted, half downloaded, tempered) then delete it
                         if (!mImageTextReader.success) {
@@ -349,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         if (ni != null && ni.isConnected()) {
             //region show confirmation dialog, On 'yes' download the training data.
-            String msg = String.format(getString(R.string.download_description), getLanguageNameFromCode(lang));
+            String msg = String.format(getString(R.string.download_description), getLanguageNameFromCode(lang, true));
             dialog = new AlertDialog.Builder(this)
                     .setTitle(R.string.training_data_missing)
                     .setCancelable(false)
@@ -525,8 +545,12 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     public void saveBitmapToStorage(Bitmap bitmap) {
         FileOutputStream fileOutputStream;
+        File dir;
+        File file;
         try {
-            fileOutputStream = openFileOutput("last_file.jpeg", Context.MODE_PRIVATE);
+            dir = CropFileProvider.filesDir(getApplicationContext());
+            file = new File(dir, "last_file.jpeg");
+            fileOutputStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fileOutputStream);
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
@@ -541,11 +565,14 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     public Bitmap loadBitmapFromStorage() {
         Bitmap bitmap = null;
         FileInputStream fileInputStream;
+        File dir;
+        File file;
         try {
-            fileInputStream = openFileInput("last_file.jpeg");
+            dir = CropFileProvider.filesDir(getApplicationContext());
+            file = new File(dir, "last_file.jpeg");
+            fileInputStream = new FileInputStream(file);
             bitmap = BitmapFactory.decodeStream(fileInputStream);
             fileInputStream.close();
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             crashUtils.logException(e);

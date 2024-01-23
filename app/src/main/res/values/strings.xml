@@ -73,4 +73,16 @@
     <string name="what_language_this_image_have">Which language is used in the image\?</string>
     <string name="language_name">Language Name</string>
     <string name="select_search_language">Select or Search Languages</string>
+    <string name="image_path_name_title">Image path name</string>
+    <string name="result_variable_name_title">Result variable name</string>
+    <string name="result_variable_name_description">Optional variable name that stores image text</string>
+    <string name="result_description">OCR text result</string>
+    <string name="oem_summary">Determines accuracy and efficiency</string>
+    <string name="engine_mode">OCR engine mode</string>
+    <string name="key_engine_mode" translatable="false">key_ocr_oem_mode</string>
+    <string name="image_path_name_description">The absolute path of the image in the application storage space</string>
+    <string name="coordinates_description">The key-value information for the coordinates of each individual character</string>
+    <string name="localization">Localization</string>
+    <string name="key_language" translatable="false">key_language</string>
+    <string name="the_app_needs_to_be_restarted">You need to restart the application for it to take effect</string>
 </resources>

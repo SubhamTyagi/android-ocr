@@ -58,4 +58,6 @@
     <string name="deskew_image">이미지 기울기 보정</string>
     <string name="image_enhancement">이미지 향상</string>
     <string name="image_processing_functions">이미지 처리 기능</string>
+    <string name="oem_summary">정확성과 효율성을 결정합니다.</string>
+    <string name="localization">Localization</string>
 </resources>

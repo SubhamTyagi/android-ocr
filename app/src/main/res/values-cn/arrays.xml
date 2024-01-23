@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="key_language_entries">
+        <item>简体中文</item>
+        <item>英语</item>
+    </string-array>
+</resources>

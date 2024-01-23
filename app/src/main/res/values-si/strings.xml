@@ -19,4 +19,6 @@
     <string name="generic_image_description">අනුරුව</string>
     <string name="downloading">බාගැනෙමින්…</string>
     <string name="show_last_result">අවසාන ප්‍රතිඵලය පෙන්වන්න</string>
+    <string name="oem_summary">නිරවද්යතාව සහ කාර්යක්ෂමතාව තීරණය කරයි</string>
+    <string name="localization">Localization</string>
 </resources>

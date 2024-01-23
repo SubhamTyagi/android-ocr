@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingTop="12dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="12dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/image_path_name_title"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/editImagePathName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:ems="10"
+        android:hint="@string/image_path_name_description"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/result_variable_name_title"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/editResultVariableName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:ems="10"
+        android:hint="@string/result_variable_name_description" />
+
+</LinearLayout>

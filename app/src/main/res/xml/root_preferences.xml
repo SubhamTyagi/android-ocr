@@ -19,6 +19,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory android:title="@string/localization">
+        <ListPreference
+            android:defaultValue="en"
+            android:title="@string/language"
+            android:key="@string/key_language"
+            android:entries="@array/key_language_entries"
+            android:entryValues="@array/key_language_entries_value"
+            android:icon="@drawable/ic_baseline_language_32" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/tesseract_data">
 
         <ListPreference
@@ -67,6 +77,15 @@
             android:summary="@string/psm_summary"
             android:title="@string/segmentation_mode"
             app:icon="@drawable/ic_baseline_page_seg_32" />
+        <ListPreference
+            android:defaultValue="3"
+            android:entries="@array/key_ocr_oem_mode"
+            android:entryValues="@array/value_ocr_oem_mode"
+            android:key="@string/key_engine_mode"
+            android:summary="@string/oem_summary"
+            android:title="@string/engine_mode"
+            app:icon="@drawable/ic_baseline_engine_mode_32">
+        </ListPreference>
 
     </PreferenceCategory>
 

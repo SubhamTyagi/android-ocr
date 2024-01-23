@@ -58,4 +58,6 @@
     <string name="what_language_this_image_have">這圖像有什麼類言？</string>
     <string name="language_name">語言名稱</string>
     <string name="select_search_language">選擇/搜尋語言</string>
+    <string name="oem_summary">決定準確性和效率</string>
+    <string name="localization">Localization</string>
 </resources>

@@ -275,9 +275,17 @@
         <item>Standard</item>
     </string-array>
 
+    <string-array name="ocr_training_data_legacy_entries">
+        <item>Standard</item>
+    </string-array>
+
     <string-array name="key_ocr_training_data_entries_values">
         <item>fast</item>
         <item>best</item>
+        <item>standard</item>
+    </string-array>
+
+    <string-array name="key_ocr_training_data_legacy_entries_values">
         <item>standard</item>
     </string-array>
 
@@ -313,6 +321,38 @@
         <item>11</item>
         <item>12</item>
         <item>13</item>
+    </string-array>
+    <string-array name="key_ocr_oem_mode">
+        <item>OEM_TESSERACT_ONLY</item>
+        <item>OEM_LSTM_ONLY</item>
+        <item>OEM_TESSERACT_LSTM_COMBINED</item>
+        <item>OEM_DEFAULT</item>
+    </string-array>
+    <string-array name="key_lstm_ocr_oem_mode">
+        <item>OEM_LSTM_ONLY</item>
+        <item>OEM_DEFAULT</item>
+    </string-array>
+    <string-array name="value_ocr_oem_mode">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="value_lstm_ocr_oem_mode">
+        <item>1</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="key_language_entries">
+        <item>Chinese-Simplified</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="key_language_entries_value">
+        <item>cn</item>
+        <item>en</item>
+    </string-array>
+    <string-array name="key_country_entries_value">
+        <item>CN</item>
+        <item>US</item>
     </string-array>
 
 </resources>

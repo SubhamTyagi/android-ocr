@@ -43,7 +43,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 /**
  * Utility class that deals with operations with an ImageView.
  */
-final class BitmapUtils {
+public final class BitmapUtils {
 
     static final Rect EMPTY_RECT = new Rect();
 
@@ -148,6 +148,27 @@ final class BitmapUtils {
             throw new RuntimeException(
                     "Failed to load sampled bitmap: " + uri + "\r\n" + e.getMessage(), e);
         }
+    }
+
+    public static BitmapSampled decodeSampledBitMap(Context context, Uri uri){
+        // Get ContentResolver
+        ContentResolver resolver = context.getContentResolver();
+
+        // Get height and width of image through BitmapFactory.Options inJustDecodeBounds
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+
+        try (InputStream stream = resolver.openInputStream(uri)) {
+            // Just get height and width of image, not load into memory
+            BitmapFactory.decodeStream(stream, null, options);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int imageWidth = options.outWidth;
+        int imageHeight = options.outHeight;
+
+        return decodeSampledBitmap(context, uri, imageWidth, imageHeight);
     }
 
     /**
@@ -880,7 +901,7 @@ final class BitmapUtils {
     /**
      * Holds bitmap instance and the sample size that the bitmap was loaded/cropped with.
      */
-    static final class BitmapSampled {
+    public static final class BitmapSampled {
 
         /**
          * The bitmap instance

@@ -58,4 +58,6 @@
     <string name="un_sharp_masking">מיסוך לא מחדד</string>
     <string name="image_enhancement">שיפור תמונה</string>
     <string name="gray_scale_detail">עיבוד טרום לתמונה לדיוק משופר</string>
+    <string name="oem_summary">קובע דיוק ויעילות</string>
+    <string name="localization">Localization</string>
 </resources>

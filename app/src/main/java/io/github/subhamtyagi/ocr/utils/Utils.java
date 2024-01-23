@@ -18,6 +18,8 @@ import java.util.Set;
 public class Utils {
 
     private static final String DEFAULT_LANGUAGE = "eng";
+    private static final Set<String> DEFAULT_MULTIPLE_LANGUAGE = Set.of("chi_sim", "eng");
+    private static final String DEFAULT_ENGINE_MODE = "3";
 
     @SuppressLint("DefaultLocale")
     public static String getSize(int size) {
@@ -67,7 +69,7 @@ public class Utils {
     }
 
     public static String getTesseractStringForMultipleLanguages(Set<String> langs) {
-        if (langs == null) return DEFAULT_LANGUAGE;
+        if (langs == null || langs.size() == 0) return DEFAULT_LANGUAGE;
         StringBuilder rLanguage = new StringBuilder();
         for (String lang : langs) {
             rLanguage.append(lang);
@@ -82,7 +84,7 @@ public class Utils {
 
     public static String getTrainingDataLanguage() {
         if (SpUtil.getInstance().getBoolean(Constants.KEY_ENABLE_MULTI_LANG)) {
-            return getTesseractStringForMultipleLanguages(SpUtil.getInstance().getStringSet(Constants.KEY_LANGUAGE_FOR_TESSERACT_MULTI, null));
+            return getTesseractStringForMultipleLanguages(SpUtil.getInstance().getStringSet(Constants.KEY_LANGUAGE_FOR_TESSERACT_MULTI, DEFAULT_MULTIPLE_LANGUAGE));
         } else {
             return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, DEFAULT_LANGUAGE);
         }
@@ -100,6 +102,10 @@ public class Utils {
 
     public static int getPageSegMode() {
         return Integer.parseInt(SpUtil.getInstance().getString(Constants.KEY_PAGE_SEG_MODE, "1"));
+    }
+
+    public static int getEngineMode(){
+        return Integer.parseInt(SpUtil.getInstance().getString(Constants.KEY_ENGINE_MODE, DEFAULT_ENGINE_MODE));
     }
 
     public static void putLastUsedText(String text) {

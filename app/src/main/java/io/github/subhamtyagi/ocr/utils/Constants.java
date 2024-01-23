@@ -9,9 +9,9 @@ public class Constants {
     /***
      *TRAINING DATA URL TEMPLATES for downloading
      */
-    public static final String TESSERACT_DATA_DOWNLOAD_URL_BEST = "https://github.com/tesseract-ocr/tessdata_best/raw/4.0.0/%s.traineddata";
-    public static final String TESSERACT_DATA_DOWNLOAD_URL_STANDARD = "https://github.com/tesseract-ocr/tessdata/raw/4.0.0/%s.traineddata";
-    public static final String TESSERACT_DATA_DOWNLOAD_URL_FAST = "https://github.com/tesseract-ocr/tessdata_fast/raw/4.0.0/%s.traineddata";
+    public static final String TESSERACT_DATA_DOWNLOAD_URL_BEST = "https://github.com/tesseract-ocr/tessdata_best/raw/main/%s.traineddata";
+    public static final String TESSERACT_DATA_DOWNLOAD_URL_STANDARD = "https://github.com/tesseract-ocr/tessdata/raw/main/%s.traineddata";
+    public static final String TESSERACT_DATA_DOWNLOAD_URL_FAST = "https://github.com/tesseract-ocr/tessdata_fast/raw/main/%s.traineddata";
 
     public static final String TESSERACT_DATA_DOWNLOAD_URL_AKK_BEST = "https://github.com/tesseract-ocr/tessdata_contrib/raw/main/akk/best/akk.traineddata";
     public static final String TESSERACT_DATA_DOWNLOAD_URL_AKK_STANDARD = "https://github.com/tesseract-ocr/tessdata_contrib/raw/main/akk/legacy/akk.traineddata";
@@ -37,6 +37,6 @@ public class Constants {
     public static final String KEY_OTSU_THRESHOLD = "otsu_threshold";
     public static final String KEY_FIND_SKEW_AND_DESKEW = "deskew_img";
     public static final String KEY_PAGE_SEG_MODE = "key_ocr_psm_mode";
-
-
+    public static final String KEY_ENGINE_MODE = "key_ocr_oem_mode";
+    public static final String CURRENT_LANGUAGE = "key_language";
 }

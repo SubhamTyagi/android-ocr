@@ -10,6 +10,7 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 
 ## 🚀<font color="#2467d6"><b>Features</b></font>
 
+* Compatible with Tasker plugin [TaskerPlugin](https://github.com/joaomgcd/TaskerPluginSample/blob/master/README.md).
 * Extract Text From Images.
 * Copy data to Clipboard.
 * Select any part of Text.
@@ -37,6 +38,7 @@ This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/ma
 
 ## <font color="#2467d6"><b>Code Contributors </b></font>
 
+* Sauvio
 * Shubham Tyagi
 * New UI is designed by [Hannes Gehrold](https://github.com/h4n23s)
 * [urlordjames](https://github.com/urlordjames)

@@ -58,4 +58,6 @@
     <string name="advance_setting_summary">وظایف مربوط به پردازش تصویر</string>
     <string name="deskew_summary">انحراف را پیدا کرده و تصویر را اصلاح نمایید</string>
     <string name="otsu_summary">انجام باینری‌سازی آستانه Otsu تطبیقی محلی تصاویر</string>
+    <string name="oem_summary">دقت و کارایی را تعیین می کند</string>
+    <string name="localization">Localization</string>
 </resources>

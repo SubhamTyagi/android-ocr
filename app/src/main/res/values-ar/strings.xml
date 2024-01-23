@@ -58,4 +58,6 @@
     <string name="what_language_this_image_have">ما لغة هذه الصورة؟</string>
     <string name="language_name">اسم اللغة</string>
     <string name="select_search_language">حدد أو ابحث عن اللغات</string>
+    <string name="oem_summary">يحدد الدقة والكفاءة</string>
+    <string name="localization">Localization</string>
 </resources>

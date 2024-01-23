@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Set;
@@ -84,12 +85,12 @@ public class SpUtil {
         return mPref.getBoolean(key, def);
     }
 
-    @Nullable
+    @NonNull
     public String getString(String key) {
         return mPref.getString(key, "");
     }
 
-    @Nullable
+    @NonNull
     public String getString(String key, String def) {
         return mPref.getString(key, def);
     }
@@ -132,4 +133,9 @@ public class SpUtil {
     }
 
 
+    public void putStringSet(String key, Set<String> value) {
+        Editor editor = mPref.edit();
+        editor.putStringSet(key, value);
+        editor.apply();
+    }
 }

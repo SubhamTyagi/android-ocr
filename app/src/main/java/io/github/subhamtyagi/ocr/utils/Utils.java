@@ -1,7 +1,11 @@
 package io.github.subhamtyagi.ocr.utils;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.googlecode.leptonica.android.AdaptiveMap;
 import com.googlecode.leptonica.android.Binarize;
@@ -13,7 +17,13 @@ import com.googlecode.leptonica.android.Rotate;
 import com.googlecode.leptonica.android.Skew;
 import com.googlecode.leptonica.android.WriteFile;
 
+import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import io.github.subhamtyagi.ocr.Language;
+import io.github.subhamtyagi.ocr.R;
+import kotlin.Triple;
 
 public class Utils {
 
@@ -66,36 +76,14 @@ public class Utils {
         return SpUtil.getInstance().getBoolean(Constants.KEY_PERSIST_DATA, true);
     }
 
-    public static String getTesseractStringForMultipleLanguages(Set<String> langs) {
-        if (langs == null) return DEFAULT_LANGUAGE;
-        StringBuilder rLanguage = new StringBuilder();
-        for (String lang : langs) {
-            rLanguage.append(lang);
-            rLanguage.append("+");
-        }
-        return rLanguage.subSequence(0, rLanguage.toString().lastIndexOf('+')).toString();
-    }
-
     public static String getTrainingDataType() {
         return SpUtil.getInstance().getString(Constants.KEY_TESS_TRAINING_DATA_SOURCE, "best");
     }
 
-    public static String getTrainingDataLanguage() {
-        if (SpUtil.getInstance().getBoolean(Constants.KEY_ENABLE_MULTI_LANG)) {
-            return getTesseractStringForMultipleLanguages(SpUtil.getInstance().getStringSet(Constants.KEY_LANGUAGE_FOR_TESSERACT_MULTI, null));
-        } else {
-            return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, DEFAULT_LANGUAGE);
-        }
-
-    }
-
-    public static String setTrainingDataLanguage(String language) {
-        if (SpUtil.getInstance().getBoolean(Constants.KEY_ENABLE_MULTI_LANG)) {
-            return getTesseractStringForMultipleLanguages(SpUtil.getInstance().getStringSet(Constants.KEY_LANGUAGE_FOR_TESSERACT_MULTI, null));
-        } else {
-            return SpUtil.getInstance().getString(Constants.KEY_LANGUAGE_FOR_TESSERACT, DEFAULT_LANGUAGE);
-        }
-
+    public static @NonNull Set<Language> getTrainingDataLanguages(Context c) {
+        return allLangs(c,SpUtil.getInstance().getStringSet(
+                c.getString(R.string.key_language_for_tesseract_multi),
+                Collections.singleton("eng")));
     }
 
     public static int getPageSegMode() {
@@ -110,27 +98,34 @@ public class Utils {
         return SpUtil.getInstance().getString(Constants.KEY_LAST_USE_IMAGE_TEXT, "");
     }
 
-    public static String[] getLast3UsedLanguage() {
-        return new String[]{
-                SpUtil.getInstance().getString(Constants.KEY_LAST_USED_LANGUAGE_1, "eng"),
-                SpUtil.getInstance().getString(Constants.KEY_LAST_USED_LANGUAGE_2, "hin"),
-                SpUtil.getInstance().getString(Constants.KEY_LAST_USED_LANGUAGE_3, "deu")
-        };
+    public static Triple<Set<Language>, Set<Language>, Set<Language>> getLast3UsedLanguage(Context c) {
+        return new Triple<>(
+                allLangs(c, SpUtil.getInstance().getStringSet(c.getString(R.string.key_language_for_tesseract_multi), Collections.singleton("eng"))),
+                allLangs(c, SpUtil.getInstance().getStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, Collections.singleton("hin"))),
+                allLangs(c, SpUtil.getInstance().getStringSet(Constants.KEY_LAST_USED_LANGUAGE_3, Collections.singleton("deu")))
+        );
     }
 
-    public static void setLastUsedLanguage(String lastUsedLanguage) {
-        String l1 = SpUtil.getInstance().getString(Constants.KEY_LAST_USED_LANGUAGE_1, "eng");
-        if (lastUsedLanguage.contentEquals(l1)) {
+    private static Set<Language> allLangs(Context c, Set<String> codes) {
+        return codes.stream().map(code -> new Language(c, code)).collect(Collectors.toSet());
+    }
+
+    public static void setLastUsedLanguage(Context c, Set<Language> lastUsedLanguage) {
+        Set<Language> l1 = getLast3UsedLanguage(c).getFirst();
+        Set<Language> l2 = getLast3UsedLanguage(c).getSecond();
+        if (lastUsedLanguage.equals(l1)) {
             return;
         }
-        String l2 = SpUtil.getInstance().getString(Constants.KEY_LAST_USED_LANGUAGE_2, "hin");
-        if (l2.contentEquals(lastUsedLanguage)) {
-            SpUtil.getInstance().putString(Constants.KEY_LAST_USED_LANGUAGE_2, l1);
-            SpUtil.getInstance().putString(Constants.KEY_LAST_USED_LANGUAGE_1, lastUsedLanguage);
+        Set<String> lastCodes = lastUsedLanguage.stream().map(Language::getCode).collect(Collectors.toSet());
+        Set<String> l1Codes = l1.stream().map(Language::getCode).collect(Collectors.toSet());
+        Set<String> l2Codes = l2.stream().map(Language::getCode).collect(Collectors.toSet());
+        if (l2.equals(lastUsedLanguage)) {
+            SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, l1Codes);
+            SpUtil.getInstance().putStringSet(c.getString(R.string.key_language_for_tesseract_multi), lastCodes);
         } else {
-            SpUtil.getInstance().putString(Constants.KEY_LAST_USED_LANGUAGE_3, l2);
-            SpUtil.getInstance().putString(Constants.KEY_LAST_USED_LANGUAGE_2, l1);
-            SpUtil.getInstance().putString(Constants.KEY_LAST_USED_LANGUAGE_1, lastUsedLanguage);
+            SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_3, l2Codes);
+            SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, l1Codes);
+            SpUtil.getInstance().putStringSet(c.getString(R.string.key_language_for_tesseract_multi), lastCodes);
         }
 
     }

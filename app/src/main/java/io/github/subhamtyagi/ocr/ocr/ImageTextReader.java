@@ -4,6 +4,11 @@ import android.graphics.Bitmap;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import io.github.subhamtyagi.ocr.Language;
+
 /**
  * This class convert the image to text and return the text on image
  */
@@ -21,14 +26,17 @@ public class ImageTextReader {
      * initialize and train the tesseract engine
      *
      * @param path     a path to training data
-     * @param language language code i.e. selected by user
+     * @param languages language code i.e. selected by user
      * @return the instance of this class for later use
      */
-    public static ImageTextReader geInstance(String path, String language,int pageSegMode, TessBaseAPI.ProgressNotifier progressNotifier) {
+    public static ImageTextReader getInstance(String path, Set<Language> languages, int pageSegMode, TessBaseAPI.ProgressNotifier progressNotifier) {
         try {
             ImageTextReader imageTextReader=new ImageTextReader();
             api = new TessBaseAPI(progressNotifier);
-            imageTextReader.success = api.init(path, language);
+            imageTextReader.success = api.init(path, languages
+                    .stream()
+                    .map(Language::getCode)
+                    .collect(Collectors.joining("+")));
             api.setPageSegMode(pageSegMode);
             return imageTextReader;
         } catch (Exception e) {

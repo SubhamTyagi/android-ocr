@@ -22,7 +22,7 @@
     <string name="percentage_downloaded">% ад поўнага памеру:</string>
     <string name="yes">Так</string>
     <string name="no">Не</string>
-    <string name="training_data_missing">няма навучальных даных!</string>
+    <string name="training_data_missing">Няма навучальных даных!</string>
     <string name="refresh">Абнавіць</string>
     <string name="tesseract_data">Даныя tesseract</string>
     <string name="others_settings">Іншыя налады</string>
@@ -43,7 +43,7 @@
     <string name="advance_tesseract_settings">Дадатковыя налады tesseract</string>
     <string name="psm_summary">Вызначэнне дзялення выявы на радкі тэксту і словы.</string>
     <string name="selected_language">Абраная мова:</string>
-    <string name="what_language_this_image_have">Якая мова на гэтай выяве\?</string>
+    <string name="what_language_this_image_have">Якая мова на гэтай выяве?</string>
     <string name="language_name">Назва мовы</string>
     <string name="select_search_language">Абраць або знайсці мовы</string>
     <string name="select_tesseract_data_type">Абраць тып даных tesseract</string>

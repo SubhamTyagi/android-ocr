@@ -56,7 +56,6 @@ import java.util.stream.Collectors;
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
 import io.github.subhamtyagi.ocr.spinner.SpinnerDialog;
 import io.github.subhamtyagi.ocr.utils.Constants;
-import io.github.subhamtyagi.ocr.utils.CrashUtils;
 import io.github.subhamtyagi.ocr.utils.SpUtil;
 import io.github.subhamtyagi.ocr.utils.Utils;
 import kotlin.Triple;
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      */
     private SpinnerDialog spinnerDialog;
     private ArrayList<String> languagesNames;
-    private CrashUtils crashUtils;
     private ConvertImageToTextTask convertImageToTextTask;
     private File dirBest;
     private File dirStandard;
@@ -127,8 +125,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         setContentView(R.layout.activity_main);
 
         SpUtil.getInstance().init(this);
-        crashUtils = new CrashUtils(getApplicationContext(), "");
-
+        
         languagesNames = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.ocr_engine_language)));
 
         mImageView = findViewById(R.id.source_image);
@@ -318,7 +315,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         }
 
                     } catch (Exception e) {
-                        crashUtils.logException(e);
                         File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, languages));
                         destf.delete();
                         mImageTextReader = null;
@@ -423,7 +419,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
         } catch (IOException e) {
             e.printStackTrace();
-            crashUtils.logException(e);
 
         }
         mImageView.setImageURI(imageUri);
@@ -521,10 +516,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            crashUtils.logException(e);
+            
         } catch (IOException e) {
             e.printStackTrace();
-            crashUtils.logException(e);
+            
         }
     }
 
@@ -538,10 +533,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            crashUtils.logException(e);
+            
         } catch (IOException e) {
             e.printStackTrace();
-            crashUtils.logException(e);
         }
         return bitmap;
     }
@@ -685,7 +679,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                     try {
                         url = new URL(downloadURL);
                     } catch (java.net.MalformedURLException ex) {
-                        crashUtils.logException(ex);
+                        
                         return false;
                     }
                     conn = (HttpURLConnection) url.openConnection();
@@ -726,7 +720,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             } catch (Exception e) {
                 result = false;
                 e.printStackTrace();
-                crashUtils.logException(e);
             }
             return result;
         }

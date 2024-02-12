@@ -1,12 +1,28 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.Material3.DynamicColors.DayNight">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item-->
     </style>
+
+    
+
+  <!--style name="AppTheme2" parent="Theme.Material3.Light">
+    <item name="colorPrimary">@color/md_theme_light_primary</item>
+    <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+    <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+    <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
+    <item name="colorError">@color/md_theme_light_error</item>
+    <item name="colorOnError">@color/md_theme_light_onError</item>
+    <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
+    <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
+    <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
+    <item name="colorSurface">@color/md_theme_light_surface</item>
+    <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+  </style-->
 
 
     <style name="DialogAnimations" />
@@ -14,7 +30,6 @@
         <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/slide_out_top</item>
     </style>
-
 
 
 </resources>

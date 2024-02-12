@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 33
     def gitUrl = getRepositoryURL()
+    namespace 'io.github.subhamtyagi.ocr'
 
     defaultConfig {
         applicationId "io.github.subhamtyagi.ocr"
@@ -33,11 +34,11 @@ android {
             def normalizedWorkingBranch = workingBranch.replaceFirst("^[^A-Za-z]+", "").replaceAll("[^0-9A-Za-z]+", "")
 
             if (normalizedWorkingBranch.isEmpty() || workingBranch == "master" || workingBranch == "dev") {
-                applicationIdSuffix ".dev"
+             //   applicationIdSuffix ".dev"
                 resValue "string", "app_name", "OCR Dev"
             } else {
                 archivesBaseName = 'OCR_' + normalizedWorkingBranch
-                applicationIdSuffix ".dev." + normalizedWorkingBranch
+               // applicationIdSuffix ".dev." + normalizedWorkingBranch
                 resValue "string", "app_name", "OCR " + workingBranch
             }
 

@@ -1,1 +1,1 @@
-ROC basé sur Tesseract 4
+OCR basé sur Tesseract 5

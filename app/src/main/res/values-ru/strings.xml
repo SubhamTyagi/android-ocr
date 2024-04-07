@@ -24,4 +24,8 @@
     <string name="installing_please_wait">Установка файлов данных OCR. Пожалуйста, подождите…</string>
     <string name="share">Поделиться</string>
     <string name="no_results">Невозможно распознать текст.</string>
+    <string name="refresh">Обновить</string>
+    <string name="others_settings">Другие настройки</string>
+    <string name="source_code">Исходный код</string>
+    <string name="open_source_statement">Android OCR - свободное программное обеспечение. Нажмите, чтобы посетить страницу приложения на GitHub.</string>
 </resources>

@@ -39,7 +39,7 @@
     <string name="advance_tesseract_settings">تنظیمات پیشرفته Tesseract</string>
     <string name="psm_summary">این کار Tesseract را هدایت می‌کند چگونه تصویر را به خطوط متن و کلمات تقسیم کند.</string>
     <string name="selected_language">زبان انتخابی:</string>
-    <string name="what_language_this_image_have">این تصویر چه زبانی دارد؟</string>
+    <string name="what_language_this_image_have">چه زبانی در تصویر استفاده شده است؟</string>
     <string name="language_name">نام زبان</string>
     <string name="contrast_summary">انطباقی تلاش می‌کند کنتراست را تا محدوده دینامیکی کامل گسترش دهد</string>
     <string name="un_sharp_masking_summary">پوشش غیر واضح (افزایش لبه) را روی تصویر انجام می‌دهد</string>

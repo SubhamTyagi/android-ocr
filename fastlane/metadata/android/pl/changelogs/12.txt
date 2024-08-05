@@ -1,0 +1,5 @@
+* Obsługa OpenMP (wielowątkowość zapewnia lepszą wydajność)
+* Zaktualizowano bibliotekę Tesseract4Android do wersji 4.3.0
+* Zaktualizowano bibliotekę Tesseract do wersji 4.3.0
+* Zaktualizowano różne biblioteki
+* Dodano nowe tłumaczenia dla różnych języków

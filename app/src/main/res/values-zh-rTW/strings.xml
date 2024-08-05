@@ -55,7 +55,7 @@
     <string name="advance_tesseract_settings">高級Tesseract設定</string>
     <string name="psm_summary">它指導 Tesseract 如何拆分圖像中的文字行和單詞。</string>
     <string name="selected_language">已選擇語言：</string>
-    <string name="what_language_this_image_have">這圖像有什麼類言？</string>
+    <string name="what_language_this_image_have">圖像中使用哪種語言？</string>
     <string name="language_name">語言名稱</string>
     <string name="select_search_language">選擇/搜尋語言</string>
 </resources>

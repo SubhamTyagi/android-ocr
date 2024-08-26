@@ -27,4 +27,16 @@
     <string name="settings">Parametros</string>
     <string name="share">Compartir</string>
     <string name="tesseract_data">Datos de Tesseract</string>
+    <string name="persist_data_summary">Salveguardar le imagine e texto depost de clauder le app</string>
+    <string name="persist_data_title">Salveguardar le datos</string>
+    <string name="select_tesseract_data_type">Seliger le typo de datos de Tesseract</string>
+    <string name="open_source_statement">Android OCR es software libere. Click to visitar le app sur GitHub.</string>
+    <string name="perform_contrast">Meliorar le contrasto</string>
+    <string name="advance_settings">Parametros avantiate</string>
+    <string name="image_enhancement">Meliora del imagine</string>
+    <string name="select_multi_training_data_title">Seliger multiple linguas pro Tesseract</string>
+    <string name="select_multi_languages_title">Seliger multiple linguas</string>
+    <string name="advance_tesseract_settings">Parametros avantiate de Tesseract</string>
+    <string name="selected_language">Lingua seligite:</string>
+    <string name="select_search_language">Seliger o cercar linguas</string>
 </resources>

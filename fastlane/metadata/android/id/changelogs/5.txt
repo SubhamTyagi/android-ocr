@@ -1,0 +1,3 @@
+* OCR berbasis Tesseract 4
+
+* Perbaikan bug dan peningkatan string

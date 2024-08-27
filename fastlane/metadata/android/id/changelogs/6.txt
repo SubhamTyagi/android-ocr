@@ -1,0 +1,28 @@
+- Opsi untuk menonaktifkan fitur mengingat hasil terakhir (oleh @urlordjames) 
+- Ikon aplikasi baru (oleh @nucleus-ffm)
+
+- Sekarang Terjemahkan aplikasi ini di Weblate
+
+- Data Pelatihan baru untuk bahasa-bahasa berikut:
+
+- Vertikal Sederhana Bahasa Tionghoa, Vertikal Tradisional Bahasa Tionghoa,
+- Fraktur Jerman, Fraktur Denmark, Fraktur Slowakia, Bahasa Jepang (vertikal), Bahasa Korea (vertikal) 
+- Korsika
+ - Dhivehi; Divehi; Maladewa 
+- Gaelik Skotlandia; Gaelik 
+- Dhivehi; Divehi; Maladewa
+ - Luksemburg; Letzeburg 
+- Mongolia, Maori 
+- Filipina: Pilipino 
+- Frisian Barat 
+- Kurdi Utara 
+- Armenia 
+- Faroe 
+- Occitan (pasca 1500) 
+- Quechua 
+- Sindhi 
+- Sunda 
+- Tatar 
+- Tonga (Kepulauan Tonga) 
+- Yoruba 
+- Dukungan OSD, PDF, dan Persamaan Matematika

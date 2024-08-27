@@ -1,0 +1,12 @@
+*Yang Baru dalam Pembaruan ini
+
+Pilihan bahasa yang dipilih saat aplikasi dibuka melalui Menu Bagikan. 
+* Bahasa yang dipilih sekarang juga akan ditampilkan di layar utama. 
+* Sekarang tipe data Cepat ditetapkan sebagai default. 
+* Transisi aplikasi yang mulus dalam fungsi pemotongan. 
+
+* Perbaikan Bug pada Android 10+. 
+* Perbaikan Kerusakan pada perangkat lokal Non-Inggris (Chris <chris@d*****t>).
+ 
+* Peningkatan dan pengoptimalan kode. 
+* Pembaruan tesseract4android.

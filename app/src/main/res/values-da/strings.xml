@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Indstillinger</string>
+    <string name="language">Sprog</string>
+    <string name="use_gray_scale_image_for_ocr">Forbehandl billede</string>
+    <string name="gray_scale_detail">Forbehandl billede for forbedret nøjagtighed</string>
+    <string name="tess_language_title">Vælg sprog for Tesseract</string>
+    <string name="download_language_data_please_wait">Downloader OCR-datafiler. Vent venligst…</string>
+    <string name="installing_please_wait">Installerer OCR-datafiler. Vent venligst…</string>
+    <string name="language_not_exists">Træningsdata for sprog %s eksisterer ikke; kan ikke lave genkendelse</string>
+</resources>

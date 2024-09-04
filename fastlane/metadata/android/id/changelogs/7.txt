@@ -1,0 +1,6 @@
+**Rilis Utama** 
+- UI baru oleh Hannes Gehrold (@h4n23s). 
+- Pengaturan Lanjutan untuk mengontrol berbagai fungsi peningkatan gambar. 
+- Pilihan untuk memilih beberapa bahasa. 
+- Terjemahan baru dan peningkatan. 
+- Peningkatan kode sumber dan peningkatan kinerja.

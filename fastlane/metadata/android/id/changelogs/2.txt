@@ -1,0 +1,8 @@
+* OCR berbasis Tesseract 4
+
+* Perbaikan bug 
+* Ekstrak Teks Dari Gambar 
+* Salin data ke Clipboard 
+* Pilih bagian mana pun dari Data 
+* Deteksi Matematika/persamaan 
+* Memproses gambar langsung dari Galeri perangkat Anda

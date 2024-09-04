@@ -1,0 +1,3 @@
+* Pengaturan Lanjutan untuk Mengontrol mode Segmentasi Halaman 
+* Perbaruan Perpustakaan inti 
+* Perbaikan bug (Perubahan tipe data secara otomatis)

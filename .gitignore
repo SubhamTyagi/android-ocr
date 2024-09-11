@@ -105,4 +105,7 @@ fastlane/readme.md
 # sha file
 *.sha
 
+#android ide
+.androidide/
+.androidide/*
 

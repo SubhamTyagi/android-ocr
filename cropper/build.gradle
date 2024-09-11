@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 android {
 
     compileSdkVersion 33
-
+    namespace "com.theartofdev.edmodo.cropper"
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 33

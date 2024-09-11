@@ -52,9 +52,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
-import io.github.subhamtyagi.ocr.spinner.SpinnerDialog;
 import io.github.subhamtyagi.ocr.utils.Constants;
 import io.github.subhamtyagi.ocr.utils.SpUtil;
 import io.github.subhamtyagi.ocr.utils.Utils;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     /**
      * A spinner dialog shown on share menu
      */
-    private SpinnerDialog spinnerDialog;
+    
     private ArrayList<String> languagesNames;
     private ConvertImageToTextTask convertImageToTextTask;
     private File dirBest;
@@ -94,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * Page segmentation mode
      */
     private int mPageSegMode;
+    
+    private Map<String, String> parameters;
     /**
      * AlertDialog for showing when language data doesn't exists
      */
@@ -208,27 +211,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
 
     private void showLanguageSelectionDialog(Uri imageUri) {
-        spinnerDialog = new SpinnerDialog(MainActivity.this, languagesNames, getString(R.string.select_search_language), R.style.DialogAnimations_SmileWindow);
-        spinnerDialog.setShowKeyboard(false);
-
-        spinnerDialog.bindOnSpinnerListener((item, position) -> {
-            startOCRFromShareMenu(imageUri, Collections.singleton(new Language(this, item)));
-        });
-
-        spinnerDialog.showSpinnerDialog();
-        View view = spinnerDialog.getView();
-        RadioButton radioButton1 = view.findViewById(R.id.rb_language1);
-        RadioButton radioButton2 = view.findViewById(R.id.rb_language2);
-        RadioButton radioButton3 = view.findViewById(R.id.rb_language3);
-        Triple<Set<Language>, Set<Language>, Set<Language>> languages = Utils.getLast3UsedLanguage(this);
-
-        radioButton1.setText(languages.getFirst().stream().map(Language::getName).collect(Collectors.joining(", ")));
-        radioButton2.setText(languages.getSecond().stream().map(Language::getName).collect(Collectors.joining(", ")));
-        radioButton3.setText(languages.getThird().stream().map(Language::getName).collect(Collectors.joining(", ")));
-
-        radioButton1.setOnClickListener(view1 -> startOCRFromShareMenu(imageUri, languages.getFirst()));
-        radioButton2.setOnClickListener(view1 -> startOCRFromShareMenu(imageUri, languages.getSecond()));
-        radioButton3.setOnClickListener(view1 -> startOCRFromShareMenu(imageUri, languages.getThird()));
+       // if (this.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+            ShareFragment frag = ShareFragment.newInstance(imageUri,languagesNames);
+            frag.show(getSupportFragmentManager(), "shareFrag");
+       // }
+        
     }
 
     @Override
@@ -244,7 +231,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         initializeOCR(languages);
         Utils.setLastUsedLanguage(this, languages);
         // Log.d("radio", "showLanguageSelectionDialog: " + mLanguage);
-        spinnerDialog.closeSpinnerDialog();
         mImageView.setImageURI(imageUri);
         if (noLanguageIsMissing(mTrainingDataType, languages)) {
             CropImage.activity(imageUri).start(MainActivity.this);
@@ -276,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mTrainingDataType = Utils.getTrainingDataType();
         Log.d(TAG, "initializeOCR: " + Utils.getLast3UsedLanguage(this).getFirst());
         mPageSegMode = Utils.getPageSegMode();
+        parameters = Utils.getAllParameters();
 
         switch (mTrainingDataType) {
             case "best":
@@ -305,6 +292,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                                 cf.getAbsolutePath(),
                                 languages,
                                 mPageSegMode,
+                                parameters,
+                                Utils.isExtraParameterSet(),
                                 MainActivity.this);
                         //check if current language data is valid
                         //if it is invalid(i.e. corrupted, half downloaded, tempered) then delete it

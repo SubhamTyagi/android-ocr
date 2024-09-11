@@ -10,6 +10,9 @@ import androidx.annotation.Nullable;
 
 import java.util.Set;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * A util class for SharedPreferences
@@ -18,6 +21,19 @@ public class SpUtil {
     private volatile static SpUtil mInstance;
     private Context mContext;
     private SharedPreferences mPref;
+    
+    public static final String KEY_OCR_PSM_MODE = "key_ocr_psm_mode";
+    public static final String KEY_TESSERACT_OEM_MODE = "key_tesseract_oem_mode";
+    public static final String KEY_PRESERVE_INTERWORD_SPACES = "key_preserve_interword_spaces";
+    public static final String KEY_CHOP_ENABLE = "chop_enable";
+    public static final String KEY_USE_NEW_STATE_COST = "use_new_state_cost";
+    public static final String KEY_SEGMENT_SEGCOST_RATING = "segment_segcost_rating";
+    public static final String KEY_ENABLE_NEW_SEGSEARCH = "enable_new_segsearch";
+    public static final String KEY_LANGUAGE_MODEL_NGRAM_ON = "language_model_ngram_on";
+    public static final String KEY_TEXTORD_FORCE_MAKE_PROP_WORDS = "textord_force_make_prop_words";
+    public static final String KEY_EDGES_MAX_CHILDREN_PER_OUTLINE = "edges_max_children_per_outline";
+    
+    
 
     private SpUtil() {
     }
@@ -137,5 +153,22 @@ public class SpUtil {
         Editor editor = mPref.edit();
         editor.putStringSet(key, value);
         editor.apply();
+    }
+    
+
+    // Retrieve all preferences as a Map
+    public Map<String, String> getAllParameters() {
+        Map<String, String> preferencesMap = new HashMap<>();
+        preferencesMap.put(KEY_OCR_PSM_MODE, getString(KEY_OCR_PSM_MODE, "1"));
+        preferencesMap.put(KEY_TESSERACT_OEM_MODE, getString(KEY_TESSERACT_OEM_MODE, "3"));
+        preferencesMap.put(KEY_PRESERVE_INTERWORD_SPACES, getString(KEY_PRESERVE_INTERWORD_SPACES, "0"));
+        preferencesMap.put(KEY_CHOP_ENABLE, getString(KEY_CHOP_ENABLE, "T"));
+        preferencesMap.put(KEY_USE_NEW_STATE_COST, getString(KEY_USE_NEW_STATE_COST, "F"));
+        preferencesMap.put(KEY_SEGMENT_SEGCOST_RATING, getString(KEY_SEGMENT_SEGCOST_RATING, "F"));
+        preferencesMap.put(KEY_ENABLE_NEW_SEGSEARCH, getString(KEY_ENABLE_NEW_SEGSEARCH, "0"));
+        preferencesMap.put(KEY_LANGUAGE_MODEL_NGRAM_ON, getString(KEY_LANGUAGE_MODEL_NGRAM_ON, "0"));
+        preferencesMap.put(KEY_TEXTORD_FORCE_MAKE_PROP_WORDS, getString(KEY_TEXTORD_FORCE_MAKE_PROP_WORDS, "F"));
+        preferencesMap.put(KEY_EDGES_MAX_CHILDREN_PER_OUTLINE, getString(KEY_EDGES_MAX_CHILDREN_PER_OUTLINE, "40"));
+        return preferencesMap;
     }
 }

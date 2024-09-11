@@ -4,10 +4,15 @@ import android.graphics.Bitmap;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
+import io.github.subhamtyagi.ocr.Language;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
-import io.github.subhamtyagi.ocr.Language;
+import io.github.subhamtyagi.ocr.utils.Constants;
+
+
 
 /**
  * This class convert the image to text and return the text on image
@@ -29,7 +34,7 @@ public class ImageTextReader {
      * @param languages language code i.e. selected by user
      * @return the instance of this class for later use
      */
-    public static ImageTextReader getInstance(String path, Set<Language> languages, int pageSegMode, TessBaseAPI.ProgressNotifier progressNotifier) {
+    public static ImageTextReader getInstance(String path, Set<Language> languages, int pageSegMode, Map<String, String> parameters, boolean isParameterSet,TessBaseAPI.ProgressNotifier progressNotifier) {
         try {
             ImageTextReader imageTextReader=new ImageTextReader();
             api = new TessBaseAPI(progressNotifier);
@@ -38,6 +43,14 @@ public class ImageTextReader {
                     .map(Language::getCode)
                     .collect(Collectors.joining("+")));
             api.setPageSegMode(pageSegMode);
+            if(isParameterSet)
+             for (Map.Entry<String, String> entry : parameters.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (!key.equals(Constants.KEY_OCR_PSM_MODE)) {
+                    api.setVariable(key ,value);
+                }
+            }
             return imageTextReader;
         } catch (Exception e) {
             return null;

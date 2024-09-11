@@ -21,6 +21,9 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import java.util.HashMap;
+import java.util.Map;
+ 
 import io.github.subhamtyagi.ocr.Language;
 import io.github.subhamtyagi.ocr.R;
 import kotlin.Triple;
@@ -92,6 +95,13 @@ public class Utils {
 
     public static void putLastUsedText(String text) {
         SpUtil.getInstance().putString(Constants.KEY_LAST_USE_IMAGE_TEXT, text);
+    }
+    
+    public static Map<String, String> getAllParameters() {
+       return SpUtil.getInstance().getAllParameters();
+    }
+    public static boolean isExtraParameterSet(){
+    	return SpUtil.getInstance().getBoolean(Constants.KEY_ADVANCE_TESS_OPTION);
     }
 
     public static String getLastUsedText() {

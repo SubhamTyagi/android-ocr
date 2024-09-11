@@ -38,4 +38,12 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
+    public static class VariableSettingsFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            setPreferencesFromResource(R.xml.variable_preference, rootKey);
+        }
+
+
+    }
 }

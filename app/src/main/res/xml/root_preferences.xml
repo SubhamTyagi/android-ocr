@@ -43,16 +43,21 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/advance_tesseract_settings">
-
-        <ListPreference
-            android:defaultValue="1"
-            android:entries="@array/key_ocr_psm_mode"
-            android:entryValues="@array/value_ocr_psm_mode"
-            android:key="@string/key_ocr_psm_mode"
-            android:summary="@string/psm_summary"
-            android:title="@string/segmentation_mode"
-            app:icon="@drawable/ic_baseline_page_seg_32" />
-
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_baseline_filter_32"
+            android:key="key_advance_tess_option"
+            android:summary="Advance tesseract option. Used with caution; only use these option if you know what are you doing"
+            android:title="Set Tesseract variable/parameter" />
+            
+            <PreferenceScreen
+            android:fragment="io.github.subhamtyagi.ocr.SettingsActivity$VariableSettingsFragment"
+            android:icon="@drawable/ic_baseline_functions_32"
+            android:summary="Set tesseract parameters"
+            android:title="Tesseract variable/parameter"
+            app:dependency="key_advance_tess_option" />
+            
+        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/image_enhancement">

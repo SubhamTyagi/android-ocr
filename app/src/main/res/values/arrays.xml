@@ -282,20 +282,20 @@
     </string-array>
 
     <string-array name="key_ocr_psm_mode">
-        <item>PSM_OSD_ONLY</item>
-        <item>PSM_AUTO_OSD</item>
-        <item>PSM_AUTO_ONLY</item>
-        <item>PSM_AUTO</item>
-        <item>PSM_SINGLE_COLUMN</item>
-        <item>PSM_SINGLE_BLOCK_VERT_TEXT</item>
-        <item>PSM_SINGLE_BLOCK</item>
-        <item>PSM_SINGLE_LINE</item>
-        <item>PSM_SINGLE_WORD</item>
-        <item>PSM_CIRCLE_WORD</item>
-        <item>PSM_SINGLE_CHAR</item>
-        <item>PSM_SPARSE_TEXT</item>
-        <item>PSM_SPARSE_TEXT_OSD</item>
-        <item>PSM_RAW_LINE</item>
+        <item>Orientation and script detection (OSD) only.</item>
+        <item>Automatic page segmentation with OSD.</item>
+        <item>Automatic page segmentation, but no OSD, or OCR. (not implemented)</item>
+        <item>Fully automatic page segmentation, but no OSD. (Default)</item>
+        <item>Assume a single column of text of variable sizes.</item>
+        <item>Assume a single uniform block of vertically aligned text.</item>
+        <item>Assume a single uniform block of text.</item>
+        <item>Treat the image as a single text line.</item>
+        <item>Treat the image as a single word.</item>
+        <item>Treat the image as a single word in a circle.</item>
+        <item>Treat the image as a single character.</item>
+        <item>Sparse text. Find as much text as possible in no particular order.</item>
+        <item>Sparse text with OSD.</item>
+        <item>Raw line. Treat the image as a single text line.</item>
     </string-array>
 
     <string-array name="value_ocr_psm_mode">
@@ -314,5 +314,20 @@
         <item>12</item>
         <item>13</item>
     </string-array>
+    
+    <string-array name="tesseract_modes_oem">
+        <item>Original Tesseract only</item>
+        <item>Neural nets LSTM only</item>
+        <item>Tesseract + LSTM</item>
+        <item>Default, based on what is available</item>
+    </string-array>
+
+    <string-array name="tesseract_values_oem">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 
 </resources>

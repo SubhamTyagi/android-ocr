@@ -1,1 +1,1 @@
-OCR based on Tesseract 5
+An OCR app to recognize texts from images

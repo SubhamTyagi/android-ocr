@@ -1,0 +1,7 @@
+* Soporte para algunos parámetros/variables de tesseract
+* Tema de color dinámico
+* Se agregó el idioma acadio 
+* Selección fácil del idioma
+* Se solucionó el error de descarga y selección de idioma.
+* Traducción a varios idiomas
+*Gracias a todos los colaboradores*

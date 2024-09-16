@@ -1,0 +1,7 @@
+* Podpora několika parametrů/proměnných tesseractu
+* Dynamické barevné téma
+* Přidán akkadský jazyk 
+* Usnadnění výběru jazyka
+* Oprava chyby při stahování a výběru jazyka
+* Překlad různých jazyků
+* Poděkování všem přispěvatelům*

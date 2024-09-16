@@ -1,0 +1,7 @@
+* Support for a few tesseract parameters/variables
+* Dynamic color theme
+* Added Akkadian language 
+* Language selection made easy
+* Fix language download, selection bug
+* Various languages translation
+* Thanks all contributors*

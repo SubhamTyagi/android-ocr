@@ -1,0 +1,1 @@
+OCR на основе Tesseract 5

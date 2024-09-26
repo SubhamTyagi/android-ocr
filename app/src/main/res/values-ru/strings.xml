@@ -14,7 +14,7 @@
     <string name="download_language_data_please_wait">Загрузка файлов данных OCR. Пожалуйста, подождите…</string>
     <string name="gray_scale_detail">Предварительная обработка изображения для повышения точности</string>
     <string name="show_last_result">Показать последний результат</string>
-    <string name="use_gray_scale_image_for_ocr">Пре-Обработка Изображения</string>
+    <string name="use_gray_scale_image_for_ocr">Предобработка изображения</string>
     <string name="percentage_downloaded">% Всего:</string>
     <string name="language">Язык</string>
     <string name="persist_data_title">Сохранить данные</string>

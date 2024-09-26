@@ -39,4 +39,20 @@
     <string name="advance_tesseract_settings">Parametros avantiate de Tesseract</string>
     <string name="selected_language">Lingua seligite:</string>
     <string name="select_search_language">Seliger o cercar linguas</string>
+    <string name="percentage_downloaded">% del total:</string>
+    <string name="gray_scale_detail">Preprocessar le imagine pro meliorar le precision</string>
+    <string name="use_gray_scale_image_for_ocr">Preprocessar le imagine</string>
+    <string name="you_are_not_connected_to_internet">Tu non es connectite a Internet</string>
+    <string name="training_data_missing">Le datos de trainamento es mancante!</string>
+    <string name="download_description">Pro le correcte functionamento de Tesseract OCR, es necessari discargar datos additional de trainamento needs a tu apparato.
+\nDesira tu discargar le datos del linguas seligite (%s)?</string>
+    <string name="contrast_summary">Tenta expander adaptivemente le contrasto a tote le gamma dynamic</string>
+    <string name="deskew_summary">Trovar le inclination e le deviation del imagine</string>
+    <string name="otsu_threshold">Limine OTSU</string>
+    <string name="deskew_image">Deviation del imagine</string>
+    <string name="advance_setting_summary">Functiones affin al processamento de imagines</string>
+    <string name="what_language_this_image_have">Qual lingua es usate in le imagine?</string>
+    <string name="multiple_lang_summary">Datos de trainamento in multiple linguas</string>
+    <string name="image_processing_functions">Functiones de processamento de imagines</string>
+    <string name="psm_summary">Il dirige como Tesseract divide le imagine in lineas de texto e parolas.</string>
 </resources>

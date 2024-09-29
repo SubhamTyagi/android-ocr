@@ -18,12 +18,11 @@ import com.googlecode.leptonica.android.Skew;
 import com.googlecode.leptonica.android.WriteFile;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import java.util.HashMap;
-import java.util.Map;
- 
 import io.github.subhamtyagi.ocr.Language;
 import io.github.subhamtyagi.ocr.R;
 import kotlin.Triple;
@@ -34,41 +33,67 @@ public class Utils {
 
     @SuppressLint("DefaultLocale")
     public static String getSize(int size) {
-        String s = "";
-        double kb = size / 1024;
-        double mb = kb / 1024;
-        if (size < 1024) {
-            s = "$size Bytes";
-        } else if (size < 1024 * 1024) {
-            s = String.format("%.2f", kb) + " KB";
-        } else if (size < 1024 * 1024 * 1024) {
-            s = String.format("%.2f", mb) + " MB";
+        if (size < 0) {
+            return "Invalid size";
         }
-        return s;
+        if (size < 1024) {
+            return size + " Bytes";
+        }
+        
+        double kb = size / 1024.0;
+        if (kb < 1024) {
+            return String.format("%.2f KB", kb);
+        }
+        
+        double mb = kb / 1024.0;
+        return String.format("%.2f MB", mb);
     }
 
     public static Bitmap preProcessBitmap(Bitmap bitmap) {
-        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        Pix pix = ReadFile.readBitmap(bitmap);
-        pix = Convert.convertTo8(pix);
+        Pix pix = preparePix(bitmap);
 
-        if (SpUtil.getInstance().getBoolean(Constants.KEY_CONTRAST, true)) {
-            // pix=AdaptiveMap.backgroundNormMorph(pix);
+        if (shouldApplyContrast()) {
             pix = AdaptiveMap.pixContrastNorm(pix);
         }
 
-        if (SpUtil.getInstance().getBoolean(Constants.KEY_UN_SHARP_MASKING, true))
+        if (shouldApplyUnsharpMasking()) {
             pix = Enhance.unsharpMasking(pix);
+        }
 
-        if (SpUtil.getInstance().getBoolean(Constants.KEY_OTSU_THRESHOLD, true))
+        if (shouldApplyOtsuThreshold()) {
             pix = Binarize.otsuAdaptiveThreshold(pix);
+        }
 
-        if (SpUtil.getInstance().getBoolean(Constants.KEY_FIND_SKEW_AND_DESKEW, true)) {
-            float f = Skew.findSkew(pix);
-            pix = Rotate.rotate(pix, f);
+        if (shouldFindAndDeskw()) {
+            pix = rotateToCorrectSkew(pix);
         }
 
         return WriteFile.writeBitmap(pix);
+    }
+
+    private static Pix preparePix(Bitmap bitmap) {
+        return Convert.convertTo8(ReadFile.readBitmap(bitmap.copy(Bitmap.Config.ARGB_8888, true)));
+    }
+
+    private static boolean shouldApplyContrast() {
+        return SpUtil.getInstance().getBoolean(Constants.KEY_CONTRAST, true);
+    }
+
+    private static boolean shouldApplyUnsharpMasking() {
+        return SpUtil.getInstance().getBoolean(Constants.KEY_UN_SHARP_MASKING, true);
+    }
+
+    private static boolean shouldApplyOtsuThreshold() {
+        return SpUtil.getInstance().getBoolean(Constants.KEY_OTSU_THRESHOLD, true);
+    }
+
+    private static boolean shouldFindAndDeskw() {
+        return SpUtil.getInstance().getBoolean(Constants.KEY_FIND_SKEW_AND_DESKEW, true);
+    }
+
+    private static Pix rotateToCorrectSkew(Pix pix) {
+        float skewAngle = Skew.findSkew(pix);
+        return Rotate.rotate(pix, skewAngle);
     }
 
     public static boolean isPreProcessImage() {
@@ -83,10 +108,10 @@ public class Utils {
         return SpUtil.getInstance().getString(Constants.KEY_TESS_TRAINING_DATA_SOURCE, "best");
     }
 
-    public static @NonNull Set<Language> getTrainingDataLanguages(Context c) {
-        return allLangs(c,SpUtil.getInstance().getStringSet(
-                c.getString(R.string.key_language_for_tesseract_multi),
-                Collections.singleton("eng")));
+    public static @NonNull Set<Language> getTrainingDataLanguages(Context context) {
+        return allLangs(context, SpUtil.getInstance().getStringSet(
+                context.getString(R.string.key_language_for_tesseract_multi),
+                Collections.singleton(DEFAULT_LANGUAGE)));
     }
 
     public static int getPageSegMode() {
@@ -96,53 +121,54 @@ public class Utils {
     public static void putLastUsedText(String text) {
         SpUtil.getInstance().putString(Constants.KEY_LAST_USE_IMAGE_TEXT, text);
     }
-    
+
     public static Map<String, String> getAllParameters() {
-       return SpUtil.getInstance().getAllParameters();
+        return SpUtil.getInstance().getAllParameters();
     }
-    public static boolean isExtraParameterSet(){
-    	return SpUtil.getInstance().getBoolean(Constants.KEY_ADVANCE_TESS_OPTION);
+
+    public static boolean isExtraParameterSet() {
+        return SpUtil.getInstance().getBoolean(Constants.KEY_ADVANCE_TESS_OPTION);
     }
 
     public static String getLastUsedText() {
         return SpUtil.getInstance().getString(Constants.KEY_LAST_USE_IMAGE_TEXT, "");
     }
 
-    public static Triple<Set<Language>, Set<Language>, Set<Language>> getLast3UsedLanguage(Context c) {
+    public static Triple<Set<Language>, Set<Language>, Set<Language>> getLast3UsedLanguages(Context context) {
         return new Triple<>(
-                allLangs(c, SpUtil.getInstance().getStringSet(c.getString(R.string.key_language_for_tesseract_multi), Collections.singleton("eng"))),
-                allLangs(c, SpUtil.getInstance().getStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, Collections.singleton("hin"))),
-                allLangs(c, SpUtil.getInstance().getStringSet(Constants.KEY_LAST_USED_LANGUAGE_3, Collections.singleton("deu")))
+                allLangs(context, SpUtil.getInstance().getStringSet(context.getString(R.string.key_language_for_tesseract_multi), Collections.singleton(DEFAULT_LANGUAGE))),
+                allLangs(context, SpUtil.getInstance().getStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, Collections.singleton("hin"))),
+                allLangs(context, SpUtil.getInstance().getStringSet(Constants.KEY_LAST_USED_LANGUAGE_3, Collections.singleton("deu")))
         );
     }
 
-    private static Set<Language> allLangs(Context c, Set<String> codes) {
-        return codes.stream().map(code -> new Language(c, code)).collect(Collectors.toSet());
+    private static Set<Language> allLangs(Context context, Set<String> codes) {
+        return codes.stream().map(code -> new Language(context, code)).collect(Collectors.toSet());
     }
 
-    public static void setLastUsedLanguage(Context c, Set<Language> lastUsedLanguage) {
-        Set<Language> l1 = getLast3UsedLanguage(c).getFirst();
-        Set<Language> l2 = getLast3UsedLanguage(c).getSecond();
-        if (lastUsedLanguage.equals(l1)) {
-            return;
-        }
-        Set<String> lastCodes = lastUsedLanguage.stream().map(Language::getCode).collect(Collectors.toSet());
-        Set<String> l1Codes = l1.stream().map(Language::getCode).collect(Collectors.toSet());
-        Set<String> l2Codes = l2.stream().map(Language::getCode).collect(Collectors.toSet());
-        if (l2.equals(lastUsedLanguage)) {
-            SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, l1Codes);
-            SpUtil.getInstance().putStringSet(c.getString(R.string.key_language_for_tesseract_multi), lastCodes);
-        } else {
-            SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_3, l2Codes);
-            SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, l1Codes);
-            SpUtil.getInstance().putStringSet(c.getString(R.string.key_language_for_tesseract_multi), lastCodes);
+    public static void setLastUsedLanguage(Context context, Set<Language> lastUsedLanguage) {
+        Set<Language> lastLanguage1 = getLast3UsedLanguages(context).getFirst();
+        Set<Language> lastLanguage2 = getLast3UsedLanguages(context).getSecond();
+        
+        if (lastUsedLanguage.equals(lastLanguage1)) {
+            return; 
         }
 
+        Set<String> lastCodes = lastUsedLanguage.stream().map(Language::getCode).collect(Collectors.toSet());
+        Set<String> lastCodes1 = lastLanguage1.stream().map(Language::getCode).collect(Collectors.toSet());
+        Set<String> lastCodes2 = lastLanguage2.stream().map(Language::getCode).collect(Collectors.toSet());
+
+        if (lastLanguage2.equals(lastUsedLanguage)) {
+            SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, lastCodes1);
+            SpUtil.getInstance().putStringSet(context.getString(R.string.key_language_for_tesseract_multi), lastCodes);
+        } else {
+            SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_3, lastCodes2);
+            SpUtil.getInstance().putStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, lastCodes1);
+            SpUtil.getInstance().putStringSet(context.getString(R.string.key_language_for_tesseract_multi), lastCodes);
+        }
     }
 
     public static void putLastUsedImageLocation(String imageURI) {
         SpUtil.getInstance().putString(Constants.KEY_LAST_USE_IMAGE_LOCATION, imageURI);
     }
-
-
 }

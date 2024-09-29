@@ -134,7 +134,7 @@ public class Utils {
         return SpUtil.getInstance().getString(Constants.KEY_LAST_USE_IMAGE_TEXT, "");
     }
 
-    public static Triple<Set<Language>, Set<Language>, Set<Language>> getLast3UsedLanguages(Context context) {
+    public static Triple<Set<Language>, Set<Language>, Set<Language>> getLast3UsedLanguage(Context context) {
         return new Triple<>(
                 allLangs(context, SpUtil.getInstance().getStringSet(context.getString(R.string.key_language_for_tesseract_multi), Collections.singleton(DEFAULT_LANGUAGE))),
                 allLangs(context, SpUtil.getInstance().getStringSet(Constants.KEY_LAST_USED_LANGUAGE_2, Collections.singleton("hin"))),
@@ -147,8 +147,8 @@ public class Utils {
     }
 
     public static void setLastUsedLanguage(Context context, Set<Language> lastUsedLanguage) {
-        Set<Language> lastLanguage1 = getLast3UsedLanguages(context).getFirst();
-        Set<Language> lastLanguage2 = getLast3UsedLanguages(context).getSecond();
+        Set<Language> lastLanguage1 = getLast3UsedLanguage(context).getFirst();
+        Set<Language> lastLanguage2 = getLast3UsedLanguage(context).getSecond();
         
         if (lastUsedLanguage.equals(lastLanguage1)) {
             return; 

@@ -589,120 +589,80 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * Download the training Data and save this to external storage
      */
     private class DownloadTrainingTask extends AsyncTask<String, Integer, Boolean> {
-        String size;
+    private String size;
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressDialog = new ProgressDialog(MainActivity.this);
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.setTitle(getString(R.string.downloading));
-            mProgressDialog.setMessage(getString(R.string.downloading_language));
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mProgressDialog = new ProgressDialog(MainActivity.this);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setTitle(getString(R.string.downloading));
+        mProgressDialog.setMessage(getString(R.string.downloading_language));
+        mProgressDialog.show();
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+        if (mProgressDialog != null) {
+            int percentage = values[0];
+            mProgressDialog.setMessage(percentage + getString(R.string.percentage_downloaded) + size);
             mProgressDialog.show();
         }
+    }
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            int percentage = values[0];
-            if (mProgressDialog != null) {
-                mProgressDialog.setMessage(percentage + getString(R.string.percentage_downloaded) + size);
-                mProgressDialog.show();
-            }
+    @Override
+    protected void onPostExecute(Boolean success) {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+        initializeOCR(Utils.getTrainingDataLanguages(MainActivity.this));
+    }
+
+    @Override
+    protected Boolean doInBackground(String... languages) {
+        String dataType = languages[0];
+        String lang = languages[1];
+        return downloadTrainingData(dataType, lang);
+    }
+
+    /**
+     * Handles the actual work of downloading.
+     *
+     * @param dataType Data type i.e., best, fast, standard
+     * @param lang     Language
+     * @return true if successful; false otherwise
+     */
+    private boolean downloadTrainingData(String dataType, String lang) {
+        String downloadURL = getDownloadUrl(dataType, lang);
+        if (downloadURL == null) {
+            return false; // Invalid language or dataType
         }
 
-        @Override
-        protected void onPostExecute(Boolean bool) {
-            if (mProgressDialog != null) {
-                mProgressDialog.cancel();
-                mProgressDialog = null;
+        try {
+            URL url = new URL(downloadURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setInstanceFollowRedirects(false);
+            downloadURL = followRedirects(conn, downloadURL);
+
+            conn = (HttpURLConnection) new URL(downloadURL).openConnection();
+            conn.connect();
+
+            int totalContentSize = conn.getContentLength();
+            if (totalContentSize <= 0) {
+                return false; // Invalid content length
             }
-            initializeOCR(Utils.getTrainingDataLanguages(MainActivity.this));
-        }
+            size = Utils.getSize(totalContentSize);
 
-        @Override
-        protected Boolean doInBackground(String... languages) {
-            String dataType = languages[0];
-            String lang = languages[1];
-            return downloadTraningData(dataType, lang);
-        }
+            try (InputStream input = new BufferedInputStream(conn.getInputStream());
+                 OutputStream output = new FileOutputStream(new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang)))) {
 
-        /**
-         * done the actual work of download
-         *
-         * @param dataType data type i.e best, fast, standard
-         * @param lang     language
-         * @return true if success else false
-         */
-        private boolean downloadTraningData(String dataType, String lang) {
-            boolean result = true;
-            String downloadURL;
-            String location;
-
-            switch (dataType) {
-                case "best":
-                    if (lang.equals("akk"))
-                        downloadURL = Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_BEST;
-                    else if (lang.equals("eqo"))
-                        downloadURL = Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU;
-                    else
-                        downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang);
-                    break;
-                case "standard":
-                    if (lang.equals("akk"))
-                        downloadURL = Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_STANDARD;
-                    else if (lang.equals("eqo"))
-                        downloadURL = Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU;
-                    else
-                        downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang);
-                    break;
-                default:
-                    if (lang.equals("akk"))
-                        downloadURL = Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_FAST;
-                    else if (lang.equals("eqo"))
-                        downloadURL = Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU;
-                    else
-                        downloadURL = String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
-            }
-
-            URL url, base, next;
-            HttpURLConnection conn;
-            try {
-                while (true) {
-                    try {
-                        url = new URL(downloadURL);
-                    } catch (java.net.MalformedURLException ex) {
-                        
-                        return false;
-                    }
-                    conn = (HttpURLConnection) url.openConnection();
-                    conn.setInstanceFollowRedirects(false);
-                    switch (conn.getResponseCode()) {
-                        case HttpURLConnection.HTTP_MOVED_PERM:
-                        case HttpURLConnection.HTTP_MOVED_TEMP:
-                            location = conn.getHeaderField("Location");
-                            base = new URL(downloadURL);
-                            next = new URL(base, location);  // Deal with relative URLs
-                            downloadURL = next.toExternalForm();
-                            continue;
-                    }
-                    break;
-                }
-                conn.connect();
-
-                int totalContentSize = conn.getContentLength();
-                size = Utils.getSize(totalContentSize);
-
-                InputStream input = new BufferedInputStream(url.openStream());
-
-                File destf = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang));
-                destf.createNewFile();
-                OutputStream output = new FileOutputStream(destf);
-
-                byte[] data = new byte[1024 * 6];
-                int count, downloaded = 0;
+                byte[] data = new byte[6 * 1024]; // 6KB buffer
+                int downloaded = 0;
+                int count;
                 while ((count = input.read(data)) != -1) {
                     output.write(data, 0, count);
                     downloaded += count;
@@ -710,13 +670,45 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                     publishProgress(percentage);
                 }
                 output.flush();
-                output.close();
-                input.close();
-            } catch (Exception e) {
-                result = false;
-                e.printStackTrace();
             }
-            return result;
+            return true; // Download successful
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false; // Handle exceptions
         }
     }
+
+    private String getDownloadUrl(String dataType, String lang) {
+        switch (dataType) {
+            case "best":
+                return lang.equals("akk") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_BEST :
+                       lang.equals("eqo") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU :
+                       String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang);
+            case "standard":
+                return lang.equals("akk") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_STANDARD :
+                       lang.equals("eqo") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU :
+                       String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang);
+            default: // Assuming "fast" is the default
+                return lang.equals("akk") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_FAST :
+                       lang.equals("eqo") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU :
+                       String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
+        }
+    }
+
+    private String followRedirects(HttpURLConnection conn, String downloadURL) throws IOException {
+        while (true) {
+            int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_MOVED_PERM || responseCode == HttpURLConnection.HTTP_MOVED_TEMP) {
+                String location = conn.getHeaderField("Location");
+                URL base = new URL(downloadURL);
+                downloadURL = new URL(base, location).toExternalForm(); // Handle relative URLs
+                conn = (HttpURLConnection) new URL(downloadURL).openConnection(); // Re-open connection
+            } else {
+                break; // No more redirects
+            }
+        }
+        return downloadURL;
+    }
+}
+
 }

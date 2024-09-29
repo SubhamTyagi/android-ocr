@@ -1,99 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     android:layout_height="wrap_content"
-     android:layout_width="match_parent"
-     android:layout_margin="5sp"
-     android:padding="5sp"
-     android:orientation="vertical"
-     android:layout_marginLeft="10sp"
-     android:layout_marginRight="10sp"
-     android:id="@+id/mainView"
-     app:behavior_hideable="false"
-     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-   >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="?android:attr/colorBackground"
+    android:layout_marginHorizontal="16dp"
+    android:id="@+id/mainView"
+    app:behavior_hideable="false"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <TextView
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:textSize="18sp"
-         android:id="@+id/spinerTitle"
-         android:text="@string/what_language_this_image_have"
-         android:textStyle="bold"
-         android:gravity="center" />
+        android:id="@+id/spinerTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/what_language_this_image_have"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="8dp" />
+
+    <RadioGroup
+        android:id="@+id/rb_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/rb_language1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="English"
+            />
+
+        <RadioButton
+            android:id="@+id/rb_language2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Hindi"
+            />
+
+        <RadioButton
+            android:id="@+id/rb_language3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="German"
+             />
+    </RadioGroup>
 
     <LinearLayout
-         android:layout_height="match_parent"
-         android:layout_width="match_parent"
-         android:orientation="horizontal"
-         android:gravity="center">
-
-        <RadioGroup
-             android:layout_height="match_parent"
-             android:layout_width="match_parent"
-             android:orientation="horizontal"
-             android:id="@+id/rb_group">
-
-            <RadioButton
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:layout_weight="1"
-                 android:id="@+id/rb_language1"
-                 android:text="English" />
-
-            <RadioButton
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:layout_weight="1"
-                 android:id="@+id/rb_language2"
-                 android:text="Hindi" />
-
-            <RadioButton
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:layout_weight="1"
-                 android:id="@+id/rb_language3"
-                 android:text="German" />
-
-        </RadioGroup>
-
-    </LinearLayout>
-
-    <LinearLayout
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:gravity="center|left"
-         android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="16dp">
 
         <EditText
-             android:layout_height="wrap_content"
-             android:layout_width="0dp"
-             android:hint="@string/language_name"
-             android:layout_weight="1"
-             android:inputType="text"
-             android:id="@+id/searchBox" />
+            android:id="@+id/searchBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/language_name"
+            android:inputType="text"
+            android:background="@drawable/edit_text_background"
+            android:padding="10dp" />
 
         <ImageView
-             android:layout_height="match_parent"
-             android:layout_width="40dp"
-             app:srcCompat="@drawable/ic_baseline_search_black_36"
-             android:id="@+id/searchIcon" />
-
+            android:id="@+id/searchIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_baseline_search_black_36"
+            android:contentDescription="Search"
+            android:layout_marginStart="8dp" />
     </LinearLayout>
 
     <View
-         android:layout_height="0.1dp"
-         android:layout_width="wrap_content"
-         android:id="@+id/viewLine" />
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
 
     <ListView
-         android:layout_height="300dp"
-         android:layout_width="match_parent"
-         android:divider="@color/colorAccent"
-         android:id="@+id/list"
-         android:dividerHeight="0.1dp">
-
-    </ListView>
-
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
 </LinearLayout>

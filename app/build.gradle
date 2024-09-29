@@ -34,11 +34,11 @@ android {
             def normalizedWorkingBranch = workingBranch.replaceFirst("^[^A-Za-z]+", "").replaceAll("[^0-9A-Za-z]+", "")
 
             if (normalizedWorkingBranch.isEmpty() || workingBranch == "master" || workingBranch == "dev") {
-             //   applicationIdSuffix ".dev"
+                applicationIdSuffix ".dev"
                 resValue "string", "app_name", "OCR Dev"
             } else {
                 archivesBaseName = 'OCR_' + normalizedWorkingBranch
-               // applicationIdSuffix ".dev." + normalizedWorkingBranch
+                applicationIdSuffix ".dev." + normalizedWorkingBranch
                 resValue "string", "app_name", "OCR " + workingBranch
             }
 

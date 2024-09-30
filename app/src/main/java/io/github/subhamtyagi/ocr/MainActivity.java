@@ -239,19 +239,24 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void initDirectories() {
-        dirBest = new File(getExternalFilesDir("best").getAbsolutePath());
-        dirFast = new File(getExternalFilesDir("fast").getAbsolutePath());
-        dirStandard = new File(getExternalFilesDir("standard").getAbsolutePath());
-        dirBest.mkdirs();
-        dirStandard.mkdirs();
-        dirFast.mkdirs();
-        currentDirectory = new File(dirBest, "tessdata");
-        currentDirectory.mkdirs();
-        currentDirectory = new File(dirStandard, "tessdata");
-        currentDirectory.mkdirs();
-        currentDirectory = new File(dirFast, "tessdata");
-        currentDirectory.mkdirs();
+    String[] dirNames = {"best", "fast", "standard"};
+    for (String dirName : dirNames) {
+        File dir = new File(getExternalFilesDir(dirName), "tessdata");
+        if (dir.mkdirs() || dir.isDirectory()) {
+            // Directory was created or already exists
+            // Optionally, you can set currentDirectory based on the specific directory
+            if (dirName.equals("best")) {
+                dirBest = dir.getParentFile();
+            } else if (dirName.equals("fast")) {
+                dirFast = dir.getParentFile();
+            } else if (dirName.equals("standard")) {
+                dirStandard = dir.getParentFile();
+            }
+        }
     }
+    // Set currentDirectory to the last initialized directory (standard)
+    currentDirectory = new File(dirStandard, "tessdata");
+}
 
     /**
      * initialize the OCR i.e tesseract api
@@ -541,49 +546,51 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * A Async Task to convert the image into text the return the text in String
      */
     private class ConvertImageToTextTask extends AsyncTask<Bitmap, Void, String> {
-
-        @Override
-        protected String doInBackground(Bitmap... bitmaps) {
-            Bitmap bitmap = bitmaps[0];
-            if (!isRefresh && Utils.isPreProcessImage()) {
-                bitmap = Utils.preProcessBitmap(bitmap);
-                // bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 1.5), (int) (bitmap.getHeight() * 1.5), true);
-            }
-            isRefresh = false;
-            saveBitmapToStorage(bitmap);
-            return mImageTextReader.getTextFromBitmap(bitmap);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressIndicator.setProgress(0);
-            mProgressIndicator.setVisibility(View.VISIBLE);
-            mImageView.animate()
-                    .alpha(.2f)
-                    .setDuration(450)
-                    .start();
-        }
-
-        @Override
-        protected void onPostExecute(String text) {
-            mProgressIndicator.setVisibility(View.GONE);
-            mImageView.animate()
-                    .alpha(1f)
-                    .setDuration(450)
-                    .start();
-            String clean_text = Html.fromHtml(text).toString().trim();
-            showOCRResult(clean_text);
-            Toast.makeText(MainActivity.this, "With Confidence:" + mImageTextReader.getAccuracy() + "%", Toast.LENGTH_SHORT).show();
-
-            Utils.putLastUsedText(clean_text);
-            Bitmap bitmap = loadBitmapFromStorage();
-            if (bitmap != null) {
-                mImageView.setImageBitmap(bitmap);
-            }
-        }
-
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mProgressIndicator.setProgress(0);
+        mProgressIndicator.setVisibility(View.VISIBLE);
+        animateImageViewAlpha(0.2f);
     }
+
+    @Override
+    protected String doInBackground(Bitmap... bitmaps) {
+        Bitmap bitmap = bitmaps[0];
+        if (!isRefresh && Utils.isPreProcessImage()) {
+            bitmap = Utils.preProcessBitmap(bitmap);
+        }
+        isRefresh = false;
+        saveBitmapToStorage(bitmap);
+        return mImageTextReader.getTextFromBitmap(bitmap);
+    }
+
+    @Override
+    protected void onPostExecute(String text) {
+        mProgressIndicator.setVisibility(View.GONE);
+        animateImageViewAlpha(1f);
+        String cleanText = Html.fromHtml(text).toString().trim();
+        showOCRResult(cleanText);
+        Toast.makeText(MainActivity.this, "With Confidence: " + mImageTextReader.getAccuracy() + "%", Toast.LENGTH_SHORT).show();
+        Utils.putLastUsedText(cleanText);
+        updateImageView();
+    }
+
+    private void animateImageViewAlpha(float alpha) {
+        mImageView.animate()
+                .alpha(alpha)
+                .setDuration(450)
+                .start();
+    }
+
+    private void updateImageView() {
+        Bitmap bitmap = loadBitmapFromStorage();
+        if (bitmap != null) {
+            mImageView.setImageBitmap(bitmap);
+        }
+    }
+}
+
 
     /**
      * Download the training Data and save this to external storage

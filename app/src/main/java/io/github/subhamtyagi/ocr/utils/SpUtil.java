@@ -6,12 +6,10 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import java.util.Set;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -21,7 +19,7 @@ public class SpUtil {
     private volatile static SpUtil mInstance;
     private Context mContext;
     private SharedPreferences mPref;
-    
+
     public static final String KEY_OCR_PSM_MODE = "key_ocr_psm_mode";
     public static final String KEY_TESSERACT_OEM_MODE = "key_tesseract_oem_mode";
     public static final String KEY_PRESERVE_INTERWORD_SPACES = "key_preserve_interword_spaces";
@@ -32,8 +30,7 @@ public class SpUtil {
     public static final String KEY_LANGUAGE_MODEL_NGRAM_ON = "language_model_ngram_on";
     public static final String KEY_TEXTORD_FORCE_MAKE_PROP_WORDS = "textord_force_make_prop_words";
     public static final String KEY_EDGES_MAX_CHILDREN_PER_OUTLINE = "edges_max_children_per_outline";
-    
-    
+
 
     private SpUtil() {
     }
@@ -154,7 +151,7 @@ public class SpUtil {
         editor.putStringSet(key, value);
         editor.apply();
     }
-    
+
 
     // Retrieve all preferences as a Map
     public Map<String, String> getAllParameters() {

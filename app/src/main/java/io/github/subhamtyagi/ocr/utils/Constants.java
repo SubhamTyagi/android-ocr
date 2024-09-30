@@ -37,9 +37,7 @@ public class Constants {
     public static final String KEY_FIND_SKEW_AND_DESKEW = "deskew_img";
     public static final String KEY_PAGE_SEG_MODE = "key_ocr_psm_mode";
     public static final String KEY_OCR_PSM_MODE = "key_ocr_psm_mode";
-    public static final String KEY_ADVANCE_TESS_OPTION= "key_advance_tess_option";
-    
-    
+    public static final String KEY_ADVANCE_TESS_OPTION = "key_advance_tess_option";
 
 
 }

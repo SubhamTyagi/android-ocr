@@ -1,46 +1,40 @@
 package io.github.subhamtyagi.ocr;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.graphics.drawable.ColorDrawable;
-import android.widget.EditText;
 import android.widget.RadioButton;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import io.github.subhamtyagi.ocr.spinner.ArrayAdapterWithContainsFilter;
-import android.text.TextWatcher;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import kotlin.Triple;
 import java.util.Set;
-import io.github.subhamtyagi.ocr.utils.Utils;
 import java.util.stream.Collectors;
+
+import io.github.subhamtyagi.ocr.spinner.ArrayAdapterWithContainsFilter;
+import io.github.subhamtyagi.ocr.utils.Language;
+import io.github.subhamtyagi.ocr.utils.Utils;
+import kotlin.Triple;
 
 public class ShareFragment extends BottomSheetDialogFragment {
 
     private static final String LANGUAGE = "language";
 
-    
+
     private Bundle bundle;
     static ArrayList<String> items;
     OnSpinnerItemClick onSpinnerItemClick;
@@ -59,14 +53,14 @@ public class ShareFragment extends BottomSheetDialogFragment {
 
         View vw = inflater.inflate(R.layout.dialog_layout, container, false);
 
-        
+
         bundle = getArguments();
 
         assert bundle != null;
-        
-       // BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(vw.findViewById(R.id.mainView));
-       // bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-      //  bottomSheetBehavior.setHideable(false);
+
+        // BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(vw.findViewById(R.id.mainView));
+        // bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        //  bottomSheetBehavior.setHideable(false);
 
         TextView title = vw.findViewById(R.id.spinerTitle);
         ImageView searchIcon = vw.findViewById(R.id.searchIcon);
@@ -113,10 +107,12 @@ public class ShareFragment extends BottomSheetDialogFragment {
                 new TextWatcher() {
                     @Override
                     public void beforeTextChanged(
-                            CharSequence charSequence, int i, int i1, int i2) {}
+                            CharSequence charSequence, int i, int i1, int i2) {
+                    }
 
                     @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
 
                     @Override
                     public void afterTextChanged(Editable editable) {
@@ -170,11 +166,12 @@ public class ShareFragment extends BottomSheetDialogFragment {
         super.dismiss();
     }
 
-    private void cancel() {}
+    private void cancel() {
+    }
 
     public static ShareFragment newInstance(Uri imageUri, ArrayList<String> languagesName) {
         ShareFragment fragment = new ShareFragment();
-        items=languagesName;
+        items = languagesName;
         Bundle bundle = new Bundle();
         bundle.putString(LANGUAGE, "string");
         fragment.setArguments(bundle);
@@ -185,8 +182,8 @@ public class ShareFragment extends BottomSheetDialogFragment {
         try {
             InputMethodManager inputManager =
                     (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-          //  inputManager.hideSoftInputFromWindow(
-                    //getContext().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            //  inputManager.hideSoftInputFromWindow(
+            //getContext().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         } catch (Exception ignore) {
         }
     }

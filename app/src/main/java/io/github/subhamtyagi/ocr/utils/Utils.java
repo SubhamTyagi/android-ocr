@@ -3,7 +3,6 @@ package io.github.subhamtyagi.ocr.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -18,12 +17,10 @@ import com.googlecode.leptonica.android.Skew;
 import com.googlecode.leptonica.android.WriteFile;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import io.github.subhamtyagi.ocr.Language;
 import io.github.subhamtyagi.ocr.R;
 import kotlin.Triple;
 
@@ -39,12 +36,12 @@ public class Utils {
         if (size < 1024) {
             return size + " Bytes";
         }
-        
+
         double kb = size / 1024.0;
         if (kb < 1024) {
             return String.format("%.2f KB", kb);
         }
-        
+
         double mb = kb / 1024.0;
         return String.format("%.2f MB", mb);
     }
@@ -149,9 +146,9 @@ public class Utils {
     public static void setLastUsedLanguage(Context context, Set<Language> lastUsedLanguage) {
         Set<Language> lastLanguage1 = getLast3UsedLanguage(context).getFirst();
         Set<Language> lastLanguage2 = getLast3UsedLanguage(context).getSecond();
-        
+
         if (lastUsedLanguage.equals(lastLanguage1)) {
-            return; 
+            return;
         }
 
         Set<String> lastCodes = lastUsedLanguage.stream().map(Language::getCode).collect(Collectors.toSet());

@@ -4,14 +4,12 @@ import android.graphics.Bitmap;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
-import io.github.subhamtyagi.ocr.Language;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.HashMap;
-import java.util.Map;
 
+import io.github.subhamtyagi.ocr.utils.Language;
 import io.github.subhamtyagi.ocr.utils.Constants;
-
 
 
 /**
@@ -20,7 +18,7 @@ import io.github.subhamtyagi.ocr.utils.Constants;
 public class ImageTextReader {
 
     public static final String TAG = "ImageTextReader";
-    public  boolean success;
+    public boolean success;
     /**
      * TessBaseAPI instance
      */
@@ -30,27 +28,27 @@ public class ImageTextReader {
     /**
      * initialize and train the tesseract engine
      *
-     * @param path     a path to training data
+     * @param path      a path to training data
      * @param languages language code i.e. selected by user
      * @return the instance of this class for later use
      */
-    public static ImageTextReader getInstance(String path, Set<Language> languages, int pageSegMode, Map<String, String> parameters, boolean isParameterSet,TessBaseAPI.ProgressNotifier progressNotifier) {
+    public static ImageTextReader getInstance(String path, Set<Language> languages, int pageSegMode, Map<String, String> parameters, boolean isParameterSet, TessBaseAPI.ProgressNotifier progressNotifier) {
         try {
-            ImageTextReader imageTextReader=new ImageTextReader();
+            ImageTextReader imageTextReader = new ImageTextReader();
             api = new TessBaseAPI(progressNotifier);
             imageTextReader.success = api.init(path, languages
                     .stream()
                     .map(Language::getCode)
                     .collect(Collectors.joining("+")));
             api.setPageSegMode(pageSegMode);
-            if(isParameterSet)
-             for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                if (!key.equals(Constants.KEY_OCR_PSM_MODE)) {
-                    api.setVariable(key ,value);
+            if (isParameterSet)
+                for (Map.Entry<String, String> entry : parameters.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    if (!key.equals(Constants.KEY_OCR_PSM_MODE)) {
+                        api.setVariable(key, value);
+                    }
                 }
-            }
             return imageTextReader;
         } catch (Exception e) {
             return null;

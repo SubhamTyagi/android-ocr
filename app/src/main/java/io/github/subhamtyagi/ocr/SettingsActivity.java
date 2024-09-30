@@ -3,10 +3,7 @@ package io.github.subhamtyagi.ocr;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.ListPreference;
-import androidx.preference.MultiSelectListPreference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SwitchPreference;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -38,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
+
     public static class VariableSettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

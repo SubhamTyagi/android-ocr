@@ -28,10 +28,10 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_dialog_results, container, false);
         Bundle arguments = getArguments();
-        
+
         if (arguments == null) {
             dismiss();
-            return view; 
+            return view;
         }
 
         String resultantTextString = arguments.getString(ARGUMENT_TEXT, "");
@@ -40,7 +40,7 @@ public class BottomSheetResultsFragment extends BottomSheetDialogFragment {
         ImageButton btnShare = view.findViewById(R.id.btn_share);
 
         setupButtons(resultantTextString, btnCopy, btnShare, resultantText);
-        
+
         return view;
     }
 

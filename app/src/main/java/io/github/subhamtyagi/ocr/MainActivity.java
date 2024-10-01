@@ -72,16 +72,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     public static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_SETTINGS = 797;
     private static boolean isRefresh = false;
-    /**
-     * a progressDialog to show downloading Dialog
-     */
-    private ProgressDialog mProgressDialog;
-    /**
-     * A spinner dialog shown on share menu
-     */
 
     private ArrayList<String> languagesNames;
-    // private ConvertImageToTextTask convertImageToTextTask;
     private File dirBest;
     private File dirStandard;
     private File dirFast;
@@ -461,11 +453,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             dialog.dismiss();
             dialog = null;
         }
-        if (mProgressDialog != null) {
-            mProgressDialog.cancel();
-            mProgressDialog = null;
-        }
-
         if (mImageTextReader != null) mImageTextReader.tearDownEverything();
     }
 
@@ -613,8 +600,8 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     /**
      * Download the training Data and save this to external storage
      */
-    private ProgressBar mProgressSpinner;
-    private ProgressBar mProgressBar;
+    private LinearProgressIndicator mProgressSpinner;
+    private LinearProgressIndicator mProgressBar;
     private TextView mProgressTitle;
     private TextView mProgressMessage;
 

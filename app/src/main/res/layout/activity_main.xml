@@ -65,6 +65,49 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <TextView
+            android:id="@+id/progress_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Downloading"
+            android:textSize="18sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" /> <!-- Initially hidden -->
+
+        <!-- Message TextView -->
+        <TextView
+            android:id="@+id/progress_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Downloading language data..."
+            android:textSize="16sp"
+            android:layout_below="@id/progress_title"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone" /> <!-- Initially hidden -->
+
+        <!-- Circular indeterminate ProgressBar -->
+        <ProgressBar
+            android:id="@+id/progress_spinner"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progress_message"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" /> <!-- Initially hidden -->
+
+        <!-- Horizontal determinate ProgressBar -->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progress_spinner"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            android:max="100" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
              android:layout_height="wrap_content"
              android:layout_width="wrap_content"

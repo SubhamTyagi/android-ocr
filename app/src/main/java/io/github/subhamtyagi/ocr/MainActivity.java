@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -141,6 +142,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mSwipeRefreshLayout = findViewById(R.id.swipe_to_refresh);
         mFloatingActionButton = findViewById(R.id.btn_scan);
         mLanguageName = findViewById(R.id.language_name1);
+
+        mProgressSpinner = findViewById(R.id.progress_spinner);
+        mProgressBar = findViewById(R.id.progress_bar);
+        mProgressTitle = findViewById(R.id.progress_title);
+        mProgressMessage = findViewById(R.id.progress_message);
 
         executorService = Executors.newFixedThreadPool(4);
         handler = new Handler(Looper.getMainLooper());
@@ -607,6 +613,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     /**
      * Download the training Data and save this to external storage
      */
+    private ProgressBar mProgressSpinner;
+    private ProgressBar mProgressBar;
+    private TextView mProgressTitle;
+    private TextView mProgressMessage;
+
     private class DownloadTrainingTask implements Runnable {
         private final String dataType;
         private final String lang;
@@ -619,27 +630,27 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         @Override
         public void run() {
-            handler.post(() -> {
-                mProgressDialog = new ProgressDialog(MainActivity.this);
-                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                mProgressDialog.setIndeterminate(true);
-                mProgressDialog.setCancelable(false);
-                mProgressDialog.setTitle(getString(R.string.downloading));
-                mProgressDialog.setMessage(getString(R.string.downloading_language));
-                mProgressDialog.show();
+                       handler.post(() -> {
+                mProgressTitle.setText(getString(R.string.downloading));
+                mProgressMessage.setText(getString(R.string.downloading_language));
+                mProgressTitle.setVisibility(View.VISIBLE);
+                mProgressMessage.setVisibility(View.VISIBLE);
+                mProgressSpinner.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.GONE);
             });
 
             boolean success = downloadTrainingData(dataType, lang);
 
             handler.post(() -> {
-                if (mProgressDialog != null) {
-                    mProgressDialog.dismiss();
-                    mProgressDialog = null;
-                }
+                mProgressSpinner.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.GONE);
+                mProgressTitle.setVisibility(View.GONE);
+                mProgressMessage.setVisibility(View.GONE);
                 if (success) {
                     initializeOCR(Utils.getTrainingDataLanguages(MainActivity.this));
                 } else {
-                    // failure
+                    // Handle failure case
+                    Toast.makeText(MainActivity.this, "Download failed", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -665,6 +676,14 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 }
                 size = Utils.getSize(totalContentSize);
 
+                // Switch from indeterminate to determinate progress bar
+                handler.post(() -> {
+                    mProgressSpinner.setVisibility(View.GONE);  // Hide spinner
+                    mProgressBar.setVisibility(View.VISIBLE);   // Show determinate progress bar
+                    mProgressMessage.setText("0%" + getString(R.string.percentage_downloaded) + size);  // Update message
+                    mProgressBar.setProgress(0);               // Reset progress bar to 0
+                });
+
                 try (InputStream input = new BufferedInputStream(conn.getInputStream());
                      OutputStream output = new FileOutputStream(new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang)))) {
 
@@ -676,17 +695,19 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         output.write(data, 0, count);
                         downloaded += count;
                         int percentage = (downloaded * 100) / totalContentSize;
+
+                        // Update progress bar and message
                         handler.post(() -> {
-                            if (mProgressDialog != null) {
-                                mProgressDialog.setMessage(percentage + getString(R.string.percentage_downloaded) + size);
-                            }
+                            mProgressBar.setProgress(percentage);
+                            mProgressMessage.setText(percentage + "% " + getString(R.string.percentage_downloaded) + size);
                         });
                     }
                     output.flush();
                 }
+
                 return true;
             } catch (IOException e) {
-                Log.e(TAG, "loadBitmapFromStorage: " + e.getLocalizedMessage());
+                Log.e(TAG, "Download failed: " + e.getLocalizedMessage());
                 return false;
             }
         }
@@ -707,8 +728,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                                     String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
             }
         }
-
-
         private String followRedirects(HttpURLConnection conn, String downloadURL) throws IOException {
             while (true) {
                 int responseCode = conn.getResponseCode();

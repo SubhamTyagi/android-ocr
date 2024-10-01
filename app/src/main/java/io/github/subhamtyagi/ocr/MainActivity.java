@@ -74,48 +74,27 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private File dirStandard;
     private File dirFast;
     private File currentDirectory;
-    /**
-     * Our ImageTextReader Instance
-     */
     private ImageTextReader mImageTextReader;
     /**
      * TrainingDataType: i.e Best, Standard, Fast
      */
     private String mTrainingDataType;
-    /**
-     * Page segmentation mode
-     */
     private int mPageSegMode;
-
     private Map<String, String> parameters;
     /**
      * AlertDialog for showing when language data doesn't exists
      */
     private AlertDialog dialog;
-    /**
-     * Image View
-     */
     private ImageView mImageView;
-    /**
-     * ProgressIndicator
-     */
     private LinearProgressIndicator mProgressIndicator;
-    /**
-     * SwipeRefreshLayout
-     */
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    /**
-     * FloatingActionButton
-     */
     private FloatingActionButton mFloatingActionButton;
     /**
      * Language name to be displayed
      */
     private TextView mLanguageName;
-
     private ExecutorService executorService;
     private Handler handler;
-
     private LinearProgressIndicator mProgressSpinner;
     private LinearProgressIndicator mProgressBar;
     private TextView mProgressTitle;
@@ -336,28 +315,24 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     }
 
     private void downloadLanguageData(final String dataType, Set<Language> languages) {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-
         for (Language language : languages) {
             if (languageDataMissing(dataType, language)) {
-                if (ni == null || !ni.isConnected()) {
+                if (Utils.isNetworkAvailable(getApplication())) {
+                    String msg = String.format(getString(R.string.download_description), language.getName());
+                    dialog = new AlertDialog.Builder(this)
+                            .setTitle(R.string.training_data_missing)
+                            .setCancelable(false)
+                            .setMessage(msg)
+                            .setPositiveButton(R.string.yes, (dialog, which) -> {
+                                dialog.cancel();
+                                executorService.submit(new DownloadTraining(dataType, language.getCode()));
+                            })
+                            .setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
+                    dialog.show();
+                } else {
                     Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
                     break;
                 }
-                //region show confirmation dialog, On 'yes' download the training data.
-                String msg = String.format(getString(R.string.download_description), language.getName());
-                dialog = new AlertDialog.Builder(this)
-                        .setTitle(R.string.training_data_missing)
-                        .setCancelable(false)
-                        .setMessage(msg)
-                        .setPositiveButton(R.string.yes, (dialog, which) -> {
-                            dialog.cancel();
-                            executorService.submit(new DownloadTraining(dataType, language.getCode()));
-                        })
-                        .setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
-                dialog.show();
-                //endregion
             }
 
         }

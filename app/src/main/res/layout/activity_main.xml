@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Downloading language data"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress_bar"
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0% downloaded of total 10MB..."
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 

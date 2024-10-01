@@ -25,7 +25,7 @@
         android:foregroundGravity="center"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/progress_title"
@@ -34,14 +34,6 @@
             android:layout_marginTop="8dp"
             android:text="Downloading language data"
             android:textSize="20sp" />
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progress_spinner"
-            style="@style/Widget.MaterialComponents.LinearProgressIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:indicatorColor="@color/colorAccent" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress_bar"

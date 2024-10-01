@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private TextView mLanguageName;
     private ExecutorService executorService;
     private Handler handler;
-    private LinearProgressIndicator mProgressSpinner;
     private LinearProgressIndicator mProgressBar;
     private TextView mProgressTitle;
     private TextView mProgressMessage;
@@ -119,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mFloatingActionButton = findViewById(R.id.btn_scan);
         mLanguageName = findViewById(R.id.language_name1);
 
-        mProgressSpinner = findViewById(R.id.progress_spinner);
         mProgressBar = findViewById(R.id.progress_bar);
         mProgressTitle = findViewById(R.id.progress_title);
         mProgressMessage = findViewById(R.id.progress_message);
@@ -605,7 +603,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
                 // Switch from indeterminate to determinate progress bar
                 handler.post(() -> {
-                    mProgressSpinner.setVisibility(View.GONE);
                     mProgressBar.setVisibility(View.VISIBLE);
                     mProgressMessage.setText("0"+ getString(R.string.percentage_downloaded)+ size);
                     mProgressBar.setProgress(0);               // Reset progress bar to 0

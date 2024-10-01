@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mProgressMessage = findViewById(R.id.progress_message);
         mDownloadLayout=findViewById(R.id.download_layout);
 
-        executorService = Executors.newFixedThreadPool(4);
+        executorService = Executors.newSingleThreadExecutor();
         handler = new Handler(Looper.getMainLooper());
 
         initDirectories();
@@ -601,7 +601,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 }
                 size = Utils.getSize(totalContentSize);
 
-                // Switch from indeterminate to determinate progress bar
                 handler.post(() -> {
                     mProgressBar.setVisibility(View.VISIBLE);
                     mProgressMessage.setText("0"+ getString(R.string.percentage_downloaded)+ size);

@@ -608,7 +608,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 handler.post(() -> {
                     mProgressSpinner.setVisibility(View.GONE);
                     mProgressBar.setVisibility(View.VISIBLE);
-                    mProgressMessage.setText(String.format("%d %s %d", 0, getString(R.string.percentage_downloaded), size));  // Update message
+                    mProgressMessage.setText("0"+ getString(R.string.percentage_downloaded)+ size);
                     mProgressBar.setProgress(0);               // Reset progress bar to 0
                 });
 
@@ -625,7 +625,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         int percentage = (downloaded * 100) / totalContentSize;
                         handler.post(() -> {
                             mProgressBar.setProgress(percentage);
-                            mProgressMessage.setText(String.format("%d %s %d", percentage, getString(R.string.percentage_downloaded), size));
+                            mProgressMessage.setText(percentage+getString(R.string.percentage_downloaded)+size+".");
                         });
                     }
                     output.flush();

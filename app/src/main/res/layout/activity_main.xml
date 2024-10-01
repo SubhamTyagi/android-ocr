@@ -17,11 +17,11 @@
         tools:progress="20"
         tools:visibility="visible" />
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/download_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/download_layout"
         android:foregroundGravity="center"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
@@ -33,8 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Downloading language data"
-            android:textSize="18sp"
-             />
+            android:textSize="18sp" />
 
 
         <TextView
@@ -44,33 +43,28 @@
             android:layout_below="@id/progress_title"
             android:layout_centerHorizontal="true"
             android:text="0% downloaded of total 10MB..."
-            android:textSize="16sp"
-             />
-
+            android:textSize="16sp" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress_spinner"
-            style="?android:attr/progressBarStyleLarge"
+            style="@style/Widget.MaterialComponents.LinearProgressIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/progress_message"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            app:indicatorColor="@color/colorAccent"
-             />
+            android:layout_marginTop="16dp" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyleHorizontal"
+            style="@style/Widget.MaterialComponents.LinearProgressIndicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/progress_spinner"
             android:layout_marginTop="16dp"
             android:max="100"
-            app:indicatorColor="@color/colorAccent"
-             />
+            app:indicatorColor="@color/colorAccent" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

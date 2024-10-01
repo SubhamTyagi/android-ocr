@@ -20,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private LinearProgressIndicator mProgressIndicator;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private FloatingActionButton mFloatingActionButton;
+    private LinearLayout mDownloadLayout;
     /**
      * Language name to be displayed
      */
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mProgressBar = findViewById(R.id.progress_bar);
         mProgressTitle = findViewById(R.id.progress_title);
         mProgressMessage = findViewById(R.id.progress_message);
+        mDownloadLayout=findViewById(R.id.download_layout);
 
         executorService = Executors.newFixedThreadPool(4);
         handler = new Handler(Looper.getMainLooper());
@@ -564,19 +568,14 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             handler.post(() -> {
                 mProgressTitle.setText(getString(R.string.downloading));
                 mProgressMessage.setText(getString(R.string.downloading_language));
-                mProgressTitle.setVisibility(View.VISIBLE);
-                mProgressMessage.setVisibility(View.VISIBLE);
-                mProgressSpinner.setVisibility(View.VISIBLE);
+                mDownloadLayout.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.GONE);
             });
 
             boolean success = downloadTrainingData(dataType, lang);
 
             handler.post(() -> {
-                mProgressSpinner.setVisibility(View.GONE);
-                mProgressBar.setVisibility(View.GONE);
-                mProgressTitle.setVisibility(View.GONE);
-                mProgressMessage.setVisibility(View.GONE);
+                mDownloadLayout.setVisibility(View.GONE);
                 if (success) {
                     initializeOCR(Utils.getTrainingDataLanguages(MainActivity.this));
                 } else {

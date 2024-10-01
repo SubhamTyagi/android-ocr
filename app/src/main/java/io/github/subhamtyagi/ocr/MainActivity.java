@@ -1,8 +1,6 @@
 package io.github.subhamtyagi.ocr;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -120,6 +116,12 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private ExecutorService executorService;
     private Handler handler;
 
+    private LinearProgressIndicator mProgressSpinner;
+    private LinearProgressIndicator mProgressBar;
+    private TextView mProgressTitle;
+    private TextView mProgressMessage;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                         if (bitmap != null) {
                             isRefresh = true;
-                            executorService.submit(new ConvertImageToTextTask(bitmap));
+                            executorService.submit(new ConvertImageToText(bitmap));
                         }
                     }
                 } else {
@@ -351,7 +353,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         .setMessage(msg)
                         .setPositiveButton(R.string.yes, (dialog, which) -> {
                             dialog.cancel();
-                            executorService.submit(new DownloadTrainingTask(dataType, language.getCode()));
+                            executorService.submit(new DownloadTraining(dataType, language.getCode()));
                         })
                         .setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
                 dialog.show();
@@ -395,10 +397,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         return !new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, language.getCode())).exists();
     }
 
-    /**
-     * select the image when button is clicked
-     * using
-     */
     private void selectImage() {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -421,7 +419,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             Log.e(TAG, "convertImageToText: " + e.getLocalizedMessage());
         }
         mImageView.setImageURI(imageUri);
-        executorService.submit(new ConvertImageToTextTask(bitmap));
+        executorService.submit(new ConvertImageToText(bitmap));
     }
 
     @Override
@@ -468,23 +466,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     @Override
     protected void onStop() {
         super.onStop();
-
-        /*if (dialog != null) {
-            dialog.dismiss();
-            dialog = null;
-        }
-        if (mProgressDialog != null) {
-            mProgressDialog.cancel();
-            mProgressDialog = null;
-        }
-
-        if (convertImageToTextTask !=null && convertImageToTextTask.getStatus()== AsyncTask.Status.RUNNING){
-            convertImageToTextTask.cancel(true);
-            Log.d(TAG, "onDestroy: image processing canceled");
-        }
-        if (downloadTrainingTask !=null && downloadTrainingTask.getStatus()== AsyncTask.Status.RUNNING){
-            downloadTrainingTask.cancel(true);
-        }*/
     }
 
     @Override
@@ -542,14 +523,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     }
 
-    /**
-     * A Runnable class to to convert the image into text the return the text in String
-     */
-
-    private class ConvertImageToTextTask implements Runnable {
+    private class ConvertImageToText implements Runnable {
         private Bitmap bitmap;
 
-        public ConvertImageToTextTask(Bitmap bitmap) {
+        public ConvertImageToText(Bitmap bitmap) {
             this.bitmap = bitmap;
         }
 
@@ -597,27 +574,19 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         }
     }
 
-    /**
-     * Download the training Data and save this to external storage
-     */
-    private LinearProgressIndicator mProgressSpinner;
-    private LinearProgressIndicator mProgressBar;
-    private TextView mProgressTitle;
-    private TextView mProgressMessage;
-
-    private class DownloadTrainingTask implements Runnable {
+    private class DownloadTraining implements Runnable {
         private final String dataType;
         private final String lang;
         private String size;
 
-        public DownloadTrainingTask(String dataType, String lang) {
+        public DownloadTraining(String dataType, String lang) {
             this.dataType = dataType;
             this.lang = lang;
         }
 
         @Override
         public void run() {
-                       handler.post(() -> {
+            handler.post(() -> {
                 mProgressTitle.setText(getString(R.string.downloading));
                 mProgressMessage.setText(getString(R.string.downloading_language));
                 mProgressTitle.setVisibility(View.VISIBLE);
@@ -636,27 +605,24 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 if (success) {
                     initializeOCR(Utils.getTrainingDataLanguages(MainActivity.this));
                 } else {
-                    // Handle failure case
                     Toast.makeText(MainActivity.this, "Download failed", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
+        @SuppressLint("DefaultLocale")
         private boolean downloadTrainingData(String dataType, String lang) {
             String downloadURL = getDownloadUrl(dataType, lang);
             if (downloadURL == null) {
                 return false;
             }
-
             try {
                 URL url = new URL(downloadURL);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setInstanceFollowRedirects(false);
                 downloadURL = followRedirects(conn, downloadURL);
-
                 conn = (HttpURLConnection) new URL(downloadURL).openConnection();
                 conn.connect();
-
                 int totalContentSize = conn.getContentLength();
                 if (totalContentSize <= 0) {
                     return false;
@@ -665,9 +631,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
                 // Switch from indeterminate to determinate progress bar
                 handler.post(() -> {
-                    mProgressSpinner.setVisibility(View.GONE);  // Hide spinner
-                    mProgressBar.setVisibility(View.VISIBLE);   // Show determinate progress bar
-                    mProgressMessage.setText("0%" + getString(R.string.percentage_downloaded) + size);  // Update message
+                    mProgressSpinner.setVisibility(View.GONE);
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    mProgressMessage.setText(String.format("%d %s %d", 0, getString(R.string.percentage_downloaded), size));  // Update message
                     mProgressBar.setProgress(0);               // Reset progress bar to 0
                 });
 
@@ -682,11 +648,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         output.write(data, 0, count);
                         downloaded += count;
                         int percentage = (downloaded * 100) / totalContentSize;
-
-                        // Update progress bar and message
                         handler.post(() -> {
                             mProgressBar.setProgress(percentage);
-                            mProgressMessage.setText(percentage + "% " + getString(R.string.percentage_downloaded) + size);
+                            mProgressMessage.setText(String.format("%d %s %d", percentage, getString(R.string.percentage_downloaded), size));
                         });
                     }
                     output.flush();
@@ -715,6 +679,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                                     String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
             }
         }
+
         private String followRedirects(HttpURLConnection conn, String downloadURL) throws IOException {
             while (true) {
                 int responseCode = conn.getResponseCode();

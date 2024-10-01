@@ -25,7 +25,7 @@
         android:foregroundGravity="center"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/progress_title"

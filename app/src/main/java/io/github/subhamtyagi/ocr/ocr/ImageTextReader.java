@@ -18,7 +18,16 @@ import io.github.subhamtyagi.ocr.utils.Constants;
 public class ImageTextReader {
 
     public static final String TAG = "ImageTextReader";
-    public boolean success;
+    private boolean success;
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+
     /**
      * TessBaseAPI instance
      */
@@ -36,11 +45,12 @@ public class ImageTextReader {
         try {
             ImageTextReader imageTextReader = new ImageTextReader();
             api = new TessBaseAPI(progressNotifier);
-            imageTextReader.success = api.init(path, languages
+            boolean s = api.init(path, languages
                     .stream()
                     .map(Language::getCode)
                     .collect(Collectors.joining("+")));
             api.setPageSegMode(pageSegMode);
+            imageTextReader.setSuccess(s);
             if (isParameterSet)
                 for (Map.Entry<String, String> entry : parameters.entrySet()) {
                     String key = entry.getKey();

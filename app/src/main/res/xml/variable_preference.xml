@@ -18,6 +18,8 @@
         android:entries="@array/tesseract_modes_oem"
         android:entryValues="@array/tesseract_values_oem"
         android:defaultValue="3" />
+        	
+  <PreferenceCategory android:title="Advance parameters">
         
         <!-- Preserve Interword Spaces -->
 <EditTextPreference
@@ -77,6 +79,6 @@
     android:defaultValue="40" />
     
 
-
+</PreferenceCategory>
 </PreferenceScreen>
 

@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mProgressMessage = findViewById(R.id.progress_message);
         mDownloadLayout=findViewById(R.id.download_layout);
 
-        executorService = Executors.newFixedThreadPool(4);
+        executorService = Executors.newFixedThreadPool(1);
         handler = new Handler(Looper.getMainLooper());
 
         initDirectories();

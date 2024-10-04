@@ -1,0 +1,7 @@
+* Unterstützung für einige Tesseract-Parameter/-Variablen
+* Dynamisches Farbthema
+* Akkadische Sprache hinzugefügt
+* Sprachauswahl erleichtert
+* Fehler behoben bei Herunterladen und Auswahl von Sprachen
+* Übersetzung verschiedener Sprachen
+* Vielen Dank an alle Beitragenden*

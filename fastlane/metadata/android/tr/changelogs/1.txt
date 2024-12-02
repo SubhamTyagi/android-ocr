@@ -1,0 +1,7 @@
+*Tesseract 4 temelli OCR
+
+*Resimlerden Metin Çıkarma.
+*Panodan Metin Kopyala.
+*Verinin herhangi bir kısmını seç.
+*Matematiği fark et/eşitsizliği tespit et.
+*Doğrudan kendi cihazınızdaki resimleri işeyin

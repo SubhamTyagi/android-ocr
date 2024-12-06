@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="language">言語</string>
+    <string name="settings">設定</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="source_code">ソースコード</string>
+    <string name="languages">言語</string>
+</resources>

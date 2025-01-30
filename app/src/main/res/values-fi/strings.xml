@@ -1,2 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="language">Kieli</string>
+    <string name="gray_scale_detail">Paranna tarkkuutta esikäsittelemällä kuva</string>
+    <string name="download_language_data_please_wait">OCR-datatiedostoja ladataan. Odota…</string>
+    <string name="installing_please_wait">OCR-datatiedostoja asennetaan. Odota…</string>
+    <string name="language_not_exists">Kielelle %s ei ole koulutusdataa, joten tunnistus ei onnistu</string>
+    <string name="settings">Asetukset</string>
+    <string name="segmentation_mode">Sivun segmentointitila</string>
+    <string name="draw_box_summary">Sovellus piirtää tekstiä kuvaan</string>
+    <string name="draw_box_title">Piirrä tekstiä kuvaan</string>
+    <string name="no_results">Tekstiä ei voitu tunnistaa.</string>
+    <string name="downloading">Ladataan…</string>
+    <string name="downloading_language">Ladataan kielitietoja…</string>
+    <string name="text_goes_here">Teksti tulee tähän</string>
+    <string name="copy_to_clipboard">Kopioi leikepöydälle</string>
+    <string name="share">Jaa</string>
+    <string name="persist_data_summary">Tallenna kuva ja teksti, kun suljet sovelluksen</string>
+    <string name="persist_data_title">Tallenna tiedot</string>
+    <string name="percentage_downloaded">% kokonaismäärästä:</string>
+    <string name="you_are_not_connected_to_internet">Internet-yhteyttä ei ole muodostettu</string>
+    <string name="yes">Kyllä</string>
+    <string name="no">Ei</string>
+    <string name="training_data_missing">Koulutustiedot puuttuvat!</string>
+    <string name="refresh">Päivitä näyttö</string>
+    <string name="tesseract_data">Tesseractin tiedot</string>
+    <string name="select_tesseract_data_type">Valitse Tesseractin tietojen tyyppi</string>
+    <string name="others_settings">Muut asetukset</string>
+    <string name="open_source_statement">Android OCR on avoimen lähdekoodin ohjelmisto. Näytä sovellus GitHubissa napsauttamalla.</string>
+    <string name="source_code">Lähdekoodi</string>
+    <string name="generic_image_description">Kuva</string>
+    <string name="contrast_summary">Yrittää lisätä kontrastia mukautuvasti koko dynaamiselle alueelle</string>
+    <string name="perform_contrast">Paranna kontrastia</string>
+    <string name="advance_settings">Lisäasetukset</string>
+    <string name="advance_setting_summary">Kuvankäsittelyyn liittyvät toiminnot</string>
+    <string name="image_enhancement">Kuvan parantaminen</string>
+    <string name="languages">Kielet</string>
+    <string name="select_multi_training_data_title">Valitse Tesseractille useita kieliä</string>
+    <string name="multiple_lang_summary">Koulutustiedot useilla kielillä</string>
+    <string name="select_multi_languages_title">Valitse useita kieliä</string>
+    <string name="image_processing_functions">Kuvankäsittelytoiminnot</string>
+    <string name="advance_tesseract_settings">Tesseractin lisäasetukset</string>
+    <string name="psm_summary">Määrää, miten Tesseract jakaa kuvan tekstiriveiksi ja sanoiksi.</string>
+    <string name="what_language_this_image_have">Mitä kieltä kuvassa käytetään?</string>
+    <string name="language_name">Kielen nimi</string>
+    <string name="select_search_language">Valitse tai etsi kieliä</string>
+    <string name="selected_language">Valittu kieli:</string>
+    <string name="show_last_result">Näytä viimeinen tulos</string>
+    <string name="use_gray_scale_image_for_ocr">Esikäsittele kuva</string>
+    <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
+    <string name="download_description">Jotta Tesseract OCR toimisi kunnolla, laitteeseesi on ladattava lisää koulutustietoja.\nHaluatko ladata valitun kielen (%s) tiedot?</string>
+    <string name="converting_image">Muunnetaan kuvaa tekstiksi…</string>
+</resources>

@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private ExecutorService executorService;
     private Handler handler;
     private LinearProgressIndicator mProgressBar;
-    private TextView mProgressTitle;
     private TextView mProgressMessage;
 
 
@@ -116,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mLanguageName = findViewById(R.id.language_name1);
 
         mProgressBar = findViewById(R.id.progress_bar);
-        mProgressTitle = findViewById(R.id.progress_title);
         mProgressMessage = findViewById(R.id.progress_message);
         mDownloadLayout=findViewById(R.id.download_layout);
 
@@ -557,7 +555,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         @Override
         public void run() {
             handler.post(() -> {
-                mProgressTitle.setText(getString(R.string.downloading));
                 mProgressMessage.setText(getString(R.string.downloading_language));
                 mDownloadLayout.setVisibility(View.VISIBLE);
                 mProgressBar.setVisibility(View.GONE);

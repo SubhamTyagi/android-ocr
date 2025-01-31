@@ -27,14 +27,6 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <TextView
-            android:id="@+id/progress_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Downloading language data"
-            android:textSize="18sp" />
-
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress_bar"
             style="@style/Widget.MaterialComponents.LinearProgressIndicator"

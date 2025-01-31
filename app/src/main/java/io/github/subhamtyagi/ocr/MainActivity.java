@@ -51,6 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private LinearProgressIndicator mProgressBar;
     private TextView mProgressMessage;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         mProgressBar = findViewById(R.id.progress_bar);
         mProgressMessage = findViewById(R.id.progress_message);
-        mDownloadLayout=findViewById(R.id.download_layout);
+        mDownloadLayout = findViewById(R.id.download_layout);
 
         executorService = Executors.newFixedThreadPool(1);
         handler = new Handler(Looper.getMainLooper());
@@ -134,20 +134,20 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private void initViews() {
 
         mFloatingActionButton.setOnClickListener(v -> {
-            if (noLanguageIsMissing(mTrainingDataType, Utils.getLast3UsedLanguage(this).getFirst())) {
+            if (isNoLanguagesDataMissingFromSet(mTrainingDataType, Utils.getLast3UsedLanguage(this).getFirst())) {
                 if (mImageTextReader != null) {
                     selectImage();
                 } else {
                     initializeOCR();
                 }
             } else {
-                downloadLanguageData(mTrainingDataType);
+                downloadLanguageData(mTrainingDataType, null);
             }
 
         });
 
         mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            if (noLanguageIsMissing(mTrainingDataType, Utils.getTrainingDataLanguages(this))) {
+            if (isNoLanguagesDataMissingFromSet(mTrainingDataType, Utils.getTrainingDataLanguages(this))) {
                 if (mImageTextReader != null) {
                     Drawable drawable = mImageView.getDrawable();
                     if (drawable != null) {
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                     initializeOCR();
                 }
             } else {
-                downloadLanguageData(mTrainingDataType);
+                downloadLanguageData(mTrainingDataType, null);
             }
             mSwipeRefreshLayout.setRefreshing(false);
 
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         Utils.setLastUsedLanguage(this, languages);
         // Log.d("radio", "showLanguageSelectionDialog: " + mLanguage);
         mImageView.setImageURI(imageUri);
-        if (noLanguageIsMissing(mTrainingDataType, languages)) {
+        if (isNoLanguagesDataMissingFromSet(mTrainingDataType, languages)) {
             CropImage.activity(imageUri).start(MainActivity.this);
         }
     }
@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         }
 
-        if (noLanguageIsMissing(mTrainingDataType, Utils.getLast3UsedLanguage(this).getFirst())) {
+        if (isNoLanguagesDataMissingFromSet(mTrainingDataType, Utils.getLast3UsedLanguage(this).getFirst())) {
             startImageTextReaderThread(cf, languages);
         } else {
             Log.d(TAG, "initializeOCR: language data doesn't exist " + languages);
@@ -309,48 +309,52 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     }
 
     private void downloadLanguageData(final String dataType, Set<Language> languages) {
-        for (Language language : languages) {
-            if (languageDataMissing(dataType, language)) {
-                if (Utils.isNetworkAvailable(getApplication())) {
-                    String msg = String.format(getString(R.string.download_description), language.getName());
-                    dialog = new AlertDialog.Builder(this)
-                            .setTitle(R.string.training_data_missing)
-                            .setCancelable(false)
-                            .setMessage(msg)
-                            .setPositiveButton(R.string.yes, (dialog, which) -> {
-                                dialog.cancel();
-                                executorService.submit(new DownloadTraining(dataType, language.getCode()));
-                            })
-                            .setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
-                    dialog.show();
-                } else {
-                    Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
-                    break;
+        final AtomicBoolean consent = new AtomicBoolean(false);
+        if (languages == null) languages = Utils.getTrainingDataLanguages(this);
+        if (!isNoLanguagesDataMissingFromSet(dataType, languages)) {
+            StringBuilder missingLanguageName = new StringBuilder();
+            for (Language l : languages) {
+                if (isLanguageDataMissing(dataType, l)) {
+                    missingLanguageName.append(l);
+                    missingLanguageName.append(",");
+                }
+            }
+            String msg = String.format(getString(R.string.download_description), missingLanguageName.toString());
+            dialog = new AlertDialog.Builder(this)
+                    .setTitle(R.string.training_data_missing)
+                    .setCancelable(false)
+                    .setMessage(msg)
+                    .setPositiveButton(R.string.yes, (dialog, which) -> {
+                        dialog.cancel();
+                        consent.set(true);
+                    }).setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
+            dialog.show();
+
+            if (consent.get()) {
+                for (Language language : languages) {
+                    if (isLanguageDataMissing(dataType, language)) {
+                        if (Utils.isNetworkAvailable(getApplication())) {
+                            executorService.submit(new DownloadTraining(dataType, language.getCode()));
+                        } else {
+                            Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
                 }
             }
         }
+
     }
 
-    private void downloadLanguageData(final String dataType) {
-        downloadLanguageData(dataType, Utils.getTrainingDataLanguages(this));
-    }
-
-    private boolean noLanguageIsMissing(final String dataType, final Set<Language> languages) {
+    private boolean isNoLanguagesDataMissingFromSet(final String dataType, final Set<Language> languages) {
         for (Language language : languages) {
-            if (languageDataMissing(dataType, language))
+            if (isLanguageDataMissing(dataType, language))
                 return false;
         }
         return true;
     }
 
-    /**
-     * Check if language data exists
-     *
-     * @param dataType data type i.e best, fast, standard
-     * @param language language
-     * @return true if language data exists
-     */
-    private boolean languageDataMissing(final @NonNull String dataType, final @NonNull Language language) {
+    private boolean isLanguageDataMissing(final @NonNull String dataType, final @NonNull Language language) {
         switch (dataType) {
             case "best":
                 currentDirectory = new File(dirBest, "tessdata");
@@ -371,14 +375,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 .start(this);
     }
 
-    /**
-     * Executed after onActivityResult or when used from shared menu
-     * <p>
-     * convert the image uri to bitmap
-     * call the appropriate AsyncTask based on Settings
-     *
-     * @param imageUri uri of selected image
-     */
     private void convertImageToText(Uri imageUri) {
         Bitmap bitmap = null;
         try {
@@ -398,7 +394,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         }
         if (resultCode == RESULT_OK) {
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                if (noLanguageIsMissing(mTrainingDataType, Utils.getLast3UsedLanguage(this).getFirst())) {
+                if (isNoLanguagesDataMissingFromSet(mTrainingDataType, Utils.getLast3UsedLanguage(this).getFirst())) {
                     CropImage.ActivityResult result = CropImage.getActivityResult(data);
                     if (result != null) {
                         convertImageToText(result.getUri());
@@ -594,7 +590,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 // Switch from indeterminate to determinate progress bar
                 handler.post(() -> {
                     mProgressBar.setVisibility(View.VISIBLE);
-                    mProgressMessage.setText("0"+ getString(R.string.percentage_downloaded)+ size);
+                    mProgressMessage.setText("0" + getString(R.string.percentage_downloaded) + size);
                     mProgressBar.setProgress(0);               // Reset progress bar to 0
                 });
 
@@ -611,7 +607,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         int percentage = (downloaded * 100) / totalContentSize;
                         handler.post(() -> {
                             mProgressBar.setProgress(percentage);
-                            mProgressMessage.setText(percentage+getString(R.string.percentage_downloaded)+size+".");
+                            mProgressMessage.setText(percentage + getString(R.string.percentage_downloaded) + size + ".");
                         });
                     }
                     output.flush();

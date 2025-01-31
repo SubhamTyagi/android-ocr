@@ -30,6 +30,7 @@ public class SpUtil {
     public static final String KEY_LANGUAGE_MODEL_NGRAM_ON = "language_model_ngram_on";
     public static final String KEY_TEXTORD_FORCE_MAKE_PROP_WORDS = "textord_force_make_prop_words";
     public static final String KEY_EDGES_MAX_CHILDREN_PER_OUTLINE = "edges_max_children_per_outline";
+    public static final String KEY_EXTRA_PREFS = "extra_parameters";
 
 
     private SpUtil() {
@@ -166,6 +167,15 @@ public class SpUtil {
         preferencesMap.put(KEY_LANGUAGE_MODEL_NGRAM_ON, getString(KEY_LANGUAGE_MODEL_NGRAM_ON, "0"));
         preferencesMap.put(KEY_TEXTORD_FORCE_MAKE_PROP_WORDS, getString(KEY_TEXTORD_FORCE_MAKE_PROP_WORDS, "F"));
         preferencesMap.put(KEY_EDGES_MAX_CHILDREN_PER_OUTLINE, getString(KEY_EDGES_MAX_CHILDREN_PER_OUTLINE, "40"));
+
+        if (!getString(KEY_EXTRA_PREFS, "").isBlank()){
+            String values=getString(KEY_EXTRA_PREFS, "");
+            for (String paras : values.split(",")) {
+                String key =paras.split(" ")[0];
+                String val =paras.split(" ")[1];
+                preferencesMap.put(key,val);
+            }
+        }
         return preferencesMap;
     }
 }

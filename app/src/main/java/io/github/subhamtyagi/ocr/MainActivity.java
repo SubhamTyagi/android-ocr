@@ -7,8 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -198,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         }
     }
 
-
     private void showLanguageSelectionDialog(Uri imageUri) {
         // if (this.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
         ShareFragment frag = ShareFragment.newInstance(imageUri, languagesNames);
@@ -286,7 +282,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         }
     }
 
-
     private void startImageTextReaderThread(File cf, Set<Language> languages) {
         new Thread(() -> {
             try {
@@ -308,7 +303,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             }
         }).start();
     }
-
 
     private void handleReaderException(Set<Language> languages) {
         File destFile = new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, languages));
@@ -336,7 +330,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                     break;
                 }
             }
-
         }
     }
 

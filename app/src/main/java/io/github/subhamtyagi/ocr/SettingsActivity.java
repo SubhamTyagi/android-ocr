@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
-
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -21,27 +20,21 @@ public class SettingsActivity extends AppCompatActivity {
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            setPreferencesFromResource(R.xml.main_preferences, rootKey);
         }
-
-
     }
 
     public static class AdvanceSettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.advance_preference, rootKey);
+            setPreferencesFromResource(R.xml.image_enhancement_preferences, rootKey);
         }
-
-
     }
 
     public static class VariableSettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.variable_preference, rootKey);
+            setPreferencesFromResource(R.xml.tesseract_parameter_variable_preference, rootKey);
         }
-
-
     }
 }

@@ -1,18 +1,20 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 35
     def gitUrl = getRepositoryURL()
+
     namespace 'io.github.subhamtyagi.ocr'
 
     defaultConfig {
         applicationId "io.github.subhamtyagi.ocr"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 33
         versionCode 14
         versionName "5.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "github_url", gitUrl
+        resValue "string", "github_parameter_url", gitUrl+"/blob/master/parameters.md"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
@@ -65,7 +67,6 @@ android {
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -76,15 +77,16 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     implementation project(':cropper')
 
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
    // implementation 'cz.adaptech:tesseract4android:4.1.1'
     implementation 'cz.adaptech.tesseract4android:tesseract4android-openmp:4.3.0'
-    implementation 'com.google.android.material:material:1.9.0-alpha01'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 
 }
 
@@ -104,12 +106,19 @@ static String getGitWorkingBranch() {
     }
 }
 
-static String getRepositoryURL(){
+static String getRepositoryURL() {
     try {
         def gitProcess = "git config --get remote.origin.url".execute()
         gitProcess.waitFor()
         if (gitProcess.exitValue() == 0) {
-            return gitProcess.text.trim()
+            def remoteUrl = gitProcess.text.trim()
+            if (remoteUrl.startsWith("git@")) {
+                remoteUrl = remoteUrl.replace("git@", "https://").replace(":", "/")
+            }
+            if (remoteUrl.endsWith(".git")) {
+                remoteUrl = remoteUrl.substring(0, remoteUrl.length() - 4)
+            }
+            return remoteUrl
         } else {
             return ""
         }
@@ -117,4 +126,5 @@ static String getRepositoryURL(){
         return ""
     }
 }
+
 

@@ -2,13 +2,15 @@ package io.github.subhamtyagi.ocr.downloader;
 
 public class LanguageItem {
     private String languageName;
+    private String languageCode;
     private boolean isDownloaded;
     private boolean isSelected;
     private boolean isDownloading;  // track downloading status
     private int downloadProgress;   // track download progress
 
-    public LanguageItem(String languageName, boolean isDownloaded, boolean isSelected) {
+    public LanguageItem(String languageName, String languageCode,boolean isDownloaded, boolean isSelected) {
         this.languageName = languageName;
+        this.languageCode=languageCode;
         this.isDownloaded = isDownloaded;
         this.isSelected = isSelected;
         this.isDownloading = false;
@@ -17,6 +19,10 @@ public class LanguageItem {
 
     public String getLanguageName() {
         return languageName;
+    }
+
+    public String getLanguageCode() {
+        return languageCode;
     }
 
     public boolean isDownloaded() {

@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import io.github.subhamtyagi.ocr.utils.Language;
 import io.github.subhamtyagi.ocr.utils.Constants;
+import io.github.subhamtyagi.ocr.utils.Language;
 
 
 /**
@@ -19,6 +19,7 @@ public class ImageTextReader {
 
     public static final String TAG = "ImageTextReader";
     private boolean success;
+
     public boolean isSuccess() {
         return success;
     }

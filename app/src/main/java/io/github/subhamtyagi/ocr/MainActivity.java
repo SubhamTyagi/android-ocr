@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         Set<Language> missingLanguage = new HashSet<>();
         Set<Language> languages =Utils.getTrainingDataLanguages(this);
         if (!isNoLanguagesDataMissingFromSet()) {
-            if (Utils.isNetworkAvailable(getApplication())) {
+            if (!Utils.isNetworkAvailable(getApplication())) {
                 Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
                 return;
             }

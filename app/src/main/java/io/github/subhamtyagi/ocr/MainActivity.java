@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         mLanguageName.setText(Utils.getTrainingDataLanguages(this).stream().map(Language::getName).collect(Collectors.joining(", ")));
     }
 
-   /* public void startOCRFromShareMenu(Uri imageUri, Set<Language> languages) {
+    /* public void startOCRFromShareMenu(Uri imageUri, Set<Language> languages) {
         initializeOCR(languages);
         Utils.setLastUsedLanguage(this, languages);
         // Log.d("radio", "showLanguageSelectionDialog: " + mLanguage);
@@ -234,8 +234,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         // Set currentDirectory to the last initialized directory (standard)
         currentDirectory = new File(dirStandard, "tessdata");
     }
-
-
 
 
     /**
@@ -296,27 +294,23 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private void downloadLanguageData() {
         Set<Language> missingLanguage = new HashSet<>();
         Set<Language> languages =Utils.getTrainingDataLanguages(this);
-        if (!isNoLanguagesDataMissingFromSet()) {
-            if (!Utils.isNetworkAvailable(getApplication())) {
-                Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
-                return;
+        if (!Utils.isNetworkAvailable(getApplication())) {
+            Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
+            return;
             }
-            for (Language l : languages) {
-                if (isLanguageDataMissing(mTrainingDataType, l)) {
-                    missingLanguage.add(l);
-
-                }
+        for (Language l : languages) {
+            if (isLanguageDataMissing(mTrainingDataType, l)) {
+                missingLanguage.add(l);
             }
-            String missingLangName = missingLanguage.stream().map(Language::getName).collect(Collectors.joining(", "));
-            String msg = String.format(getString(R.string.download_description), missingLangName);
-            dialog = new AlertDialog.Builder(this).setTitle(R.string.training_data_missing).setCancelable(false).setMessage(msg).setPositiveButton(R.string.yes, (dialog, which) -> {
-                dialog.cancel();
-                for (Language language : missingLanguage) {
-                    executorService.submit(new DownloadTraining(mTrainingDataType, language.getCode()));
-                }
-            }).setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
-            dialog.show();
         }
+        String missingLangName = missingLanguage.stream().map(Language::getName).collect(Collectors.joining(", "));
+        String msg = String.format(getString(R.string.download_description), missingLangName);
+        dialog = new AlertDialog.Builder(this).setTitle(R.string.training_data_missing).setCancelable(false).setMessage(msg).setPositiveButton(R.string.yes, (dialog, which) -> {
+            dialog.cancel();
+            executorService.submit(new DownloadTraining(mTrainingDataType, missingLanguage));    
+        }).setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
+        dialog.show();
+        
     }
 
     private boolean isNoLanguagesDataMissingFromSet() {
@@ -503,12 +497,12 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     private class DownloadTraining implements Runnable {
         private final String dataType;
-        private final String lang;
+        private final  Set<Language> languages;
         private String size;
 
-        public DownloadTraining(String dataType, String lang) {
+        public DownloadTraining(String dataType, Set<Language> langs) {
             this.dataType = dataType;
-            this.lang = lang;
+            this.languages = langs;
         }
 
         @Override
@@ -519,8 +513,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 mProgressBar.setVisibility(View.GONE);
             });
 
-            boolean success = downloadTrainingData(dataType, lang);
-
+            boolean success=true;
+            for (Language lang : languages) {
+               success = success && downloadTrainingData(dataType, lang.getCode());
+            }
             handler.post(() -> {
                 mDownloadLayout.setVisibility(View.GONE);
                 if (success) {

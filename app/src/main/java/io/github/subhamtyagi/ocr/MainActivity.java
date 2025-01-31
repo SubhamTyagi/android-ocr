@@ -38,7 +38,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -204,10 +203,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     @Override
     protected void onResume() {
         super.onResume();
-        mLanguageName.setText(Utils.getLast3UsedLanguage(this).getFirst()
-                .stream()
-                .map(Language::getName)
-                .collect(Collectors.joining(", ")));
+        mLanguageName.setText(Utils.getLast3UsedLanguage(this).getFirst().stream().map(Language::getName).collect(Collectors.joining(", ")));
     }
 
     public void startOCRFromShareMenu(Uri imageUri, Set<Language> languages) {
@@ -286,13 +282,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 if (mImageTextReader != null) {
                     mImageTextReader.tearDownEverything();
                 }
-                mImageTextReader = ImageTextReader.getInstance(
-                        cf.getAbsolutePath(),
-                        languages,
-                        mPageSegMode,
-                        parameters,
-                        Utils.isExtraParameterSet(),
-                        MainActivity.this);
+                mImageTextReader = ImageTextReader.getInstance(cf.getAbsolutePath(), languages, mPageSegMode, parameters, Utils.isExtraParameterSet(), MainActivity.this);
                 if (mImageTextReader != null && !mImageTextReader.isSuccess()) {
                     handleReaderException(languages);
                 }
@@ -320,14 +310,10 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 }
             }
             String msg = String.format(getString(R.string.download_description), missingLanguageName.toString());
-            dialog = new AlertDialog.Builder(this)
-                    .setTitle(R.string.training_data_missing)
-                    .setCancelable(false)
-                    .setMessage(msg)
-                    .setPositiveButton(R.string.yes, (dialog, which) -> {
-                        dialog.cancel();
-                        consent.set(true);
-                    }).setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
+            dialog = new AlertDialog.Builder(this).setTitle(R.string.training_data_missing).setCancelable(false).setMessage(msg).setPositiveButton(R.string.yes, (dialog, which) -> {
+                dialog.cancel();
+                consent.set(true);
+            }).setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
             dialog.show();
 
             if (consent.get()) {
@@ -348,8 +334,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     private boolean isNoLanguagesDataMissingFromSet(final String dataType, final Set<Language> languages) {
         for (Language language : languages) {
-            if (isLanguageDataMissing(dataType, language))
-                return false;
+            if (isLanguageDataMissing(dataType, language)) return false;
         }
         return true;
     }
@@ -370,9 +355,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     }
 
     private void selectImage() {
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this);
+        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
     }
 
     private void convertImageToText(Uri imageUri) {
@@ -454,9 +437,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             fileOutputStream = openFileOutput("last_file.jpeg", Context.MODE_PRIVATE);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 30, fileOutputStream);
             fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            Log.e(TAG, "loadBitmapFromStorage: " + e.getLocalizedMessage());
-
         } catch (IOException e) {
             Log.e(TAG, "loadBitmapFromStorage: " + e.getLocalizedMessage());
         }
@@ -469,9 +449,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             fileInputStream = openFileInput("last_file.jpeg");
             bitmap = BitmapFactory.decodeStream(fileInputStream);
             fileInputStream.close();
-
-        } catch (FileNotFoundException e) {
-            Log.e(TAG, "loadBitmapFromStorage: " + e.getLocalizedMessage());
 
         } catch (IOException e) {
             Log.e(TAG, "loadBitmapFromStorage: " + e.getLocalizedMessage());
@@ -524,10 +501,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         }
 
         private void animateImageViewAlpha(float alpha) {
-            mImageView.animate()
-                    .alpha(alpha)
-                    .setDuration(450)
-                    .start();
+            mImageView.animate().alpha(alpha).setDuration(450).start();
         }
 
         private void updateImageView() {
@@ -590,12 +564,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 // Switch from indeterminate to determinate progress bar
                 handler.post(() -> {
                     mProgressBar.setVisibility(View.VISIBLE);
-                    mProgressMessage.setText("0" + getString(R.string.percentage_downloaded) + size);
+                    mProgressMessage.setText(String.format("0%s%s", getString(R.string.percentage_downloaded), size));
                     mProgressBar.setProgress(0);               // Reset progress bar to 0
                 });
 
-                try (InputStream input = new BufferedInputStream(conn.getInputStream());
-                     OutputStream output = new FileOutputStream(new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang)))) {
+                try (InputStream input = new BufferedInputStream(conn.getInputStream()); OutputStream output = new FileOutputStream(new File(currentDirectory, String.format(Constants.LANGUAGE_CODE, lang)))) {
 
                     byte[] data = new byte[6 * 1024];
                     int downloaded = 0;
@@ -607,7 +580,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                         int percentage = (downloaded * 100) / totalContentSize;
                         handler.post(() -> {
                             mProgressBar.setProgress(percentage);
-                            mProgressMessage.setText(percentage + getString(R.string.percentage_downloaded) + size + ".");
+                            mProgressMessage.setText(String.format("%d%s%s.", percentage, getString(R.string.percentage_downloaded), size));
                         });
                     }
                     output.flush();
@@ -623,17 +596,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         private String getDownloadUrl(String dataType, String lang) {
             switch (dataType) {
                 case "best":
-                    return lang.equals("akk") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_BEST :
-                            lang.equals("eqo") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU :
-                                    String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang);
+                    return lang.equals("akk") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_BEST : lang.equals("eqo") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU : String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang);
                 case "standard":
-                    return lang.equals("akk") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_STANDARD :
-                            lang.equals("eqo") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU :
-                                    String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang);
+                    return lang.equals("akk") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_STANDARD : lang.equals("eqo") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU : String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_STANDARD, lang);
                 default: // Assuming "fast" is the default
-                    return lang.equals("akk") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_FAST :
-                            lang.equals("eqo") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU :
-                                    String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
+                    return lang.equals("akk") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_FAST : lang.equals("eqo") ? Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU : String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_FAST, lang);
             }
         }
 

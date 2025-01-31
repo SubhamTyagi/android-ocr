@@ -513,13 +513,13 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 mProgressBar.setVisibility(View.GONE);
             });
 
-            boolean success=true;
+            final boolean[] success={true};
             for (Language lang : languages) {
-               success = success && downloadTrainingData(dataType, lang.getCode());
+               success[0] = success[0] && downloadTrainingData(dataType, lang.getCode());
             }
             handler.post(() -> {
                 mDownloadLayout.setVisibility(View.GONE);
-                if (success) {
+                if (success[0]) {
                     initializeOCR();
                 } else {
                     Toast.makeText(MainActivity.this, "Download failed", Toast.LENGTH_SHORT).show();

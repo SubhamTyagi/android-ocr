@@ -46,11 +46,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 import io.github.subhamtyagi.ocr.ocr.ImageTextReader;
@@ -299,37 +299,33 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     }
 
     private void downloadLanguageData(final String dataType, Set<Language> languages) {
-        final AtomicBoolean consent = new AtomicBoolean(false);
         if (languages == null) languages = Utils.getTrainingDataLanguages(this);
+        Set<Language> missingLanguage = new HashSet<>();
+        StringBuilder missingLangName=new StringBuilder();
         if (!isNoLanguagesDataMissingFromSet(dataType, languages)) {
-            StringBuilder missingLanguageName = new StringBuilder();
             for (Language l : languages) {
                 if (isLanguageDataMissing(dataType, l)) {
-                    missingLanguageName.append(l);
-                    missingLanguageName.append(",");
+                    missingLanguage.add(l);
+                    missingLangName.append(l.getName());
+                    missingLangName.append(",");
                 }
             }
-            String msg = String.format(getString(R.string.download_description), missingLanguageName.toString());
+            String msg = String.format(getString(R.string.download_description), missingLangName);
             dialog = new AlertDialog.Builder(this).setTitle(R.string.training_data_missing).setCancelable(false).setMessage(msg).setPositiveButton(R.string.yes, (dialog, which) -> {
                 dialog.cancel();
-                consent.set(true);
+                for (Language language : missingLanguage) {
+                    if (Utils.isNetworkAvailable(getApplication())) {
+                        executorService.submit(new DownloadTraining(dataType, language.getCode()));
+                    } else {
+                        Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+
+                }
+
             }).setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
             dialog.show();
-
-            if (consent.get()) {
-                for (Language language : languages) {
-                    if (isLanguageDataMissing(dataType, language)) {
-                        if (Utils.isNetworkAvailable(getApplication())) {
-                            executorService.submit(new DownloadTraining(dataType, language.getCode()));
-                        } else {
-                            Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
-                            break;
-                        }
-                    }
-                }
-            }
         }
-
     }
 
     private boolean isNoLanguagesDataMissingFromSet(final String dataType, final Set<Language> languages) {

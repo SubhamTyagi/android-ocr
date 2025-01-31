@@ -1,11 +1,5 @@
-# Data Table
-
-This is a markdown table converted from TSV.
-
-
-|-------|---------|---------|---------|
 | Index | Tesseract parameters | Default Value| Details |
-|-------|--------- |--------- |
+| ------------- |:-------------:| -----:|-----:|
 | 1 | editor_image_xpos | 590 | Editor image X Pos |
 | 2 | editor_image_ypos | 10 | Editor image Y Pos |
 | 3 | editor_image_menuheight | 50 | Add to image height for menu bar |

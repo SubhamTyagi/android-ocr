@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="converting_image">Конвертирование изображения в текст…</string>
+    <string name="converting_image">Конвертация изображения в текст…</string>
     <string name="draw_box_title">Нарисовать текст на изображении</string>
     <string name="copy_to_clipboard">Копировать в буфер обмена</string>
     <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
     <string name="text_goes_here">Здесь будет текст</string>
-    <string name="downloading">Загрузка…</string>
+    <string name="downloading">Скачивание…</string>
     <string name="no">Нет</string>
     <string name="you_are_not_connected_to_internet">Вы не подключены к интернету</string>
     <string name="segmentation_mode">Режим сегментации страниц</string>
     <string name="yes">Да</string>
-    <string name="downloading_language">Загрузка языковых данных…</string>
-    <string name="download_language_data_please_wait">Загрузка файлов данных OCR. Пожалуйста, подождите…</string>
+    <string name="downloading_language">Скачивание языковых данных…</string>
+    <string name="download_language_data_please_wait">Скачивание файлов данных OCR. Пожалуйста, подождите…</string>
     <string name="gray_scale_detail">Предварительная обработка изображения для повышения точности</string>
     <string name="show_last_result">Показать последний результат</string>
     <string name="use_gray_scale_image_for_ocr">Предобработка изображения</string>
@@ -27,7 +27,7 @@
     <string name="refresh">Обновить</string>
     <string name="others_settings">Другие настройки</string>
     <string name="source_code">Исходный код</string>
-    <string name="open_source_statement">Android OCR - это свободное программное обеспечение. Посетите наш репозиторий на GitHub.</string>
+    <string name="open_source_statement">Android OCR - это свободное ПО. Нажмите, чтобы перейти на GitHub.</string>
     <string name="select_tesseract_data_type">Выберите тип данных Tesseract</string>
     <string name="advance_settings">Расширенные настройки</string>
     <string name="advance_setting_summary">Функции обработки изображений</string>
@@ -38,7 +38,7 @@
     <string name="image_processing_functions">Функции обработки изображений</string>
     <string name="advance_tesseract_settings">Расширенные настройки Tesseract</string>
     <string name="tesseract_data">Данные Tesseract</string>
-    <string name="deskew_summary">Определить наклон и выровнять изображение</string>
+    <string name="deskew_summary">Найти перекос и выровнять изображение</string>
     <string name="deskew_image">Выровнять изображение</string>
     <string name="perform_contrast">Повысить контраст</string>
     <string name="image_enhancement">Улучшение изображения</string>
@@ -48,14 +48,13 @@
     <string name="language_name">Название языка</string>
     <string name="select_search_language">Выберите или найдите языки</string>
     <string name="language_not_exists">Тренировочные данные для языка %s отсутствуют; распознавание невозможно</string>
-    <string name="un_sharp_masking_summary">Применяет нерезкое маскирование (усиление краев) к изображению</string>
-    <string name="training_data_missing">Тренировочные данные отсутствуют!</string>
-    <string name="download_description">Для нормальной работы Tesseract OCR необходимо загрузить дополнительные тренировочные данные на ваше устройство.
-\nХотите загрузить данные для выбранного языка (%s)?</string>
-    <string name="contrast_summary">Адаптивно расширяет контраст до полного динамического диапазона</string>
-    <string name="un_sharp_masking">Нерезкое маскирование</string>
-    <string name="otsu_threshold">Метод (порог) Оцу</string>
+    <string name="un_sharp_masking_summary">Применяет нерезкое маскирование (улучшение контуров) к изображению</string>
+    <string name="training_data_missing">Нет данных для обучения!</string>
+    <string name="download_description">Для правильной работы Tesseract OCR нужно скачать на ваше устройство дополнительные учебные данные.\nВы хотите скачать данные выбранного языка(%s)?</string>
+    <string name="contrast_summary">Адаптивно пытается расширить контраст до полного динамического диапазона</string>
+    <string name="un_sharp_masking">Маска нечеткости</string>
+    <string name="otsu_threshold">Оцу-порог (ищет объекты)</string>
     <string name="otsu_summary">Применяет локально-адаптивную бинаризацию изображения по методу Оцу</string>
-    <string name="multiple_lang_summary">Тренировочные данные на нескольких языках</string>
-    <string name="psm_summary">Определяет, как Tesseract разбивает изображение на строки текста и слова.</string>
+    <string name="multiple_lang_summary">Учебные данные на разных языках</string>
+    <string name="psm_summary">Определяет, как Tesseract разделяет изображение на строки текста и слова.</string>
 </resources>

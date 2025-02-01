@@ -59,9 +59,6 @@ import io.github.subhamtyagi.ocr.utils.Language;
 import io.github.subhamtyagi.ocr.utils.SpUtil;
 import io.github.subhamtyagi.ocr.utils.Utils;
 
-/**
- * Apps MainActivity where all important works is going on
- */
 public class MainActivity extends AppCompatActivity implements TessBaseAPI.ProgressNotifier {
 
     public static final String TAG = "MainActivity";

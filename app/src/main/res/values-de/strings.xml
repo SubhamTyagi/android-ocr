@@ -24,7 +24,7 @@
     <string name="gray_scale_detail">Bild zur Verbesserung der Genauigkeit vorbearbeiten</string>
     <string name="use_gray_scale_image_for_ocr">Vorbearbeitung des Bildes</string>
     <string name="language">Sprache</string>
-    <string name="open_source_statement">Android OCR ist Freie Software. Klicke, um die App auf GitHub zu besuchen.</string>
+    <string name="open_source_statement">Android OCR ist Freie Software. Hier geht es zur GitHub-Seite der App.</string>
     <string name="generic_image_description">Bild</string>
     <string name="source_code">Quellcode</string>
     <string name="others_settings">Andere Einstellungen</string>

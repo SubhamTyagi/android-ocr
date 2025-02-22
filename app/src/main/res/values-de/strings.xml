@@ -34,7 +34,7 @@
     <string name="share">Teilen</string>
     <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
     <string name="show_last_result">Letztes Ergebnis anzeigen</string>
-    <string name="no_results">Es konnte kein Text erkannt werden.</string>
+    <string name="no_results">Kein Text erkannt.</string>
     <string name="deskew_summary">Schräglage ermitteln und das Bild entzerren</string>
     <string name="deskew_image">Bild entzerren</string>
     <string name="contrast_summary">Versucht adaptiv, den Kontrast auf den vollen Dynamikbereich zu erweitern</string>

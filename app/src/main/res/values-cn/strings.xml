@@ -26,7 +26,7 @@
     <string name="persist_data_title">保存数据</string>
     <string name="persist_data_summary">应用关闭后保存图像和文本</string>
     <string name="show_last_result">显示最后结果</string>
-    <string name="open_source_statement">Android OCR 是自由软件。点击在 GitHub 上查看 app。</string>
+    <string name="open_source_statement">Android OCR 是自由软件。轻按此处在 GitHub 上了解它。</string>
     <string name="generic_image_description">图像</string>
     <string name="source_code">源代码</string>
     <string name="others_settings">其他设置</string>
@@ -35,12 +35,12 @@
     <string name="refresh">刷新</string>
     <string name="share">分享</string>
     <string name="copy_to_clipboard">复制到剪贴板</string>
-    <string name="no_results">没有可识别的文字。</string>
+    <string name="no_results">未识别文字。</string>
     <string name="otsu_threshold">OTSU 阈值</string>
-    <string name="multiple_lang_summary">多语言训练数据</string>
+    <string name="multiple_lang_summary">训练数据的语言</string>
     <string name="advance_settings">高级设置</string>
-    <string name="select_multi_languages_title">选择多种语言</string>
-    <string name="select_multi_training_data_title">为 Tesseract 选择多种语言</string>
+    <string name="select_multi_languages_title">选择语言</string>
+    <string name="select_multi_training_data_title">选择 Teseract 语言</string>
     <string name="languages">语言</string>
     <string name="image_enhancement">图像增强</string>
     <string name="advance_setting_summary">与图像处理相关的功能</string>
@@ -59,4 +59,6 @@
     <string name="what_language_this_image_have">此图中的文字是什么语言？</string>
     <string name="language_name">语言名</string>
     <string name="select_search_language">选择或搜索语言</string>
+    <string name="learn_about_the_above_parameters">了解参数更多信息</string>
+    <string name="about_the_tesseract_parameters">了解更多</string>
 </resources>

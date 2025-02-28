@@ -15,7 +15,7 @@
     <string name="downloading">下载中…</string>
     <string name="downloading_language">正在下载语言数据…</string>
     <string name="text_goes_here">文本就在这里</string>
-    <string name="copied_to_clipboard">数据已复制</string>
+    <string name="copied_to_clipboard">已复制到粘贴板</string>
     <string name="percentage_downloaded">已下载百分比：</string>
     <string name="you_are_not_connected_to_internet">你未连接到互联网</string>
     <string name="yes">是</string>
@@ -25,8 +25,8 @@
 \n你想下载所选语言 (%s) 的数据吗？</string>
     <string name="persist_data_title">保存数据</string>
     <string name="persist_data_summary">应用关闭后保存图像和文本</string>
-    <string name="show_last_result">显示最后结果</string>
-    <string name="open_source_statement">Android OCR 是自由软件。轻按此处在 GitHub 上了解它。</string>
+    <string name="show_last_result">显示最新结果</string>
+    <string name="open_source_statement">安卓 OCR 是自由软件。轻按此处在 GitHub 上了解它。</string>
     <string name="generic_image_description">图像</string>
     <string name="source_code">源代码</string>
     <string name="others_settings">其他设置</string>
@@ -34,8 +34,8 @@
     <string name="tesseract_data">Tesseract数据</string>
     <string name="refresh">刷新</string>
     <string name="share">分享</string>
-    <string name="copy_to_clipboard">复制到剪贴板</string>
-    <string name="no_results">未识别文字。</string>
+    <string name="copy_to_clipboard">复制到粘贴板</string>
+    <string name="no_results">未识别到文字。</string>
     <string name="otsu_threshold">OTSU 阈值</string>
     <string name="multiple_lang_summary">训练数据的语言</string>
     <string name="advance_settings">高级设置</string>
@@ -50,7 +50,7 @@
     <string name="deskew_summary">查找歪斜和去除图像歪斜</string>
     <string name="otsu_summary">对图像进行本地自适应 Otsu 阈值二值化</string>
     <string name="un_sharp_masking_summary">对图像进行不清晰的掩蔽(边缘增强)</string>
-    <string name="contrast_summary">自适应地尝试将对比度扩展到全动态范围</string>
+    <string name="contrast_summary">尝试自适应地将对比度扩展到全动态范围</string>
     <string name="psm_summary">它指示Tesseract如何将图像按文本和单词的行进行分割。</string>
     <string name="advance_tesseract_settings">高级 Tesseract 设置</string>
     <string name="image_processing_functions">图片处理功能</string>

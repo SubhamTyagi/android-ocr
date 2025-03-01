@@ -2,7 +2,7 @@
 <resources>
     <string name="generic_image_description">Imagem</string>
     <string name="source_code">Código-fonte</string>
-    <string name="open_source_statement">Android OCR é um software livre. Clique para ver a aplicação no GitHub.</string>
+    <string name="open_source_statement">Android OCR é de código aberto. Toque para saber mais no GitHub.</string>
     <string name="others_settings">Outras configurações</string>
     <string name="select_tesseract_data_type">Selecione o tipo de dados do Tesseract</string>
     <string name="tesseract_data">Dados do Tesseract</string>
@@ -24,7 +24,7 @@
     <string name="downloading_language">A descarregar dados de idioma…</string>
     <string name="downloading">A descarregar…</string>
     <string name="converting_image">A converter a imagem para texto…</string>
-    <string name="no_results">Nenhum texto pôde ser reconhecido.</string>
+    <string name="no_results">Nenhum texto reconhecido.</string>
     <string name="draw_box_title">Desenhar texto na imagem</string>
     <string name="draw_box_summary">A aplicação irá desenhar texto na imagem</string>
     <string name="settings">Configurações</string>
@@ -36,9 +36,9 @@
     <string name="use_gray_scale_image_for_ocr">Pré-processar imagem</string>
     <string name="language">Idioma</string>
     <string name="contrast_summary">Tenta expandir o contraste para toda a abrangência dinâmica de forma adaptável</string>
-    <string name="select_multi_languages_title">Selecione vários idiomas</string>
-    <string name="multiple_lang_summary">Dados de treino em vários idiomas</string>
-    <string name="select_multi_training_data_title">Selecione vários idiomas para Tesseract</string>
+    <string name="select_multi_languages_title">Selecione idiomas</string>
+    <string name="multiple_lang_summary">Idiomas de dados de treino</string>
+    <string name="select_multi_training_data_title">Selecione idiomas para Tesseract</string>
     <string name="languages">Idiomas</string>
     <string name="image_enhancement">Aprimoramento de imagem</string>
     <string name="advance_setting_summary">Funções relacionadas ao processamento de imagens</string>
@@ -57,5 +57,7 @@
     <string name="what_language_this_image_have">Qual é o idioma utilizado na imagem?</string>
     <string name="language_name">Nome do idioma</string>
     <string name="select_search_language">Selecionar ou pesquisar idiomas</string>
-    <string name="selected_language">Idioma selecionado:</string>
+    <string name="selected_language">Idioma(s) selecionado(s):</string>
+    <string name="learn_about_the_above_parameters">Saiba mais sobre os parâmetros</string>
+    <string name="about_the_tesseract_parameters">Saber mais</string>
 </resources>

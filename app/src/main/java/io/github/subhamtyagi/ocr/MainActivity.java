@@ -235,9 +235,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         currentDirectory = new File(dirStandard, "tessdata");
     }
 
-
-
-
     /**
      * initialize the OCR i.e tesseract api
      * if there is no training data in directory than it will ask for download
@@ -304,7 +301,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
             for (Language l : languages) {
                 if (isLanguageDataMissing(mTrainingDataType, l)) {
                     missingLanguage.add(l);
-
                 }
             }
             String missingLangName = missingLanguage.stream().map(Language::getName).collect(Collectors.joining(", "));

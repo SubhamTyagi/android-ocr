@@ -44,9 +44,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+minorimport java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -195,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
      * if there is no training data in directory than it will ask for download
      */
     private void initializeOCR() {
-        Set<Language> languages=Utils.getTrainingDataLanguages(this);
+        Set<Language> languages = Utils.getTrainingDataLanguages(this);
         File cf;
         mTrainingDataType = Utils.getTrainingDataType();
         mPageSegMode = Utils.getPageSegMode();
@@ -247,11 +245,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     private void downloadLanguageData() {
         Set<Language> missingLanguage = new HashSet<>();
-        Set<Language> languages =Utils.getTrainingDataLanguages(this);
+        Set<Language> languages = Utils.getTrainingDataLanguages(this);
         if (!Utils.isNetworkAvailable(getApplication())) {
             Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
             return;
-            }
+        }
         for (Language l : languages) {
             if (isLanguageDataMissing(mTrainingDataType, l)) {
                 missingLanguage.add(l);
@@ -261,15 +259,15 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         String msg = String.format(getString(R.string.download_description), missingLangName);
         dialog = new AlertDialog.Builder(this).setTitle(R.string.training_data_missing).setCancelable(false).setMessage(msg).setPositiveButton(R.string.yes, (dialog, which) -> {
             dialog.cancel();
-            executorService.submit(new DownloadTraining(mTrainingDataType, missingLanguage));    
+            executorService.submit(new DownloadTraining(mTrainingDataType, missingLanguage));
         }).setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
         dialog.show();
-        
+
     }
 
     private boolean isNoLanguagesDataMissingFromSet() {
-        final String dataType=mTrainingDataType;
-        Set<Language> languages=Utils.getTrainingDataLanguages(this);
+        final String dataType = mTrainingDataType;
+        Set<Language> languages = Utils.getTrainingDataLanguages(this);
         for (Language language : languages) {
             if (isLanguageDataMissing(dataType, language)) return false;
         }
@@ -451,7 +449,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     private class DownloadTraining implements Runnable {
         private final String dataType;
-        private final  Set<Language> languages;
+        private final Set<Language> languages;
         private String size;
 
         public DownloadTraining(String dataType, Set<Language> langs) {
@@ -467,9 +465,9 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 mProgressBar.setVisibility(View.GONE);
             });
 
-            final boolean[] success={true};
+            final boolean[] success = {true};
             for (Language lang : languages) {
-               success[0] = success[0] && downloadTrainingData(dataType, lang.getCode());
+                success[0] = success[0] && downloadTrainingData(dataType, lang.getCode());
             }
             handler.post(() -> {
                 mDownloadLayout.setVisibility(View.GONE);

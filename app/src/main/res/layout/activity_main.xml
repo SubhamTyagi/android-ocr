@@ -59,6 +59,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal|end"
             android:text="@string/selected_language"
+            android:singleLine="true"
             android:textSize="20sp" />
 
         <TextView

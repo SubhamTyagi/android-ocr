@@ -59,9 +59,6 @@ import io.github.subhamtyagi.ocr.utils.Language;
 import io.github.subhamtyagi.ocr.utils.SpUtil;
 import io.github.subhamtyagi.ocr.utils.Utils;
 
-/**
- * Apps MainActivity where all important works is going on
- */
 public class MainActivity extends AppCompatActivity implements TessBaseAPI.ProgressNotifier {
 
     public static final String TAG = "MainActivity";
@@ -118,10 +115,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         handler = new Handler(Looper.getMainLooper());
 
         initDirectories();
-        /*
-         * check if this was initiated by shared menu if yes then get the image uri and get the text
-         * language will be preselected by user in settings
-         */
         initializeOCR();
         initViews();
     }
@@ -168,22 +161,11 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         mLanguageName.setText(Utils.getTrainingDataLanguages(this).stream().map(Language::getName).collect(Collectors.joining(", ")));
     }
-
-   /* public void startOCRFromShareMenu(Uri imageUri, Set<Language> languages) {
-        initializeOCR(languages);
-        Utils.setLastUsedLanguage(this, languages);
-        // Log.d("radio", "showLanguageSelectionDialog: " + mLanguage);
-        mImageView.setImageURI(imageUri);
-        if (isNoLanguagesDataMissingFromSet(mTrainingDataType, languages)) {
-            CropImage.activity(imageUri).start(MainActivity.this);
-        }
-    }*/
 
     private void initDirectories() {
         String[] dirNames = {"best", "fast", "standard"};
@@ -206,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         // Set currentDirectory to the last initialized directory (standard)
         currentDirectory = new File(dirStandard, "tessdata");
     }
+
 
     /**
      * initialize the OCR i.e tesseract api
@@ -265,26 +248,23 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private void downloadLanguageData() {
         Set<Language> missingLanguage = new HashSet<>();
         Set<Language> languages =Utils.getTrainingDataLanguages(this);
-        if (!isNoLanguagesDataMissingFromSet()) {
-            if (Utils.isNetworkAvailable(getApplication())) {
-                Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
-                return;
+        if (!Utils.isNetworkAvailable(getApplication())) {
+            Toast.makeText(this, getString(R.string.you_are_not_connected_to_internet), Toast.LENGTH_SHORT).show();
+            return;
             }
-            for (Language l : languages) {
-                if (isLanguageDataMissing(mTrainingDataType, l)) {
-                    missingLanguage.add(l);
-                }
+        for (Language l : languages) {
+            if (isLanguageDataMissing(mTrainingDataType, l)) {
+                missingLanguage.add(l);
             }
-            String missingLangName = missingLanguage.stream().map(Language::getName).collect(Collectors.joining(", "));
-            String msg = String.format(getString(R.string.download_description), missingLangName);
-            dialog = new AlertDialog.Builder(this).setTitle(R.string.training_data_missing).setCancelable(false).setMessage(msg).setPositiveButton(R.string.yes, (dialog, which) -> {
-                dialog.cancel();
-                for (Language language : missingLanguage) {
-                    executorService.submit(new DownloadTraining(mTrainingDataType, language.getCode()));
-                }
-            }).setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
-            dialog.show();
         }
+        String missingLangName = missingLanguage.stream().map(Language::getName).collect(Collectors.joining(", "));
+        String msg = String.format(getString(R.string.download_description), missingLangName);
+        dialog = new AlertDialog.Builder(this).setTitle(R.string.training_data_missing).setCancelable(false).setMessage(msg).setPositiveButton(R.string.yes, (dialog, which) -> {
+            dialog.cancel();
+            executorService.submit(new DownloadTraining(mTrainingDataType, missingLanguage));    
+        }).setNegativeButton(R.string.no, (dialog, which) -> dialog.cancel()).create();
+        dialog.show();
+        
     }
 
     private boolean isNoLanguagesDataMissingFromSet() {
@@ -471,12 +451,12 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
     private class DownloadTraining implements Runnable {
         private final String dataType;
-        private final String lang;
+        private final  Set<Language> languages;
         private String size;
 
-        public DownloadTraining(String dataType, String lang) {
+        public DownloadTraining(String dataType, Set<Language> langs) {
             this.dataType = dataType;
-            this.lang = lang;
+            this.languages = langs;
         }
 
         @Override
@@ -487,11 +467,13 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
                 mProgressBar.setVisibility(View.GONE);
             });
 
-            boolean success = downloadTrainingData(dataType, lang);
-
+            final boolean[] success={true};
+            for (Language lang : languages) {
+               success[0] = success[0] && downloadTrainingData(dataType, lang.getCode());
+            }
             handler.post(() -> {
                 mDownloadLayout.setVisibility(View.GONE);
-                if (success) {
+                if (success[0]) {
                     initializeOCR();
                 } else {
                     Toast.makeText(MainActivity.this, "Download failed", Toast.LENGTH_SHORT).show();

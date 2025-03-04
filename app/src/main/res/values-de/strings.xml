@@ -24,7 +24,7 @@
     <string name="gray_scale_detail">Bild zur Verbesserung der Genauigkeit vorbearbeiten</string>
     <string name="use_gray_scale_image_for_ocr">Vorbearbeitung des Bildes</string>
     <string name="language">Sprache</string>
-    <string name="open_source_statement">Android OCR ist Freie Software. Klicke, um die App auf GitHub zu besuchen.</string>
+    <string name="open_source_statement">Android OCR ist eine quelloffene App. Tippe auf GitHub, um mehr darüber zu erfahren.</string>
     <string name="generic_image_description">Bild</string>
     <string name="source_code">Quellcode</string>
     <string name="others_settings">Andere Einstellungen</string>
@@ -34,7 +34,7 @@
     <string name="share">Teilen</string>
     <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
     <string name="show_last_result">Letztes Ergebnis anzeigen</string>
-    <string name="no_results">Es konnte kein Text erkannt werden.</string>
+    <string name="no_results">Kein Text erkannt.</string>
     <string name="deskew_summary">Schräglage ermitteln und das Bild entzerren</string>
     <string name="deskew_image">Bild entzerren</string>
     <string name="contrast_summary">Versucht adaptiv, den Kontrast auf den vollen Dynamikbereich zu erweitern</string>
@@ -43,10 +43,10 @@
     <string name="image_enhancement">Bildverbesserung</string>
     <string name="advance_settings">Erweiterte Einstellungen</string>
     <string name="otsu_threshold">OTSU-Schwellenwert</string>
-    <string name="select_multi_training_data_title">Mehrere Sprachen für Tesseract auswählen</string>
-    <string name="multiple_lang_summary">Trainingsdaten in mehreren Sprachen</string>
+    <string name="select_multi_training_data_title">Sprachen für Tesseract auswählen</string>
+    <string name="multiple_lang_summary">Sprachen der Trainingsdaten</string>
     <string name="un_sharp_masking">Unscharfe Maskierung</string>
-    <string name="select_multi_languages_title">Mehrere Sprachen auswählen</string>
+    <string name="select_multi_languages_title">Sprachen auswählen</string>
     <string name="advance_setting_summary">Funktionen im Zusammenhang mit der Bildverarbeitung</string>
     <string name="languages">Sprachen</string>
     <string name="otsu_summary">Führt eine lokal-adaptive Otsu-Schwellenwert-Binarisierung des Bildes durch</string>
@@ -55,7 +55,9 @@
     <string name="image_processing_functions">Bildverarbeitungsfunktionen</string>
     <string name="segmentation_mode">Modus der Seitensegmentierung</string>
     <string name="select_search_language">Sprachen auswählen oder suchen</string>
-    <string name="selected_language">Ausgewählte Sprache:</string>
+    <string name="selected_language">Ausgewählte Sprache(n):</string>
     <string name="what_language_this_image_have">Welche Sprache wird in diesem Bild verwendet\?</string>
     <string name="language_name">Name der Sprache</string>
+    <string name="learn_about_the_above_parameters">Mehr über die Parameter erfahren</string>
+    <string name="about_the_tesseract_parameters">Mehr erfahren</string>
 </resources>

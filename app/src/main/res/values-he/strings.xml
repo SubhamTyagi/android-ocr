@@ -16,18 +16,18 @@
     <string name="tesseract_data">נתוני Tesseract</string>
     <string name="select_tesseract_data_type">נא לבחור את סוג הנתונים של Tesseract</string>
     <string name="others_settings">הגדרות אחרות</string>
-    <string name="open_source_statement">אנדרואיד OCR היא תוכנה חופשית. ניתן ללחוץ כדי לבקר ביישומון ב־GitHub.</string>
+    <string name="open_source_statement">אנדרואיד OCR הוא יישומון בקוד פתוח. ניתן ללחוץ כדי ללמוד עליו ב־GitHub.</string>
     <string name="source_code">קוד מקור</string>
     <string name="generic_image_description">תמונה</string>
     <string name="contrast_summary">מנסה בצורה מסתגלת להרחיב את הניגודיות לטווח הדינמי המלא</string>
     <string name="deskew_summary">איתור הכיוון ויישור התמונה</string>
-    <string name="select_multi_training_data_title">בחירת מגוון שפות עבור Tesseract</string>
-    <string name="multiple_lang_summary">נתוני אימון במגוון שפות</string>
-    <string name="select_multi_languages_title">בחירת מגוון שפות</string>
+    <string name="select_multi_training_data_title">בחירת שפות עבור Tesseract</string>
+    <string name="multiple_lang_summary">שפות נתוני אימון</string>
+    <string name="select_multi_languages_title">בחירת שפות</string>
     <string name="image_processing_functions">פונקציות עיבוד תמונה</string>
     <string name="advance_tesseract_settings">הגדרות מתקדמות של Tesseract</string>
     <string name="psm_summary">הוא מנחה כיצד Tesseract מפצל תמונה בשורות טקסט ומילים.</string>
-    <string name="selected_language">בחירת שפה:</string>
+    <string name="selected_language">בחירת שפה/שפות:</string>
     <string name="what_language_this_image_have">באיזו שפה נעשה שימוש בתמונה הזאת\?</string>
     <string name="language_name">שם השפה</string>
     <string name="select_search_language">בחירה או חיפוש שפות</string>
@@ -38,7 +38,7 @@
     <string name="language_not_exists">נתוני אימון עבור השפה ה%s אינם קיימים; לא ניתן לזהות</string>
     <string name="draw_box_summary">היישומון יצייר טקסט על התמונה</string>
     <string name="draw_box_title">ציור טקסט על תמונה</string>
-    <string name="no_results">לא ניתן היה לזהות טקסט.</string>
+    <string name="no_results">לא זוהה טקסט.</string>
     <string name="converting_image">תמונה מומרת לטקסט…</string>
     <string name="downloading_language">נתוני השפה מתקבלים…</string>
     <string name="un_sharp_masking_summary">מתבצע מיסוך לא מחדד (שיפור קצוות) של התמונה</string>
@@ -58,4 +58,6 @@
     <string name="un_sharp_masking">מיסוך לא מחדד</string>
     <string name="image_enhancement">שיפור תמונה</string>
     <string name="gray_scale_detail">עיבוד טרום לתמונה לדיוק משופר</string>
+    <string name="learn_about_the_above_parameters">מידע נוסף על המשתנים</string>
+    <string name="about_the_tesseract_parameters">מידע נוסף</string>
 </resources>

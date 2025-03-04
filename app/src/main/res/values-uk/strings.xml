@@ -10,7 +10,7 @@
     <string name="segmentation_mode">Режим сегментації сторінок</string>
     <string name="draw_box_summary">Програма намалює текст на зображенні</string>
     <string name="draw_box_title">Написати текст на зображенні</string>
-    <string name="no_results">Не вдалося розпізнати текст.</string>
+    <string name="no_results">Текст не розпізнано.</string>
     <string name="download_language_data_please_wait">Завантаження даних OCR. Будь ласка, зачекайте…</string>
     <string name="converting_image">Конвертація зображення в текст…</string>
     <string name="downloading">Звантажується…</string>
@@ -36,7 +36,7 @@
     <string name="tesseract_data">Дані Tesseract</string>
     <string name="select_tesseract_data_type">Виберіть тип даних Tesseract</string>
     <string name="others_settings">Інші налаштування</string>
-    <string name="open_source_statement">Android OCR є безкоштовним програмним забезпеченням. Натисніть, щоб відвідати застосунок на GitHub.</string>
+    <string name="open_source_statement">Android OCR є програмою з відкритим кодом. Натисніть, щоб дізнатися про це на GitHub.</string>
     <string name="source_code">Вихідний код</string>
     <string name="generic_image_description">Зображення</string>
     <string name="contrast_summary">Адаптивно намагається розширити контраст до повного динамічного діапазону</string>
@@ -49,13 +49,15 @@
     <string name="advance_settings">Розширені налаштування</string>
     <string name="image_enhancement">Покращення зображення</string>
     <string name="languages">Мови</string>
-    <string name="select_multi_training_data_title">Виберіть декілька мов для Tesseract</string>
-    <string name="multiple_lang_summary">Навчальні дані декількома мовами</string>
-    <string name="select_multi_languages_title">Виберіть декілька мов</string>
+    <string name="select_multi_training_data_title">Виберіть мови для Tesseract</string>
+    <string name="multiple_lang_summary">Навчання мов даних</string>
+    <string name="select_multi_languages_title">Виберіть мови</string>
     <string name="image_processing_functions">Функції обробки зображень</string>
     <string name="advance_tesseract_settings">Розширені налаштування Tesseract</string>
-    <string name="selected_language">Виберіть мову:</string>
+    <string name="selected_language">Вибрані мови:</string>
     <string name="what_language_this_image_have">Яка мова використана на зображенні?</string>
     <string name="language_name">Назва мови</string>
     <string name="select_search_language">Вибір або пошук мов</string>
+    <string name="learn_about_the_above_parameters">Дізнайтеся більше про параметри</string>
+    <string name="about_the_tesseract_parameters">Дізнайтесь більше</string>
 </resources>

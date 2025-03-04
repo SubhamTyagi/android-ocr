@@ -167,13 +167,13 @@ public class SpUtil {
         preferencesMap.put(KEY_LANGUAGE_MODEL_NGRAM_ON, getString(KEY_LANGUAGE_MODEL_NGRAM_ON, "0"));
         preferencesMap.put(KEY_TEXTORD_FORCE_MAKE_PROP_WORDS, getString(KEY_TEXTORD_FORCE_MAKE_PROP_WORDS, "F"));
         preferencesMap.put(KEY_EDGES_MAX_CHILDREN_PER_OUTLINE, getString(KEY_EDGES_MAX_CHILDREN_PER_OUTLINE, "40"));
-
-        if (!getString(KEY_EXTRA_PREFS, "").isBlank()){
-            String values=getString(KEY_EXTRA_PREFS, "");
-            for (String paras : values.split(",")) {
-                String key =paras.split(" ")[0];
-                String val =paras.split(" ")[1];
-                preferencesMap.put(key,val);
+        
+        String extraParameters=getString(KEY_EXTRA_PREFS, "");
+        if (!extraParameters.isBlank()){
+            for (String paras : extraParameters.split(",")) {
+                String [] kv=paras.split(" ");
+                if(kv.length<2) continue;
+                preferencesMap.put(kv[0],kv[1]);
             }
         }
         return preferencesMap;

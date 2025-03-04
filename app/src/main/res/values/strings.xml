@@ -27,7 +27,7 @@
     <string name="segmentation_mode">Page segmentation mode</string>
     <string name="draw_box_summary">App will draw text on image</string>
     <string name="draw_box_title">Draw text on image</string>
-    <string name="no_results">No text could be recognized.</string>
+    <string name="no_results">No text recognized.</string>
     <string name="converting_image">Converting Image to text…</string>
     <string name="downloading">Downloading…</string>
     <string name="downloading_language">Downloading language data…</string>
@@ -48,7 +48,7 @@
     <string name="tesseract_data">Tesseract Data</string>
     <string name="select_tesseract_data_type">Select Tesseract Data type</string>
     <string name="others_settings">Other Settings</string>
-    <string name="open_source_statement">Android OCR is libre software. Click to visit app on GitHub.</string>
+    <string name="open_source_statement">Android OCR is open source app. Tap to know about it on GitHub.</string>
     <string name="source_code">Source code</string>
     <string name="generic_image_description">Image</string>
     <string name="contrast_summary">Adaptively attempts to expand the contrast to the full dynamic range</string>
@@ -63,16 +63,16 @@
     <string name="advance_setting_summary">Functions related to image processing</string>
     <string name="image_enhancement">Image Enhancement</string>
     <string name="languages">Languages</string>
-    <string name="select_multi_training_data_title">Select Multiple languages for Tesseract</string>
-    <string name="multiple_lang_summary">Training data in multiple languages</string>
-    <string name="select_multi_languages_title">Select Multiple languages</string>
+    <string name="select_multi_training_data_title">Select languages for Tesseract</string>
+    <string name="multiple_lang_summary">Training data languages</string>
+    <string name="select_multi_languages_title">Select languages</string>
     <string name="image_processing_functions">Image processing functions</string>
     <string name="advance_tesseract_settings">Advance Tesseract Settings</string>
     <string name="psm_summary">It directs how Tesseract splits image in lines of text and words.</string>
-    <string name="selected_language">Selected Language:</string>
+    <string name="selected_language">Selected Language(s):</string>
     <string name="what_language_this_image_have">Which language is used in the image\?</string>
     <string name="language_name">Language Name</string>
     <string name="select_search_language">Select or Search Languages</string>
-    <string name="learn_about_the_above_parameters">Learn about the above parameters</string>
-    <string name="about_the_tesseract_parameters">About the Tesseract Parameters</string>
+    <string name="learn_about_the_above_parameters">Learn more about the parameters</string>
+    <string name="about_the_tesseract_parameters">Learn more</string>
 </resources>

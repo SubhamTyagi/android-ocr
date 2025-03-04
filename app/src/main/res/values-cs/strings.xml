@@ -25,14 +25,14 @@
     <string name="deskew_image">Odstranit zkosení obrázku</string>
     <string name="advance_setting_summary">Funkce týkající se zpracování obrázku</string>
     <string name="image_enhancement">Vylepšení obrázku</string>
-    <string name="select_multi_training_data_title">Vybrat více jazyků pro Tesseract</string>
-    <string name="multiple_lang_summary">Trénovací data ve více jazycích</string>
-    <string name="select_multi_languages_title">Vyberte více jazyků</string>
+    <string name="select_multi_training_data_title">Vybrat jazyky pro Tesseract</string>
+    <string name="multiple_lang_summary">Trénovací data jazyků</string>
+    <string name="select_multi_languages_title">Vyberte jazyky</string>
     <string name="image_processing_functions">Funkce zpracování obrázků</string>
     <string name="advance_tesseract_settings">Pokročilá nastavení Tesseractu</string>
     <string name="psm_summary">Ovládá, jak Tesseract rozdělí obrázek na řádky textu a slov.</string>
     <string name="share">Sdílet</string>
-    <string name="open_source_statement">Android OCR je svobodný software. Klikněte pro navštívení aplikace na GitHubu.</string>
+    <string name="open_source_statement">Android OCR je otevřená aplikace. Klepněte pro zobrazení stránky na GitHubu.</string>
     <string name="use_gray_scale_image_for_ocr">Předem zpracovat obrázek</string>
     <string name="text_goes_here">Sem patří text</string>
     <string name="persist_data_summary">Uložit obrázek a text po zavření aplikace</string>
@@ -54,8 +54,10 @@
     <string name="perform_contrast">Vylepšit kontrast</string>
     <string name="un_sharp_masking">Neostré maskování</string>
     <string name="languages">Jazyky</string>
-    <string name="selected_language">Vybraný jazyk:</string>
+    <string name="selected_language">Vybrané jazyky:</string>
     <string name="what_language_this_image_have">Jaký jazyk je na tomto obrázku\?</string>
     <string name="language_name">Název jazyka</string>
     <string name="select_search_language">Vybrat nebo hledat jazyky</string>
+    <string name="learn_about_the_above_parameters">Zjistěte více o parametrech</string>
+    <string name="about_the_tesseract_parameters">Zjistit více</string>
 </resources>

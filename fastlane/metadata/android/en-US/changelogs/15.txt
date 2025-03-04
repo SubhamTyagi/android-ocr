@@ -1,0 +1,7 @@
+* Support for tesseract parameters/variables
+* Download improvement
+* Fix equation dataset
+* Ui Improvement
+* Various Bug fixes
+* Code Refactor, Improvement
+* Languages translation

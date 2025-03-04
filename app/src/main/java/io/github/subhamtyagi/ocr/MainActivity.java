@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
     private static final int REQUEST_CODE_SETTINGS = 797;
     private static boolean isRefresh = false;
 
-    private ArrayList<String> allLanguageName;
     private File dirBest;
     private File dirStandard;
     private File dirFast;
@@ -105,8 +104,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
 
         SpUtil.getInstance().init(this);
 
-        allLanguageName = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.ocr_engine_language)));
-
         mImageView = findViewById(R.id.source_image);
         mProgressIndicator = findViewById(R.id.progress_indicator);
         mSwipeRefreshLayout = findViewById(R.id.swipe_to_refresh);
@@ -125,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
          * check if this was initiated by shared menu if yes then get the image uri and get the text
          * language will be preselected by user in settings
          */
-        initIntent();
         initializeOCR();
         initViews();
     }
@@ -172,30 +168,6 @@ public class MainActivity extends AppCompatActivity implements TessBaseAPI.Progr
         }
     }
 
-    private void initIntent() {
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if (type.startsWith("image/")) {
-                Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                if (imageUri != null) {
-                    mImageView.setImageURI(imageUri);
-                    showLanguageSelectionDialog(imageUri);
-                }
-            }
-        } else if (action != null && action.equals("screenshot")) {
-            // uri
-        }
-    }
-
-    private void showLanguageSelectionDialog(Uri imageUri) {
-        // if (this.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
-        ShareFragment frag = ShareFragment.newInstance(imageUri, allLanguageName);
-        frag.show(getSupportFragmentManager(), "shareFrag");
-        // }
-
-    }
 
     @Override
     protected void onResume() {

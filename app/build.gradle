@@ -10,8 +10,8 @@ android {
         applicationId "io.github.subhamtyagi.ocr"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 14
-        versionName "5.1"
+        versionCode 15
+        versionName "5.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "github_url", gitUrl
         resValue "string", "github_parameter_url", gitUrl+"/blob/master/parameters.md"

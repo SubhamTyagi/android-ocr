@@ -1,0 +1,7 @@
+* Podpora parametrů/proměnných Tesseractu
+* Vylepšení stahování
+* Oprava datové sady rovnic
+* Vylepšení uživatelského rozhraní
+* Opravy různých chyb
+* Přepracování kódu, vylepšení
+* Nové překlady

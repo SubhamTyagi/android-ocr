@@ -1,0 +1,27 @@
+- Opção para desativar lembrar os últimos resultados (por @urlordjames)
+- Novo ícone do aplicativo (por @nucleus-ffm)
+
+- Agora traduza este aplicativo no Weblate
+
+- Novos dados de treinamento para os seguintes idiomas:
+
+- Chinês Simplificado Vertical, Chinês Tradicional Vertical, Japonês (vertical), Coreano (vertical)
+- Alemão Fraktur, Dinamarquês Fraktur, Eslovaco Fraktur
+- Corso
+- Dhivehi; Divehi; Maldivo
+- Gaélico Escocês; Gaélico
+- Luxemburguês; Letzeburgesch
+- Mongol, Maori
+- Filipino: Pilipino
+- Frísio Ocidental
+- Curdo do Norte
+- Armênio
+- Faroês
+- Occitano (pós 1500)
+- Quíchua
+- Sindhi
+- Sundanês
+- Tártaro
+- Tonga (Ilhas Tonga)
+- Iorubá
+- Suportes para OSD, PDF e Equações Matemáticas

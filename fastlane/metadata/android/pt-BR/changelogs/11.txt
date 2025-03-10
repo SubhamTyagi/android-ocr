@@ -1,0 +1,13 @@
+🇺🇦 
+
+Glória à Ucrânia!
+* Opção de selecionar o idioma quando o aplicativo é aberto pelo Menu Compartilhar.
+* O idioma selecionado agora também será exibido na tela principal.
+* Agora o tipo de dados Rápido está definido como padrão.
+* Transição suave do aplicativo na funcionalidade de recorte.
+*
+* Correção de bug no Android 10+.
+* Correção de falha em dispositivos com localidade não inglesa (Chris <chris@d*****t>).
+*
+* Melhoria e otimização de código.
+* Tesseract4android atualizado.

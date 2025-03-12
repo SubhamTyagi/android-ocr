@@ -23,7 +23,7 @@
     <string name="settings">Настройки</string>
     <string name="installing_please_wait">Установка файлов данных OCR. Пожалуйста, подождите…</string>
     <string name="share">Поделиться</string>
-    <string name="no_results">Невозможно распознать текст.</string>
+    <string name="no_results">Нет распознанного текста.</string>
     <string name="refresh">Обновить</string>
     <string name="others_settings">Другие настройки</string>
     <string name="source_code">Исходный код</string>
@@ -34,7 +34,7 @@
     <string name="tess_language_title">Выбрать язык для Tesseract</string>
     <string name="generic_image_description">Изображение</string>
     <string name="languages">Языки</string>
-    <string name="select_multi_languages_title">Выбрать несколько языков</string>
+    <string name="select_multi_languages_title">Выбрать языки</string>
     <string name="image_processing_functions">Функции обработки изображений</string>
     <string name="advance_tesseract_settings">Расширенные настройки Tesseract</string>
     <string name="tesseract_data">Данные Tesseract</string>
@@ -42,8 +42,8 @@
     <string name="deskew_image">Выровнять изображение</string>
     <string name="perform_contrast">Повысить контраст</string>
     <string name="image_enhancement">Улучшение изображения</string>
-    <string name="select_multi_training_data_title">Выбрать несколько языков для Tesseract</string>
-    <string name="selected_language">Выбранный язык:</string>
+    <string name="select_multi_training_data_title">Выбрать языки для Tesseract</string>
+    <string name="selected_language">Выбранный язык(и):</string>
     <string name="what_language_this_image_have">Какой язык используется в тексте изображения?</string>
     <string name="language_name">Название языка</string>
     <string name="select_search_language">Выберите или найдите языки</string>
@@ -55,6 +55,8 @@
     <string name="un_sharp_masking">Маска нечеткости</string>
     <string name="otsu_threshold">Оцу-порог (ищет объекты)</string>
     <string name="otsu_summary">Применяет локально-адаптивную бинаризацию изображения по методу Оцу</string>
-    <string name="multiple_lang_summary">Учебные данные на разных языках</string>
+    <string name="multiple_lang_summary">Учебные данные на языках</string>
     <string name="psm_summary">Определяет, как Tesseract разделяет изображение на строки текста и слова.</string>
+    <string name="learn_about_the_above_parameters">Узнайте больше о параметрах</string>
+    <string name="about_the_tesseract_parameters">Узнать больше</string>
 </resources>

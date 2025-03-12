@@ -1,0 +1,5 @@
+* Supporto OpenMP (il multi threading fornisce prestazioni migliori)
+* Aggiornamento della libreria Tesseract4Android a 4.3.0
+* Aggiornamento di Tesseract a 4.3.0
+* Aggiornamento di varie librerie
+* Aggiunte nuove traduzioni per varie lingue

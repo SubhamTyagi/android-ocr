@@ -1,0 +1,8 @@
+*Novidades nesta Atualização*
+
+* Agora o aplicativo usa o Tesseract 5, que é 50% mais rápido do que a versão anterior (conforme alegado).
+* Agora o aplicativo usa dados de treinamento 'rápido' como padrão.
+* Bibliotecas base (Leptonica, libjpeg, libpng) atualizadas.
+* Float Rápido habilitado (isso aumentará o desempenho 2x ao usar dados de treinamento 'melhor').
+* Compilado com NEON SIMD, isso melhora muito o tempo de processamento ao usar o mecanismo LSTM com dados de treinamento 'padrão' ou 'rápido'.
+* Para mais informações, consulte o repositório da biblioteca Tesseract4Android.

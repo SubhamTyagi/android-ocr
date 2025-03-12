@@ -1,0 +1,6 @@
+** Lançamento Principal**
+- Nova IU por Hannes Gehrold (@h4n23s).
+- Configurações avançadas para controlar várias funções de aprimoramento de imagem.
+- Opção para selecionar vários idiomas.
+- Novas traduções e melhorias.
+- Melhorias no código-fonte e melhorias de desempenho.

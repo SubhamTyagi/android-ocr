@@ -1,0 +1,3 @@
+* Configuração avançada para controlar o modo de segmentação de página
+* Atualização de bibliotecas principais
+* Correção de bug (mudança automática do tipo de dados)

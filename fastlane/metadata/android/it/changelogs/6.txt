@@ -1,0 +1,28 @@
+- Opzione per disabilitare il ricordo degli ultimi risultati (di @urlordjames)
+- Nuova icona dell'app (da @nucleus-ffm)
+
+- Ora traduci questa app su Weblate
+
+- Nuovi dati di formazione per le seguenti lingue:
+
+- Cinese semplificato verticale, Cinese tradizionale verticale, Giapponese (verticale), Coreano (verticale)
+- Fraktur tedesco, Fraktur danese, Fraktur slovacco
+- Corso
+- Dhivehi; Divehi; Maldiviano
+- Gaelico scozzese; Gaelico
+- Dhivehi; Divehi; Maldiviano
+- Lussemburghese; Letzeburghese
+- Mongolo, Maori
+- Filippino: Pilipino
+- Frisone occidentale
+- Curdo settentrionale
+- Armeno
+- Faroese
+- Occitano (dopo il 1500)
+- Quechua
+- Sindhi
+- Sundanese
+- tataro
+- Tonga (Isole Tonga)
+- Yoruba
+- Supporta OSD, PDF e equazioni matematiche

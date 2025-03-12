@@ -1,0 +1,7 @@
+* Supporto per i parametri/variabili tesseract
+* Miglioramento del download
+* Correzione del set di dati delle equazioni
+* Miglioramento dell'interfaccia utente
+* Correzione di vari bug
+* Rifattorizzazione del codice, miglioramento
+* Traduzione delle lingue

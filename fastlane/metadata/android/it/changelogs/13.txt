@@ -1,0 +1,7 @@
+* Supporto per alcuni parametri/variabili di tesseract
+* Tema colore dinamico
+* Aggiunta della lingua accadica 
+* Selezione della lingua semplificata
+* Correzione del bug di download e selezione della lingua
+* Traduzione di varie lingue
+* Grazie a tutti i collaboratori

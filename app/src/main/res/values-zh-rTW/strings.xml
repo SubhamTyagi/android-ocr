@@ -15,7 +15,7 @@
     <string name="copied_to_clipboard">已複製到剪貼簿</string>
     <string name="share">分享</string>
     <string name="persist_data_title">儲存資料</string>
-    <string name="percentage_downloaded">全部的百分比：</string>
+    <string name="percentage_downloaded">%，共：</string>
     <string name="you_are_not_connected_to_internet">您並未連線到網際網路</string>
     <string name="yes">是</string>
     <string name="no">否</string>

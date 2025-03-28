@@ -6,7 +6,7 @@
     <string name="settings">Impostatziones</string>
     <string name="segmentation_mode">Modalidade de segmentatzione de sa pàgina</string>
     <string name="draw_box_summary">S\'aplicatzione at a disinnare su testu subra de s\'immàgine</string>
-    <string name="no_results">Non s\'est pòdidu reconnòschere perunu testu.</string>
+    <string name="no_results">Perunu testu reconnotu.</string>
     <string name="converting_image">Cunvertende s\'immàgine a testu…</string>
     <string name="downloading">Iscarrighende…</string>
     <string name="downloading_language">Iscarrighende sos datos de sa limba…</string>
@@ -22,7 +22,7 @@
     <string name="refresh">Annoa</string>
     <string name="tesseract_data">Datos de Tesseract</string>
     <string name="select_tesseract_data_type">Seletziona sa casta de datos de Tesseract</string>
-    <string name="open_source_statement">Android OCR est unu programma lìberu. Incarca pro visitare s\'aplicatzione in GitHub.</string>
+    <string name="open_source_statement">Android OCR est un\'aplicatzione a còdighe abertu. Toca pro nd\'ischire de prus in GitHub.</string>
     <string name="source_code">Còdighe de orìgine</string>
     <string name="download_description">Pro chi s\'OCR de Tesseract funtzionet comente si tocat b\'at bisòngiu de iscarrigare datos de annestru in prus in su dispositivu tuo..\nBoles iscarrigare sos datos de sa limba seletzionada (%s)?</string>
     <string name="perform_contrast">Megiora su cuntrastu</string>
@@ -30,8 +30,8 @@
     <string name="advance_setting_summary">Funtziones ligadas a su protzessamentu de s\'immàgine</string>
     <string name="image_enhancement">Megioru de s\'immàgine</string>
     <string name="languages">Limbas</string>
-    <string name="select_multi_training_data_title">Seletziona prus limbas pro Tesseract</string>
-    <string name="multiple_lang_summary">Datos de annestru in prus limbas</string>
+    <string name="select_multi_training_data_title">Seletziona sas limbas pro Tesseract</string>
+    <string name="multiple_lang_summary">Limbas de datos de annestru</string>
     <string name="contrast_summary">Chirca de ismanniare in manera adativa su cuntrastu a totu sa gamma dinàmica</string>
     <string name="un_sharp_masking_summary">Faghet unu caratzamentu non nìdidu (megioru de sos oros) de s\'immàgine</string>
     <string name="deskew_summary">Atzapa s\'inclinatzione de s\'immàgine e dereta·la</string>
@@ -51,10 +51,12 @@
     <string name="percentage_downloaded">% de su totale:</string>
     <string name="others_settings">Àteras impostatziones</string>
     <string name="generic_image_description">Immàgine</string>
-    <string name="select_multi_languages_title">Seletziona prus limbas</string>
+    <string name="select_multi_languages_title">Seletziona sas limbas</string>
     <string name="image_processing_functions">Funtziones de protzessamentu de s\'immàgine</string>
     <string name="what_language_this_image_have">Ite limba s\'impreat in custa immàgine?</string>
-    <string name="selected_language">Limba seletzionada:</string>
+    <string name="selected_language">Limba(s) seletzionada(s):</string>
     <string name="select_search_language">Seletziona o chirca limbas</string>
     <string name="otsu_summary">Faghet una binarizatzione a liminàrgiu Otsu adata in manera locale de s\'immàgine</string>
+    <string name="learn_about_the_above_parameters">Impara de prus subra sos paràmetros</string>
+    <string name="about_the_tesseract_parameters">Impara de prus</string>
 </resources>

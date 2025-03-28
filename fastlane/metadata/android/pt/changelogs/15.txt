@@ -1,0 +1,7 @@
+* Apoio para parâmetros/variáveis do tesseract
+* Melhoria de descargas
+* Correção de conjunto de dados de equação
+* Melhorias de UI
+* Várias correções de bugs
+* Refatoração e melhoria de código
+* Tradução de idiomas

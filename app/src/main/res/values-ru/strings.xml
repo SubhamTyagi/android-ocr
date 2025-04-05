@@ -30,8 +30,8 @@
     <string name="open_source_statement">Android OCR - это свободное ПО. Нажмите, чтобы перейти на GitHub.</string>
     <string name="select_tesseract_data_type">Выберите тип данных Tesseract</string>
     <string name="advance_settings">Расширенные настройки</string>
-    <string name="advance_setting_summary">Функции обработки изображений</string>
-    <string name="tess_language_title">Выбрать язык для Tesseract</string>
+    <string name="advance_setting_summary">Функции для обработки изображений</string>
+    <string name="tess_language_title">Выберите язык для Tesseract</string>
     <string name="generic_image_description">Изображение</string>
     <string name="languages">Языки</string>
     <string name="select_multi_languages_title">Выбрать языки</string>

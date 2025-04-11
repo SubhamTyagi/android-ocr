@@ -1,11 +1,14 @@
 [versions]
+
+agp = "8.9.2"
 kotlin="2.1.20"
-agp = "8.9.1"
+ksp="2.1.20-2.0.0"
+
 composeBom = "2025.04.00"
 activityCompose = "1.10.1"
-hilt="2.50"
-ksp="1.9.22-1.0.17"
-hiltLifecycle="1.0.0"
+
+hilt="2.56.2"
+hiltX ="1.2.0"
 hiltNavCompose="1.1.0"
 
 coreKtx = "1.16.0"
@@ -16,6 +19,7 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 
 lifecycleRuntimeKtx = "2.8.7"
+materialIconsExtendedAndroid = "1.7.8"
 navigationCompose = "2.8.9"
 preferenceKtx = "1.2.1"
 
@@ -23,6 +27,7 @@ preferenceKtx = "1.2.1"
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 
+androidx-material-icons-extended-android = { module = "androidx.compose.material:material-icons-extended-android", version.ref = "materialIconsExtendedAndroid" }
 androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-ui = { module = "androidx.compose.ui:ui" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
@@ -41,9 +46,12 @@ androidx-material3 = { module = "androidx.compose.material3:material3" }
 
 hilt-android={module="com.google.dagger:hilt-android",version.ref="hilt"}
 hilt-compiler={module="com.google.dagger:hilt-android-compiler",version.ref="hilt"}
-hilt-lifecycle-viewmodel={module="androidx.hilt:hilt-lifecycle-viewmodel",version.ref="hiltLifecycle"}
-hilt-androidx-compiler={module="androidx.hilt:hilt-compiler",version.ref="hiltLifecycle"}
-hilt-nav-compose={module="androidx.hilt:hilt-navigation-compose",version.ref="hilt"}
+
+hilt-androidx-compiler={module="androidx.hilt:hilt-compiler",version.ref= "hiltX" }
+
+hilt-lifecycle-viewmodel={module="androidx.hilt:hilt-lifecycle-viewmodel",version.ref= "hiltX" }
+
+hilt-nav-compose={module="androidx.hilt:hilt-navigation-compose",version.ref="hiltX"}
 
 
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -57,6 +65,7 @@ androidx-navigation-testing = { module = "androidx.navigation:navigation-testing
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-ksp-dev={ id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-android={ id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp-dev={ id = "com.google.devtools.ksp", version.ref = "ksp" }
+
 

@@ -1,6 +1,6 @@
 <resources>
     <!--language array-->
-    <string-array name="ocr_engine_language">
+    <string-array name="ocr_engine_language_names">
         <item>Afrikaans</item>
         <item>Akkadian</item>
         <item>Amharic</item>
@@ -134,8 +134,8 @@
         <item>Yoruba</item>
     </string-array>
 
-    <!--language keys mapped to tessertact training data -->
-    <string-array name="key_ocr_engine_language_value">
+
+    <string-array name="ocr_engine_language_key">
         <item>afr</item>
         <item>akk</item>
         <item>amh</item>
@@ -269,19 +269,19 @@
         <item>yor</item>
     </string-array>
 
-    <string-array name="ocr_training_data_entries">
+    <string-array name="array_tess_data_type">
         <item>Fast</item>
         <item>Best</item>
         <item>Standard</item>
     </string-array>
 
-    <string-array name="key_ocr_training_data_entries_values">
+    <string-array name="array_tess_data_type_values">
         <item>fast</item>
         <item>best</item>
         <item>standard</item>
     </string-array>
 
-    <string-array name="key_ocr_psm_mode">
+    <string-array name="array_tess_psm_mode">
         <item>Orientation and script detection (OSD) only.</item>
         <item>Automatic page segmentation with OSD.</item>
         <item>Automatic page segmentation, but no OSD, or OCR. (not implemented)</item>
@@ -298,7 +298,7 @@
         <item>Raw line. Treat the image as a single text line.</item>
     </string-array>
 
-    <string-array name="value_ocr_psm_mode">
+    <string-array name="array_tess_psm_mode_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -315,14 +315,14 @@
         <item>13</item>
     </string-array>
     
-    <string-array name="tesseract_modes_oem">
+    <string-array name="array_tess_oem_mode">
         <item>Original Tesseract only</item>
         <item>Neural nets LSTM only</item>
         <item>Tesseract + LSTM</item>
         <item>Default, based on what is available</item>
     </string-array>
 
-    <string-array name="tesseract_values_oem">
+    <string-array name="array_tess_oem_mode_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>

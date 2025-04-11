@@ -9,7 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import io.github.subhamtyagi.ocr.data.BottomNavItems
+import io.github.subhamtyagi.ocr.data.NavigationItems
 
 
 @Composable
@@ -19,49 +19,49 @@ fun MyNavigationBar(navController: NavHostController, modifier: Modifier = Modif
         val currentRoute = navBackStackEntry?.destination?.route
 
         NavigationBarItem(
-            selected = currentRoute == BottomNavItems.Home.route,
+            selected = currentRoute == NavigationItems.Home.route,
             onClick = {
-                navController.navigate(BottomNavItems.Home.route)
+                navController.navigate(NavigationItems.Home.route)
             },
             icon = {
                 Icon(
-                    imageVector = BottomNavItems.Home.icon,
-                    contentDescription = BottomNavItems.Home.label
+                    imageVector = NavigationItems.Home.icon,
+                    contentDescription = NavigationItems.Home.label
                 )
             },
             label = {
-                Text(text = BottomNavItems.Home.label)
+                Text(text = NavigationItems.Home.label)
             }
         )
         NavigationBarItem(
-            selected = currentRoute == BottomNavItems.Download.route,
+            selected = currentRoute == NavigationItems.Download.route,
             onClick = {
-                navController.navigate(BottomNavItems.Download.route)
+                navController.navigate(NavigationItems.Download.route)
             },
             icon = {
                 Icon(
-                    imageVector = BottomNavItems.Download.icon,
-                    contentDescription = BottomNavItems.Download.label
+                    imageVector = NavigationItems.Download.icon,
+                    contentDescription = NavigationItems.Download.label
                 )
             },
             label = {
-                Text(text = BottomNavItems.Download.label)
+                Text(text = NavigationItems.Download.label)
             }
         )
 
         NavigationBarItem(
-            selected = currentRoute == BottomNavItems.Settings.route,
+            selected = currentRoute == NavigationItems.Settings.route,
             onClick = {
-                navController.navigate(BottomNavItems.Settings.route)
+                navController.navigate(NavigationItems.Settings.route)
             },
             icon = {
                 Icon(
-                    imageVector = BottomNavItems.Settings.icon,
-                    contentDescription = BottomNavItems.Settings.label
+                    imageVector = NavigationItems.Settings.icon,
+                    contentDescription = NavigationItems.Settings.label
                 )
             },
             label = {
-                Text(text = BottomNavItems.Settings.label)
+                Text(text = NavigationItems.Settings.label)
             }
         )
     }

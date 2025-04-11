@@ -1,3 +1,80 @@
-<resources>
-    <string name="app_name">Core</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!-- various key to store the setting values -->
+    <string name="key_language_for_tesseract" translatable="false">language_for_tesseract</string>
+    <string name="key_tess_training_data_source" translatable="false">tess_training_data_source</string>
+    <string name="key_grayscale_image_ocr" translatable="false">grayscale_image_ocr</string>
+    <string name="key_last_use_image_location" translatable="false">last_use_image_location</string>
+    <string name="key_last_use_image_text" translatable="false">last_use_image_text</string>
+    <string name="key_draw_box" translatable="false">key_draw_box</string>
+    <string name="key_persist_data" translatable="false">persist_data</string>
+    <string name="key_language_for_tesseract_multi" translatable="false">multi_languages</string>
+    <string name="key_ocr_psm_mode" translatable="false">key_ocr_psm_mode</string>
+    <string name="fbs" translatable="false">Fast/Best/Standard</string>
+    <string name="key_contrast" translatable="false">process_contrast</string>
+    <string name="key_un_sharp_masking" translatable="false">un_sharp_mask</string>
+    <string name="key_otsu_threshold" translatable="false">otsu_threshold</string>
+    <string name="key_find_skew_and_deskew" translatable="false">deskew_img</string>
+    <string name="key_enable_multiple_lang" translatable="false">key_enable_multiple_lang</string>
+    <string name="language">Language</string>
+    <string name="use_gray_scale_image_for_ocr">Pre-Process Image</string>
+    <string name="gray_scale_detail">Pre-process image for enhanced accuracy</string>
+    <string name="tess_language_title">Select language for Tesseract</string>
+    <string name="download_language_data_please_wait">Downloading OCR data files. Please wait …</string>
+    <string name="installing_please_wait">Installing OCR data files.  Please wait…</string>
+    <string name="language_not_exists">Training data for language %s  does not exist; cannot do recognition</string>
+    <string name="settings">Settings</string>
+    <string name="segmentation_mode">Page segmentation mode</string>
+    <string name="draw_box_summary">App will draw text on image</string>
+    <string name="draw_box_title">Draw text on image</string>
+    <string name="no_results">No text recognized.</string>
+    <string name="converting_image">Converting Image to text…</string>
+    <string name="downloading">Downloading…</string>
+    <string name="downloading_language">Downloading language data…</string>
+    <string name="show_last_result">Show last result</string>
+    <string name="text_goes_here">Text goes here</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="share">Share</string>
+    <string name="persist_data_summary">Save image and text after the app closes</string>
+    <string name="persist_data_title">Save data</string>
+    <string name="percentage_downloaded">% of total:</string>
+    <string name="you_are_not_connected_to_internet">You are not connected to internet</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="training_data_missing">Training data missing!</string>
+    <string name="download_description">For proper functioning of Tesseract OCR additional training data needs to be downloaded to your device.\nDo you want to download selected language(%s) data?</string>
+    <string name="refresh">Refresh</string>
+    <string name="tesseract_data">Tesseract Data</string>
+    <string name="select_tesseract_data_type">Select Tesseract Data type</string>
+    <string name="others_settings">Other Settings</string>
+    <string name="open_source_statement">Android OCR is open source app. Tap to know about it on GitHub.</string>
+    <string name="source_code">Source code</string>
+    <string name="generic_image_description">Image</string>
+    <string name="contrast_summary">Adaptively attempts to expand the contrast to the full dynamic range</string>
+    <string name="un_sharp_masking_summary">Performs unsharp masking (edge enhancement) of image</string>
+    <string name="otsu_summary">Performs locally-adaptive Otsu threshold binarization of image</string>
+    <string name="deskew_summary">Find the Skew and Deskew the Image</string>
+    <string name="perform_contrast">Enhance Contrast</string>
+    <string name="un_sharp_masking">Un-Sharp Masking</string>
+    <string name="otsu_threshold">OTSU Threshold</string>
+    <string name="deskew_image">Deskew Image</string>
+    <string name="advance_settings">Advanced Settings</string>
+    <string name="advance_setting_summary">Functions related to image processing</string>
+    <string name="image_enhancement">Image Enhancement</string>
+    <string name="languages">Languages</string>
+    <string name="select_multi_training_data_title">Select languages for Tesseract</string>
+    <string name="multiple_lang_summary">Training data languages</string>
+    <string name="select_multi_languages_title">Select languages</string>
+    <string name="image_processing_functions">Image processing functions</string>
+    <string name="advance_tesseract_settings">Advance Tesseract Settings</string>
+    <string name="psm_summary">It directs how Tesseract splits image in lines of text and words.</string>
+    <string name="selected_language">Selected Language(s):</string>
+    <string name="what_language_this_image_have">Which language is used in the image\?</string>
+    <string name="language_name">Language Name</string>
+    <string name="select_search_language">Select or Search Languages</string>
+    <string name="learn_about_the_above_parameters">Learn more about the parameters</string>
+    <string name="about_the_tesseract_parameters">Learn more</string>
+    <string name="search">Search</string>
+    <string name="app_name">Ocr</string>
 </resources>

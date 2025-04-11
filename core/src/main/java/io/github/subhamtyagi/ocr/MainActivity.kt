@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -15,25 +14,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import io.github.subhamtyagi.ocr.data.BottomNavItems
-import io.github.subhamtyagi.ocr.data.DataStoreManager
+import dagger.hilt.android.AndroidEntryPoint
+import io.github.subhamtyagi.ocr.data.NavigationItems
 import io.github.subhamtyagi.ocr.ui.composables.MyNavigationBar
 import io.github.subhamtyagi.ocr.ui.screens.DownloadLanguageDataScreen
 import io.github.subhamtyagi.ocr.ui.screens.HomeScreen
+import io.github.subhamtyagi.ocr.ui.screens.SettingsImageProcessingScreen
 import io.github.subhamtyagi.ocr.ui.screens.SettingsScreen
+import io.github.subhamtyagi.ocr.ui.screens.SettingsTesseractParameter
 import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
-import io.github.subhamtyagi.ocr.viewmodel.SettingsViewModel
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val dataStoreManager = DataStoreManager(applicationContext)
-        val viewModel = SettingsViewModel(dataStoreManager)
+        // val viewModel: SettingsViewModel by viewModels()
         enableEdgeToEdge()
         setContent {
             CharacherRecognizerTheme {
-                MyApp(viewModel)
+                MyApp()
             }
         }
     }
@@ -41,7 +40,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MyApp(viewModel: SettingsViewModel) {
+fun MyApp() {
     val navController = rememberNavController()
     Surface(color = Color.White) {
         Scaffold(
@@ -50,17 +49,23 @@ fun MyApp(viewModel: SettingsViewModel) {
             }, content = { padding ->
                 NavHost(
                     navController = navController,
-                    startDestination = BottomNavItems.Home.route,
+                    startDestination = NavigationItems.Home.route,
                     modifier = Modifier.padding(paddingValues = padding)
                 ) {
-                    composable(BottomNavItems.Home.route) {
-                        HomeScreen(viewModel, navController, Modifier.fillMaxSize())
+                    composable(NavigationItems.Home.route) {
+                        HomeScreen(navController)
                     }
-                    composable(BottomNavItems.Download.route) {
-                        DownloadLanguageDataScreen(viewModel, navController, Modifier.fillMaxSize())
+                    composable(NavigationItems.Download.route) {
+                        DownloadLanguageDataScreen(navController)
                     }
-                    composable(BottomNavItems.Settings.route) {
-                        SettingsScreen(viewModel, navController, Modifier.fillMaxSize())
+                    composable(NavigationItems.Settings.route) {
+                        SettingsScreen(navController)
+                    }
+                    composable(NavigationItems.SettingsImageProcessing.route) {
+                        SettingsImageProcessingScreen(navController)
+                    }
+                    composable(NavigationItems.SettingsTesseractParameter.route) {
+                        SettingsTesseractParameter(navController)
                     }
                 }
             }
@@ -68,10 +73,12 @@ fun MyApp(viewModel: SettingsViewModel) {
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun MyAppPreview() {
+    CharacherRecognizerTheme {
+        MyApp()
+    }
 }
 
 

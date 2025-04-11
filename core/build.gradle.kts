@@ -11,7 +11,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "io.github.subhamtyagi.ocr"
+        applicationId = "io.github.subhamtyagi.ocr.core"
         minSdk = 21
         targetSdk = 35
         versionCode = 1
@@ -51,6 +51,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+//    hilt {
+//        enableAggregatingTask = true
+//    }
 }
 
 dependencies {
@@ -68,13 +71,15 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.material.icons.extended.android)
     androidTestImplementation(libs.androidx.navigation.testing)
     //implementation(libs.androidx.lifecycle.viewmodel.compose)
     runtimeOnly("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0-beta01")
 
+
     implementation(libs.hilt.android)
-    //implementation(libs.hilt.compiler)
     ksp(libs.hilt.compiler)
+    //implementation(libs.hilt.androidx.compiler)
 
     implementation (libs.androidx.datastore.preferences)
 

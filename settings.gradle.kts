@@ -22,7 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-include (":cropper")
 include (":core")
 rootProject.name="Characher Recognizer"
 

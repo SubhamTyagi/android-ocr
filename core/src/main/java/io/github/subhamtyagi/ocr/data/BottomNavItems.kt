@@ -1,6 +1,7 @@
 package io.github.subhamtyagi.ocr.data
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
@@ -13,7 +14,7 @@ sealed class BottomNavItems(
 ) {
     data object Home : BottomNavItems("Home", Icons.Filled.Home, "home")
     data object Settings : BottomNavItems("Settings", Icons.Filled.Settings, "settings")
-    data object Download : BottomNavItems("Download", Icons.Filled.Favorite, "download")
+    data object Download : BottomNavItems("Download", Icons.Filled.Download, "download")
 }
 
 

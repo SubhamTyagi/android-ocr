@@ -2,14 +2,16 @@ package io.github.subhamtyagi.ocr.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.subhamtyagi.ocr.data.DataStoreManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-//@HiltViewModel
-open class SettingsViewModel(private val dataStoreManager: DataStoreManager) :
+@HiltViewModel
+open class SettingsViewModel @Inject constructor(private val dataStoreManager: DataStoreManager) :
     ViewModel() {
 
     private val _tessDataSource = MutableStateFlow("best")
@@ -49,9 +51,7 @@ open class SettingsViewModel(private val dataStoreManager: DataStoreManager) :
         dataStoreManager.setTessDataSource(value)
     }
 
-    fun updateSelectedLanguages(value: Set<String>) = viewModelScope.launch {
-        dataStoreManager.setSelectedLanguages(value)
-    }
+
 
     fun updateAdvancedTessEnabled(value: Boolean) = viewModelScope.launch {
         dataStoreManager.setAdvancedTessEnabled(value)

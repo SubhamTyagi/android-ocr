@@ -1,7 +1,10 @@
 package io.github.subhamtyagi.ocr.data
 
 import android.content.Context
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -10,6 +13,7 @@ private val Context.dataStore by preferencesDataStore("settings_prefs")
 
 class DataStoreManager(context: Context) {
     private val dataStore = context.dataStore
+
     companion object {
         val KEY_TESS_DATA_SOURCE = stringPreferencesKey("key_tess_training_data_source")
         val KEY_SELECTED_LANGUAGES = stringSetPreferencesKey("key_language_for_tesseract_multi")
@@ -19,11 +23,11 @@ class DataStoreManager(context: Context) {
     }
 
     val tessDataSource: Flow<String> = dataStore.data.map { it[KEY_TESS_DATA_SOURCE] ?: "best" }
-    val selectedLanguages: Flow<Set<String>> = dataStore.data.map { it[KEY_SELECTED_LANGUAGES] ?: emptySet() }
+    val selectedLanguages: Flow<Set<String>> =
+        dataStore.data.map { it[KEY_SELECTED_LANGUAGES] ?: emptySet() }
     val advancedTessEnabled: Flow<Boolean> = dataStore.data.map { it[KEY_ADVANCED_TESS] ?: false }
     val useGrayscale: Flow<Boolean> = dataStore.data.map { it[KEY_USE_GRAYSCALE] ?: true }
     val persistData: Flow<Boolean> = dataStore.data.map { it[KEY_PERSIST_DATA] ?: true }
-
 
     suspend fun setTessDataSource(value: String) {
         dataStore.edit { it[KEY_TESS_DATA_SOURCE] = value }

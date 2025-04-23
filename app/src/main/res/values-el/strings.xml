@@ -15,7 +15,7 @@
     <string name="language">Γλώσσα</string>
     <string name="tess_language_title">Επιλογή γλώσσας του Tesseract</string>
     <string name="download_language_data_please_wait">Λήψη αρχείων δεδομένων OCR. Παρακαλώ περιμένετε…</string>
-    <string name="language_not_exists">Δεν υπάρχουν δεδομένα εκπαίδευσης για τη γλώσσα %s. Δεν μπορεί να γίνει αναγνώριση.</string>
+    <string name="language_not_exists">Δεν υπάρχουν δεδομένα εκπαίδευσης για τη γλώσσα %s. Δεν μπορεί να γίνει αναγνώριση</string>
     <string name="settings">Ρυθμίσεις</string>
     <string name="draw_box_summary">Η εφαρμογή θα σχεδιάσει κείμενο στην εικόνα</string>
     <string name="draw_box_title">Σχεδίαση κειμένου στην εικόνα</string>
@@ -41,7 +41,7 @@
     <string name="contrast_summary">Προσαρμοστικά επιχειρεί να επεκτείνει την αντίθεση σε όλο το δυναμικό εύρος</string>
     <string name="otsu_summary">Εκτελεί τοπικά προσαρμοστική δυαδοποίηση κατωφλίου Otsu της εικόνας</string>
     <string name="perform_contrast">Βελτίωση αντίθεσης</string>
-    <string name="un_sharp_masking">Un-Sharp Masking</string>
+    <string name="un_sharp_masking">Μη ευκρινής κάλυψη</string>
     <string name="learn_about_the_above_parameters">Μάθετε περισσότερα για τις παραμέτρους</string>
     <string name="installing_please_wait">Εγκατάσταση αρχείων δεδομένων OCR. Παρακαλώ περιμένετε…</string>
     <string name="segmentation_mode">Λειτουργία τμηματοποίησης σελίδων</string>

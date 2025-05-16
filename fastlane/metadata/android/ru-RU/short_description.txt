@@ -1,1 +1,1 @@
-OCR на основе Tesseract 5
+OCR распознавание текста на основе Tesseract 5

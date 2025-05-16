@@ -43,19 +43,21 @@
     <string name="deskew_summary">तिरछा खोजें और छवि को सीधा करें</string>
     <string name="languages">भाषाएँ</string>
     <string name="image_enhancement">छवि उन्नीतकरण</string>
-    <string name="multiple_lang_summary">अनेक भाषाओं में प्रशिक्षण डेटा</string>
-    <string name="select_multi_languages_title">एकाधिक भाषाएँ चुनें</string>
-    <string name="select_multi_training_data_title">Tesseract के लिए एकाधिक भाषाएँ चुनें</string>
+    <string name="multiple_lang_summary">प्रशिक्षण डेटा की भाषाएँ</string>
+    <string name="select_multi_languages_title">भाषाएँ चुनें</string>
+    <string name="select_multi_training_data_title">Tesseract के लिए भाषाएँ चुनें</string>
     <string name="perform_contrast">कंट्रास्ट बढ़ाएँ</string>
-    <string name="open_source_statement">Android OCR एक लिब्रे सॉफ्टवेयर है। GitHub पर ऐप पर जाने के लिए क्लिक करें।</string>
+    <string name="open_source_statement">Android OCR एक ओपन सोर्स सॉफ़्टवेयर है। GitHub पर इसके बारे में जानने के लिए टैप करें।</string>
     <string name="tesseract_data">Tesseract डेटा</string>
     <string name="others_settings">अन्य सेटिंग्स</string>
     <string name="generic_image_description">छवि</string>
-    <string name="selected_language">चयनित भाषा:</string>
+    <string name="selected_language">चयनित भाषाएँ:</string>
     <string name="what_language_this_image_have">छवि में किस भाषा का प्रयोग किया गया है?</string>
     <string name="language_name">भाषा का नाम</string>
     <string name="select_search_language">भाषाएँ चुनें या खोजें</string>
     <string name="advance_setting_summary">छवि प्रसंस्करण से संबंधित कार्य</string>
     <string name="psm_summary">यह निर्देशित करता है कि Tesseract छवि को पाठ और शब्दों की पंक्तियों में कैसे विभाजित करता है।</string>
     <string name="advance_tesseract_settings">अग्रिम Tesseract सेटिंग्स</string>
+    <string name="learn_about_the_above_parameters">पैरामीटर्स के बारे में अधिक जानें</string>
+    <string name="about_the_tesseract_parameters">और जानें</string>
 </resources>

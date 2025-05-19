@@ -433,6 +433,7 @@
 | 431 | pageseg_apply_music_mask | 0 | Detect music staff and remove intersecting components |
 | 432 | textord_single_height_mode | 0 | Script has no xheight, so use a single mode |
 | 433 | tosp_old_to_method | 0 | Space stats use prechopping? |
+| 433 | tosp_old_to_method | 0 | Space stats use prechopping? |
 | 434 | tosp_old_to_constrain_sp_kn | 0 | Constrain relative values of inter and intra-word gaps for old_to_method. |
 | 435 | tosp_only_use_prop_rows | 1 | Block stats to use fixed pitch rows? |
 | 436 | tosp_force_wordbreak_on_punct | 0 | Force word breaks on punct to break long lines in non-space delimited langs |

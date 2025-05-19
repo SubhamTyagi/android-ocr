@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.ksp.dev)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -78,10 +79,23 @@ dependencies {
 
 
     implementation(libs.hilt.android)
+    implementation(libs.hilt.nav.compose)
     ksp(libs.hilt.compiler)
     //implementation(libs.hilt.androidx.compiler)
 
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+    ///implementation(libs.kotlinx.coroutines.android)
+
+    implementation(libs.cropper)
+    implementation(libs.coil)
+
+    implementation(libs.tess.ocr)
     implementation (libs.androidx.datastore.preferences)
+
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

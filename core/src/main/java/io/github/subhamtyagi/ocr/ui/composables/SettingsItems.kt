@@ -1,11 +1,9 @@
 package io.github.subhamtyagi.ocr.ui.composables
 
-import androidx.annotation.PluralsRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
@@ -28,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.github.subhamtyagi.ocr.R
 
 @Composable
 fun DropdownMenuPreference(
@@ -45,7 +44,7 @@ fun DropdownMenuPreference(
             Text(selectedOption, modifier, textAlign = TextAlign.Center)
         }
         DropdownMenu(
-            expanded = expanded,/* modifier = modifier,*/
+            expanded = expanded,
             onDismissRequest = { expanded = false }) {
             options.forEach { option ->
                 DropdownMenuItem(text = { Text(option) }, onClick = {
@@ -56,18 +55,41 @@ fun DropdownMenuPreference(
         }
     }
 }
+
 @Composable
-fun DropdownMenuPreference1(
+fun KeyValueDropdownMenuPreference(
     title: String,
-    keyValueMap: Map<String, String>,
-    options: List<String>,
-    selectedOption: String,
-    initialKey: String = keyValueMap.keys.first(),
-    onSelected: (key: String, value: String) -> Unit
+    options: List<Pair<String, Int>>,
+    selectedValue: Int,
+    modifier: Modifier = Modifier,
+    onOptionSelected: (Int) -> Unit
 ) {
-
-
+    var expanded by remember { mutableStateOf(false) }
+    val selectedOptionText = options.find { it.second == selectedValue }?.first ?: "Select"
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(title, modifier, style = MaterialTheme.typography.bodyMedium)
+        Button(onClick = { expanded = true }) {
+            Text(selectedOptionText, modifier, textAlign = TextAlign.Center)
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            options.forEach { (displayText, value) ->
+                DropdownMenuItem(
+                    text = { Text(displayText) },
+                    onClick = {
+                        onOptionSelected(value)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
 }
+
+
+
 @Composable
 fun DropdownMenuPreferenceKeyValue(
     keyValueMap: Map<String, String>,
@@ -79,7 +101,10 @@ fun DropdownMenuPreferenceKeyValue(
     var selectedKey by remember { mutableStateOf(initialKey) }
 
     Column {
-        Text(text = "$label: $selectedKey -> ${keyValueMap[selectedKey]}", style = MaterialTheme.typography.bodyLarge)
+        Text(
+            text = "$label: $selectedKey -> ${keyValueMap[selectedKey]}",
+            style = MaterialTheme.typography.bodyLarge
+        )
 
         Box {
             Button(onClick = { expanded = true }) {
@@ -221,17 +246,20 @@ private fun PreferenceItem(title: String, summary: String, value: String, onClic
 @Preview
 @Composable
 fun DropdownMenuPreferenceKeyValuePreview() {
-    val options = mapOf(
-        "Language" to "English",
-        "Theme" to "Dark Mode",
-        "Font Size" to "Medium"
-    )
 
-    DropdownMenuPreferenceKeyValue(
-        keyValueMap = options,
-        label = "Choose Option",
-        onSelected = { key, value ->
+    val names = arrayOf("English","Hindi","French")
+    val values = arrayOf(1,2,3)
+    val options = names.zip(values.toList())
+    var  selectedLanguageValue by remember { mutableStateOf(1) }
 
+
+    KeyValueDropdownMenuPreference(
+        title = "Select Language",
+        options = options,
+        selectedValue = selectedLanguageValue,
+        onOptionSelected = { newValue ->
+            selectedLanguageValue = newValue
         }
     )
+
 }

@@ -22,6 +22,7 @@ public class SpUtil {
 
     public static final String KEY_OCR_PSM_MODE = "key_ocr_psm_mode";
     public static final String KEY_TESSERACT_OEM_MODE = "key_tesseract_oem_mode";
+
     public static final String KEY_PRESERVE_INTERWORD_SPACES = "key_preserve_interword_spaces";
     public static final String KEY_CHOP_ENABLE = "chop_enable";
     public static final String KEY_USE_NEW_STATE_COST = "use_new_state_cost";

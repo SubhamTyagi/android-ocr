@@ -135,7 +135,7 @@
     </string-array>
 
 
-    <string-array name="ocr_engine_language_key">
+    <string-array name="ocr_engine_language_code">
         <item>afr</item>
         <item>akk</item>
         <item>amh</item>
@@ -298,7 +298,7 @@
         <item>Raw line. Treat the image as a single text line.</item>
     </string-array>
 
-    <string-array name="array_tess_psm_mode_values">
+    <integer-array name="array_tess_psm_mode_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -313,7 +313,7 @@
         <item>11</item>
         <item>12</item>
         <item>13</item>
-    </string-array>
+    </integer-array>
     
     <string-array name="array_tess_oem_mode">
         <item>Original Tesseract only</item>
@@ -322,12 +322,12 @@
         <item>Default, based on what is available</item>
     </string-array>
 
-    <string-array name="array_tess_oem_mode_values">
+    <integer-array name="array_tess_oem_mode_values">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
-    </string-array>
+    </integer-array>
 
 
 </resources>

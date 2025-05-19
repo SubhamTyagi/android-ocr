@@ -3,7 +3,7 @@ package io.github.subhamtyagi.ocr.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.subhamtyagi.ocr.data.DataStoreManager
+import io.github.subhamtyagi.ocr.data.datastore.ImageProcessingDataManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ImageProcessingViewModel @Inject constructor(private val dataStoreManager: DataStoreManager) :
-    ViewModel()  {
+class ImageProcessingViewModel @Inject constructor(private val imageDataManager:ImageProcessingDataManager) :
+    ViewModel() {
 
     private val _enhanceContrast = MutableStateFlow(false)
     val enhanceContrast: StateFlow<Boolean> = _enhanceContrast.asStateFlow()
@@ -28,35 +28,35 @@ class ImageProcessingViewModel @Inject constructor(private val dataStoreManager:
 
     init {
         viewModelScope.launch {
-            dataStoreManager.enhanceContrast.collect { _enhanceContrast.value = it }
+            imageDataManager.enhanceContrast.collect { _enhanceContrast.value = it }
         }
         viewModelScope.launch {
-            dataStoreManager.unSharpMasking.collect { _unsharpMasking.value=it }
-        }
-
-        viewModelScope.launch {
-            dataStoreManager.otsu.collect { _otsu.value=it }
+            imageDataManager.unSharpMasking.collect { _unsharpMasking.value = it }
         }
 
         viewModelScope.launch {
-            dataStoreManager.deSkew.collect { _deskew.value=it }
+            imageDataManager.otsu.collect { _otsu.value = it }
+        }
+
+        viewModelScope.launch {
+            imageDataManager.deSkew.collect { _deskew.value = it }
         }
     }
 
     fun updateEnhanceContrast(value: Boolean) = viewModelScope.launch {
-        dataStoreManager.setEnhanceContrast(value)
+        imageDataManager.setEnhanceContrast(value)
     }
 
-    fun updateUnSharpMasking(value: Boolean)=viewModelScope.launch {
-        dataStoreManager.setUnSharpMasking(value)
+    fun updateUnSharpMasking(value: Boolean) = viewModelScope.launch {
+        imageDataManager.setUnSharpMasking(value)
     }
 
-    fun updateOTSU(value: Boolean)=viewModelScope.launch {
-        dataStoreManager.setOTSU(value)
+    fun updateOTSU(value: Boolean) = viewModelScope.launch {
+        imageDataManager.setOTSU(value)
     }
 
-    fun updateDeSkew(value: Boolean)=viewModelScope.launch {
-        dataStoreManager.setDeSkew(value)
+    fun updateDeSkew(value: Boolean) = viewModelScope.launch {
+        imageDataManager.setDeSkew(value)
     }
 
 }

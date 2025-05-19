@@ -3,7 +3,7 @@ package io.github.subhamtyagi.ocr.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.github.subhamtyagi.ocr.data.DataStoreManager
+import io.github.subhamtyagi.ocr.data.datastore.SettingsDataManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,14 +11,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-open class SettingsViewModel @Inject constructor(private val dataStoreManager: DataStoreManager) :
+open class SettingsViewModel @Inject constructor(private val settingsDataManager: SettingsDataManager) :
     ViewModel() {
 
     private val _tessDataSource = MutableStateFlow("best")
     val tessDataSource: StateFlow<String> = _tessDataSource.asStateFlow()
-
-    private val _selectedLanguages = MutableStateFlow(setOf<String>())
-    val selectedLanguages: StateFlow<Set<String>> = _selectedLanguages.asStateFlow()
 
     private val _advancedTessEnabled = MutableStateFlow(false)
     val advancedTessEnabled: StateFlow<Boolean> = _advancedTessEnabled.asStateFlow()
@@ -34,41 +31,40 @@ open class SettingsViewModel @Inject constructor(private val dataStoreManager: D
 
     init {
         viewModelScope.launch {
-            dataStoreManager.tessDataSource.collect { _tessDataSource.value = it }
+            settingsDataManager.tessDataSource.collect { _tessDataSource.value = it }
+        }
+
+        viewModelScope.launch {
+            settingsDataManager.advancedTessEnabled.collect { _advancedTessEnabled.value = it }
         }
         viewModelScope.launch {
-            dataStoreManager.selectedLanguages.collect { _selectedLanguages.value = it }
+            settingsDataManager.useImageProcessing.collect { _useGrayscale.value = it }
         }
         viewModelScope.launch {
-            dataStoreManager.advancedTessEnabled.collect { _advancedTessEnabled.value = it }
+            settingsDataManager.persistData.collect { _persistData.value = it }
         }
         viewModelScope.launch {
-            dataStoreManager.useImageProcessing.collect { _useGrayscale.value = it }
-        }
-        viewModelScope.launch {
-            dataStoreManager.persistData.collect { _persistData.value = it }
-        }
-        viewModelScope.launch {
-            dataStoreManager.enableTile.collect { _tile.value = it }
+            settingsDataManager.enableTile.collect { _tile.value = it }
         }
     }
 
     fun updateTessDataSource(value: String) = viewModelScope.launch {
-        dataStoreManager.setTessDataSource(value)
+        settingsDataManager.setTessDataSource(value)
     }
 
     fun updateAdvancedTessEnabled(value: Boolean) = viewModelScope.launch {
-        dataStoreManager.setAdvancedTessEnabled(value)
+        settingsDataManager.setAdvancedTessEnabled(value)
     }
 
     fun updateUseGrayscale(value: Boolean) = viewModelScope.launch {
-        dataStoreManager.setUseImageProcessing(value)
+        settingsDataManager.setUseImageProcessing(value)
     }
 
     fun updatePersistData(value: Boolean) = viewModelScope.launch {
-        dataStoreManager.setPersistData(value)
+        settingsDataManager.setPersistData(value)
     }
-    fun updateTile(value: Boolean)=viewModelScope.launch {
-        dataStoreManager.setTile(value)
+
+    fun updateTile(value: Boolean) = viewModelScope.launch {
+        settingsDataManager.setTile(value)
     }
 }

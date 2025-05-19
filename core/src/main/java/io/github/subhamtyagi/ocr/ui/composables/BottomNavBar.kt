@@ -9,15 +9,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import io.github.subhamtyagi.ocr.data.NavigationItems
-
+import io.github.subhamtyagi.ocr.ui.NavigationItems
 
 @Composable
-fun MyNavigationBar(navController: NavHostController, modifier: Modifier = Modifier) {
+fun BottomNavBar(navController: NavHostController, modifier: Modifier = Modifier) {
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
-
         NavigationBarItem(
             selected = currentRoute == NavigationItems.Home.route,
             onClick = {

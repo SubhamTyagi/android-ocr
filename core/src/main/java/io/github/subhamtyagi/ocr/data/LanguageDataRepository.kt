@@ -1,14 +1,23 @@
 package io.github.subhamtyagi.ocr.data
 
 import android.content.Context
+import io.github.subhamtyagi.ocr.R
+import io.github.subhamtyagi.ocr.data.model.Language
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LanguageDataRepository @Inject constructor(context: Context) {
+class LanguageDataRepository
+@Inject constructor(
+    context: Context
+) {
+    val languageNames = context.resources.getStringArray(R.array.ocr_engine_language_names)
+    val languageCode = context.resources.getStringArray(R.array.ocr_engine_language_code)
+
     private val baseDir: File = File(context.filesDir, "best/data").apply {
         if (!exists()) mkdirs()
+        context
     }
 
     fun getDataFile(languageCode: String): File = File(baseDir, languageCode)
@@ -17,7 +26,7 @@ class LanguageDataRepository @Inject constructor(context: Context) {
 
     suspend fun downloadLanguageData(languageCode: String): File {
         val file = getDataFile(languageCode)
-        //download here
+        //TODO: download here
         file.writeText("download file")
         return file
     }
@@ -27,5 +36,10 @@ class LanguageDataRepository @Inject constructor(context: Context) {
         return if (file.exists()) file.delete() else false
     }
 
-
+    fun getLanguagesList(): List<Language> {
+        val items = languageCode.zip(languageNames) { code, name ->
+            Language(code, name, isDownloaded = isLanguageDataDownloaded(code))
+        }
+        return items
+    }
 }

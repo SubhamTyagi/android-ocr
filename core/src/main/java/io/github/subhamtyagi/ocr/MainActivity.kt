@@ -15,7 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import io.github.subhamtyagi.ocr.data.NavigationItems
+import io.github.subhamtyagi.ocr.ui.NavigationItems
 import io.github.subhamtyagi.ocr.ui.composables.MyNavigationBar
 import io.github.subhamtyagi.ocr.ui.screens.DownloadLanguageDataScreen
 import io.github.subhamtyagi.ocr.ui.screens.HomeScreen
@@ -28,7 +28,6 @@ import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // val viewModel: SettingsViewModel by viewModels()
         enableEdgeToEdge()
         setContent {
             CharacherRecognizerTheme {
@@ -38,38 +37,35 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
 @Composable
 fun MyApp() {
     val navController = rememberNavController()
     Surface(color = Color.White) {
-        Scaffold(
-            bottomBar = {
-                MyNavigationBar(navController = navController)
-            }, content = { padding ->
-                NavHost(
-                    navController = navController,
-                    startDestination = NavigationItems.Home.route,
-                    modifier = Modifier.padding(paddingValues = padding)
-                ) {
-                    composable(NavigationItems.Home.route) {
-                        HomeScreen(navController)
-                    }
-                    composable(NavigationItems.Download.route) {
-                        DownloadLanguageDataScreen(navController)
-                    }
-                    composable(NavigationItems.Settings.route) {
-                        SettingsScreen(navController)
-                    }
-                    composable(NavigationItems.SettingsImageProcessing.route) {
-                        SettingsImageProcessingScreen(navController)
-                    }
-                    composable(NavigationItems.SettingsTesseractParameter.route) {
-                        SettingsTesseractParameter(navController)
-                    }
+        Scaffold(bottomBar = {
+            MyNavigationBar(navController = navController)
+        }, content = { padding ->
+            NavHost(
+                navController = navController,
+                startDestination = NavigationItems.Home.route,
+                modifier = Modifier.padding(paddingValues = padding)
+            ) {
+                composable(NavigationItems.Home.route) {
+                    HomeScreen(navController = navController)
+                }
+                composable(NavigationItems.Download.route) {
+                    DownloadLanguageDataScreen(navController = navController)
+                }
+                composable(NavigationItems.Settings.route) {
+                    SettingsScreen(navController = navController)
+                }
+                composable(NavigationItems.SettingsImageProcessing.route) {
+                    SettingsImageProcessingScreen(navController = navController)
+                }
+                composable(NavigationItems.SettingsTesseractParameter.route) {
+                    SettingsTesseractParameter(navController = navController)
                 }
             }
-        )
+        })
     }
 }
 

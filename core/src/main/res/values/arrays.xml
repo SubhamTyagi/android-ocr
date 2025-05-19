@@ -135,7 +135,7 @@
     </string-array>
 
 
-    <string-array name="ocr_engine_language_key">
+    <string-array name="ocr_engine_language_code">
         <item>afr</item>
         <item>akk</item>
         <item>amh</item>

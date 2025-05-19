@@ -1,8 +1,8 @@
 [versions]
 
-agp = "8.9.2"
-kotlin="2.1.20"
-ksp="2.1.20-2.0.0"
+agp = "8.10.1"
+kotlin="2.1.21"
+ksp="2.1.21-2.0.1"
 
 composeBom = "2025.04.00"
 activityCompose = "1.10.1"
@@ -13,6 +13,13 @@ hiltNavCompose="1.1.0"
 
 coreKtx = "1.16.0"
 datastorePreferences = "1.1.4"
+room="2.7.1"
+kotlinx-coroutines="1.8.1"
+
+cropper="4.6.0"
+coil="2.6.0"
+
+ocr="4.9.0"
 
 espressoCore = "3.6.1"
 junit = "4.13.2"
@@ -42,6 +49,16 @@ androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx",
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 
+room-runtime={module="androidx.room:room-runtime",version.ref="room"}
+room-ktx={module="androidx.room:room-ktx",version.ref="room"}
+room-compiler={module="androidx.room:room-compiler",version.ref="room"}
+
+cropper={module="com.vanniktech:android-image-cropper",version.ref="cropper"}
+coil={module="io.coil-kt:coil-compose",version.ref="coil"}
+
+tess-ocr={module="cz.adaptech.tesseract4android:tesseract4android-openmp",version.ref="ocr"}
+
+kotlinx-coroutines-android={module="org.jetbrains.kotlin:kotlinx-coroutines-android",version.ref="kotlinx-coroutines"}
 androidx-material3 = { module = "androidx.compose.material3:material3" }
 
 hilt-android={module="com.google.dagger:hilt-android",version.ref="hilt"}

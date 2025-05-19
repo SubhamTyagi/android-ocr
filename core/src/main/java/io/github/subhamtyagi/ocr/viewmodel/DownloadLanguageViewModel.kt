@@ -22,13 +22,14 @@ open class DownloadLanguageViewModel @Inject constructor(
     private val _selectedLanguage = MutableStateFlow<Set<String>>(emptySet())
     val selectedLanguages = _selectedLanguage.asStateFlow();
 
+    val languageList = languageDataRepository.getLanguagesList()
+
     init {
         viewModelScope.launch {
             dataStoreManager.selectedLanguages.collect {
                 _selectedLanguage.value = it
             }
         }
-
     }
 
     fun updateSelectedLanguages(value: Set<String>) = viewModelScope.launch {

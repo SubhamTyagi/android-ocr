@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ImageProcessingViewModel @Inject constructor(private val dataStoreManager: DataStoreManager) :
-    ViewModel()  {
+    ViewModel() {
 
     private val _enhanceContrast = MutableStateFlow(false)
     val enhanceContrast: StateFlow<Boolean> = _enhanceContrast.asStateFlow()
@@ -31,15 +31,15 @@ class ImageProcessingViewModel @Inject constructor(private val dataStoreManager:
             dataStoreManager.enhanceContrast.collect { _enhanceContrast.value = it }
         }
         viewModelScope.launch {
-            dataStoreManager.unSharpMasking.collect { _unsharpMasking.value=it }
+            dataStoreManager.unSharpMasking.collect { _unsharpMasking.value = it }
         }
 
         viewModelScope.launch {
-            dataStoreManager.otsu.collect { _otsu.value=it }
+            dataStoreManager.otsu.collect { _otsu.value = it }
         }
 
         viewModelScope.launch {
-            dataStoreManager.deSkew.collect { _deskew.value=it }
+            dataStoreManager.deSkew.collect { _deskew.value = it }
         }
     }
 
@@ -47,15 +47,15 @@ class ImageProcessingViewModel @Inject constructor(private val dataStoreManager:
         dataStoreManager.setEnhanceContrast(value)
     }
 
-    fun updateUnSharpMasking(value: Boolean)=viewModelScope.launch {
+    fun updateUnSharpMasking(value: Boolean) = viewModelScope.launch {
         dataStoreManager.setUnSharpMasking(value)
     }
 
-    fun updateOTSU(value: Boolean)=viewModelScope.launch {
+    fun updateOTSU(value: Boolean) = viewModelScope.launch {
         dataStoreManager.setOTSU(value)
     }
 
-    fun updateDeSkew(value: Boolean)=viewModelScope.launch {
+    fun updateDeSkew(value: Boolean) = viewModelScope.launch {
         dataStoreManager.setDeSkew(value)
     }
 

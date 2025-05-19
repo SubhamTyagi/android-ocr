@@ -78,9 +78,19 @@ dependencies {
 
 
     implementation(libs.hilt.android)
+    implementation(libs.hilt.nav.compose)
     ksp(libs.hilt.compiler)
     //implementation(libs.hilt.androidx.compiler)
 
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+    ///implementation(libs.kotlinx.coroutines.android)
+
+    implementation(libs.cropper)
+    implementation(libs.coil)
+
+    implementation(libs.tess.ocr)
     implementation (libs.androidx.datastore.preferences)
 
     testImplementation(libs.junit)

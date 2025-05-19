@@ -10,6 +10,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -19,9 +21,9 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,34 +36,52 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import io.github.subhamtyagi.ocr.R
 import io.github.subhamtyagi.ocr.data.model.Language
 import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
+import io.github.subhamtyagi.ocr.viewmodel.DownloadLanguageViewModel
 import kotlin.random.Random
 
+//Check item is not working yet
+@Composable
+fun DownloadLanguageDataScreen(
+    downloadViewModel: DownloadLanguageViewModel = hiltViewModel(),
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
+    val selectedLanguages = downloadViewModel.selectedLanguages.collectAsState()
+    val languageList: List<Language> = downloadViewModel.languageList
+    languageList.forEach {
+        it.isSelected = selectedLanguages.value.contains(it.code)
+    }
+    DownloadLanguageDataScreenP(
+        languageList = languageList,
+        navController = navController,
+        onSelected = { code, value ->
+            if (value) {
+                selectedLanguages.value.plus(code)
+            } else {
+                selectedLanguages.value.minus(code)
+            }
+            downloadViewModel.updateSelectedLanguages(selectedLanguages.value)
+        },
+        downloadLanguage = { lang -> downloadViewModel.downloadLanguage(lang) },
+        deleteLanguage = { lang -> downloadViewModel.deleteLanguage(lang) })
+
+}
 
 @Composable
-fun DownloadLanguageDataScreen(/* viewModel: DownloadLanguageViewModel= viewModel(),*/
-                               navController: NavController, modifier: Modifier = Modifier
+fun DownloadLanguageDataScreenP(
+    languageList: List<Language>,
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    onSelected: (String, Boolean) -> Unit,
+    downloadLanguage: (String) -> Unit,
+    deleteLanguage: (String) -> Unit
 ) {
-    val context = LocalContext.current
-    val names = context.resources.getStringArray(R.array.ocr_engine_language_names)
-    val keys = context.resources.getStringArray(R.array.ocr_engine_language_key)
-
-    // val selectedLanguages=viewModel.selectedLanguages.collectAsState()
-
-    //Todo: Mock data
-    val items = keys.zip(names) { key, name ->
-        Language(
-            key,
-            name,
-            isDownloaded = Random.nextBoolean(),
-            isSelected = false/*selectedLanguages.value.contains(key)*/
-        )
-    }
-
     Column {
         Text(
             text = "Download language data/Select Language",
@@ -70,9 +90,9 @@ fun DownloadLanguageDataScreen(/* viewModel: DownloadLanguageViewModel= viewMode
         )
 
         var searchQuery by remember { mutableStateOf("") }
-        val list = remember {
-            items.filter { it.name.contains(searchQuery, ignoreCase = true) }.toMutableStateList()
-        }
+        val list = languageList.filter {
+            it.name.contains(searchQuery, ignoreCase = true)
+        }.toMutableStateList()
 
         SearchBar(
             searchQuery,
@@ -81,7 +101,9 @@ fun DownloadLanguageDataScreen(/* viewModel: DownloadLanguageViewModel= viewMode
         )
         LazyColumn(modifier = modifier.padding(top = 36.dp)) {
             items(list) { language ->
-                LanguageCard(language)
+                LanguageCard(
+                    language, onSelected, downloadLanguage, deleteLanguage
+                )
             }
         }
     }
@@ -92,13 +114,14 @@ fun DownloadLanguageDataScreen(/* viewModel: DownloadLanguageViewModel= viewMode
 fun SearchBar(
     searchQuery: String, modifier: Modifier = Modifier, onValueChange: (String) -> Unit
 ) {
-
     OutlinedTextField(
         value = searchQuery,
         modifier = modifier
             .fillMaxWidth()
             .padding(start = 8.dp, end = 8.dp)
             .heightIn(min = 48.dp),
+        singleLine = true,
+        maxLines = 1,
         shape = RoundedCornerShape(50.dp),
         leadingIcon = {
             Icon(
@@ -118,10 +141,15 @@ fun SearchBar(
 
 @Composable
 fun LanguageCard(
-    language: Language
+    language: Language,
+    onSelected: (String, Boolean) -> Unit,
+    downloadLanguage: (String) -> Unit,
+    deleteLanguage: (String) -> Unit
 ) {
     var isSelected by remember { mutableStateOf(language.isSelected) }
     var isDownloaded by remember { mutableStateOf(language.isDownloaded) }
+    var showDialog by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -143,15 +171,7 @@ fun LanguageCard(
 
             IconButton(
                 onClick = {
-                    if (isDownloaded) {
-                        //TODO: delete data after confirmation
-                        isDownloaded = false
-                        language.isDownloaded = false
-                    } else {
-                        //Todo: download the data and show progress bar
-                        isDownloaded = true
-                        language.isDownloaded = true
-                    }
+                    showDialog = true
                 },
 
                 ) {
@@ -167,6 +187,56 @@ fun LanguageCard(
                 isSelected, modifier = Modifier.weight(0.2f), onCheckedChange = {
                     isSelected = it
                     language.isSelected = isSelected
+                    onSelected(language.code, isSelected)
+                })
+        }
+    }
+
+    if (showDialog) {
+        if (isDownloaded) {
+            AlertDialog(
+                title = { Text("Confirm Delete") },
+                text = { Text("Do You want to delete the language data") },
+                onDismissRequest = { showDialog = false },
+                confirmButton = {
+                    Button(onClick = {
+                        showDialog = false
+                        deleteLanguage(language.code)
+                        isDownloaded = false
+                        language.isDownloaded = false
+                    }) {
+                        Text("Delete")
+                    }
+                },
+                dismissButton = {
+                    Button(onClick = {
+                        showDialog = false
+                    }) {
+                        Text("Cancel")
+                    }
+                })
+        } else {
+            AlertDialog(
+                title = { Text("Confirm Download") },
+                text = { Text("Do you want to download the language data?") },
+                onDismissRequest = { showDialog = false },
+                confirmButton = {
+                    Button(onClick = {
+                        //Todo: download the data and show progress bar
+                        downloadLanguage(language.code)
+                        isDownloaded = true
+                        language.isDownloaded = true
+                        showDialog = false
+                    }) {
+                        Text("Yes")
+                    }
+                },
+                dismissButton = {
+                    Button(onClick = {
+                        showDialog = false
+                    }) {
+                        Text("No")
+                    }
                 })
         }
     }
@@ -188,6 +258,19 @@ private fun ProgressBar(show: Boolean) {
 @Composable
 fun PreviewDownloadLanguageDataScreen() {
     CharacherRecognizerTheme {
-        DownloadLanguageDataScreen(rememberNavController())
+        val context = LocalContext.current
+        val names = context.resources.getStringArray(R.array.ocr_engine_language_names)
+        val keys = context.resources.getStringArray(R.array.ocr_engine_language_code)
+        val items = keys.zip(names) { key, name ->
+            Language(
+                key, name, isDownloaded = Random.nextBoolean(), isSelected = Random.nextBoolean()
+            )
+        }
+        DownloadLanguageDataScreenP(
+            languageList = items,
+            navController = rememberNavController(),
+            onSelected = { code, value -> },
+            downloadLanguage = { lang -> },
+            deleteLanguage = { lang -> })
     }
 }

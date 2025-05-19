@@ -1,42 +1,68 @@
 package io.github.subhamtyagi.ocr.ui.screens
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import io.github.subhamtyagi.ocr.R
-import io.github.subhamtyagi.ocr.ui.composables.DropdownMenuPreference
-import io.github.subhamtyagi.ocr.ui.composables.EditTextPreference
 import io.github.subhamtyagi.ocr.ui.composables.SwitchPreference
 import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
+import io.github.subhamtyagi.ocr.viewmodel.ImageProcessingViewModel
 
 @Composable
 fun SettingsImageProcessingScreen(
-    /* viewModel: ImageProcessingViewModel=hiltViewModel(),*/
+    imageProcessingViewModel: ImageProcessingViewModel = hiltViewModel(),
+    navController: NavController = rememberNavController()
+) {
+    var enhanceContrast = imageProcessingViewModel.enhanceContrast.collectAsState()
+    var unsharpMasking = imageProcessingViewModel.unsharpMasking.collectAsState()
+    var otsu = imageProcessingViewModel.otsu.collectAsState()
+    var deSkew = imageProcessingViewModel.deskew.collectAsState()
+
+    SettingsImageProcessingScreenP(
+        navController = navController,
+        enhanceContrast = enhanceContrast,
+        unsharpMasking = unsharpMasking,
+        otsu = otsu,
+        deSkew = deSkew,
+        onEnhanceContrastChange = {
+            imageProcessingViewModel.updateEnhanceContrast(it)
+        },
+        onDeSkewChange = {
+            imageProcessingViewModel.updateDeSkew(it)
+        },
+        onOTSUChange = {
+            imageProcessingViewModel.updateOTSU(it)
+        },
+        onUnSharpMaskingChange = {
+            imageProcessingViewModel.updateUnSharpMasking(it)
+        }
+    )
+}
+
+@Composable
+fun SettingsImageProcessingScreenP(
     navController: NavController = rememberNavController(),
-
-    ) {
-    var enhanceContrast by remember { mutableStateOf(false) }
-    var unsharpMasking by remember { mutableStateOf(false) }
-    var otsu by remember { mutableStateOf(false) }
-    var deSkew by remember { mutableStateOf(false) }
-
+    enhanceContrast: State<Boolean>,
+    unsharpMasking: State<Boolean>,
+    otsu: State<Boolean>,
+    deSkew: State<Boolean>,
+    onEnhanceContrastChange: (Boolean) -> Unit,
+    onUnSharpMaskingChange: (Boolean) -> Unit,
+    onOTSUChange: (Boolean) -> Unit,
+    onDeSkewChange: (Boolean) -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,39 +71,68 @@ fun SettingsImageProcessingScreen(
         SwitchPreference(
             title = stringResource(R.string.perform_contrast),
             summary = stringResource(R.string.contrast_summary),
-            checked = enhanceContrast,
-            onCheckedChange = { /*viewModel.update(it)*/
-                enhanceContrast = it
-            })
+            checked = enhanceContrast.value,
+            onCheckedChange = {
+                onEnhanceContrastChange(it)
+            }
+        )
 
         SwitchPreference(
             title = stringResource(R.string.un_sharp_masking),
             summary = stringResource(R.string.un_sharp_masking_summary),
-            checked = unsharpMasking,
-            onCheckedChange = { /*viewModel.update(it)*/
-                unsharpMasking = it
-            })
+            checked = unsharpMasking.value,
+            onCheckedChange = {
+                onUnSharpMaskingChange(it)
+            }
+        )
         SwitchPreference(
             title = stringResource(R.string.otsu_threshold),
             summary = stringResource(R.string.otsu_summary),
-            checked = otsu,
-            onCheckedChange = { /*viewModel.update(it)*/
-                otsu = it
-            })
+            checked = otsu.value,
+            onCheckedChange = {
+                onOTSUChange(it)
+            }
+        )
         SwitchPreference(
             title = stringResource(R.string.deskew_image),
             summary = stringResource(R.string.deskew_summary),
-            checked = deSkew,
-            onCheckedChange = { /*viewModel.update(it)*/
-                deSkew = it
-            })
+            checked = deSkew.value,
+            onCheckedChange = {
+                onDeSkewChange(it)
+            }
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SettingScreenIPPreveiw() {
+fun SettingScreenIPPreview() {
     CharacherRecognizerTheme {
-        SettingsImageProcessingScreen()
+
+        var enhanceContrast = remember { mutableStateOf(false) }
+        var unsharpMasking = remember { mutableStateOf(false) }
+        var otsu = remember { mutableStateOf(false) }
+        var deSkew = remember { mutableStateOf(false) }
+
+        SettingsImageProcessingScreenP(
+
+            enhanceContrast = enhanceContrast,
+            unsharpMasking = unsharpMasking,
+            otsu = otsu,
+            deSkew = deSkew,
+            onEnhanceContrastChange = {
+                enhanceContrast.value = it
+            },
+            onDeSkewChange = {
+                deSkew.value = it
+            },
+            onOTSUChange = {
+                otsu.value = it
+            },
+            onUnSharpMaskingChange = {
+                unsharpMasking.value = it
+            }
+        )
+
     }
 }

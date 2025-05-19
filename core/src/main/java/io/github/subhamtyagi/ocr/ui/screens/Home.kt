@@ -1,6 +1,8 @@
 package io.github.subhamtyagi.ocr.ui.screens
 
-import androidx.annotation.DrawableRes
+import android.net.Uri
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -22,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,47 +34,86 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageContractOptions
+import com.canhub.cropper.CropImageOptions
+import com.canhub.cropper.CropImageView
 import io.github.subhamtyagi.ocr.R
 import io.github.subhamtyagi.ocr.data.model.History
 import io.github.subhamtyagi.ocr.ui.composables.ShowBottomSheet
 import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
+import io.github.subhamtyagi.ocr.viewmodel.HomeViewModel
 
 @Composable
-fun HomeScreen(/*viewModel: SettingsViewModel,*/ navController: NavHostController,
-               modifier: Modifier = Modifier
+fun HomeScreen(
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
-    val list = arrayListOf<History>()
-    repeat(5) {
-        list.add(
-            History(
-                title = "Title $it",
-                ocrText = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-                imagePath = "Not available"
-            )
-        )
+    val historyList by homeViewModel.history.collectAsState()
+    val selectedLanguage by homeViewModel.selectedLanguages.collectAsState()
+    var croppedImageUri by remember { mutableStateOf<Uri?>(null) }
+    val cropImageLauncher = rememberLauncherForActivityResult(CropImageContract()) { result ->
+        if (result.isSuccessful) {
+            croppedImageUri = result.uriContent
+            var croppedBitmap = result.bitmap
+            //TODO: do ocr
+            croppedBitmap?.let {
+                val text = homeViewModel.ocr?.getTextFromBitmap(it)
+            }
+
+            //TODO: save result
+        }
     }
 
+    HomeScreenP(historyList, selectedLanguage, cropImageLauncher)
+}
 
+@Composable
+fun HomeScreenP(
+    historyList: List<History>,
+    selectedLanguage: Set<String>,
+    cropImageLauncher: ManagedActivityResultLauncher<CropImageContractOptions, CropImageView.CropResult>,
+    modifier: Modifier = Modifier
+) {
     Scaffold(
         floatingActionButton = {
-            MyFloatingActionButton()
+            MyFloatingActionButton(cropImageLauncher)
         }, modifier = modifier
     ) { paddingValues ->
         Column {
             var n = paddingValues
             ProgressBar()
-            DisplayLanguageName()
-            HistoryOfOCRItems(list)
+            DisplayLanguageName(selectedLanguage)
+            if (!historyList.isEmpty())
+                HistoryOfOCRItems(historyList = historyList)
         }
     }
 }
 
 @Composable
-fun MyFloatingActionButton(modifier: Modifier = Modifier) {
-    FloatingActionButton(onClick = { /* Handle FAB click */ }) {
+fun MyFloatingActionButton(cropImageLauncher: ManagedActivityResultLauncher<CropImageContractOptions, CropImageView.CropResult>) {
+    var pickImage by remember { mutableStateOf(false) }
+    FloatingActionButton(
+        onClick = {
+            pickImage = true
+        }
+    ) {
         Icon(Icons.Filled.Add, contentDescription = "Add")
+    }
+
+    if (pickImage) {
+        pickImage = false
+        cropImageLauncher.launch(
+            CropImageContractOptions(
+                cropImageOptions = CropImageOptions(
+                    guidelines = CropImageView.Guidelines.ON
+                ),
+                uri = null
+            )
+        )
     }
 }
 
@@ -88,21 +130,22 @@ private fun ProgressBar() {
 }
 
 @Composable
-private fun DisplayLanguageName() {
+private fun DisplayLanguageName(selectedLanguage: Set<String>) {
     Row {
         Text(
             text = "Selected Languages:", modifier = Modifier.padding(start = 8.dp, top = 16.dp)
         )
         Text(
-            text = "English,Spanish,Czech", modifier = Modifier.padding(start = 8.dp, top = 16.dp)
+            text = selectedLanguage.joinToString(", "),
+            modifier = Modifier.padding(start = 8.dp, top = 16.dp)
         )
     }
 }
 
 @Composable
-fun HistoryOfOCRItems(historyList: ArrayList<History>) {
+fun HistoryOfOCRItems(historyList: List<History>) {
     Text(
-        text = "Recents",
+        text = "History",
         style = MaterialTheme.typography.headlineLarge,
         modifier = Modifier.padding(start = 8.dp, top = 16.dp)
     )
@@ -114,9 +157,7 @@ fun HistoryOfOCRItems(historyList: ArrayList<History>) {
         items(historyList) { historyItem ->
             var showOcrResult by remember { mutableStateOf(false) }
             HistoryItems(
-                title = historyItem.title,
-                ocrText = historyItem.ocrText,
-                image = R.drawable.drawable_default_image_60,
+                historyItem,
                 onClick = { showOcrResult = true })
             if (showOcrResult) {
                 ShowBottomSheet(historyItem, dismiss = { showOcrResult = false })
@@ -126,9 +167,8 @@ fun HistoryOfOCRItems(historyList: ArrayList<History>) {
     }
 }
 
-
 @Composable
-fun HistoryItems(title: String, ocrText: String, @DrawableRes image: Int, onClick: () -> Unit) {
+fun HistoryItems(items: History, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -143,26 +183,35 @@ fun HistoryItems(title: String, ocrText: String, @DrawableRes image: Int, onClic
                 .padding(4.dp)
                 .fillMaxWidth()
         ) {
+
+            //TODO: change the path
             Image(
-                painter = painterResource(image),
+                painter = painterResource(R.drawable.drawable_default_image_60),
                 contentScale = ContentScale.Crop,
                 contentDescription = "Image on screen",
                 modifier = Modifier.size(120.dp),
             )
+            /*Image(
+                painter = painterResource(items.imagePath.toInt()),
+                contentScale = ContentScale.Crop,
+                contentDescription = "Image on screen",
+                modifier = Modifier.size(120.dp),
+            )*/
+
             Column(
                 modifier = Modifier
                     .padding(top = 10.dp)
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = title,
+                    text = items.title,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier
                         .padding(start = 8.dp)
                         .fillMaxWidth()
                 )
                 Text(
-                    text = ocrText, modifier = Modifier
+                    text = items.ocrText, modifier = Modifier
                         .padding(start = 8.dp)
                         .fillMaxWidth()
                 )
@@ -177,6 +226,24 @@ fun HistoryItems(title: String, ocrText: String, @DrawableRes image: Int, onClic
 @Composable
 fun HomeScreenPreview() {
     CharacherRecognizerTheme {
-        HomeScreen(rememberNavController())
+        val list = arrayListOf<History>()
+        repeat(5) {
+            list.add(
+                History(
+                    title = "Title $it",
+                    ocrText = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                    imagePath = "R.drawable.drawable_default_image_60"
+                )
+            )
+        }
+        var croppedImageUri by remember { mutableStateOf<Uri?>(null) }
+        val cropImageLauncher = rememberLauncherForActivityResult(CropImageContract()) { result ->
+            if (result.isSuccessful) {
+                croppedImageUri = result.uriContent
+                var croppedBitmap = result.bitmap
+                //TODO: now we get uri and bitmap so save image files get history
+            }
+        }
+        HomeScreenP(historyList = list, setOf("English", "Latin"), cropImageLauncher)
     }
 }

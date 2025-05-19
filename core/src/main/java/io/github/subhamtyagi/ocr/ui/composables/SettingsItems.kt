@@ -1,11 +1,9 @@
 package io.github.subhamtyagi.ocr.ui.composables
 
-import androidx.annotation.PluralsRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
@@ -56,6 +54,7 @@ fun DropdownMenuPreference(
         }
     }
 }
+
 @Composable
 fun DropdownMenuPreference1(
     title: String,
@@ -68,6 +67,7 @@ fun DropdownMenuPreference1(
 
 
 }
+
 @Composable
 fun DropdownMenuPreferenceKeyValue(
     keyValueMap: Map<String, String>,
@@ -79,7 +79,10 @@ fun DropdownMenuPreferenceKeyValue(
     var selectedKey by remember { mutableStateOf(initialKey) }
 
     Column {
-        Text(text = "$label: $selectedKey -> ${keyValueMap[selectedKey]}", style = MaterialTheme.typography.bodyLarge)
+        Text(
+            text = "$label: $selectedKey -> ${keyValueMap[selectedKey]}",
+            style = MaterialTheme.typography.bodyLarge
+        )
 
         Box {
             Button(onClick = { expanded = true }) {

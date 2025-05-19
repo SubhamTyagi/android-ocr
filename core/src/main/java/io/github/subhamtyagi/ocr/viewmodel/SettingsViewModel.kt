@@ -17,9 +17,6 @@ open class SettingsViewModel @Inject constructor(private val dataStoreManager: D
     private val _tessDataSource = MutableStateFlow("best")
     val tessDataSource: StateFlow<String> = _tessDataSource.asStateFlow()
 
-    private val _selectedLanguages = MutableStateFlow(setOf<String>())
-    val selectedLanguages: StateFlow<Set<String>> = _selectedLanguages.asStateFlow()
-
     private val _advancedTessEnabled = MutableStateFlow(false)
     val advancedTessEnabled: StateFlow<Boolean> = _advancedTessEnabled.asStateFlow()
 
@@ -36,9 +33,7 @@ open class SettingsViewModel @Inject constructor(private val dataStoreManager: D
         viewModelScope.launch {
             dataStoreManager.tessDataSource.collect { _tessDataSource.value = it }
         }
-        viewModelScope.launch {
-            dataStoreManager.selectedLanguages.collect { _selectedLanguages.value = it }
-        }
+
         viewModelScope.launch {
             dataStoreManager.advancedTessEnabled.collect { _advancedTessEnabled.value = it }
         }
@@ -68,7 +63,8 @@ open class SettingsViewModel @Inject constructor(private val dataStoreManager: D
     fun updatePersistData(value: Boolean) = viewModelScope.launch {
         dataStoreManager.setPersistData(value)
     }
-    fun updateTile(value: Boolean)=viewModelScope.launch {
+
+    fun updateTile(value: Boolean) = viewModelScope.launch {
         dataStoreManager.setTile(value)
     }
 }

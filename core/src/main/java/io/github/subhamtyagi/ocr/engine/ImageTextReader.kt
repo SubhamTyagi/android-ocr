@@ -40,6 +40,7 @@ class ImageTextReader {
      * Get the text from bitmap
      */
     fun getTextFromBitmap(bitmap: Bitmap): String {
+
         return try {
             api.setImage(bitmap)
             val textOnImage = api.getHOCRText(1) ?: ""

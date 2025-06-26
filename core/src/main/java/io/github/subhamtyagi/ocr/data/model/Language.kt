@@ -6,6 +6,15 @@ import kotlinx.serialization.Serializable
 data class Language(
     val code: String,
     val name: String,
-    var isDownloaded: Boolean,
+    var isDownloaded: Boolean=false,
+    var downloadedProgress:Int=-1,
     var isSelected: Boolean = false
-)
+){
+    override fun equals(other: Any?): Boolean {
+        return other is Language && code== other.code
+    }
+
+    override fun hashCode(): Int {
+        return code.hashCode()
+    }
+}

@@ -9,10 +9,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 import io.github.subhamtyagi.ocr.data.datastore.SettingsDataManager
-import io.github.subhamtyagi.ocr.data.db.HistoryDatabase
+import io.github.subhamtyagi.ocr.data.room.HistoryDatabase
 import io.github.subhamtyagi.ocr.data.HistoryRepository
 import io.github.subhamtyagi.ocr.data.datastore.LanguageDataManager
-import io.github.subhamtyagi.ocr.data.dao.HistoryDao
+import io.github.subhamtyagi.ocr.data.room.HistoryDao
 import io.github.subhamtyagi.ocr.data.datastore.ImageProcessingDataManager
 import io.github.subhamtyagi.ocr.data.datastore.TesseractParameterDataManager
 import okhttp3.OkHttpClient

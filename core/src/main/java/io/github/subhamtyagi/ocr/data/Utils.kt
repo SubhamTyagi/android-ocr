@@ -11,7 +11,16 @@ import android.net.NetworkInfo
 import android.os.Build
 import androidx.annotation.RequiresPermission
 
+
 object Utils {
+
+    fun getDownloadUrl(lang: String): String {
+        return when (lang) {
+            "akk" -> Constants.TESSERACT_DATA_DOWNLOAD_URL_AKK_BEST
+            "eqo" -> Constants.TESSERACT_DATA_DOWNLOAD_URL_EQU
+            else -> String.format(Constants.TESSERACT_DATA_DOWNLOAD_URL_BEST, lang)
+        }
+    }
 
     private const val DEFAULT_LANGUAGE = "eng"
 
@@ -40,12 +49,11 @@ object Utils {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val nw = connectivityManager.activeNetwork ?: return false
             val actNw = connectivityManager.getNetworkCapabilities(nw)
-            actNw != null && (
-                    actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
-                            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) ||
-                            actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH)
-                    )
+            actNw != null && (actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || actNw.hasTransport(
+                NetworkCapabilities.TRANSPORT_CELLULAR
+            ) || actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) || actNw.hasTransport(
+                NetworkCapabilities.TRANSPORT_BLUETOOTH
+            ))
         } else {
             val nwInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
             nwInfo != null && nwInfo.isConnected

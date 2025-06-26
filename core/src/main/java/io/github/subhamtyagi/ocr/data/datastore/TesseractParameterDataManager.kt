@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
-private val Context.dataStore by preferencesDataStore(name = "tess_parameter")
+private val Context.dataStore by preferencesDataStore(name = "tess_parameter_ds")
 class TesseractParameterDataManager(val context: Context) {
     private val dataStore = context.dataStore
     companion object {

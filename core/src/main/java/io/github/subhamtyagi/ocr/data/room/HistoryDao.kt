@@ -1,16 +1,15 @@
-package io.github.subhamtyagi.ocr.data.dao
+package io.github.subhamtyagi.ocr.data.room
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.github.subhamtyagi.ocr.data.model.History
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HistoryDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertHistory(history: History)
 
     @Delete

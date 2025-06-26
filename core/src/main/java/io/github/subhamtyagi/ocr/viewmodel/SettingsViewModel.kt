@@ -14,9 +14,6 @@ import javax.inject.Inject
 open class SettingsViewModel @Inject constructor(private val settingsDataManager: SettingsDataManager) :
     ViewModel() {
 
-    private val _tessDataSource = MutableStateFlow("best")
-    val tessDataSource: StateFlow<String> = _tessDataSource.asStateFlow()
-
     private val _advancedTessEnabled = MutableStateFlow(false)
     val advancedTessEnabled: StateFlow<Boolean> = _advancedTessEnabled.asStateFlow()
 
@@ -31,10 +28,6 @@ open class SettingsViewModel @Inject constructor(private val settingsDataManager
 
     init {
         viewModelScope.launch {
-            settingsDataManager.tessDataSource.collect { _tessDataSource.value = it }
-        }
-
-        viewModelScope.launch {
             settingsDataManager.advancedTessEnabled.collect { _advancedTessEnabled.value = it }
         }
         viewModelScope.launch {
@@ -46,10 +39,6 @@ open class SettingsViewModel @Inject constructor(private val settingsDataManager
         viewModelScope.launch {
             settingsDataManager.enableTile.collect { _tile.value = it }
         }
-    }
-
-    fun updateTessDataSource(value: String) = viewModelScope.launch {
-        settingsDataManager.setTessDataSource(value)
     }
 
     fun updateAdvancedTessEnabled(value: Boolean) = viewModelScope.launch {

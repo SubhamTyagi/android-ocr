@@ -38,36 +38,27 @@ fun SettingsScreen(
     var advancedTessEnabled = settingsViewModel.advancedTessEnabled.collectAsState()
     var useGrayscale = settingsViewModel.useGrayscale.collectAsState()
     var persistData = settingsViewModel.persistData.collectAsState()
-    var tessDataSource = settingsViewModel.tessDataSource.collectAsState()
     var tile = settingsViewModel.tile.collectAsState()
-
     SettingsScreenP(
         navController = navController,
         advancedTessEnabled = advancedTessEnabled,
         useGrayscale = useGrayscale,
         persistData = persistData,
-        tessDataSource = tessDataSource,
         tile = tile,
-        onDataSourceChange = {
-            settingsViewModel.updateTessDataSource(it)
-        },
         onUseGrayscaleChange = { settingsViewModel.updateUseGrayscale(it) },
         onPersistDataChange = { settingsViewModel.updatePersistData(it) },
         onTileChange = { settingsViewModel.updateTile(it) },
         onAdvanceTessEnabledChange = { settingsViewModel.updateAdvancedTessEnabled(it) },
     )
-
 }
 
 @Composable
 fun SettingsScreenP(
     navController: NavController,
-    tessDataSource: State<String>,
     advancedTessEnabled: State<Boolean>,
     useGrayscale: State<Boolean>,
     persistData: State<Boolean>,
     tile: State<Boolean>,
-    onDataSourceChange: (String) -> Unit,
     onAdvanceTessEnabledChange: (Boolean) -> Unit,
     onUseGrayscaleChange: (Boolean) -> Unit,
     onPersistDataChange: (Boolean) -> Unit,
@@ -78,23 +69,7 @@ fun SettingsScreenP(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-
-        Text("Tesseract Data Source", style = MaterialTheme.typography.titleMedium)
-
-        DropdownMenuPreference(
-            title = "Select Tesseract Data Type",
-            options = listOf("Best", "Fast", "Standard"),
-            selectedOption = tessDataSource.value,
-            modifier = Modifier.fillMaxWidth(),
-            onOptionSelected = {
-                onDataSourceChange(it)
-            }
-        )
-
-        HorizontalDivider()
-
         Text("Advanced Tesseract Settings", style = MaterialTheme.typography.titleMedium)
-
         SwitchPreference(
             title = "Set Tesseract Variable/Parameter",
             summary = "Advance tesseract option. Used with Caution; only use these option if you know what are you doing",
@@ -114,17 +89,14 @@ fun SettingsScreenP(
         }
 
         HorizontalDivider()
-
         Text("Image Enhancement", style = MaterialTheme.typography.titleMedium)
-
         SwitchPreference(
             title = "Use Image Enhancement for OCR",
             summary = "Pre-process image for enhanced accuracy",
             checked = useGrayscale.value,
             onCheckedChange = {
                 onUseGrayscaleChange(it)
-            }
-        )
+            })
 
         AnimatedVisibility(useGrayscale.value) {
             Button(
@@ -135,26 +107,21 @@ fun SettingsScreenP(
             }
         }
         HorizontalDivider()
-
         Text("Other Settings", style = MaterialTheme.typography.titleMedium)
-
         SwitchPreference(
             title = "Add Tile for floating window",
             summary = "Use tile to select text on screen window",
             checked = tile.value,
             onCheckedChange = {
                 onTileChange(it)
-            }
-        )
-
+            })
         SwitchPreference(
             title = "Persist Data",
             summary = "Save history and show them on Home Screen",
             checked = persistData.value,
             onCheckedChange = {
                 onPersistDataChange(it)
-            }
-        )
+            })
 
         Text("About", style = MaterialTheme.typography.titleMedium)
         HorizontalDivider()
@@ -164,8 +131,7 @@ fun SettingsScreenP(
                 val intent =
                     Intent(Intent.ACTION_VIEW, "https://github.com/SubhamTyagi/android-ocr".toUri())
                 context.startActivity(intent)
-            },
-            modifier = Modifier.fillMaxWidth()
+            }, modifier = Modifier.fillMaxWidth()
         ) {
             Text("Source Code")
         }
@@ -189,11 +155,7 @@ fun SettingScreenPreview() {
             advancedTessEnabled = advancedTessEnabled,
             useGrayscale = useGrayscale,
             persistData = persistData,
-            tessDataSource = tessDataSource,
             tile = tile,
-            onDataSourceChange = {
-                tessDataSource.value = it
-            },
             onUseGrayscaleChange = { useGrayscale.value = it },
             onPersistDataChange = { persistData.value = it },
             onTileChange = { tile.value = it },

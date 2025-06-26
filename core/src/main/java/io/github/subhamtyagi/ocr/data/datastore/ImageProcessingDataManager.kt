@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 
-private val Context.dataStore by preferencesDataStore(name = "image_processing")
+private val Context.dataStore by preferencesDataStore(name = "image_processing_ds")
 class ImageProcessingDataManager(val context: Context) {
     private val dataStore = context.dataStore
     companion object{

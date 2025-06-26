@@ -1,6 +1,10 @@
 package io.github.subhamtyagi.ocr.ui.screens
 
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.Image
@@ -31,17 +35,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import coil.compose.rememberAsyncImagePainter
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
-import io.github.subhamtyagi.ocr.R
-import io.github.subhamtyagi.ocr.data.model.History
+import io.github.subhamtyagi.ocr.data.room.History
 import io.github.subhamtyagi.ocr.data.model.Language
 import io.github.subhamtyagi.ocr.ui.composables.ShowBottomSheet
 import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
@@ -56,20 +60,50 @@ fun HomeScreen(
     val historyList by homeViewModel.history.collectAsState()
     val selectedLanguage by homeViewModel.selectedLanguages.collectAsState()
     var croppedImageUri by remember { mutableStateOf<Uri?>(null) }
+
+    val hasSettingsChanged by homeViewModel.hasSettingsChanged.collectAsState()
+
+    var context = LocalContext.current
+    val TAG = "HomeScreen"
+
+    if (hasSettingsChanged) {
+        homeViewModel.initOCR(context) { progress ->
+            Log.d(TAG, "HomeScreen: $progress")
+        }
+    }
+
     val cropImageLauncher = rememberLauncherForActivityResult(CropImageContract()) { result ->
+        Log.d(TAG, "HomeScreen: result= $result")
         if (result.isSuccessful) {
             croppedImageUri = result.uriContent
-            var croppedBitmap = result.bitmap
-            //TODO: do ocr
-            croppedBitmap?.let {
-                val text = homeViewModel.ocr?.getTextFromBitmap(it)
-            }
+            Log.d(TAG, "HomeScreen: cropped image uri =$croppedImageUri")
+            croppedImageUri?.let {
+                val bitmap = if (Build.VERSION.SDK_INT < 28) {
+                    MediaStore.Images.Media.getBitmap(context.contentResolver, it)
+                } else {
+                    val source = ImageDecoder.createSource(context.contentResolver, it)
+                    ImageDecoder.decodeBitmap(source)
+                }
+                //CPU intensive work: do this in background
+                var file = homeViewModel.saveBitmapToStorage(context = context, bitmap = bitmap)
 
-            //TODO: save result
+                //CPU intensive work: do this in background
+                val text = homeViewModel.getTextFromBitmap(bitmap = bitmap)
+
+                homeViewModel.addHistory(
+                    History(
+                        title = "Ocr Text",
+                        ocrText = text,
+                        imagePath = file.absolutePath
+                    )
+                )
+            }
         }
     }
     HomeScreenP(historyList, selectedLanguage, cropImageLauncher)
 }
+
+
 
 @Composable
 fun HomeScreenP(
@@ -87,8 +121,7 @@ fun HomeScreenP(
             var n = paddingValues
             ProgressBar()
             DisplayLanguageName(selectedLanguage)
-            if (!historyList.isEmpty())
-                HistoryOfOCRItems(historyList = historyList)
+            if (!historyList.isEmpty()) HistoryOfOCRItems(historyList = historyList)
         }
     }
 }
@@ -99,8 +132,7 @@ fun MyFloatingActionButton(cropImageLauncher: ManagedActivityResultLauncher<Crop
     FloatingActionButton(
         onClick = {
             pickImage = true
-        }
-    ) {
+        }) {
         Icon(Icons.Filled.Add, contentDescription = "Add")
     }
 
@@ -110,8 +142,7 @@ fun MyFloatingActionButton(cropImageLauncher: ManagedActivityResultLauncher<Crop
             CropImageContractOptions(
                 cropImageOptions = CropImageOptions(
                     guidelines = CropImageView.Guidelines.ON
-                ),
-                uri = null
+                ), uri = null
             )
         )
     }
@@ -133,10 +164,11 @@ private fun ProgressBar() {
 private fun DisplayLanguageName(selectedLanguage: Set<Language>) {
     Row {
         Text(
-            text = "Selected Languages:", modifier = Modifier.padding(start = 8.dp, top = 16.dp)
+            text = "Selected Languages:",
+            modifier = Modifier.padding(start = 8.dp, top = 16.dp)
         )
         Text(
-            text = selectedLanguage.joinToString(", "){it.name},
+            text = selectedLanguage.joinToString(", ") { it.name },
             modifier = Modifier.padding(start = 8.dp, top = 16.dp)
         )
     }
@@ -157,8 +189,7 @@ fun HistoryOfOCRItems(historyList: List<History>) {
         items(historyList) { historyItem ->
             var showOcrResult by remember { mutableStateOf(false) }
             HistoryItems(
-                historyItem,
-                onClick = { showOcrResult = true })
+                historyItem, onClick = { showOcrResult = true })
             if (showOcrResult) {
                 ShowBottomSheet(historyItem, dismiss = { showOcrResult = false })
             }
@@ -184,19 +215,12 @@ fun HistoryItems(items: History, onClick: () -> Unit) {
                 .fillMaxWidth()
         ) {
 
-            //TODO: change the path
             Image(
-                painter = painterResource(R.drawable.drawable_default_image_60),
+                painter = rememberAsyncImagePainter(items.imagePath),
                 contentScale = ContentScale.Crop,
                 contentDescription = "Image on screen",
                 modifier = Modifier.size(120.dp),
             )
-            /*Image(
-                painter = painterResource(items.imagePath.toInt()),
-                contentScale = ContentScale.Crop,
-                contentDescription = "Image on screen",
-                modifier = Modifier.size(120.dp),
-            )*/
 
             Column(
                 modifier = Modifier
@@ -231,7 +255,7 @@ fun HomeScreenPreview() {
             list.add(
                 History(
                     title = "Title $it",
-                    ocrText = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                    ocrText = " Text",
                     imagePath = "R.drawable.drawable_default_image_60"
                 )
             )
@@ -245,22 +269,14 @@ fun HomeScreenPreview() {
             }
         }
         HomeScreenP(
-            historyList = list,
-            setOf(
+            historyList = list, setOf(
                 Language(
-                    name = "English",
-                    code = "en",
-                    isDownloaded = true,
-                    isSelected = true
+                    name = "English", code = "en", isDownloaded = true, isSelected = true
                 ),
                 Language(
-                    name = "Latin",
-                    code = "lt",
-                    isDownloaded = false,
-                    isSelected = false
+                    name = "Latin", code = "lt", isDownloaded = false, isSelected = false
                 ),
-            ),
-            cropImageLauncher
+            ), cropImageLauncher
         )
     }
 }

@@ -1,6 +1,7 @@
 package io.github.subhamtyagi.ocr.engine
 
 import android.graphics.Bitmap
+import android.text.Html
 import com.googlecode.tesseract.android.TessBaseAPI
 import io.github.subhamtyagi.ocr.data.model.Language
 
@@ -44,10 +45,11 @@ class ImageTextReader {
         return try {
             api.setImage(bitmap)
             val textOnImage = api.getHOCRText(1) ?: ""
+            val cleanText = Html.fromHtml(textOnImage).toString().trim { it <= ' ' };
             if (textOnImage.isEmpty()) {
                 "Scan Failed: Couldn't read the image\nProblem may be related to Tesseract or no Text on Image!"
             } else {
-                textOnImage
+                cleanText
             }
         } catch (e: Exception) {
             "Scan Failed: WTF: Must be reported to developer!"

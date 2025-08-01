@@ -58,7 +58,11 @@ class LanguageDataManager(val context: Context) {
         context
     }
 
-    fun getDataFile(languageCode: String): File = File(baseDir, languageCode)
+    fun getDataFile(languageCode: String): File = File(
+        baseDir,
+        Constants.LANGUAGE_DATA_FILE_NAME
+            .format(languageCode)
+    )
 
     fun isLanguageDataDownloaded(languageCode: String): Boolean = getDataFile(languageCode).exists()
 

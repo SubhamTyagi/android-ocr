@@ -64,10 +64,11 @@ fun DownloadLanguageDataScreen(
     val languageList = remember(selectedLanguages, downloadedLanguages) {
         downloadViewModel.getLanguagesList(selectedLanguages)
     }
+    Log.d(TAG, "DownloadLanguageDataScreen: language list: $languageList")
 
     LaunchedEffect(Unit) {
-        downloadViewModel.checkDownloadedLanguages(languageList)
-        // downloadViewModel.observeTessDirectory(languageList)
+        //downloadViewModel.checkDownloadedLanguages(languageList)
+        downloadViewModel.observeTessDirectory(languageList)
 
         downloadResultFlow.collect { result ->
             when (result) {

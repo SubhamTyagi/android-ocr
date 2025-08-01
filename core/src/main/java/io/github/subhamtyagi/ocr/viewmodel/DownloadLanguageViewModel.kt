@@ -41,7 +41,6 @@ open class DownloadLanguageViewModel @Inject constructor(
     val selectedLanguages: StateFlow<Set<Language>> = languageDataManager.selectedLanguages.stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet()
     )
-
     private val _downloadProgressMap = MutableStateFlow<Map<String, Int>>(emptyMap())
     val downloadProgressMap: StateFlow<Map<String, Int>> = _downloadProgressMap
 
@@ -119,7 +118,7 @@ open class DownloadLanguageViewModel @Inject constructor(
             }
             _downloadResultFlow.emit(DownloadResult.Success(language))
             //first method to observe download
-            addToDownloadedLanguage(language)
+           // addToDownloadedLanguage(language)
 
         } catch (e: Exception) {
             _downloadResultFlow.emit(DownloadResult.Failure(language, e.message ?: "Unknown error"))
@@ -142,7 +141,7 @@ open class DownloadLanguageViewModel @Inject constructor(
     fun deleteLanguage(language: Language) = viewModelScope.launch {
         languageDataManager.deleteLanguageData(language.code)
         //first method to observe download
-        _downloadedLanguages.value = _downloadedLanguages.value.filterNot { it == language }
+       // _downloadedLanguages.value = _downloadedLanguages.value.filterNot { it == language }
     }
 
     fun isLanguageDataExist(language: Language): Boolean {

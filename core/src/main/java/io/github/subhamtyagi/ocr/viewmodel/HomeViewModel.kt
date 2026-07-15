@@ -22,6 +22,7 @@ import io.github.subhamtyagi.ocr.data.room.History
 import io.github.subhamtyagi.ocr.data.model.JCMState
 import io.github.subhamtyagi.ocr.data.model.Language
 import io.github.subhamtyagi.ocr.engine.ImageTextReader
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,6 +31,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
@@ -78,29 +80,19 @@ class HomeViewModel @Inject constructor(
 
     var ocr: ImageTextReader? = null
 
-//    var hasSettingsChanged: StateFlow<Boolean> = combine(
-//        _selectedLanguage,
-//        _pageSegMode,
-//        _enableJCModifiers,
-//        _jCModifiers,
-//        _enhanceContrast,
-//        _unSharpMasking,
-//        _otsu,
-//        _deSkew
-//    ) { true }.stateIn(viewModelScope, SharingStarted.Eagerly, true)
-
     init {
         viewModelScope.launch {
             combine(
                 _selectedLanguage,
                 _pageSegMode,
                 _enableJCModifiers,
+                _ocrMode,
                 _jCModifiers,
                 _enhanceContrast,
                 _unSharpMasking,
                 _otsu,
                 _deSkew
-            ) {true}.collect {
+            ) { true }.collect {
                 _hasSettingsChanged.value = it
             }
 
@@ -196,17 +188,30 @@ class HomeViewModel @Inject constructor(
         super.onCleared()
     }
 
-    fun getTextFromBitmap(bitmap: Bitmap): String {
-        return ocr?.getTextFromBitmap(preProcessBitmap(bitmap)) ?: "OCR not initialized properly."
+    fun getTextFromBitmap(
+        bitmap: Bitmap,
+        onResult: (String) -> Unit
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        val text =
+            ocr?.getTextFromBitmap(preProcessBitmap(bitmap)) ?: "OCR not initialized properly."
+        withContext(Dispatchers.Main) {
+            onResult(text)
+        }
     }
 
-    fun saveBitmapToStorage(context: Context, bitmap: Bitmap): File {
+    fun saveBitmapToStorage(
+        context: Context,
+        bitmap: Bitmap,
+        onResult: (File) -> Unit
+    ) = viewModelScope.launch(Dispatchers.IO) {
         val fileName = "cropped_image_${System.currentTimeMillis()}.png"
         val file = File(context.filesDir, fileName)
         FileOutputStream(file).use { outputStream ->
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
         }
-        return file
+        withContext(Dispatchers.Main) {
+            onResult(file)
+        }
     }
 
     fun preProcessBitmap(bitmap: Bitmap): Bitmap {

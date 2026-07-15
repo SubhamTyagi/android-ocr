@@ -28,7 +28,6 @@ class LanguageDataManager(val context: Context) {
     companion object {
         private val KEY_TESS_SELECTED_LANGUAGES =
             stringPreferencesKey("key_tess_selected_languages")
-
     }
 
     val selectedLanguages: Flow<Set<Language>> = dataStore.data.map { preferences ->
@@ -42,7 +41,6 @@ class LanguageDataManager(val context: Context) {
         } ?: emptySet()
     }
 
-
     suspend fun saveSelectedLanguages(languages: Set<Language>) {
         val jsonString =
             json.encodeToString(ListSerializer(Language.serializer()), languages.toList())
@@ -51,7 +49,6 @@ class LanguageDataManager(val context: Context) {
             Log.d(TAG, "saveSelectedLanguages: jsonString to be saved: $jsonString")
         }
     }
-
 
     val baseDir: File = File(context.filesDir, Constants.DATA_DIR).apply {
         if (!exists()) mkdirs()
@@ -83,7 +80,6 @@ class LanguageDataManager(val context: Context) {
                 isSelected = code in selectedCodes,
                 downloadedProgress = if (!isDownloaded) 0 else -1,
             )
-
         }
         return items
     }

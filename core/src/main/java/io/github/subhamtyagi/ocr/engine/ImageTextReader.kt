@@ -52,7 +52,7 @@ class ImageTextReader {
                 cleanText
             }
         } catch (e: Exception) {
-            "Scan Failed: WTF: Must be reported to developer!"
+            "Scan Failed: WTF: Must be reported to developer!\n ${e.stackTraceToString()}"
         }
     }
 

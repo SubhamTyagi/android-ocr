@@ -36,20 +36,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
+import io.github.subhamtyagi.ocr.R
 import io.github.subhamtyagi.ocr.data.room.History
 import io.github.subhamtyagi.ocr.data.model.Language
 import io.github.subhamtyagi.ocr.ui.composables.ShowBottomSheet
 import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
 import io.github.subhamtyagi.ocr.viewmodel.HomeViewModel
+import java.io.File
 
 @Composable
 fun HomeScreen(
@@ -64,19 +67,18 @@ fun HomeScreen(
     val hasSettingsChanged by homeViewModel.hasSettingsChanged.collectAsState()
 
     var context = LocalContext.current
-    val TAG = "HomeScreen"
 
     if (hasSettingsChanged) {
         homeViewModel.initOCR(context) { progress ->
-            Log.d(TAG, "HomeScreen: $progress")
+            //TODO: progress update
+            // Log.d(TAG, "HomeScreen: $progress")
         }
     }
 
     val cropImageLauncher = rememberLauncherForActivityResult(CropImageContract()) { result ->
-        Log.d(TAG, "HomeScreen: result= $result")
+
         if (result.isSuccessful) {
             croppedImageUri = result.uriContent
-            Log.d(TAG, "HomeScreen: cropped image uri =$croppedImageUri")
             croppedImageUri?.let {
                 val bitmap = if (Build.VERSION.SDK_INT < 28) {
                     MediaStore.Images.Media.getBitmap(context.contentResolver, it)
@@ -84,19 +86,17 @@ fun HomeScreen(
                     val source = ImageDecoder.createSource(context.contentResolver, it)
                     ImageDecoder.decodeBitmap(source)
                 }
-                //CPU intensive work: do this in background
-                var file = homeViewModel.saveBitmapToStorage(context = context, bitmap = bitmap)
-
-                //CPU intensive work: do this in background
-                val text = homeViewModel.getTextFromBitmap(bitmap = bitmap)
-
-                homeViewModel.addHistory(
-                    History(
-                        title = "Ocr Text",
-                        ocrText = text,
-                        imagePath = file.absolutePath
-                    )
-                )
+                homeViewModel.getTextFromBitmap(bitmap = bitmap) { text ->
+                    homeViewModel.saveBitmapToStorage(context = context, bitmap = bitmap) { file ->
+                        homeViewModel.addHistory(
+                            History(
+                                title = "Ocr Text",
+                                ocrText = text,
+                                imagePath = file.absolutePath
+                            )
+                        )
+                    }
+                }
             }
         }
     }
@@ -163,7 +163,7 @@ private fun ProgressBar() {
 private fun DisplayLanguageName(selectedLanguage: Set<Language>) {
     Row {
         Text(
-            text = "Selected Languages:",
+            text = stringResource(R.string.selected_languages),
             modifier = Modifier.padding(start = 8.dp, top = 16.dp)
         )
         Text(
@@ -188,7 +188,8 @@ fun HistoryOfOCRItems(historyList: List<History>) {
         items(historyList) { historyItem ->
             var showOcrResult by remember { mutableStateOf(false) }
             HistoryItems(
-                historyItem, onClick = { showOcrResult = true })
+                historyItem,
+                onClick = { showOcrResult = true })
             if (showOcrResult) {
                 ShowBottomSheet(historyItem, dismiss = { showOcrResult = false })
             }
@@ -264,7 +265,7 @@ fun HomeScreenPreview() {
             if (result.isSuccessful) {
                 croppedImageUri = result.uriContent
                 var croppedBitmap = result.bitmap
-                //TODO: now we get uri and bitmap so save image files get history
+
             }
         }
         HomeScreenP(

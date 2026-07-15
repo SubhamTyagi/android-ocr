@@ -17,8 +17,8 @@ open class SettingsViewModel @Inject constructor(private val settingsDataManager
     private val _advancedTessEnabled = MutableStateFlow(false)
     val advancedTessEnabled: StateFlow<Boolean> = _advancedTessEnabled.asStateFlow()
 
-    private val _useGrayscale = MutableStateFlow(true)
-    val useGrayscale: StateFlow<Boolean> = _useGrayscale.asStateFlow()
+    private val _useImageProcessing = MutableStateFlow(true)
+    val useImageProcessing: StateFlow<Boolean> = _useImageProcessing.asStateFlow()
 
     private val _persistData = MutableStateFlow(true)
     val persistData: StateFlow<Boolean> = _persistData.asStateFlow()
@@ -31,7 +31,7 @@ open class SettingsViewModel @Inject constructor(private val settingsDataManager
             settingsDataManager.advancedTessEnabled.collect { _advancedTessEnabled.value = it }
         }
         viewModelScope.launch {
-            settingsDataManager.useImageProcessing.collect { _useGrayscale.value = it }
+            settingsDataManager.useImageProcessing.collect { _useImageProcessing.value = it }
         }
         viewModelScope.launch {
             settingsDataManager.persistData.collect { _persistData.value = it }

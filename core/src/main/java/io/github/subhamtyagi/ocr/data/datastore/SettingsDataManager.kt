@@ -40,7 +40,6 @@ class SettingsDataManager(val context: Context) {
         dataStore.edit { it[KEY_APP_PERSIST_DATA] = value }
     }
 
-    // Image processing
     suspend fun setUseImageProcessing(value: Boolean) {
         dataStore.edit { it[KEY_IMAGE_PROCESSING_ENABLE] = value }
     }

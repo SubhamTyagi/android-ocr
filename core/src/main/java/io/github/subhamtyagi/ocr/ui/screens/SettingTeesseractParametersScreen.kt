@@ -18,9 +18,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import io.github.subhamtyagi.ocr.R
@@ -84,10 +85,10 @@ fun SettingsTesseractParameterP(
         var valueOEM = context.resources.getIntArray(R.array.array_tess_oem_mode_values)
         val optionsOEM = keyOEM.zip(valueOEM.toList())
 
-        Text("Page segmentation mode", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.page_segmentation_mode), style = MaterialTheme.typography.titleMedium)
 
         KeyValueDropdownMenuPreference(
-            title = "It direct how Tesseract splits image in lines of text and words.",
+            title = stringResource(R.string.it_direct_how_tesseract_splits_image_in_lines_of_text_and_words),
             options = options,
             selectedValue = pageSegMode.value,
             modifier = Modifier.fillMaxWidth(),
@@ -95,10 +96,10 @@ fun SettingsTesseractParameterP(
             onPageSegModeChange(it)
         }
 
-        Text("Tesseract OCR Engine Mode(oem)", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.tesseract_ocr_engine_mode_oem), style = MaterialTheme.typography.titleMedium)
 
         KeyValueDropdownMenuPreference(
-            title = "Specify OCR Engine mode.",
+            title = stringResource(R.string.specify_ocr_engine_mode),
             options = optionsOEM,
             selectedValue = ocrMode.value,
             modifier = Modifier.fillMaxWidth(),
@@ -107,10 +108,10 @@ fun SettingsTesseractParameterP(
         }
 
         HorizontalDivider()
-        Text("Japanese/Chinese Parameters", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.japanese_chinese_parameters), style = MaterialTheme.typography.titleMedium)
         SwitchPreference(
-            title = "Set Tesseract Variable/Parameter",
-            summary = "Set Tesseract parameters",
+            title = stringResource(R.string.set_tesseract_variable_parameter),
+            summary = stringResource(R.string.set_tesseract_parameters),
             checked = enableJapaneseChineseModifiers.value,
             onCheckedChange = {
                 onEnableJCModifierChange(it)
@@ -140,8 +141,8 @@ fun ExtraTessPrams() {
 fun JapaneseModifiers(jcModifierState: State<JCMState>, onJCModifierChange: (JCMState) -> Unit) {
     Column {
         EditTextPreference(
-            title = "Preserve Interword spaces",
-            summary = "Preserve multiple inter word spaces",
+            title = stringResource(R.string.preserve_interword_spaces),
+            summary = stringResource(R.string.preserve_multiple_inter_word_spaces),
             value = jcModifierState.value.preserveInterWordSpaces,
             onValueChange = {
                 jcModifierState.value.preserveInterWordSpaces = it
@@ -149,8 +150,8 @@ fun JapaneseModifiers(jcModifierState: State<JCMState>, onJCModifierChange: (JCM
             })
 
         EditTextPreference(
-            title = "Chop Enable",
-            summary = "Chop Enable",
+            title = stringResource(R.string.chop_enable),
+            summary = stringResource(R.string.chop_enable),
             value = jcModifierState.value.chopEnable,
             onValueChange = {
                 jcModifierState.value.chopEnable = it
@@ -160,8 +161,8 @@ fun JapaneseModifiers(jcModifierState: State<JCMState>, onJCModifierChange: (JCM
 
 
         EditTextPreference(
-            title = "Language Model Ngram On",
-            summary = "Turn on/off the use of character ngram model",
+            title = stringResource(R.string.language_model_ngram_on),
+            summary = stringResource(R.string.turn_on_off_the_use_of_character_ngram_model),
             value = jcModifierState.value.languageNgramOn,
             onValueChange = {
                 jcModifierState.value.languageNgramOn = it
@@ -169,16 +170,16 @@ fun JapaneseModifiers(jcModifierState: State<JCMState>, onJCModifierChange: (JCM
             })
 
         EditTextPreference(
-            title = "Textord Force Make Prop Words",
-            summary = "Force proportional word segmentation on all rows.",
+            title = stringResource(R.string.textord_force_make_prop_words),
+            summary = stringResource(R.string.force_proportional_word_segmentation_on_all_rows),
             value = jcModifierState.value.textortForceMakePropWords,
             onValueChange = {
                 jcModifierState.value.textortForceMakePropWords = it
                 onJCModifierChange(jcModifierState.value)
             })
         EditTextPreference(
-            title = "Edge Max Children per Outline",
-            summary = "Max number of children inside a character outline. Increase this value id some of KANJI characters are not recognized(rejected) ",
+            title = stringResource(R.string.edge_max_children_per_outline),
+            summary = stringResource(R.string.max_number_of_children_inside_a_character_outline_increase_this_value_id_some_of_kanji_characters_are_not_recognized_rejected),
             value = jcModifierState.value.edgeMaxChildrenPerOutline,
             onValueChange = {
                 jcModifierState.value.copy(edgeMaxChildrenPerOutline = it)

@@ -1,5 +1,10 @@
 package io.github.subhamtyagi.ocr.ui.composables
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,10 +28,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.getSystemService
 import io.github.subhamtyagi.ocr.data.room.History
 import kotlinx.coroutines.launch
 
@@ -35,9 +44,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun ShowBottomSheet(historyItem: History, dismiss: () -> Unit) {
     val sheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
     ModalBottomSheet(
-        onDismissRequest = dismiss, sheetState = sheetState
+        onDismissRequest = dismiss,
+        sheetState = sheetState
     ) {
         Column(
             modifier = Modifier
@@ -45,63 +54,54 @@ fun ShowBottomSheet(historyItem: History, dismiss: () -> Unit) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ActionBar(modifier = Modifier.fillMaxWidth())
-            TextContent(
-                historyItem.ocrText,
+            val scrollState = rememberScrollState()
+            val clipboardManager = LocalClipboardManager.current
+            val context = LocalContext.current
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(55.dp)
+                    .background(MaterialTheme.colorScheme.surface),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                IconButton(
+                    onClick = {
+                        clipboardManager.setText(AnnotatedString(historyItem.ocrText))
+                    }, modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.CopyAll, contentDescription = "Copy"
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        val sendIntent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(Intent.EXTRA_TEXT, historyItem.ocrText)
+                            type = "text/plain"
+                        }
+                        val shareIntent = Intent.createChooser(sendIntent, "Share via")
+                        context.startActivity(shareIntent)
+
+                    }, modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Share, contentDescription = "share"
+                    )
+                }
+            }
+
+            Text(
+                text = historyItem.ocrText,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .verticalScroll(scrollState),
+                style = TextStyle(fontSize = 16.sp, textAlign = TextAlign.Start),
             )
-            Button(onClick = {
-                scope.launch { sheetState.hide() }.invokeOnCompletion {
-                    if (!sheetState.isVisible) {
-                        dismiss()
-                    }
-                }
-            }) {
-                Text("Hide Bottom Sheet")
-            }
 
-        }
-    }
-
-}
-
-@Composable
-fun TextContent(ocrText: String, modifier: Modifier = Modifier) {
-    val scrollState = rememberScrollState()
-    Text(
-        text = ocrText,
-        modifier = modifier
-            .padding(horizontal = 16.dp, vertical = 12.dp)
-            .verticalScroll(scrollState),
-        style = TextStyle(fontSize = 16.sp, textAlign = TextAlign.Start),
-        onTextLayout = { textLayoutResult ->
-
-        })
-}
-
-@Composable
-fun ActionBar(modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .height(55.dp)
-            .background(MaterialTheme.colorScheme.surface),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        IconButton(
-            onClick = { /* Handle copy action */ }, modifier = Modifier.weight(1f)
-        ) {
-            Icon(
-                imageVector = Icons.Default.CopyAll, contentDescription = "Copy"
-            )
-        }
-        IconButton(
-            onClick = { /* Handle share action */ }, modifier = Modifier.weight(1f)
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Share, contentDescription = "share"
-            )
         }
     }
 }

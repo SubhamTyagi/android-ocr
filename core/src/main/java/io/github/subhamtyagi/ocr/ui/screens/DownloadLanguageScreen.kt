@@ -38,7 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import io.github.subhamtyagi.ocr.R
@@ -54,7 +54,7 @@ fun DownloadLanguageDataScreen(
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
-    val TAG = "DownloadLDScreen"
+
     val context = LocalContext.current
     val downloadedLanguages by downloadViewModel.downloadedLanguages.collectAsState()
     val selectedLanguages by downloadViewModel.selectedLanguages.collectAsState()
@@ -64,7 +64,6 @@ fun DownloadLanguageDataScreen(
     val languageList = remember(selectedLanguages, downloadedLanguages) {
         downloadViewModel.getLanguagesList(selectedLanguages)
     }
-    Log.d(TAG, "DownloadLanguageDataScreen: language list: $languageList")
 
     LaunchedEffect(Unit) {
         //downloadViewModel.checkDownloadedLanguages(languageList)
@@ -96,7 +95,6 @@ fun DownloadLanguageDataScreen(
         downloadProgressMap = progressMap,
         navController = navController,
         onSelected = { language, value ->
-            Log.d(TAG, "DownloadLanguageDataScreen: language=$language , new value=$value")
             downloadViewModel.updateSelectedLanguages(language, value)
         },
         downloadLanguage = { lang -> downloadViewModel.downloadLanguage(lang) },
@@ -214,8 +212,8 @@ fun LanguageCard(
     if (showDialog) {
         if (language.isDownloaded) {// delete data
             AlertDialog(
-                title = { Text("Confirm Delete") },
-                text = { Text("Do You want to delete the language data") },
+                title = { Text(stringResource(R.string.confirm_delete)) },
+                text = { Text(stringResource(R.string.do_you_want_to_delete_the_language_data)) },
                 onDismissRequest = { showDialog = false },
                 confirmButton = {
                     Button(onClick = {
@@ -223,20 +221,20 @@ fun LanguageCard(
                         deleteLanguage(language)
 
                     }) {
-                        Text("Delete")
+                        Text(stringResource(R.string.delete))
                     }
                 },
                 dismissButton = {
                     Button(onClick = {
                         showDialog = false
                     }) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.cancel))
                     }
                 })
         } else {
             AlertDialog(//download data
-                title = { Text("Confirm Download") },
-                text = { Text("Do you want to download the language data?") },
+                title = { Text(stringResource(R.string.confirm_download)) },
+                text = { Text(stringResource(R.string.do_you_want_to_download_the_language_data)) },
                 onDismissRequest = { showDialog = false },
                 confirmButton = {
                     Button(onClick = {
@@ -244,14 +242,14 @@ fun LanguageCard(
                         showDownloadProgressBar = true
                         showDialog = false
                     }) {
-                        Text("Yes")
+                        Text(stringResource(R.string.yes))
                     }
                 },
                 dismissButton = {
                     Button(onClick = {
                         showDialog = false
                     }) {
-                        Text("No")
+                        Text(stringResource(R.string.no))
                     }
                 })
         }
@@ -290,7 +288,10 @@ fun SearchBar(
 
 @Composable
 fun ProgressBar(progress: Float) {
-    Row {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
         LinearProgressIndicator(progress = {
             progress
         })
@@ -311,14 +312,22 @@ fun PreviewDownloadLanguageDataScreen() {
                 key, name, isDownloaded = Random.nextBoolean(), isSelected = Random.nextBoolean()
             )
         }
+        LanguageCard(
+            Language("en", "English"),
+            downloadProgressMap = mapOf("en" to 50),
+            onSelected = { language, bon -> },
+            downloadLanguage = {},
+        ) {
 
-        DownloadLanguageDataScreenP(
+        }
+
+        /*DownloadLanguageDataScreenP(
             languageList = items,
             downloadProgressMap = mapOf("en" to 50, "fr" to 20),
             navController = rememberNavController(),
             onSelected = { code, value -> },
             downloadLanguage = { lang -> },
             deleteLanguage = { lang -> },
-        )
+        )*/
     }
 }

@@ -9,15 +9,15 @@ plugins {
 android {
     namespace = "io.github.subhamtyagi.ocr"
     compileSdk {
-        version=release(36){
+        version=release(37){
             minorApiLevel=1
         }
     }
 
     defaultConfig {
         applicationId = "io.github.subhamtyagi.ocr.core"
-        minSdk = 21
-        targetSdk = 36
+        minSdk = 23
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
@@ -74,7 +74,7 @@ dependencies {
     implementation(libs.androidx.material.icons.extended.android)
     androidTestImplementation(libs.androidx.navigation.testing)
     //implementation(libs.androidx.lifecycle.viewmodel.compose)
-    runtimeOnly("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.0-beta01")
+    runtimeOnly(libs.androidx.lifecycle.viewmodel.ktx)
 
 
     implementation(libs.hilt.android)

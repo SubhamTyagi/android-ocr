@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -38,9 +39,20 @@ open class DownloadLanguageViewModel @Inject constructor(
 
     private val TAG = "DownloadLanguageVM"
 
-    val selectedLanguages: StateFlow<Set<Language>> = languageDataManager.selectedLanguages.stateIn(
+    /*val selectedLanguages: StateFlow<Set<Language>> = languageDataManager.selectedLanguages.stateIn(
         viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet()
-    )
+    )*/
+    private val _selectedLanguage = MutableStateFlow<Set<Language>>(emptySet())
+    val selectedLanguages = _selectedLanguage.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            languageDataManager.selectedLanguages.collect {
+                _selectedLanguage.value = it
+            }
+        }
+    }
+
     private val _downloadProgressMap = MutableStateFlow<Map<String, Int>>(emptyMap())
     val downloadProgressMap: StateFlow<Map<String, Int>> = _downloadProgressMap
 
@@ -60,12 +72,14 @@ open class DownloadLanguageViewModel @Inject constructor(
 
     fun updateSelectedLanguages(language: Language, isSelected: Boolean) = viewModelScope.launch {
         val current = selectedLanguages.value.toMutableSet()
+        Log.d(TAG, "current codes: ${current.map { it.code }}, trying to add: ${language.code}")
+
         if (isSelected) {
             if (!isLanguageDataExist(language = language)) {
                 // downloadLanguage(language)
             }
             var added = current.add(language)
-            Log.d(TAG, "updateSelectedLanguages: updated language added=$added")
+            Log.d(TAG, "updateSelectedLanguages: updated language 12added=$added")
         } else {
             var deleted = current.remove(language)
             Log.d(TAG, "updateSelectedLanguages: selected lang deleted=$deleted")
@@ -140,6 +154,9 @@ open class DownloadLanguageViewModel @Inject constructor(
 
     fun deleteLanguage(language: Language) = viewModelScope.launch {
         languageDataManager.deleteLanguageData(language.code)
+        withContext(Dispatchers.Main) {
+            updateSelectedLanguages(language = language, isSelected = false)
+        }
         //first method to observe download
        // _downloadedLanguages.value = _downloadedLanguages.value.filterNot { it == language }
     }

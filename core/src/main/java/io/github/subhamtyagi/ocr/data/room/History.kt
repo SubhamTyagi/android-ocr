@@ -8,5 +8,6 @@ data class History(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
     val ocrText: String,
-    val imagePath: String
+    val imagePath: String,
+    // add date val date: String
 )

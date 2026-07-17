@@ -14,6 +14,7 @@ hiltNavCompose="1.1.0"
 
 coreKtx = "1.19.0"
 datastorePreferences = "1.2.1"
+lifecycleViewmodelKtx = "2.11.0"
 okhttp = "5.4.0"
 room="2.8.4"
 kotlinx-coroutines="1.8.1"
@@ -38,6 +39,7 @@ kotlinSerialization="2.4.10"
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-material-icons-extended-android = { module = "androidx.compose.material:material-icons-extended-android", version.ref = "materialIconsExtendedAndroid" }
 androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-ui = { module = "androidx.compose.ui:ui" }

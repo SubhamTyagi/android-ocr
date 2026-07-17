@@ -1,29 +1,36 @@
 package io.github.subhamtyagi.ocr.ui.screens
 
-import android.util.Log
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -33,9 +40,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -46,6 +56,9 @@ import androidx.navigation.compose.rememberNavController
 import io.github.subhamtyagi.ocr.R
 import io.github.subhamtyagi.ocr.data.model.Language
 import io.github.subhamtyagi.ocr.downloader.DownloadResult
+import io.github.subhamtyagi.ocr.ui.composables.SearchBar
+import io.github.subhamtyagi.ocr.ui.composables.StatusBadge
+import io.github.subhamtyagi.ocr.ui.composables.SummaryCard
 import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
 import io.github.subhamtyagi.ocr.viewmodel.DownloadLanguageViewModel
 import kotlin.random.Random
@@ -60,6 +73,7 @@ fun DownloadLanguageDataScreen(
     val context = LocalContext.current
     val downloadedLanguages by downloadViewModel.downloadedLanguages.collectAsState()
     val selectedLanguages by downloadViewModel.selectedLanguages.collectAsState()
+    val selectedCodes = selectedLanguages.map { it.code }.toSet()
     val progressMap by downloadViewModel.downloadProgressMap.collectAsState()
     val downloadResultFlow = downloadViewModel.downloadResultFlow
 
@@ -68,7 +82,6 @@ fun DownloadLanguageDataScreen(
     }
 
     LaunchedEffect(Unit) {
-        //downloadViewModel.checkDownloadedLanguages(languageList)
         downloadViewModel.observeTessDirectory(languageList)
 
         downloadResultFlow.collect { result ->
@@ -94,6 +107,7 @@ fun DownloadLanguageDataScreen(
 
     DownloadLanguageDataScreenP(
         languageList = languageList,
+        selectedCodes,
         downloadProgressMap = progressMap,
         navController = navController,
         onSelected = { language, value ->
@@ -107,6 +121,7 @@ fun DownloadLanguageDataScreen(
 @Composable
 fun DownloadLanguageDataScreenP(
     languageList: List<Language>,
+    selectedCodes: Set<String>,
     downloadProgressMap: Map<String, Int>,
     navController: NavController,
     modifier: Modifier = Modifier,
@@ -115,13 +130,10 @@ fun DownloadLanguageDataScreenP(
     deleteLanguage: (Language) -> Unit
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    Column {
-        Text(
-            text = "Download language data/Select Language",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(start = 8.dp, top = 16.dp)
-        )
 
+    Column {
+        SummaryCard(languageList.count { it.isDownloaded }, selectedCodes.size)
+        Spacer(modifier = Modifier.height(8.dp))
         SearchBar(
             searchQuery,
             modifier,
@@ -132,173 +144,226 @@ fun DownloadLanguageDataScreenP(
             it.name.contains(searchQuery, ignoreCase = true)
         }
 
-        LazyColumn(modifier = modifier.padding(top = 36.dp)) {
-            items(
-                items = list, key = { it.code }) { language ->
-                val progress = downloadProgressMap[language.code] ?: language.downloadedProgress
-                LanguageCard(
-                    language = language.copy(downloadedProgress = progress),
-                    downloadProgressMap,
-                    onSelected,
-                    downloadLanguage,
-                    deleteLanguage
-                )
+        if (list.isEmpty()) {
+            EmptySearchState(searchQuery)
+        } else {
+            LazyColumn(modifier = modifier.padding(top = 18.dp)) {
+                items(
+                    items = list, key = { it.code }) { language ->
+                    val progress = downloadProgressMap[language.code] ?: language.downloadedProgress
+                    LanguageCard(
+                        language = language.copy(downloadedProgress = progress),
+                        selectedCodes,
+                        downloadProgressMap,
+                        onSelected,
+                        downloadLanguage,
+                        deleteLanguage
+                    )
+                }
             }
         }
     }
-
 }
+
 
 @Composable
 fun LanguageCard(
     language: Language,
+    selectedCodes: Set<String>,
     downloadProgressMap: Map<String, Int>,
     onSelected: (Language, Boolean) -> Unit,
     downloadLanguage: (Language) -> Unit,
     deleteLanguage: (Language) -> Unit
 ) {
-    //var isSelected by remember { mutableStateOf(language.isSelected) }
-    //var isDownloaded by remember { mutableStateOf(language.isDownloaded) }
     var showDialog by remember { mutableStateOf(false) }
-    var showDownloadProgressBar by remember { mutableStateOf(false) }
     val progress = downloadProgressMap[language.code] ?: language.downloadedProgress
+    var showDownloadProgressBar by remember { mutableStateOf(false) }
+    val isDownloading = downloadProgressMap.containsKey(language.code)
 
-    Card(
+    val listItemColor = if (language.isDownloaded) {
+        MaterialTheme.colorScheme.primaryContainer
+            .copy(alpha = 0.35f)
+            .compositeOver(MaterialTheme.colorScheme.surface)
+    } else {
+        MaterialTheme.colorScheme.surface
+    }
+
+
+    ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        shape = RoundedCornerShape(25.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = listItemColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
-        if (showDownloadProgressBar) {
-            if (progress in 0..99) {
-                ProgressBar(progress / 100f)
-            } else {
-                showDownloadProgressBar = false
-            }
-        }
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .background(color = listItemColor),
 
-        Row(
-            modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = language.name,
-                modifier = Modifier
-                    .weight(0.4f)
-                    .padding(start = 16.dp),
-                style = MaterialTheme.typography.titleMedium
-            )
-            IconButton(
-                onClick = {
-                    showDialog = true
-                }) {
-                var contentDescription = ""
-                val icon = if (language.isDownloaded) {
-                    contentDescription = "Delete the data"
-                    painterResource(R.drawable.baseline_delete_24)
-                } else {
-                    contentDescription = "Download the data"
-                    painterResource(
-                        R.drawable.baseline_download_24
+            ) {
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Surface(
+                    shape = CircleShape, color = MaterialTheme.colorScheme.primaryContainer
+                ) {
+                    FilledTonalIconButton(
+                        onClick = {
+                            showDialog = true
+                        }) {
+
+                        Icon(
+                            painter = painterResource(
+                                if (language.isDownloaded) R.drawable.baseline_delete_24
+                                else R.drawable.baseline_download_24
+                            ), contentDescription = null
+                        )
+                    }
+                }
+
+                Spacer(Modifier.width(16.dp))
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+
+                    Text(
+                        text = language.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
+
+                    Spacer(Modifier.height(2.dp))
+
+                    StatusBadge(
+                        downloading = isDownloading, downloaded = language.isDownloaded
+                    )
+
+                }
+                Checkbox(
+                    checked = language.code in selectedCodes,
+                    enabled = language.isDownloaded or (language.code in selectedCodes),
+                    onCheckedChange = {
+                        onSelected(language, it)
+                    }
+                )
+            }
+
+            AnimatedVisibility(
+                visible = isDownloading
+            ) {
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp)
+                ) {
+
+                    LinearProgressIndicator(
+                        progress = { progress / 100f },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(6.dp)
+                            .clip(RoundedCornerShape(50)),
+                        trackColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
+                    Spacer(Modifier.height(6.dp))
+                    Text(
+                        text = "$progress%",
+                        modifier = Modifier.align(Alignment.End),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                Icon(painter = icon, contentDescription = contentDescription)
             }
-            Checkbox(
-                checked = language.isSelected, modifier = Modifier.weight(0.2f), onCheckedChange = {
-                    onSelected(language, it)
-                })
+
         }
     }
 
     if (showDialog) {
-        if (language.isDownloaded) {// delete data
+        if (language.isDownloaded) {
             AlertDialog(
-                title = { Text(stringResource(R.string.confirm_delete)) },
-                text = { Text(stringResource(R.string.do_you_want_to_delete_the_language_data)) },
-                onDismissRequest = { showDialog = false },
+                onDismissRequest = { showDialog = false }, icon = {
+                Icon(
+                    Icons.Filled.Delete, contentDescription = null
+                )
+            },
+                title = { Text("Delete ${language.name}?") },
+                text = { Text("This will remove the downloaded OCR language data from your device.") },
                 confirmButton = {
-                    Button(onClick = {
-                        showDialog = false
-                        deleteLanguage(language)
-
-                    }) {
-                        Text(stringResource(R.string.delete))
+                    FilledTonalButton(
+                        onClick = {
+                            deleteLanguage(language)
+                            showDialog = false
+                        }) {
+                        Text("Delete")
                     }
-                },
-                dismissButton = {
-                    Button(onClick = {
-                        showDialog = false
-                    }) {
-                        Text(stringResource(R.string.cancel))
+                }, dismissButton = {
+                    TextButton(
+                        onClick = {
+                            showDialog = false
+                        }) {
+                        Text("Cancel")
                     }
                 })
         } else {
-            AlertDialog(//download data
-                title = { Text(stringResource(R.string.confirm_download)) },
-                text = { Text(stringResource(R.string.do_you_want_to_download_the_language_data)) },
+            AlertDialog(
                 onDismissRequest = { showDialog = false },
+                icon = {
+                    Icon(
+                        Icons.Filled.Download, contentDescription = null
+                    )
+                },
+                title = { Text("Download ${language.name}?") },
+                text = { Text("The OCR language data will be downloaded and stored locally.") },
                 confirmButton = {
-                    Button(onClick = {
-                        downloadLanguage(language)
-                        showDownloadProgressBar = true
-                        showDialog = false
-                    }) {
-                        Text(stringResource(R.string.yes))
+                    FilledTonalButton(
+                        onClick = {
+                            downloadLanguage(language)
+                            showDownloadProgressBar = true
+                            showDialog = false
+                        }) {
+                        Text("Download")
                     }
                 },
                 dismissButton = {
-                    Button(onClick = {
-                        showDialog = false
-                    }) {
-                        Text(stringResource(R.string.no))
+                    TextButton(
+                        onClick = {
+                            showDialog = false
+                        }) {
+                        Text("Cancel")
                     }
                 })
         }
     }
 }
 
-
 @Composable
-fun SearchBar(
-    searchQuery: String, modifier: Modifier = Modifier, onValueChange: (String) -> Unit
-) {
-    OutlinedTextField(
-        value = searchQuery,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(start = 8.dp, end = 8.dp)
-            .heightIn(min = 48.dp),
-        singleLine = true,
-        maxLines = 1,
-        shape = RoundedCornerShape(50.dp),
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search, contentDescription = "search languages "
-            )
-        },
-        colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-            focusedContainerColor = MaterialTheme.colorScheme.surface
-        ),
-        placeholder = {
-            Text(stringResource(R.string.search))
-        },
-        onValueChange = { onValueChange(it) })
-}
-
-
-@Composable
-fun ProgressBar(progress: Float) {
-    Row(
+fun EmptySearchState(query: String) {
+    Column(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(top = 64.dp, start = 32.dp, end = 32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LinearProgressIndicator(progress = {
-            progress
-        })
+        Icon(
+            Icons.Default.Search,
+            contentDescription = null,
+            modifier = Modifier.size(40.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+        )
+        Spacer(Modifier.height(12.dp))
+        Text(
+            text = "No languages match \"$query\"",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center
+        )
     }
-
 }
 
 @Preview(showBackground = true)
@@ -314,22 +379,15 @@ fun PreviewDownloadLanguageDataScreen() {
                 key, name, isDownloaded = Random.nextBoolean(), isSelected = Random.nextBoolean()
             )
         }
-        LanguageCard(
-            Language("en", "English"),
-            downloadProgressMap = mapOf("en" to 50),
-            onSelected = { language, bon -> },
-            downloadLanguage = {},
-        ) {
 
-        }
-
-        /*DownloadLanguageDataScreenP(
+        DownloadLanguageDataScreenP(
             languageList = items,
+            selectedCodes = setOf("en", "fr"),
             downloadProgressMap = mapOf("en" to 50, "fr" to 20),
             navController = rememberNavController(),
             onSelected = { code, value -> },
             downloadLanguage = { lang -> },
             deleteLanguage = { lang -> },
-        )*/
+        )
     }
 }

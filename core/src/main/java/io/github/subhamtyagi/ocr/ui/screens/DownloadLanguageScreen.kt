@@ -33,7 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,6 +44,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,11 +52,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
 
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import io.github.subhamtyagi.ocr.R
 import io.github.subhamtyagi.ocr.data.model.Language
 import io.github.subhamtyagi.ocr.downloader.DownloadResult
+import io.github.subhamtyagi.ocr.downloader.DownloadResult.Failure
+import io.github.subhamtyagi.ocr.downloader.DownloadResult.Success
 import io.github.subhamtyagi.ocr.ui.composables.SearchBar
 import io.github.subhamtyagi.ocr.ui.composables.StatusBadge
 import io.github.subhamtyagi.ocr.ui.composables.SummaryCard
@@ -65,17 +66,18 @@ import kotlin.random.Random
 
 @Composable
 fun DownloadLanguageDataScreen(
-    downloadViewModel: DownloadLanguageViewModel = hiltViewModel(),
-    navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    downloadViewModel: DownloadLanguageViewModel = hiltViewModel()
 ) {
-
     val context = LocalContext.current
-    val downloadedLanguages by downloadViewModel.downloadedLanguages.collectAsState()
-    val selectedLanguages by downloadViewModel.selectedLanguages.collectAsState()
-    val selectedCodes = selectedLanguages.map { it.code }.toSet()
-    val progressMap by downloadViewModel.downloadProgressMap.collectAsState()
+    val downloadedLanguages by downloadViewModel.downloadedLanguages.collectAsStateWithLifecycle()
+    val selectedLanguages by downloadViewModel.selectedLanguages.collectAsStateWithLifecycle()
+    val progressMap by downloadViewModel.downloadProgressMap.collectAsStateWithLifecycle()
     val downloadResultFlow = downloadViewModel.downloadResultFlow
+
+    val selectedCodes = remember(selectedLanguages) {
+        selectedLanguages.map { it.code }.toSet()
+    }
 
     val languageList = remember(selectedLanguages, downloadedLanguages) {
         downloadViewModel.getLanguagesList(selectedLanguages)
@@ -83,18 +85,19 @@ fun DownloadLanguageDataScreen(
 
     LaunchedEffect(Unit) {
         downloadViewModel.observeTessDirectory(languageList)
+    }
 
+    LaunchedEffect(downloadResultFlow) {
         downloadResultFlow.collect { result ->
             when (result) {
-                is DownloadResult.Success -> {
+                is Success -> {
                     Toast.makeText(
                         context,
                         "Downloaded ${result.language.name} successfully!",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-
-                is DownloadResult.Failure -> {
+                is Failure -> {
                     Toast.makeText(
                         context,
                         "Failed to download ${result.language.name}: ${result.reason}",
@@ -105,25 +108,24 @@ fun DownloadLanguageDataScreen(
         }
     }
 
-    DownloadLanguageDataScreenP(
+    DownloadLanguageContent(
+        modifier = modifier,
         languageList = languageList,
-        selectedCodes,
+        selectedCodes = selectedCodes,
         downloadProgressMap = progressMap,
-        navController = navController,
         onSelected = { language, value ->
             downloadViewModel.updateSelectedLanguages(language, value)
         },
         downloadLanguage = { lang -> downloadViewModel.downloadLanguage(lang) },
-        deleteLanguage = { lang -> downloadViewModel.deleteLanguage(lang) })
-
+        deleteLanguage = { lang -> downloadViewModel.deleteLanguage(lang) }
+    )
 }
 
 @Composable
-fun DownloadLanguageDataScreenP(
+fun DownloadLanguageContent(
     languageList: List<Language>,
     selectedCodes: Set<String>,
     downloadProgressMap: Map<String, Int>,
-    navController: NavController,
     modifier: Modifier = Modifier,
     onSelected: (Language, Boolean) -> Unit,
     downloadLanguage: (Language) -> Unit,
@@ -131,33 +133,34 @@ fun DownloadLanguageDataScreenP(
 ) {
     var searchQuery by remember { mutableStateOf("") }
 
-    Column {
+    val filteredList = remember(languageList, searchQuery) {
+        languageList.filter {
+            it.name.contains(searchQuery, ignoreCase = true)
+        }
+    }
+
+    Column(modifier = modifier) {
         SummaryCard(languageList.count { it.isDownloaded }, selectedCodes.size)
         Spacer(modifier = Modifier.height(8.dp))
         SearchBar(
             searchQuery,
-            modifier,
             onValueChange = { searchQuery = it },
         )
-
-        val list = languageList.filter {
-            it.name.contains(searchQuery, ignoreCase = true)
-        }
-
-        if (list.isEmpty()) {
+        if (filteredList.isEmpty()) {
             EmptySearchState(searchQuery)
         } else {
-            LazyColumn(modifier = modifier.padding(top = 18.dp)) {
+            LazyColumn(modifier = Modifier.padding(top = 18.dp)) {
                 items(
-                    items = list, key = { it.code }) { language ->
-                    val progress = downloadProgressMap[language.code] ?: language.downloadedProgress
+                    items = filteredList,
+                    key = { it.code }
+                ) { language ->
                     LanguageCard(
-                        language = language.copy(downloadedProgress = progress),
-                        selectedCodes,
-                        downloadProgressMap,
-                        onSelected,
-                        downloadLanguage,
-                        deleteLanguage
+                        language = language,
+                        selectedCodes = selectedCodes,
+                        downloadProgressMap = downloadProgressMap,
+                        onSelected = onSelected,
+                        downloadLanguage = downloadLanguage,
+                        deleteLanguage = deleteLanguage
                     )
                 }
             }
@@ -173,11 +176,11 @@ fun LanguageCard(
     downloadProgressMap: Map<String, Int>,
     onSelected: (Language, Boolean) -> Unit,
     downloadLanguage: (Language) -> Unit,
-    deleteLanguage: (Language) -> Unit
+    deleteLanguage: (Language) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var showDialog by remember { mutableStateOf(false) }
     val progress = downloadProgressMap[language.code] ?: language.downloadedProgress
-    var showDownloadProgressBar by remember { mutableStateOf(false) }
     val isDownloading = downloadProgressMap.containsKey(language.code)
 
     val listItemColor = if (language.isDownloaded) {
@@ -188,9 +191,8 @@ fun LanguageCard(
         MaterialTheme.colorScheme.surface
     }
 
-
     ElevatedCard(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 6.dp),
         shape = RoundedCornerShape(20.dp),
@@ -324,7 +326,6 @@ fun LanguageCard(
                     FilledTonalButton(
                         onClick = {
                             downloadLanguage(language)
-                            showDownloadProgressBar = true
                             showDialog = false
                         }) {
                         Text("Download")
@@ -370,9 +371,8 @@ fun EmptySearchState(query: String) {
 @Composable
 fun PreviewDownloadLanguageDataScreen() {
     CharacherRecognizerTheme {
-        val context = LocalContext.current
-        val names = context.resources.getStringArray(R.array.ocr_engine_language_names)
-        val keys = context.resources.getStringArray(R.array.ocr_engine_language_code)
+        val names = stringArrayResource(R.array.ocr_engine_language_names)
+        val keys = stringArrayResource(R.array.ocr_engine_language_code)
 
         val items = keys.zip(names) { key, name ->
             Language(
@@ -380,14 +380,13 @@ fun PreviewDownloadLanguageDataScreen() {
             )
         }
 
-        DownloadLanguageDataScreenP(
+        DownloadLanguageContent(
             languageList = items,
             selectedCodes = setOf("en", "fr"),
             downloadProgressMap = mapOf("en" to 50, "fr" to 20),
-            navController = rememberNavController(),
-            onSelected = { code, value -> },
-            downloadLanguage = { lang -> },
-            deleteLanguage = { lang -> },
+            onSelected = { _, _ -> },
+            downloadLanguage = { _ -> },
+            deleteLanguage = { _ -> },
         )
     }
 }

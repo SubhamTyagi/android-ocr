@@ -53,7 +53,7 @@ fun MyApp() {
                     HomeScreen(navController = navController)
                 }
                 composable(NavigationItems.Download.route) {
-                    DownloadLanguageDataScreen(navController = navController)
+                    DownloadLanguageDataScreen()
                 }
                 composable(NavigationItems.Settings.route) {
                     SettingsScreen(navController = navController)

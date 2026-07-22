@@ -1,11 +1,7 @@
 package io.github.subhamtyagi.ocr.ui.screens
 
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -45,9 +41,8 @@ import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -62,6 +57,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.canhub.cropper.CropImageContract
@@ -82,46 +78,28 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
-    val historyList by homeViewModel.history.collectAsState()
-    val selectedLanguage by homeViewModel.selectedLanguages.collectAsState()
-    var croppedImageUri by remember { mutableStateOf<Uri?>(null) }
-    val hasSettingsChanged by homeViewModel.hasSettingsChanged.collectAsState()
-    var progress by remember { mutableIntStateOf(100) }
-    var showOcrProgressBar by remember { mutableStateOf(false) }
+    val historyList by homeViewModel.history.collectAsStateWithLifecycle()
+    val selectedLanguage by homeViewModel.selectedLanguages.collectAsStateWithLifecycle()
+    val hasSettingsChanged by homeViewModel.hasSettingsChanged.collectAsStateWithLifecycle()
+    val progress by homeViewModel.ocrProgress.collectAsStateWithLifecycle()
+    val showOcrProgressBar by homeViewModel.isProcessing.collectAsStateWithLifecycle()
+
     val context = LocalContext.current
 
-    if (hasSettingsChanged) {
-        homeViewModel.initOCR(context) { update ->
-            progress = update
+    LaunchedEffect(hasSettingsChanged) {
+        if (hasSettingsChanged) {
+            homeViewModel.initOCR(context)
         }
     }
+
     val cropImageLauncher = rememberLauncherForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
-            croppedImageUri = result.uriContent
-            croppedImageUri?.let {
-                val bitmap = if (Build.VERSION.SDK_INT < 28) {
-                    MediaStore.Images.Media.getBitmap(context.contentResolver, it)
-                } else {
-                    val source = ImageDecoder.createSource(context.contentResolver, it)
-                    ImageDecoder.decodeBitmap(source)
-                }
-                showOcrProgressBar = true
-                homeViewModel.getTextFromBitmap(bitmap = bitmap) { text ->
-                    showOcrProgressBar = false
-                    homeViewModel.saveBitmapToStorage(context = context, bitmap = bitmap) { file ->
-                        homeViewModel.addHistory(
-                            History(
-                                title = "Ocr Text",
-                                ocrText = text,
-                                imagePath = file.absolutePath,
-                                //ADD DATE
-                            )
-                        )
-                    }
-                }
+            result.uriContent?.let {
+                homeViewModel.processImage(context, it)
             }
         }
     }
+
     HomeScreenP(historyList, selectedLanguage, cropImageLauncher, progress, showOcrProgressBar)
 }
 

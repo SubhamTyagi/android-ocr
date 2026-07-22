@@ -2,6 +2,10 @@ package io.github.subhamtyagi.ocr.viewmodel
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.googlecode.leptonica.android.AdaptiveMap
@@ -77,6 +81,12 @@ class HomeViewModel @Inject constructor(
 
     private val _hasSettingsChanged = MutableStateFlow(true)
     val hasSettingsChanged: StateFlow<Boolean> = _hasSettingsChanged.asStateFlow()
+
+    private val _isProcessing = MutableStateFlow(false)
+    val isProcessing: StateFlow<Boolean> = _isProcessing.asStateFlow()
+
+    private val _ocrProgress = MutableStateFlow(100)
+    val ocrProgress: StateFlow<Int> = _ocrProgress.asStateFlow()
 
     var ocr: ImageTextReader? = null
 
@@ -161,7 +171,7 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun initOCR(context: Context, onProgress: (Int) -> Unit) = viewModelScope.launch {
+    fun initOCR(context: Context) = viewModelScope.launch {
 
         val baseDir = File(context.filesDir, "best")
         ocr?.let {
@@ -177,9 +187,41 @@ class HomeViewModel @Inject constructor(
             parameters = jCModifiers.value.getParameters(),
             isParameterSet = enableJCModifiers.value,
         ) {
-            onProgress(it.percent)
+            _ocrProgress.value = it.percent
         }
         _hasSettingsChanged.value = false
+    }
+
+    fun processImage(context: Context, uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
+        _isProcessing.value = true
+        try {
+            val bitmap = if (Build.VERSION.SDK_INT < 28) {
+                MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+            } else {
+                val source = ImageDecoder.createSource(context.contentResolver, uri)
+                ImageDecoder.decodeBitmap(source)
+            }
+
+            val text = ocr?.getTextFromBitmap(preProcessBitmap(bitmap)) ?: "OCR not initialized properly."
+
+            val fileName = "cropped_image_${System.currentTimeMillis()}.png"
+            val file = File(context.filesDir, fileName)
+            FileOutputStream(file).use { outputStream ->
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            }
+
+            historyRepository.insert(
+                History(
+                    title = "Ocr Text",
+                    ocrText = text,
+                    imagePath = file.absolutePath
+                )
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            _isProcessing.value = false
+        }
     }
 
     override fun onCleared() {

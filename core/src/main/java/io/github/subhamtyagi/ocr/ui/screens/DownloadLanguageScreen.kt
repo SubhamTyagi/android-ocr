@@ -80,15 +80,15 @@ fun DownloadLanguageDataScreen(
     }
     val languageList = downloadViewModel.getLanguagesList(selectedLanguages)
 
-    LaunchedEffect(Unit) {
-        downloadViewModel.observeTessDirectory(languageList)
-    }
+    /*LaunchedEffect(Unit) {
+        //downloadViewModel.observeTessDirectory(languageList)
+    }*/
 
     LaunchedEffect(downloadResultFlow) {
         downloadResultFlow.collect { result ->
             when (result) {
                 is Success -> {
-                   // downloadViewModel.observeTessDirectory(languageList)
+
                     Toast.makeText(
                         context,
                         "Downloaded ${result.language.name} successfully!",

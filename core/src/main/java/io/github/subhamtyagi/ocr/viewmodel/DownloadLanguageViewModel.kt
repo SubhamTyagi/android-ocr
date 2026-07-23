@@ -1,5 +1,6 @@
 package io.github.subhamtyagi.ocr.viewmodel
 
+import android.app.Application
 import android.os.FileObserver
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,7 @@ import okhttp3.Request
 import okio.buffer
 import okio.sink
 import java.io.File
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,9 +41,6 @@ open class DownloadLanguageViewModel @Inject constructor(
 
     private val TAG = "DownloadLanguageVM"
 
-    /*val selectedLanguages: StateFlow<Set<Language>> = languageDataManager.selectedLanguages.stateIn(
-        viewModelScope, SharingStarted.WhileSubscribed(5000), emptySet()
-    )*/
     private val _selectedLanguage = MutableStateFlow<Set<Language>>(emptySet())
     val selectedLanguages = _selectedLanguage.asStateFlow()
 
@@ -72,74 +71,75 @@ open class DownloadLanguageViewModel @Inject constructor(
 
     fun updateSelectedLanguages(language: Language, isSelected: Boolean) = viewModelScope.launch {
         val current = selectedLanguages.value.toMutableSet()
-        Log.d(TAG, "current codes: ${current.map { it.code }}, trying to add: ${language.code}")
-
         if (isSelected) {
-            if (!isLanguageDataExist(language = language)) {
-                // downloadLanguage(language)
-            }
-            var added = current.add(language)
-            Log.d(TAG, "updateSelectedLanguages: updated language 12added=$added")
+            current.add(language)
         } else {
-            var deleted = current.remove(language)
-            Log.d(TAG, "updateSelectedLanguages: selected lang deleted=$deleted")
+            current.remove(language)
+
         }
         languageDataManager.saveSelectedLanguages(current)
     }
 
-    //TODO: Check for any error and no internet connections
     fun downloadLanguage(
         language: Language
     ) = viewModelScope.launch(Dispatchers.IO) {
-
-
-        val request = Request.Builder().url(Utils.getDownloadUrl(language.code)).build()
-        val response = client.newCall(request).execute()
-
-        if (!response.isSuccessful) {
-            Log.e(TAG, "Download failed for ${language.code}")
-            _downloadResultFlow.emit(DownloadResult.Failure(language, "Failed to download file"))
+        if (!Utils.isNetworkAvailable(languageDataManager.context.applicationContext as Application)) {
+            _downloadResultFlow.emit(DownloadResult.Failure(language, "No internet connection"))
             return@launch
         }
 
-        val file = File(
-            languageDataManager.baseDir, Constants.LANGUAGE_DATA_FILE_NAME.format(language.code)
-        )
-        val sink = file.sink().buffer()
-
-        val progressBody = ProgressResponseBody(response.body!!, object : DownloadProgressListener {
-            override fun update(bytesRead: Long, contentLength: Long, done: Boolean) {
-                val progressValue = (100f * bytesRead / contentLength).toInt()
-                _downloadProgressMap.update { current ->
-                    current.toMutableMap().apply { put(language.code, progressValue) }
-                }
-                language.copy(downloadedProgress = progressValue.toInt())
-            }
-        })
-
         try {
-            progressBody.source().use { source ->
-                sink.use { sinkBuffer ->
-                    sinkBuffer.writeAll(source)
+            val request = Request.Builder().url(Utils.getDownloadUrl(language.code)).build()
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) {
+                    Log.e(TAG, "Download failed for ${language.code}")
+                    _downloadResultFlow.emit(DownloadResult.Failure(language, "Failed to download file"))
+                    return@launch
                 }
-            }
 
+                val body = response.body
+
+                val file = File(
+                    languageDataManager.baseDir, Constants.LANGUAGE_DATA_FILE_NAME.format(language.code)
+                )
+
+                val progressBody = ProgressResponseBody(body, object : DownloadProgressListener {
+                    private var lastProgress = -1
+                    override fun update(bytesRead: Long, contentLength: Long, done: Boolean) {
+                        if (contentLength <= 0) return
+                        val progressValue = (100f * bytesRead / contentLength).toInt()
+
+                        if (progressValue != lastProgress) {
+                            lastProgress = progressValue
+                            _downloadProgressMap.update { current ->
+                                current.toMutableMap().apply { put(language.code, progressValue) }
+                            }
+                        }
+                    }
+                })
+
+                file.sink().buffer().use { sinkBuffer ->
+                    progressBody.source().use { source ->
+                        sinkBuffer.writeAll(source)
+                    }
+                }
+
+                _downloadProgressMap.update { current ->
+                    current.toMutableMap().apply { remove(language.code) }
+                }
+
+                withContext(Dispatchers.Main) {
+                    updateSelectedLanguages(language = language, isSelected = true)
+                }
+                _downloadResultFlow.emit(DownloadResult.Success(language))
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error downloading ${language.code}", e)
             _downloadProgressMap.update { current ->
                 current.toMutableMap().apply { remove(language.code) }
-
             }
-
-            withContext(Dispatchers.Main) {
-                updateSelectedLanguages(language = language, isSelected = true)
-            }
-            _downloadResultFlow.emit(DownloadResult.Success(language))
-            //first method to observe download
-           //addToDownloadedLanguage(language)
-
-        } catch (e: Exception) {
             _downloadResultFlow.emit(DownloadResult.Failure(language, e.message ?: "Unknown error"))
         }
-
     }
 
     //first method to observe download

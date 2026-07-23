@@ -11,15 +11,15 @@
             android:fillColor="#00000000"
             android:pathData="M8,12 L8,8 L12,8 M52,8 L56,8 L56,12 M56,52 L56,56 L52,56 M12,56 L8,56 L8,52"
             android:strokeWidth="4"
-            android:strokeColor="#FFFFFF"
+            android:strokeColor="#000000"
             android:strokeLineCap="round"
             android:strokeLineJoin="round" />
         <!-- Text Bars -->
         <path
-            android:fillColor="#FFFFFF"
+            android:fillColor="#000000"
             android:pathData="M16,20 L48,20 M16,32 L40,32 M16,44 L48,44"
             android:strokeWidth="4"
-            android:strokeColor="#FFFFFF"
+            android:strokeColor="#000000"
             android:strokeLineCap="round" />
     </group>
 </vector>

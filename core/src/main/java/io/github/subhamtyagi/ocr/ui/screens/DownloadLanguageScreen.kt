@@ -57,6 +57,7 @@ import io.github.subhamtyagi.ocr.data.model.Language
 import io.github.subhamtyagi.ocr.downloader.DownloadResult
 import io.github.subhamtyagi.ocr.downloader.DownloadResult.Failure
 import io.github.subhamtyagi.ocr.downloader.DownloadResult.Success
+import io.github.subhamtyagi.ocr.ui.composables.LanguageFilter
 import io.github.subhamtyagi.ocr.ui.composables.SearchBar
 import io.github.subhamtyagi.ocr.ui.composables.StatusBadge
 import io.github.subhamtyagi.ocr.ui.composables.SummaryCard
@@ -70,7 +71,7 @@ fun DownloadLanguageDataScreen(
     downloadViewModel: DownloadLanguageViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-   // val downloadedLanguages by downloadViewModel.downloadedLanguages.collectAsStateWithLifecycle()
+
     val selectedLanguages by downloadViewModel.selectedLanguages.collectAsStateWithLifecycle()
     val progressMap by downloadViewModel.downloadProgressMap.collectAsStateWithLifecycle()
     val downloadResultFlow = downloadViewModel.downloadResultFlow
@@ -80,9 +81,7 @@ fun DownloadLanguageDataScreen(
     }
     val languageList = downloadViewModel.getLanguagesList(selectedLanguages)
 
-    /*LaunchedEffect(Unit) {
-        //downloadViewModel.observeTessDirectory(languageList)
-    }*/
+
 
     LaunchedEffect(downloadResultFlow) {
         downloadResultFlow.collect { result ->
@@ -130,15 +129,27 @@ fun DownloadLanguageContent(
     deleteLanguage: (Language) -> Unit
 ) {
     var searchQuery by remember { mutableStateOf("") }
+    var activeFilter by remember { mutableStateOf(LanguageFilter.ALL) }
 
     val filteredList =
-        languageList.filter {
-            it.name.contains(searchQuery, ignoreCase = true)
+        languageList.filter { language ->
+            val matchesSearch = language.name.contains(searchQuery, ignoreCase = true)
+            val matchesFilter = when (activeFilter) {
+                LanguageFilter.ALL -> true
+                LanguageFilter.DOWNLOADED -> language.isDownloaded
+                LanguageFilter.SELECTED -> language.code in selectedCodes
+            }
+            matchesSearch && matchesFilter
         }
 
 
     Column(modifier = modifier) {
-        SummaryCard(languageList.count { it.isDownloaded }, selectedCodes.size)
+        SummaryCard(
+            downloadCount = languageList.count { it.isDownloaded },
+            selectedLanguageCount = selectedCodes.size,
+            activeFilter = activeFilter,
+            onFilterChange = { activeFilter = it }
+        )
         Spacer(modifier = Modifier.height(8.dp))
         SearchBar(
             searchQuery,

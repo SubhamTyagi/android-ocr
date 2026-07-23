@@ -1,5 +1,6 @@
 package io.github.subhamtyagi.ocr.ui.composables
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,8 +20,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
+enum class LanguageFilter {
+    ALL, DOWNLOADED, SELECTED
+}
+
 @Composable
-fun SummaryCard(downloadCount: Int, selectedLanguageCount: Int) {
+fun SummaryCard(
+    downloadCount: Int,
+    selectedLanguageCount: Int,
+    activeFilter: LanguageFilter = LanguageFilter.ALL,
+    onFilterChange: (LanguageFilter) -> Unit = {}
+) {
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,7 +55,7 @@ fun SummaryCard(downloadCount: Int, selectedLanguageCount: Int) {
             )
 
             Spacer(modifier = Modifier.height(8.dp))
-            StatsRow(downloadCount, selectedLanguageCount)
+            StatsRow(downloadCount, selectedLanguageCount, activeFilter, onFilterChange)
 
         }
     }
@@ -54,7 +64,12 @@ fun SummaryCard(downloadCount: Int, selectedLanguageCount: Int) {
 
 
 @Composable
-fun StatsRow(downloadCount: Int, selectedLanguageCount: Int) {
+fun StatsRow(
+    downloadCount: Int,
+    selectedLanguageCount: Int,
+    activeFilter: LanguageFilter,
+    onFilterChange: (LanguageFilter) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,6 +81,12 @@ fun StatsRow(downloadCount: Int, selectedLanguageCount: Int) {
             value = downloadCount,
             container = MaterialTheme.colorScheme.primaryContainer,
             content = MaterialTheme.colorScheme.onPrimaryContainer,
+            active = activeFilter == LanguageFilter.DOWNLOADED,
+            onClick = {
+                val nextFilter =
+                    if (activeFilter == LanguageFilter.DOWNLOADED) LanguageFilter.ALL else LanguageFilter.DOWNLOADED
+                onFilterChange(nextFilter)
+            },
             modifier = Modifier.weight(1f)
         )
         StatChip(
@@ -73,6 +94,12 @@ fun StatsRow(downloadCount: Int, selectedLanguageCount: Int) {
             value = selectedLanguageCount,
             container = MaterialTheme.colorScheme.secondaryContainer,
             content = MaterialTheme.colorScheme.onSecondaryContainer,
+            active = activeFilter == LanguageFilter.SELECTED,
+            onClick = {
+                val nextFilter =
+                    if (activeFilter == LanguageFilter.SELECTED) LanguageFilter.ALL else LanguageFilter.SELECTED
+                onFilterChange(nextFilter)
+            },
             modifier = Modifier.weight(1f)
         )
     }
@@ -81,10 +108,21 @@ fun StatsRow(downloadCount: Int, selectedLanguageCount: Int) {
 
 @Composable
 fun StatChip(
-    label: String, value: Int, container: Color, content: Color, modifier: Modifier = Modifier
+    label: String,
+    value: Int,
+    container: Color,
+    content: Color,
+    active: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Surface(
-        modifier = modifier, shape = RoundedCornerShape(16.dp), color = container
+        onClick = onClick,
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
+        color = container,
+        border = if (active) BorderStroke(2.dp, content) else null,
+        tonalElevation = if (active) 8.dp else 0.dp
     ) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
             Text(

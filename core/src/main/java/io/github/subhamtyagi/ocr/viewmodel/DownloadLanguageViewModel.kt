@@ -35,7 +35,6 @@ open class DownloadLanguageViewModel @Inject constructor(
     private val client: OkHttpClient,
 ) : ViewModel() {
 
-    private val TAG = "DownloadLanguageVM"
 
     private val _selectedLanguage = MutableStateFlow<Set<Language>>(emptySet())
     val selectedLanguages = _selectedLanguage.asStateFlow()
@@ -77,11 +76,10 @@ open class DownloadLanguageViewModel @Inject constructor(
             val request = Request.Builder().url(Utils.getDownloadUrl(language.code)).build()
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful) {
-                    Log.e(TAG, "Download failed for ${language.code}")
+
                     _downloadResultFlow.emit(
                         DownloadResult.Failure(
-                            language,
-                            "Failed to download file"
+                            language, "Failed to download file"
                         )
                     )
                     return@launch
@@ -125,14 +123,12 @@ open class DownloadLanguageViewModel @Inject constructor(
                 _downloadResultFlow.emit(DownloadResult.Success(language))
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error downloading ${language.code}", e)
             _downloadProgressMap.update { current ->
                 current.toMutableMap().apply { remove(language.code) }
             }
             _downloadResultFlow.emit(DownloadResult.Failure(language, e.message ?: "Unknown error"))
         }
     }
-
 
     fun getLanguagesList(selected: Set<Language>): List<Language> {
         return languageDataManager.getLanguagesList(selected)
@@ -144,31 +140,5 @@ open class DownloadLanguageViewModel @Inject constructor(
             updateSelectedLanguages(language = language, isSelected = false)
         }
 
-    }
-
-    /* fun isLanguageDataExist(language: Language): Boolean {
-         return languageDataManager.isLanguageDataDownloaded(languageCode = language.code)
-     }*/
-
-    //second method to observe download
-    //private lateinit var fileObserver: FileObserver
-
-    /* fun observeTessDirectory(languages: List<Language>) {
-         val tessdataDir = languageDataManager.baseDir
-         fileObserver =
-             object : FileObserver(tessdataDir.path, CREATE or DELETE or MOVED_TO or MOVED_FROM) {
-                 override fun onEvent(event: Int, path: String?) {
-                     viewModelScope.launch(Dispatchers.IO) {
-                       //  val downloaded = languages.filter { isLanguageDataExist(it) }
-                        // _downloadedLanguages.emit(downloaded)
-                     }
-                 }
-             }
-         fileObserver.startWatching()
-     }*/
-
-    override fun onCleared() {
-        super.onCleared()
-        // fileObserver.stopWatching()
     }
 }

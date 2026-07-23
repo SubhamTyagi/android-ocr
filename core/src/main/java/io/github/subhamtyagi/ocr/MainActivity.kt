@@ -19,9 +19,9 @@ import io.github.subhamtyagi.ocr.ui.NavigationItems
 import io.github.subhamtyagi.ocr.ui.composables.BottomNavBar
 import io.github.subhamtyagi.ocr.ui.screens.DownloadLanguageDataScreen
 import io.github.subhamtyagi.ocr.ui.screens.HomeScreen
-import io.github.subhamtyagi.ocr.ui.screens.SettingsImageProcessingScreen
+import io.github.subhamtyagi.ocr.ui.screens.ImageProcessingScreen
 import io.github.subhamtyagi.ocr.ui.screens.SettingsScreen
-import io.github.subhamtyagi.ocr.ui.screens.SettingsTesseractParameter
+import io.github.subhamtyagi.ocr.ui.screens.TesseractParametersScreen
 import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
 
 @AndroidEntryPoint
@@ -59,10 +59,10 @@ fun MyApp() {
                     SettingsScreen(navController = navController)
                 }
                 composable(NavigationItems.SettingsImageProcessing.route) {
-                    SettingsImageProcessingScreen(navController = navController)
+                    ImageProcessingScreen()
                 }
                 composable(NavigationItems.SettingsTesseractParameter.route) {
-                    SettingsTesseractParameter(navController = navController)
+                    TesseractParametersScreen()
                 }
             }
         })

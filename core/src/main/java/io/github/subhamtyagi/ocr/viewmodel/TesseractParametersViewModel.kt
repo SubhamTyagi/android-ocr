@@ -42,18 +42,28 @@ class TesseractParametersViewModel @Inject constructor(private val dataStoreMana
 
         viewModelScope.launch {
             dataStoreManager.preserveInterWordSpaces.collect {
-                _jCModifiers.value.preserveInterWordSpaces = it
+                _jCModifiers.value = _jCModifiers.value.copy(preserveInterWordSpaces = it)
             }
         }
 
         viewModelScope.launch {
-            dataStoreManager.chopEnable.collect { _jCModifiers.value.chopEnable = it }
-            dataStoreManager.languageNgramOn.collect { _jCModifiers.value.languageNgramOn = it }
-            dataStoreManager.textortForceMakePropWords.collect {
-                _jCModifiers.value.textortForceMakePropWords = it
+            dataStoreManager.chopEnable.collect {
+                _jCModifiers.value = _jCModifiers.value.copy(chopEnable = it)
             }
+        }
+        viewModelScope.launch {
+            dataStoreManager.languageNgramOn.collect {
+                _jCModifiers.value = _jCModifiers.value.copy(languageNgramOn = it)
+            }
+        }
+        viewModelScope.launch {
+            dataStoreManager.textortForceMakePropWords.collect {
+                _jCModifiers.value = _jCModifiers.value.copy(textortForceMakePropWords = it)
+            }
+        }
+        viewModelScope.launch {
             dataStoreManager.edgeMaxChildrenPerOutline.collect {
-                _jCModifiers.value.edgeMaxChildrenPerOutline = it
+                _jCModifiers.value = _jCModifiers.value.copy(edgeMaxChildrenPerOutline = it)
             }
         }
     }

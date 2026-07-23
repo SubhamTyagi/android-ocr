@@ -70,7 +70,7 @@ fun DownloadLanguageDataScreen(
     downloadViewModel: DownloadLanguageViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val downloadedLanguages by downloadViewModel.downloadedLanguages.collectAsStateWithLifecycle()
+   // val downloadedLanguages by downloadViewModel.downloadedLanguages.collectAsStateWithLifecycle()
     val selectedLanguages by downloadViewModel.selectedLanguages.collectAsStateWithLifecycle()
     val progressMap by downloadViewModel.downloadProgressMap.collectAsStateWithLifecycle()
     val downloadResultFlow = downloadViewModel.downloadResultFlow
@@ -78,10 +78,7 @@ fun DownloadLanguageDataScreen(
     val selectedCodes = remember(selectedLanguages) {
         selectedLanguages.map { it.code }.toSet()
     }
-
-    val languageList = remember(selectedLanguages, downloadedLanguages) {
-        downloadViewModel.getLanguagesList(selectedLanguages)
-    }
+    val languageList = downloadViewModel.getLanguagesList(selectedLanguages)
 
     LaunchedEffect(Unit) {
         downloadViewModel.observeTessDirectory(languageList)
@@ -91,6 +88,7 @@ fun DownloadLanguageDataScreen(
         downloadResultFlow.collect { result ->
             when (result) {
                 is Success -> {
+                   // downloadViewModel.observeTessDirectory(languageList)
                     Toast.makeText(
                         context,
                         "Downloaded ${result.language.name} successfully!",
@@ -133,11 +131,11 @@ fun DownloadLanguageContent(
 ) {
     var searchQuery by remember { mutableStateOf("") }
 
-    val filteredList = remember(languageList, searchQuery) {
+    val filteredList =
         languageList.filter {
             it.name.contains(searchQuery, ignoreCase = true)
         }
-    }
+
 
     Column(modifier = modifier) {
         SummaryCard(languageList.count { it.isDownloaded }, selectedCodes.size)

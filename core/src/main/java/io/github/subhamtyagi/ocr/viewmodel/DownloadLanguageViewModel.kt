@@ -91,10 +91,12 @@ open class DownloadLanguageViewModel @Inject constructor(
     fun downloadLanguage(
         language: Language
     ) = viewModelScope.launch(Dispatchers.IO) {
+
+
         val request = Request.Builder().url(Utils.getDownloadUrl(language.code)).build()
         val response = client.newCall(request).execute()
 
-        if (!response.isSuccessful || response.body == null) {
+        if (!response.isSuccessful) {
             Log.e(TAG, "Download failed for ${language.code}")
             _downloadResultFlow.emit(DownloadResult.Failure(language, "Failed to download file"))
             return@launch
@@ -132,7 +134,7 @@ open class DownloadLanguageViewModel @Inject constructor(
             }
             _downloadResultFlow.emit(DownloadResult.Success(language))
             //first method to observe download
-           // addToDownloadedLanguage(language)
+           //addToDownloadedLanguage(language)
 
         } catch (e: Exception) {
             _downloadResultFlow.emit(DownloadResult.Failure(language, e.message ?: "Unknown error"))

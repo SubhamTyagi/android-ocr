@@ -26,6 +26,9 @@ open class SettingsViewModel @Inject constructor(private val settingsDataManager
     private val _tile = MutableStateFlow(false)
     val tile: StateFlow<Boolean> = _tile.asStateFlow()
 
+    private val _showLanguageDialog = MutableStateFlow(false)
+    val showLanguageDialog: StateFlow<Boolean> = _showLanguageDialog.asStateFlow()
+
     init {
         viewModelScope.launch {
             settingsDataManager.advancedTessEnabled.collect { _advancedTessEnabled.value = it }
@@ -38,6 +41,9 @@ open class SettingsViewModel @Inject constructor(private val settingsDataManager
         }
         viewModelScope.launch {
             settingsDataManager.enableTile.collect { _tile.value = it }
+        }
+        viewModelScope.launch {
+            settingsDataManager.showLanguageDialog.collect { _showLanguageDialog.value = it }
         }
     }
 
@@ -55,5 +61,9 @@ open class SettingsViewModel @Inject constructor(private val settingsDataManager
 
     fun updateTile(value: Boolean) = viewModelScope.launch {
         settingsDataManager.setTile(value)
+    }
+
+    fun updateShowLanguageDialog(value: Boolean) = viewModelScope.launch {
+        settingsDataManager.setShowLanguageDialog(value)
     }
 }

@@ -23,6 +23,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import io.github.subhamtyagi.ocr.data.HistoryRepository
 import io.github.subhamtyagi.ocr.data.datastore.ImageProcessingDataManager
 import io.github.subhamtyagi.ocr.data.datastore.LanguageDataManager
+import io.github.subhamtyagi.ocr.data.datastore.SettingsDataManager
 import io.github.subhamtyagi.ocr.data.datastore.TesseractParameterDataManager
 import io.github.subhamtyagi.ocr.data.model.JCMState
 import io.github.subhamtyagi.ocr.data.model.Language
@@ -49,7 +50,8 @@ data class HomeUiState(
     val selectedLanguages: Set<Language> = emptySet(),
     val isProcessing: Boolean = false,
     val ocrProgress: Int = 100,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val showLanguageDialog: Boolean = false
 )
 
 @OptIn(kotlinx.coroutines.FlowPreview::class)
@@ -59,12 +61,14 @@ class HomeViewModel @Inject constructor(
     private val tesseractParameterDataManager: TesseractParameterDataManager,
     private val imageProcessingDataManager: ImageProcessingDataManager,
     private val languageDataManager: LanguageDataManager,
+    private val settingsDataManager: SettingsDataManager,
     private val historyRepository: HistoryRepository
 ) : ViewModel() {
 
     private val _isProcessing = MutableStateFlow(false)
     private val _ocrProgress = MutableStateFlow(100)
     private val _errorMessage = MutableStateFlow<String?>(null)
+    private val _showLanguageDialog = MutableStateFlow(false)
 
     private val _selectedLanguage = MutableStateFlow<Set<Language>>(emptySet())
     private val _pageSegMode = MutableStateFlow(6)
@@ -83,14 +87,16 @@ class HomeViewModel @Inject constructor(
         _selectedLanguage,
         _isProcessing,
         _ocrProgress,
-        _errorMessage
+        _errorMessage,
+        _showLanguageDialog
     ) { args ->
         HomeUiState(
             history = args[0] as List<History>,
             selectedLanguages = args[1] as Set<Language>,
             isProcessing = args[2] as Boolean,
             ocrProgress = args[3] as Int,
-            errorMessage = args[4] as? String
+            errorMessage = args[4] as? String,
+            showLanguageDialog = args[5] as Boolean
         )
     }.stateIn(
         scope = viewModelScope,
@@ -165,6 +171,10 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             imageProcessingDataManager.deSkew.collect { _deSkew.value = it }
         }
+
+        viewModelScope.launch {
+            settingsDataManager.showLanguageDialog.collect { _showLanguageDialog.value = it }
+        }
     }
 
     fun initOCR() = viewModelScope.launch {
@@ -173,48 +183,57 @@ class HomeViewModel @Inject constructor(
             val downloadedLanguages = allSelectedLanguages.filter {
                 languageDataManager.isLanguageDataDownloaded(it.code)
             }
+            internalInitOCR(downloadedLanguages.toSet())
+        }
+    }
 
-            if (downloadedLanguages.isEmpty()) {
-                Log.d(
-                    "HomeViewModel",
-                    "initOCR: No downloaded languages selected. Selected: ${allSelectedLanguages.map { it.code }}"
-                )
-                ocr?.let {
-                    it.stop()
-                    it.tearDownEverything()
-                }
-                ocr = null
-                return@launch
-            }
-
+    private fun internalInitOCR(languages: Set<Language>) {
+        if (languages.isEmpty()) {
             Log.d(
                 "HomeViewModel",
-                "initOCR: Initializing with ${downloadedLanguages.map { it.code }}"
+                "initOCR: No downloaded languages selected."
             )
-            val baseDir = File(context.filesDir, "best")
             ocr?.let {
                 it.stop()
                 it.tearDownEverything()
             }
+            ocr = null
+            return
+        }
 
-            ocr = ImageTextReader(
-                path = baseDir.absolutePath,
-                pageSegMode = _pageSegMode.value,
-                ocrMode = _ocrMode.value,
-                languages = downloadedLanguages.toSet(),
-                parameters = _jCModifiers.value.getParameters(),
-                isParameterSet = _enableJCModifiers.value,
-            ) {
-                _ocrProgress.value = it.percent
-            }
+        Log.d(
+            "HomeViewModel",
+            "initOCR: Initializing with ${languages.map { it.code }}"
+        )
+        val baseDir = File(context.filesDir, "best")
+        ocr?.let {
+            it.stop()
+            it.tearDownEverything()
+        }
+
+        ocr = ImageTextReader(
+            path = baseDir.absolutePath,
+            pageSegMode = _pageSegMode.value,
+            ocrMode = _ocrMode.value,
+            languages = languages,
+            parameters = _jCModifiers.value.getParameters(),
+            isParameterSet = _enableJCModifiers.value,
+        ) {
+            _ocrProgress.value = it.percent
         }
     }
 
-    fun processImage(uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
-        _isProcessing.value = true
-        _errorMessage.value = null
-        try {
-            val bitmap = if (Build.VERSION.SDK_INT < 28) {
+    fun processImage(uri: Uri, languages: Set<Language> = emptySet()) =
+        viewModelScope.launch(Dispatchers.IO) {
+            _isProcessing.value = true
+            _errorMessage.value = null
+            try {
+                if (languages.isNotEmpty()) {
+                    ocrMutex.withLock {
+                        internalInitOCR(languages)
+                    }
+                }
+                val bitmap = if (Build.VERSION.SDK_INT < 28) {
                 @Suppress("DEPRECATION")
                 MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
             } else {

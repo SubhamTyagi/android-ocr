@@ -44,6 +44,7 @@ fun SettingsScreen(
     val imageProcessingFunctions by settingsViewModel.useImageProcessing.collectAsStateWithLifecycle()
     val persistData by settingsViewModel.persistData.collectAsStateWithLifecycle()
     val tile by settingsViewModel.tile.collectAsStateWithLifecycle()
+    val showLanguageDialog by settingsViewModel.showLanguageDialog.collectAsStateWithLifecycle()
 
     SettingsContent(
         modifier = modifier,
@@ -51,10 +52,12 @@ fun SettingsScreen(
         imageProcessingFunctions = imageProcessingFunctions,
         persistData = persistData,
         tile = tile,
+        showLanguageDialog = showLanguageDialog,
         onImageProcessingFunctionsChange = settingsViewModel::updateUseGrayscale,
         onPersistDataChange = settingsViewModel::updatePersistData,
         onTileChange = settingsViewModel::updateTile,
         onAdvanceTessEnabledChange = settingsViewModel::updateAdvancedTessEnabled,
+        onShowLanguageDialogChange = settingsViewModel::updateShowLanguageDialog,
         onNavigateToTesseractSettings = {
             navController.navigate(NavigationItems.SettingsTesseractParameter.route)
         },
@@ -70,10 +73,12 @@ fun SettingsContent(
     imageProcessingFunctions: Boolean,
     persistData: Boolean,
     tile: Boolean,
+    showLanguageDialog: Boolean,
     onAdvanceTessEnabledChange: (Boolean) -> Unit,
     onImageProcessingFunctionsChange: (Boolean) -> Unit,
     onPersistDataChange: (Boolean) -> Unit,
     onTileChange: (Boolean) -> Unit,
+    onShowLanguageDialogChange: (Boolean) -> Unit,
     onNavigateToTesseractSettings: () -> Unit,
     onNavigateToImageProcessing: () -> Unit,
     modifier: Modifier = Modifier,
@@ -139,6 +144,12 @@ fun SettingsContent(
                 checked = persistData,
                 onCheckedChange = onPersistDataChange
             )
+            SwitchPreference(
+                title = stringResource(R.string.show_language_selection_dialog_title),
+                summary = stringResource(R.string.show_language_selection_dialog_summary),
+                checked = showLanguageDialog,
+                onCheckedChange = onShowLanguageDialogChange
+            )
 
             Text(stringResource(R.string.about), style = MaterialTheme.typography.titleMedium)
             HorizontalDivider()
@@ -166,16 +177,19 @@ fun SettingScreenPreview() {
         var useGrayscale by remember { mutableStateOf(false) }
         var persistData by remember { mutableStateOf(false) }
         var tile by remember { mutableStateOf(false) }
+        var showLanguageDialog by remember { mutableStateOf(false) }
 
         SettingsContent(
             advancedTessEnabled = advancedTessEnabled,
             imageProcessingFunctions = useGrayscale,
             persistData = persistData,
             tile = tile,
+            showLanguageDialog = showLanguageDialog,
             onImageProcessingFunctionsChange = { useGrayscale = it },
             onPersistDataChange = { persistData = it },
             onTileChange = { tile = it },
             onAdvanceTessEnabledChange = { advancedTessEnabled = it },
+            onShowLanguageDialogChange = { showLanguageDialog = it },
             onNavigateToTesseractSettings = {},
             onNavigateToImageProcessing = {}
         )

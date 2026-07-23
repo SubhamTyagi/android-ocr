@@ -77,6 +77,8 @@
     <string name="pre_process_image_for_enhanced_accuracy">Pre-process image for enhanced accuracy</string>
      <string name="persist_data">Persist Data</string>
     <string name="save_history_and_show_them_on_home_screen">Save history and show them on Home Screen</string>
+    <string name="show_language_selection_dialog_title">Show Language Selection Dialog</string>
+    <string name="show_language_selection_dialog_summary">Show a dialog to choose languages after cropping an image</string>
     <string name="about">About</string>
     <string name="page_segmentation_mode">Page segmentation mode</string>
     <string name="it_direct_how_tesseract_splits_image_in_lines_of_text_and_words">It direct how Tesseract splits image in lines of text and words.</string>

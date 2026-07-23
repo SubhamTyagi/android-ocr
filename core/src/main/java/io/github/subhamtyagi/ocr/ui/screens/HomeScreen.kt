@@ -9,6 +9,8 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,9 +27,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -38,6 +43,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -77,6 +83,9 @@ fun HomeScreen(
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
+    var pendingImageUri by remember { mutableStateOf<android.net.Uri?>(null) }
+    var showLanguageDialog by remember { mutableStateOf(false) }
+
     LaunchedEffect(uiState.errorMessage) {
         uiState.errorMessage?.let {
             snackbarHostState.showSnackbar(it)
@@ -86,10 +95,32 @@ fun HomeScreen(
 
     val cropImageLauncher = rememberLauncherForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
-            result.uriContent?.let {
-                homeViewModel.processImage(it)
+            result.uriContent?.let { uri ->
+                if (uiState.showLanguageDialog) {
+                    pendingImageUri = uri
+                    showLanguageDialog = true
+                } else {
+                    homeViewModel.processImage(uri)
+                }
             }
         }
+    }
+
+    if (showLanguageDialog && pendingImageUri != null) {
+        LanguageSelectionDialog(
+            availableLanguages = uiState.selectedLanguages,
+            onDismiss = {
+                showLanguageDialog = false
+                pendingImageUri = null
+            },
+            onConfirm = { selected ->
+                pendingImageUri?.let { uri ->
+                    homeViewModel.processImage(uri, selected)
+                }
+                showLanguageDialog = false
+                pendingImageUri = null
+            }
+        )
     }
 
     HomeScreenP(
@@ -137,6 +168,61 @@ fun HomeScreenP(
             }
         }
     }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun LanguageSelectionDialog(
+    availableLanguages: Set<Language>,
+    onDismiss: () -> Unit,
+    onConfirm: (Set<Language>) -> Unit
+) {
+    var selectedLanguages by remember { mutableStateOf(availableLanguages) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Select Languages for Scan") },
+        text = {
+            Column {
+                Text(
+                    "Choose the languages present in the image for better accuracy.",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    availableLanguages.forEach { language ->
+                        FilterChip(
+                            selected = language in selectedLanguages,
+                            onClick = {
+                                selectedLanguages = if (language in selectedLanguages) {
+                                    selectedLanguages - language
+                                } else {
+                                    selectedLanguages + language
+                                }
+                            },
+                            label = { Text(language.name) }
+                        )
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = { onConfirm(selectedLanguages) },
+                enabled = selectedLanguages.isNotEmpty()
+            ) {
+                Text("Start OCR")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
 }
 
 @Composable

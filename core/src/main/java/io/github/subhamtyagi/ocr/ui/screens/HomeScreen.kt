@@ -1,13 +1,10 @@
 package io.github.subhamtyagi.ocr.ui.screens
 
-import android.net.Uri
 import android.util.Log
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,6 +33,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
@@ -51,14 +50,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
@@ -69,79 +66,34 @@ import io.github.subhamtyagi.ocr.data.room.History
 import io.github.subhamtyagi.ocr.ui.composables.DisplaySelectedLanguageName
 import io.github.subhamtyagi.ocr.ui.composables.ShowBottomSheet
 import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
+import io.github.subhamtyagi.ocr.viewmodel.HomeUiState
 import io.github.subhamtyagi.ocr.viewmodel.HomeViewModel
 
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
-    homeViewModel: HomeViewModel = hiltViewModel(),
-    navController: NavHostController
+    modifier: Modifier = Modifier, homeViewModel: HomeViewModel = hiltViewModel()
 ) {
-    val historyList by homeViewModel.history.collectAsStateWithLifecycle()
-    val selectedLanguage by homeViewModel.selectedLanguages.collectAsStateWithLifecycle()
-    val hasSettingsChanged by homeViewModel.hasSettingsChanged.collectAsStateWithLifecycle()
-    val progress by homeViewModel.ocrProgress.collectAsStateWithLifecycle()
-    val showOcrProgressBar by homeViewModel.isProcessing.collectAsStateWithLifecycle()
+    val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    val context = LocalContext.current
-
-    LaunchedEffect(hasSettingsChanged) {
-        if (hasSettingsChanged) {
-            homeViewModel.initOCR(context)
+    LaunchedEffect(uiState.errorMessage) {
+        uiState.errorMessage?.let {
+            snackbarHostState.showSnackbar(it)
+            homeViewModel.clearError()
         }
     }
 
     val cropImageLauncher = rememberLauncherForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
             result.uriContent?.let {
-                homeViewModel.processImage(context, it)
+                homeViewModel.processImage(it)
             }
         }
     }
 
-    HomeScreenP(historyList, selectedLanguage, cropImageLauncher, progress, showOcrProgressBar)
-}
-
-
-@Composable
-fun HomeScreenP(
-    historyList: List<History>,
-    selectedLanguage: Set<Language>,
-    cropImageLauncher: ManagedActivityResultLauncher<CropImageContractOptions, CropImageView.CropResult>,
-    progress: Int,
-    showOcrProgressBar: Boolean,
-    modifier: Modifier = Modifier
-) {
-    Scaffold(
-        floatingActionButton = {
-            MyFloatingActionButton(cropImageLauncher)
-        }, modifier = modifier
-    ) { paddingValues ->
-        Column {
-            val n = paddingValues
-            if (showOcrProgressBar) {
-                OcrProgressBar(progress)
-            }
-            DisplaySelectedLanguageName(selectedLanguage)
-            if (!historyList.isEmpty()) HistoryOfOCRItems(historyList = historyList)
-            else Text("No History")
-        }
-    }
-}
-
-@Composable
-fun MyFloatingActionButton(cropImageLauncher: ManagedActivityResultLauncher<CropImageContractOptions, CropImageView.CropResult>) {
-    var pickImage by remember { mutableStateOf(false) }
-    FloatingActionButton(
-        onClick = {
-            pickImage = true
-        }) {
-        Icon(Icons.Filled.Add, contentDescription = "Scan New Image")
-    }
-
-    if (pickImage) {
-        pickImage = false
+    HomeScreenP(
+        uiState = uiState, snackbarHostState = snackbarHostState, onScanImage = {
         cropImageLauncher.launch(
             CropImageContractOptions(
                 cropImageOptions = CropImageOptions(
@@ -149,6 +101,41 @@ fun MyFloatingActionButton(cropImageLauncher: ManagedActivityResultLauncher<Crop
                 ), uri = null
             )
         )
+    }, onDeleteHistory = { homeViewModel.deleteHistory(it) }, modifier = modifier
+    )
+}
+
+
+@Composable
+fun HomeScreenP(
+    uiState: HomeUiState,
+    snackbarHostState: SnackbarHostState,
+    onScanImage: () -> Unit,
+    onDeleteHistory: (History) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) }, floatingActionButton = {
+        FloatingActionButton(onClick = onScanImage) {
+            Icon(Icons.Filled.Add, contentDescription = "Scan New Image")
+        }
+    }, modifier = modifier
+    ) { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues)) {
+            if (uiState.isProcessing) {
+                OcrProgressBar(uiState.ocrProgress)
+            }
+            DisplaySelectedLanguageName(uiState.selectedLanguages)
+            if (uiState.history.isNotEmpty()) {
+                HistoryOfOCRItems(
+                    historyList = uiState.history, onDelete = onDeleteHistory
+                )
+            } else {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text("No History", style = MaterialTheme.typography.bodyLarge)
+                }
+            }
+        }
     }
 }
 
@@ -160,10 +147,7 @@ fun OcrProgressBar(progress: Int) {
     ) {
         LinearProgressIndicator(
             progress = {
-                (progress * 1.5f / 100f).coerceIn(
-                    0f,
-                    1f
-                )
+                (progress * 1.5f / 100f).coerceIn(0f, 1f)
             },//tesseract only show the progress % only till 67
             modifier = Modifier.fillMaxWidth()
         )
@@ -173,7 +157,7 @@ fun OcrProgressBar(progress: Int) {
 
 @Composable
 fun HistoryOfOCRItems(
-    historyList: List<History>
+    historyList: List<History>, onDelete: (History) -> Unit
 ) {
     var selectedHistory by remember { mutableStateOf<History?>(null) }
 
@@ -189,7 +173,6 @@ fun HistoryOfOCRItems(
             Column(
                 modifier = Modifier.padding(20.dp)
             ) {
-
                 Text(
                     text = "History",
                     style = MaterialTheme.typography.headlineSmall,
@@ -199,121 +182,37 @@ fun HistoryOfOCRItems(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
-                    text = "${historyList.size} OCRed Images${if (historyList.size != 1) "s" else ""}",
+                    text = "${historyList.size} OCRed Image${if (historyList.size != 1) "s" else ""}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
-        if (historyList.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "No history available",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.outline
+
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(
+                horizontal = 16.dp, vertical = 8.dp
+            ), verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(historyList, key = { it.id ?: it.imagePath }) { historyItem ->
+                HistoryItems(
+                    historyItem,
+                    onClick = {
+                        selectedHistory = historyItem
+                    },
+                    onLongClick = { },
+                    onDelete = { onDelete(historyItem) },
+                    onFavorite = { },
                 )
-            }
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(
-                    horizontal = 16.dp,
-                    vertical = 8.dp
-                ),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(historyList) { historyItem ->
-                    HistoryItems(
-                        historyItem,
-                        onClick = {
-                            selectedHistory = historyItem
-                        },
-                        onLongClick = { },
-                        onDelete = { },
-                        onFavorite = { },
-                    )
-                }
             }
         }
     }
 
     selectedHistory?.let {
         ShowBottomSheet(
-            historyItem = it,
-            dismiss = {
+            historyItem = it, dismiss = {
                 selectedHistory = null
-            }
-        )
-    }
-}
-
-@Composable
-fun HistoryItems1(
-    items: History,
-    onClick: () -> Unit
-) {
-    ElevatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(20.dp),
-        elevation = CardDefaults.elevatedCardElevation(
-            defaultElevation = 4.dp
-        )
-    ) {
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Image(
-                painter = rememberAsyncImagePainter(items.imagePath),
-                contentDescription = items.title,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(90.dp)
-                    .clip(RoundedCornerShape(14.dp))
-            )
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-
-                Text(
-                    text = items.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = items.ocrText,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                /*Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = items.date,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )*/
-            }
-        }
+            })
     }
 }
 
@@ -332,23 +231,20 @@ fun HistoryItems(
             when (value) {
                 SwipeToDismissBoxValue.EndToStart -> {
                     onDelete()
-                    false // don't actually remove the composable here; let the caller update the list, which removes it from state
+                    false
                 }
 
                 SwipeToDismissBoxValue.StartToEnd -> {
                     onFavorite()
-                    false // snap back after triggering the action, since this isn't a destructive swipe
+                    false
                 }
 
                 SwipeToDismissBoxValue.Settled -> true
             }
-        }
-    )
+        })
 
     SwipeToDismissBox(
-        state = dismissState,
-        modifier = modifier.fillMaxWidth(),
-        backgroundContent = {
+        state = dismissState, modifier = modifier.fillMaxWidth(), backgroundContent = {
             val (color, icon, alignment) = when (dismissState.dismissDirection) {
                 SwipeToDismissBoxValue.StartToEnd -> Triple(
                     Color(0xFFFFC107), Icons.Default.Star, Alignment.CenterStart
@@ -365,21 +261,18 @@ fun HistoryItems(
                     .fillMaxSize()
                     .clip(RoundedCornerShape(20.dp))
                     .background(color)
-                    .padding(horizontal = 24.dp),
-                contentAlignment = alignment
+                    .padding(horizontal = 24.dp), contentAlignment = alignment
             ) {
                 icon?.let {
                     Icon(it, contentDescription = null, tint = Color.White)
                 }
             }
-        }
-    ) {
+        }) {
         ElevatedCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .combinedClickable(
-                    onClick = onClick,
-                    onLongClick = onLongClick
+                    onClick = onClick, onLongClick = onLongClick
                 ),
             shape = RoundedCornerShape(20.dp),
             elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
@@ -427,35 +320,21 @@ fun HistoryItems(
 @Composable
 fun HomeScreenPreview() {
     CharacherRecognizerTheme {
-        val list = arrayListOf<History>()
-        repeat(5) {
-            list.add(
-                History(
-                    title = "Title $it",
-                    ocrText = " Text ${it * it}",
-                    imagePath = "R.drawable.drawable_default_image_60"
-                )
+        val list = List(5) {
+            History(
+                title = "Title $it",
+                ocrText = " Text ${it * it}",
+                imagePath = "R.drawable.drawable_default_image_60"
             )
         }
-        var croppedImageUri by remember { mutableStateOf<Uri?>(null) }
-        val cropImageLauncher = rememberLauncherForActivityResult(CropImageContract()) { result ->
-            if (result.isSuccessful) {
-                croppedImageUri = result.uriContent
-                var croppedBitmap = result.bitmap
-
-            }
-        }
         HomeScreenP(
-            historyList = list, setOf(
-                Language(
-                    name = "English", code = "en", isDownloaded = true, isSelected = true
-                ),
-                Language(
-                    name = "Latin", code = "lt", isDownloaded = false, isSelected = false
-                ),
-            ), cropImageLauncher,
-            10,
-            true
-        )
+            uiState = HomeUiState(
+            history = list, selectedLanguages = setOf(
+                Language(name = "English", code = "en", isDownloaded = true, isSelected = true)
+            ), ocrProgress = 10, isProcessing = true
+        ),
+            snackbarHostState = remember { SnackbarHostState() },
+            onScanImage = {},
+            onDeleteHistory = {})
     }
 }

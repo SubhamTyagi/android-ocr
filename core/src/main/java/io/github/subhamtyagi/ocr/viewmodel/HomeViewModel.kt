@@ -6,6 +6,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.googlecode.leptonica.android.AdaptiveMap
@@ -18,79 +19,92 @@ import com.googlecode.leptonica.android.Rotate
 import com.googlecode.leptonica.android.Skew
 import com.googlecode.leptonica.android.WriteFile
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import io.github.subhamtyagi.ocr.data.HistoryRepository
 import io.github.subhamtyagi.ocr.data.datastore.ImageProcessingDataManager
 import io.github.subhamtyagi.ocr.data.datastore.LanguageDataManager
 import io.github.subhamtyagi.ocr.data.datastore.TesseractParameterDataManager
-import io.github.subhamtyagi.ocr.data.room.History
 import io.github.subhamtyagi.ocr.data.model.JCMState
 import io.github.subhamtyagi.ocr.data.model.Language
+import io.github.subhamtyagi.ocr.data.room.History
 import io.github.subhamtyagi.ocr.engine.ImageTextReader
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
+data class HomeUiState(
+    val history: List<History> = emptyList(),
+    val selectedLanguages: Set<Language> = emptySet(),
+    val isProcessing: Boolean = false,
+    val ocrProgress: Int = 100,
+    val errorMessage: String? = null
+)
 
+@OptIn(kotlinx.coroutines.FlowPreview::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val tesseractParameterDataManager: TesseractParameterDataManager,
     private val imageProcessingDataManager: ImageProcessingDataManager,
     private val languageDataManager: LanguageDataManager,
     private val historyRepository: HistoryRepository
 ) : ViewModel() {
 
-    val history = historyRepository.getHistoryList()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList<History>())
+    private val _isProcessing = MutableStateFlow(false)
+    private val _ocrProgress = MutableStateFlow(100)
+    private val _errorMessage = MutableStateFlow<String?>(null)
 
     private val _selectedLanguage = MutableStateFlow<Set<Language>>(emptySet())
-    val selectedLanguages = _selectedLanguage.asStateFlow()
-
     private val _pageSegMode = MutableStateFlow(6)
-    val pageSegMode: StateFlow<Int> = _pageSegMode.asStateFlow()
-
     private val _ocrMode = MutableStateFlow(0)
-    val ocrMode: StateFlow<Int> = _ocrMode.asStateFlow()
-
     private val _enableJCModifiers = MutableStateFlow(false)
-    val enableJCModifiers: StateFlow<Boolean> = _enableJCModifiers.asStateFlow()
-
     private val _jCModifiers = MutableStateFlow(JCMState())
-    val jCModifiers: StateFlow<JCMState> = _jCModifiers.asStateFlow()
-
     private val _enhanceContrast = MutableStateFlow(false)
-    val enhanceContrast: StateFlow<Boolean> = _enhanceContrast.asStateFlow()
-
     private val _unSharpMasking = MutableStateFlow(false)
-    val unSharpMasking: StateFlow<Boolean> = _unSharpMasking.asStateFlow()
-
     private val _otsu = MutableStateFlow(false)
-    val otsu: StateFlow<Boolean> = _otsu.asStateFlow()
-
     private val _deSkew = MutableStateFlow(false)
-    val deSkew: StateFlow<Boolean> = _deSkew.asStateFlow()
 
-    private val _hasSettingsChanged = MutableStateFlow(true)
-    val hasSettingsChanged: StateFlow<Boolean> = _hasSettingsChanged.asStateFlow()
+    private val ocrMutex = Mutex()
 
-    private val _isProcessing = MutableStateFlow(false)
-    val isProcessing: StateFlow<Boolean> = _isProcessing.asStateFlow()
+    val uiState: StateFlow<HomeUiState> = combine(
+        historyRepository.getHistoryList(),
+        _selectedLanguage,
+        _isProcessing,
+        _ocrProgress,
+        _errorMessage
+    ) { args ->
+        HomeUiState(
+            history = args[0] as List<History>,
+            selectedLanguages = args[1] as Set<Language>,
+            isProcessing = args[2] as Boolean,
+            ocrProgress = args[3] as Int,
+            errorMessage = args[4] as? String
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = HomeUiState()
+    )
 
-    private val _ocrProgress = MutableStateFlow(100)
-    val ocrProgress: StateFlow<Int> = _ocrProgress.asStateFlow()
-
-    var ocr: ImageTextReader? = null
+    private var ocr: ImageTextReader? = null
 
     init {
+        observeSettings()
+    }
+
+    private fun observeSettings() {
         viewModelScope.launch {
             combine(
                 _selectedLanguage,
@@ -102,113 +116,126 @@ class HomeViewModel @Inject constructor(
                 _unSharpMasking,
                 _otsu,
                 _deSkew
-            ) { true }.collect {
-                _hasSettingsChanged.value = it
-            }
-
-        }
-        viewModelScope.launch {
-            languageDataManager.selectedLanguages.collect {
-                _selectedLanguage.value = it
-            }
+            ) { args -> args.toList() }
+                .debounce(300.milliseconds)
+                .distinctUntilChanged()
+                .collect {
+                    Log.d("HomeViewModel", "observeSettings: Settings changed, initializing OCR")
+                    initOCR()
+                }
         }
 
         viewModelScope.launch {
-            tesseractParameterDataManager.ocrMode.collect {
-                _ocrMode.value = it
-            }
+            languageDataManager.selectedLanguages.collect { _selectedLanguage.value = it }
         }
 
         viewModelScope.launch {
-            tesseractParameterDataManager.preserveInterWordSpaces.collect {
-                _jCModifiers.value = _jCModifiers.value.copy(preserveInterWordSpaces = it)
-            }
+            tesseractParameterDataManager.ocrMode.collect { _ocrMode.value = it }
         }
 
         viewModelScope.launch {
-            tesseractParameterDataManager.chopEnable.collect {
-                _jCModifiers.value = jCModifiers.value.copy(chopEnable = it)
-            }
-        }
-        viewModelScope.launch {
-            tesseractParameterDataManager.languageNgramOn.collect {
-                _jCModifiers.value = jCModifiers.value.copy(languageNgramOn = it)
-            }
-        }
-        viewModelScope.launch {
-            tesseractParameterDataManager.textortForceMakePropWords.collect {
-                _jCModifiers.value = jCModifiers.value.copy(textortForceMakePropWords = it)
-            }
-        }
-        viewModelScope.launch {
-            tesseractParameterDataManager.edgeMaxChildrenPerOutline.collect {
-                _jCModifiers.value = jCModifiers.value.copy(edgeMaxChildrenPerOutline = it)
-            }
+            tesseractParameterDataManager.pageSegMode.collect { _pageSegMode.value = it }
         }
 
         viewModelScope.launch {
-            imageProcessingDataManager.enhanceContrast.collect {
-                _enhanceContrast.value = it
-            }
-        }
-        viewModelScope.launch {
-            imageProcessingDataManager.unSharpMasking.collect {
-                _unSharpMasking.value = it
-            }
+            tesseractParameterDataManager.enableJCModifier.collect { _enableJCModifiers.value = it }
         }
 
         viewModelScope.launch {
-            imageProcessingDataManager.otsu.collect {
-                _otsu.value = it
-            }
+            combine(
+                tesseractParameterDataManager.preserveInterWordSpaces,
+                tesseractParameterDataManager.chopEnable,
+                tesseractParameterDataManager.languageNgramOn,
+                tesseractParameterDataManager.textortForceMakePropWords,
+                tesseractParameterDataManager.edgeMaxChildrenPerOutline
+            ) { preserve, chop, ngram, textort, edge ->
+                JCMState(preserve, chop, ngram, textort, edge)
+            }.collect { _jCModifiers.value = it }
         }
 
         viewModelScope.launch {
-            imageProcessingDataManager.deSkew.collect {
-                _deSkew.value = it
+            imageProcessingDataManager.enhanceContrast.collect { _enhanceContrast.value = it }
+        }
+        viewModelScope.launch {
+            imageProcessingDataManager.unSharpMasking.collect { _unSharpMasking.value = it }
+        }
+        viewModelScope.launch {
+            imageProcessingDataManager.otsu.collect { _otsu.value = it }
+        }
+        viewModelScope.launch {
+            imageProcessingDataManager.deSkew.collect { _deSkew.value = it }
+        }
+    }
+
+    fun initOCR() = viewModelScope.launch {
+        ocrMutex.withLock {
+            val allSelectedLanguages = _selectedLanguage.value
+            val downloadedLanguages = allSelectedLanguages.filter {
+                languageDataManager.isLanguageDataDownloaded(it.code)
+            }
+
+            if (downloadedLanguages.isEmpty()) {
+                Log.d(
+                    "HomeViewModel",
+                    "initOCR: No downloaded languages selected. Selected: ${allSelectedLanguages.map { it.code }}"
+                )
+                ocr?.let {
+                    it.stop()
+                    it.tearDownEverything()
+                }
+                ocr = null
+                return@launch
+            }
+
+            Log.d(
+                "HomeViewModel",
+                "initOCR: Initializing with ${downloadedLanguages.map { it.code }}"
+            )
+            val baseDir = File(context.filesDir, "best")
+            ocr?.let {
+                it.stop()
+                it.tearDownEverything()
+            }
+
+            ocr = ImageTextReader(
+                path = baseDir.absolutePath,
+                pageSegMode = _pageSegMode.value,
+                ocrMode = _ocrMode.value,
+                languages = downloadedLanguages.toSet(),
+                parameters = _jCModifiers.value.getParameters(),
+                isParameterSet = _enableJCModifiers.value,
+            ) {
+                _ocrProgress.value = it.percent
             }
         }
     }
 
-
-    fun initOCR(context: Context) = viewModelScope.launch {
-
-        val baseDir = File(context.filesDir, "best")
-        ocr?.let {
-            it.stop()
-            it.tearDownEverything()
-        }
-        //Todo check for all languages are downloaded,
-        ocr = ImageTextReader(
-            path = baseDir.absolutePath,
-            pageSegMode = pageSegMode.value,
-            ocrMode = ocrMode.value,
-            languages = selectedLanguages.value,
-            parameters = jCModifiers.value.getParameters(),
-            isParameterSet = enableJCModifiers.value,
-        ) {
-            _ocrProgress.value = it.percent
-        }
-        _hasSettingsChanged.value = false
-    }
-
-    fun processImage(context: Context, uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
+    fun processImage(uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
         _isProcessing.value = true
+        _errorMessage.value = null
         try {
             val bitmap = if (Build.VERSION.SDK_INT < 28) {
+                @Suppress("DEPRECATION")
                 MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
             } else {
                 val source = ImageDecoder.createSource(context.contentResolver, uri)
                 ImageDecoder.decodeBitmap(source)
             }
 
-            val text = ocr?.getTextFromBitmap(preProcessBitmap(bitmap)) ?: "OCR not initialized properly."
+            val processedBitmap = preProcessBitmap(bitmap)
+
+            val text = ocrMutex.withLock {
+                ocr?.getTextFromBitmap(processedBitmap)
+            } ?: "OCR not initialized properly."
+
+            processedBitmap.recycle()
 
             val fileName = "cropped_image_${System.currentTimeMillis()}.png"
             val file = File(context.filesDir, fileName)
             FileOutputStream(file).use { outputStream ->
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
             }
+            bitmap.recycle()
 
             historyRepository.insert(
                 History(
@@ -218,10 +245,15 @@ class HomeViewModel @Inject constructor(
                 )
             )
         } catch (e: Exception) {
+            _errorMessage.value = "Failed to process image: ${e.message}"
             e.printStackTrace()
         } finally {
             _isProcessing.value = false
         }
+    }
+
+    fun clearError() {
+        _errorMessage.value = null
     }
 
     override fun onCleared() {
@@ -230,56 +262,45 @@ class HomeViewModel @Inject constructor(
         super.onCleared()
     }
 
-    fun getTextFromBitmap(
-        bitmap: Bitmap,
-        onResult: (String) -> Unit
-    ) = viewModelScope.launch(Dispatchers.IO) {
-        val text =
-            ocr?.getTextFromBitmap(preProcessBitmap(bitmap)) ?: "OCR not initialized properly."
-        withContext(Dispatchers.Main) {
-            onResult(text)
-        }
-    }
-
-    fun saveBitmapToStorage(
-        context: Context,
-        bitmap: Bitmap,
-        onResult: (File) -> Unit
-    ) = viewModelScope.launch(Dispatchers.IO) {
-        val fileName = "cropped_image_${System.currentTimeMillis()}.png"
-        val file = File(context.filesDir, fileName)
-        FileOutputStream(file).use { outputStream ->
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        }
-        withContext(Dispatchers.Main) {
-            onResult(file)
-        }
-    }
-
     fun preProcessBitmap(bitmap: Bitmap): Bitmap {
         var pix = preparePix(bitmap)
 
-        if (enhanceContrast.value) {
+        if (_enhanceContrast.value) {
+            val oldPix = pix
             pix = AdaptiveMap.pixContrastNorm(pix)
+            oldPix.recycle()
         }
 
-        if (unSharpMasking.value) {
+        if (_unSharpMasking.value) {
+            val oldPix = pix
             pix = Enhance.unsharpMasking(pix)
+            oldPix.recycle()
         }
 
-        if (otsu.value) {
+        if (_otsu.value) {
+            val oldPix = pix
             pix = Binarize.otsuAdaptiveThreshold(pix)
+            oldPix.recycle()
         }
 
-        if (deSkew.value) {
+        if (_deSkew.value) {
+            val oldPix = pix
             pix = rotateToCorrectSkew(pix)
+            oldPix.recycle()
         }
 
-        return WriteFile.writeBitmap(pix)
+        val resultBitmap = WriteFile.writeBitmap(pix)
+        pix.recycle()
+        return resultBitmap
     }
 
     private fun preparePix(bitmap: Bitmap): Pix {
-        return Convert.convertTo8(ReadFile.readBitmap(bitmap.copy(Bitmap.Config.ARGB_8888, true)))
+        val copy = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+        val originalPix = ReadFile.readBitmap(copy)
+        val pix = Convert.convertTo8(originalPix)
+        originalPix.recycle()
+        copy.recycle()
+        return pix
     }
 
     private fun rotateToCorrectSkew(pix: Pix): Pix {
@@ -287,12 +308,7 @@ class HomeViewModel @Inject constructor(
         return Rotate.rotate(pix, skewAngle)
     }
 
-    fun addHistory(history: History) = viewModelScope.launch {
-        historyRepository.insert(history = history)
-    }
-
     fun deleteHistory(history: History) = viewModelScope.launch {
         historyRepository.delete(history = history)
     }
-
 }

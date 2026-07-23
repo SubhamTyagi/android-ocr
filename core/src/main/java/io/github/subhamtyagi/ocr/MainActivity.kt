@@ -50,7 +50,7 @@ fun MyApp() {
                 modifier = Modifier.padding(paddingValues = padding)
             ) {
                 composable(NavigationItems.Home.route) {
-                    HomeScreen(navController = navController)
+                    HomeScreen()
                 }
                 composable(NavigationItems.Download.route) {
                     DownloadLanguageDataScreen()

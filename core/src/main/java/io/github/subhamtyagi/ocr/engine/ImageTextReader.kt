@@ -2,6 +2,7 @@ package io.github.subhamtyagi.ocr.engine
 
 import android.graphics.Bitmap
 import android.text.Html
+import android.util.Log
 import com.googlecode.tesseract.android.TessBaseAPI
 import io.github.subhamtyagi.ocr.data.model.Language
 
@@ -19,33 +20,44 @@ class ImageTextReader {
         progressNotifier: TessBaseAPI.ProgressNotifier
     ) {
         api = TessBaseAPI(progressNotifier)
+        val languageString = languages.joinToString("+") { it.code }
+        Log.d("ImageTextReader", "Initializing Tesseract with languages: $languageString at path: $path")
+        
         success = if (isParameterSet) {
             api.init(
                 path,
-                languages.joinToString("+") { it.code },
+                languageString,
                 ocrMode,
                 parameters
-            ) == true
+            )
 
         } else{
             api.init(
                 path,
-                languages.joinToString("+") { it.code }
-            ) == true
+                languageString
+            )
         }
+        Log.d("ImageTextReader", "Tesseract initialization success: $success")
         api.setPageSegMode(pageSegMode)
 
     }
 
+    val TAG="ImageTextReader"
     /**
      * Get the text from bitmap
      */
     fun getTextFromBitmap(bitmap: Bitmap): String {
+        if (!success) return "OCR engine was not initialized successfully."
+        if (bitmap.isRecycled) return "Provided bitmap is recycled."
 
         return try {
+            Log.d(TAG, "getTextFromBitmap: get text called with bitmap $bitmap")
             api.setImage(bitmap)
+            Log.d(TAG, "getTextFromBitmap: image set")
             val textOnImage = api.getHOCRText(1) ?: ""
+            Log.d(TAG, "getTextFromBitmap: text gethocrtext called")
             val cleanText = Html.fromHtml(textOnImage).toString().trim { it <= ' ' };
+            Log.d(TAG, "getTextFromBitmap: get text html")
             if (textOnImage.isEmpty()) {
                 "Scan Failed: Couldn't read the image\nProblem may be related to Tesseract or no Text on Image!"
             } else {

@@ -1,3 +1,5 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
 pluginManagement {
     repositories {
         google {
@@ -27,7 +29,7 @@ dependencyResolutionManagement {
     }
 }
 
-include (":core")
+include (":app")
 rootProject.name="Characher Recognizer"
 
 

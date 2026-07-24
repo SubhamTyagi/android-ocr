@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.kts.
+# proguardFiles setting in build.gradle.
 #
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
@@ -19,21 +19,3 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-#-keep class androidx.appcompat.widget.** { *; }
-
-#r8 ignore
--dontpreverify
--optimizationpasses 3
--mergeinterfacesaggressively
-
--repackageclasses
--allowaccessmodification
-#-flattenpackagehierarchy
--dontskipnonpubliclibraryclasses
-
-#r8 ignore
--optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*,method/inlining/short,class/merging/horizontal,class/merging/vertical
-
-#-obfuscationdictionary
-#-classobfuscationdictionary
-#-packageobfuscationdictionary

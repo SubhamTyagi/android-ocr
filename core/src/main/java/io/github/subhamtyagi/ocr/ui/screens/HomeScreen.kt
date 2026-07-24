@@ -1,5 +1,6 @@
 package io.github.subhamtyagi.ocr.ui.screens
 
+import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -78,12 +79,15 @@ import io.github.subhamtyagi.ocr.viewmodel.HomeViewModel
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier, homeViewModel: HomeViewModel = hiltViewModel()
+    modifier: Modifier = Modifier,
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    sharedImageUri: Uri? = null,
+    onSharedImageHandled: () -> Unit = {}
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    var pendingImageUri by remember { mutableStateOf<android.net.Uri?>(null) }
+    var pendingImageUri by remember { mutableStateOf<Uri?>(null) }
     var showLanguageDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(uiState.errorMessage) {
@@ -106,6 +110,19 @@ fun HomeScreen(
         }
     }
 
+    LaunchedEffect(sharedImageUri) {
+        sharedImageUri?.let { uri ->
+            cropImageLauncher.launch(
+                CropImageContractOptions(
+                    cropImageOptions = CropImageOptions(
+                        guidelines = CropImageView.Guidelines.ON
+                    ), uri = uri
+                )
+            )
+            onSharedImageHandled()
+        }
+    }
+
     if (showLanguageDialog && pendingImageUri != null) {
         LanguageSelectionDialog(
             availableLanguages = uiState.selectedLanguages,
@@ -123,7 +140,7 @@ fun HomeScreen(
         )
     }
 
-    HomeScreenP(
+    HomeScreenContent(
         uiState = uiState, snackbarHostState = snackbarHostState, onScanImage = {
         cropImageLauncher.launch(
             CropImageContractOptions(
@@ -138,7 +155,7 @@ fun HomeScreen(
 
 
 @Composable
-fun HomeScreenP(
+fun HomeScreenContent(
     uiState: HomeUiState,
     snackbarHostState: SnackbarHostState,
     onScanImage: () -> Unit,
@@ -413,7 +430,7 @@ fun HomeScreenPreview() {
                 imagePath = "R.drawable.drawable_default_image_60"
             )
         }
-        HomeScreenP(
+        HomeScreenContent(
             uiState = HomeUiState(
             history = list, selectedLanguages = setOf(
                 Language(name = "English", code = "en", isDownloaded = true, isSelected = true)

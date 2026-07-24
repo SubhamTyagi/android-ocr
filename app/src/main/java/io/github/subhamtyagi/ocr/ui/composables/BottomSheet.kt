@@ -1,7 +1,9 @@
 package io.github.subhamtyagi.ocr.ui.composables
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.widget.Toast
+import android.widget.Toast.makeText
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -48,13 +50,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import coil.compose.rememberAsyncImagePainter
+import io.github.subhamtyagi.ocr.R
 import io.github.subhamtyagi.ocr.data.room.History
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShowBottomSheet(
@@ -130,15 +135,16 @@ fun ShowBottomSheet(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
 
+                val text=stringResource(R.string.copied_to_clipboard)
                 FilledTonalIconButton(
                     onClick = {
                         clipboardManager.setText(
                             AnnotatedString(historyItem.ocrText)
                         )
 
-                        Toast.makeText(
+                        makeText(
                             context,
-                            "Copied to clipboard",
+                            text,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -157,7 +163,8 @@ fun ShowBottomSheet(
                         }
 
                         context.startActivity(
-                            Intent.createChooser(sendIntent, "Share OCR text")
+                            Intent.createChooser(sendIntent,
+                                context.getString(R.string.share_ocr_text))
                         )
                     }
                 ) {

@@ -24,7 +24,6 @@ class TesseractParametersViewModel @Inject constructor(private val dataStoreMana
 
     private val _enableJCModifiers = MutableStateFlow(false)
     val enableJCModifiers: StateFlow<Boolean> = _enableJCModifiers.asStateFlow()
-   // TODO: check for its correctness : whether is work or not(copy function)
     private val _jCModifiers = MutableStateFlow(JCMState())
     val jCModifiers: StateFlow<JCMState> = _jCModifiers.asStateFlow()
 

@@ -48,7 +48,7 @@ fun DisplaySelectedLanguageName(
 
             if (selectedLanguage.isEmpty()) {
                 Text(
-                    text = "No language Selected",
+                    text = stringResource(R.string.no_language_selected),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.outline
                 )

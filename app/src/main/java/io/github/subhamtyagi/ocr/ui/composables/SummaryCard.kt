@@ -17,8 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import io.github.subhamtyagi.ocr.R
 
 enum class LanguageFilter {
     ALL, DOWNLOADED, SELECTED
@@ -41,7 +43,7 @@ fun SummaryCard(
         ) {
 
             Text(
-                text = "OCR Languages",
+                text = stringResource(R.string.ocr_languages),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
             )
@@ -49,7 +51,7 @@ fun SummaryCard(
             Spacer(modifier = Modifier.height(6.dp))
 
             Text(
-                text = "Download language data and choose which ones OCR should use.",
+                text = stringResource(R.string.download_language_data_and_choose_which_ones_ocr_should_use),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -77,7 +79,7 @@ fun StatsRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         StatChip(
-            label = "Language data downloaded",
+            label = stringResource(R.string.language_data_downloaded),
             value = downloadCount,
             container = MaterialTheme.colorScheme.primaryContainer,
             content = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -90,7 +92,7 @@ fun StatsRow(
             modifier = Modifier.weight(1f)
         )
         StatChip(
-            label = "Language selected",
+            label = stringResource(R.string.language_selected),
             value = selectedLanguageCount,
             container = MaterialTheme.colorScheme.secondaryContainer,
             content = MaterialTheme.colorScheme.onSecondaryContainer,

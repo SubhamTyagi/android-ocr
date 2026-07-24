@@ -1,5 +1,6 @@
 package io.github.subhamtyagi.ocr.viewmodel
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -20,6 +21,7 @@ import com.googlecode.leptonica.android.Skew
 import com.googlecode.leptonica.android.WriteFile
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import io.github.subhamtyagi.ocr.R
 import io.github.subhamtyagi.ocr.data.HistoryRepository
 import io.github.subhamtyagi.ocr.data.datastore.ImageProcessingDataManager
 import io.github.subhamtyagi.ocr.data.datastore.LanguageDataManager
@@ -126,7 +128,6 @@ class HomeViewModel @Inject constructor(
                 .debounce(300.milliseconds)
                 .distinctUntilChanged()
                 .collect {
-                    Log.d("HomeViewModel", "observeSettings: Settings changed, initializing OCR")
                     initOCR()
                 }
         }
@@ -189,11 +190,7 @@ class HomeViewModel @Inject constructor(
 
     private fun internalInitOCR(languages: Set<Language>) {
         if (languages.isEmpty()) {
-            Log.d(
-                "HomeViewModel",
-                "initOCR: No downloaded languages selected."
-            )
-            ocr?.let {
+                       ocr?.let {
                 it.stop()
                 it.tearDownEverything()
             }
@@ -201,10 +198,7 @@ class HomeViewModel @Inject constructor(
             return
         }
 
-        Log.d(
-            "HomeViewModel",
-            "initOCR: Initializing with ${languages.map { it.code }}"
-        )
+        
         val baseDir = File(context.filesDir, "best")
         ocr?.let {
             it.stop()
@@ -223,6 +217,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    @SuppressLint("StringFormatInvalid")
     fun processImage(uri: Uri, languages: Set<Language> = emptySet()) =
         viewModelScope.launch(Dispatchers.IO) {
             _isProcessing.value = true
@@ -245,7 +240,7 @@ class HomeViewModel @Inject constructor(
 
             val text = ocrMutex.withLock {
                 ocr?.getTextFromBitmap(processedBitmap)
-            } ?: "OCR not initialized properly."
+            } ?: context.getString(R.string.ocr_not_initialized_properly)
 
             val accuracy = ocrMutex.withLock {
                 ocr?.getAccuracy() ?: 0
@@ -262,7 +257,7 @@ class HomeViewModel @Inject constructor(
 
             historyRepository.insert(
                 History(
-                    title = "Accuracy: $accuracy%",
+                    title = context.getString(R.string.accuracy, accuracy),
                     ocrText = text,
                     imagePath = file.absolutePath,
                     accuracy = accuracy

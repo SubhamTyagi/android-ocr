@@ -1,0 +1,39 @@
+Major Milestone: Jetpack Compose Migration
+
+The app has undergone a complete architectural and UI overhaul, moving away from legacy XML-based layouts and Java-heavy logic to a modern, reactive Kotlin-first approach.
+
+-Features & UI/UX Overhaul
+
+•Material 3 Implementation: Fully adopted Material Design 3 (M3) standards, providing a modern, clean, and accessible user interface.
+•Complete UI Migration: All screens have been rebuilt from the ground up using Jetpack Compose.
+•Enhanced Home Experience:
+	◦Integrated a real-time OCR Accuracy display.
+	◦Added a Summary Card for quick result overviews.
+•OCR History: Introducing a dedicated History screen to manage and revisit previous OCR results.
+•Improved Language Management:
+	◦Redesigned Download Language Screen with search/filtering capabilities.
+	◦Added Status Badges to distinguish between selected and downloaded languages.
+•Image Sharing Support: Users can now share images directly from other apps into the OCR engine.
+•Simplefied Settings: Split settings into specialized categories:
+	
+-Technical Improvements
+
+•Architecture Migration: Moved to MVVM (Model-View-ViewModel) architecture for better state management and testability.
+•Kotlin Migration: The core application logic has been entirely converted from Java to Kotlin.
+•Modern Data Storage:
+	◦Replaced legacy SharedPreferences with Jetpack DataStore for settings and preferences.
+	◦Implemented Room for persistent and observable OCR history data.
+•Dependency Injection: Integrated Hilt for robust and scalable dependency management.
+•Module Reorganization: Recently renamed directory and module names (e.g., separating the legacy code into oldApp) to improve project structure and build times.
+•Performance Optimization: Optimized the background processing logic, moving heavy OCR operations from the UI layer to specialized ViewModels and Coroutines.
+
+-Bug Fixes & Stability
+
+•Connectivity Improvements.
+•Fixed issues selecting multiple languages data.
+•Code Cleanup: Stripped out a significant amount of legacy boilerplate and unused resources.
+
+-Following support has been ended
+
+•Legacy support for SDK 21 and 22 has been ended due to Jetpack Compose.
+•Language Data type selection has been limited to only 'BEST'.

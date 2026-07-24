@@ -126,10 +126,10 @@ fun SettingsContent(
                 }
             }
             HorizontalDivider()
-            Text("Other Settings", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.other_settings), style = MaterialTheme.typography.titleMedium)
             SwitchPreference(
-                title = "Add Tile for floating window",
-                summary = "Use tile to select text on screen window",
+                title = stringResource(R.string.add_tile_for_floating_window),
+                summary = stringResource(R.string.add_tile_in_action_center_to_select_text_on_screen_window),
                 checked = tile,
                 onCheckedChange = onTileChange
             )

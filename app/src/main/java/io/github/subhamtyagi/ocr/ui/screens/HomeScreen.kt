@@ -58,6 +58,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -69,6 +70,7 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
+import io.github.subhamtyagi.ocr.R
 import io.github.subhamtyagi.ocr.data.model.Language
 import io.github.subhamtyagi.ocr.data.room.History
 import io.github.subhamtyagi.ocr.ui.composables.DisplaySelectedLanguageName
@@ -166,7 +168,7 @@ fun HomeScreenContent(
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) }, floatingActionButton = {
         FloatingActionButton(onClick = onScanImage) {
-            Icon(Icons.Filled.Add, contentDescription = "Scan New Image")
+            Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.scan_new_image))
         }
     }, modifier = modifier
     ) { paddingValues ->
@@ -181,7 +183,7 @@ fun HomeScreenContent(
                 )
             } else {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("No History", style = MaterialTheme.typography.bodyLarge)
+                    Text(stringResource(R.string.no_history), style = MaterialTheme.typography.bodyLarge)
                 }
             }
         }
@@ -199,11 +201,11 @@ fun LanguageSelectionDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select Languages for Scan") },
+        title = { Text(stringResource(R.string.select_languages_for_scan)) },
         text = {
             Column {
                 Text(
-                    "Choose the languages present in the image for better accuracy.",
+                    stringResource(R.string.choose_the_languages_present_in_this_image_for_better_accuracy),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -232,12 +234,12 @@ fun LanguageSelectionDialog(
                 onClick = { onConfirm(selectedLanguages) },
                 enabled = selectedLanguages.isNotEmpty()
             ) {
-                Text("Start OCR")
+                Text(stringResource(R.string.start_ocr))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
         }
     )
@@ -245,8 +247,7 @@ fun LanguageSelectionDialog(
 
 @Composable
 fun OcrProgressBar(progress: Int) {
-    Log.d("HomeScreen", "ProgressBar: $progress")
-    Row(
+        Row(
         modifier = Modifier.fillMaxWidth()
     ) {
         LinearProgressIndicator(
@@ -286,7 +287,7 @@ fun HistoryOfOCRItems(
                 modifier = Modifier.padding(20.dp)
             ) {
                 Text(
-                    text = "History",
+                    text = stringResource(R.string.history),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold
                 )
@@ -294,7 +295,11 @@ fun HistoryOfOCRItems(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
-                    text = "${historyList.size} OCRed Image${if (historyList.size != 1) "s" else ""}",
+                    text = stringResource(
+                        R.string.ocred_image,
+                        historyList.size,
+                        if (historyList.size != 1) "s" else ""
+                    ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

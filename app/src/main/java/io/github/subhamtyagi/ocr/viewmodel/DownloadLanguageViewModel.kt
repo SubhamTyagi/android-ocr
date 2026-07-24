@@ -1,10 +1,13 @@
 package io.github.subhamtyagi.ocr.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import io.github.subhamtyagi.ocr.R
 import io.github.subhamtyagi.ocr.data.Constants
 import io.github.subhamtyagi.ocr.data.Utils
 import io.github.subhamtyagi.ocr.data.datastore.LanguageDataManager
@@ -31,10 +34,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 open class DownloadLanguageViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val languageDataManager: LanguageDataManager,
     private val client: OkHttpClient,
 ) : ViewModel() {
-
 
     private val _selectedLanguage = MutableStateFlow<Set<Language>>(emptySet())
     val selectedLanguages = _selectedLanguage.asStateFlow()
@@ -68,7 +71,8 @@ open class DownloadLanguageViewModel @Inject constructor(
         language: Language
     ) = viewModelScope.launch(Dispatchers.IO) {
         if (!Utils.isNetworkAvailable(languageDataManager.context.applicationContext as Application)) {
-            _downloadResultFlow.emit(DownloadResult.Failure(language, "No internet connection"))
+            _downloadResultFlow.emit(DownloadResult.Failure(language,
+                context.getString(R.string.no_internet_connection)))
             return@launch
         }
 
@@ -79,7 +83,7 @@ open class DownloadLanguageViewModel @Inject constructor(
 
                     _downloadResultFlow.emit(
                         DownloadResult.Failure(
-                            language, "Failed to download file"
+                            language, context.getString(R.string.failed_to_download_file)
                         )
                     )
                     return@launch

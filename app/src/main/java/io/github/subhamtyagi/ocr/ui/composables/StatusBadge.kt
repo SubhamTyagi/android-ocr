@@ -8,23 +8,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import io.github.subhamtyagi.ocr.R
 
 @Composable
 fun StatusBadge(downloading: Boolean, downloaded: Boolean) {
     val (text, container, content) = when {
         downloading -> Triple(
-            "Downloading…",
+            stringResource(R.string.downloading),
             MaterialTheme.colorScheme.tertiaryContainer,
             MaterialTheme.colorScheme.onTertiaryContainer
         )
 
         downloaded -> Triple(
-            "Downloaded", Color(0xFFDCEEDC), Color(0xFF2E7D32)
+            stringResource(R.string.downloaded), Color(0xFFDCEEDC), Color(0xFF2E7D32)
         )
 
         else -> Triple(
-            "Not downloaded",
+            stringResource(R.string.not_downloaded),
             MaterialTheme.colorScheme.surfaceVariant,
             MaterialTheme.colorScheme.onSurfaceVariant
         )

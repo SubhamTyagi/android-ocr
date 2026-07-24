@@ -1,5 +1,6 @@
 package io.github.subhamtyagi.ocr.ui.screens
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -45,6 +46,7 @@ import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -65,6 +67,7 @@ import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
 import io.github.subhamtyagi.ocr.viewmodel.DownloadLanguageViewModel
 import kotlin.random.Random
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun DownloadLanguageDataScreen(
     modifier: Modifier = Modifier,
@@ -90,14 +93,18 @@ fun DownloadLanguageDataScreen(
 
                     Toast.makeText(
                         context,
-                        "Downloaded ${result.language.name} successfully!",
+                        context.getString(R.string.downloaded_successfully, result.language.name),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
                 is Failure -> {
                     Toast.makeText(
                         context,
-                        "Failed to download ${result.language.name}: ${result.reason}",
+                        context.getString(
+                            R.string.failed_to_download,
+                            result.language.name,
+                            result.reason
+                        ),
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -303,22 +310,22 @@ fun LanguageCard(
                     Icons.Filled.Delete, contentDescription = null
                 )
             },
-                title = { Text("Delete ${language.name}?") },
-                text = { Text("This will remove the downloaded OCR language data from your device.") },
+                title = { Text(stringResource(R.string.delete_lang, language.name)) },
+                text = { Text(stringResource(R.string.this_will_remove_the_downloaded_ocr_language_data_from_your_device)) },
                 confirmButton = {
                     FilledTonalButton(
                         onClick = {
                             deleteLanguage(language)
                             showDialog = false
                         }) {
-                        Text("Delete")
+                        Text(stringResource(R.string.delete))
                     }
                 }, dismissButton = {
                     TextButton(
                         onClick = {
                             showDialog = false
                         }) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.cancel))
                     }
                 })
         } else {
@@ -329,15 +336,15 @@ fun LanguageCard(
                         Icons.Filled.Download, contentDescription = null
                     )
                 },
-                title = { Text("Download ${language.name}?") },
-                text = { Text("The OCR language data will be downloaded and stored locally.") },
+                title = { Text(stringResource(R.string.download, language.name)) },
+                text = { Text(stringResource(R.string.the_ocr_language_data_will_be_downloaded_and_stored_locally)) },
                 confirmButton = {
                     FilledTonalButton(
                         onClick = {
                             downloadLanguage(language)
                             showDialog = false
                         }) {
-                        Text("Download")
+                        Text(stringResource(R.string.download))
                     }
                 },
                 dismissButton = {
@@ -345,7 +352,7 @@ fun LanguageCard(
                         onClick = {
                             showDialog = false
                         }) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.cancel))
                     }
                 })
         }
@@ -368,7 +375,7 @@ fun EmptySearchState(query: String) {
         )
         Spacer(Modifier.height(12.dp))
         Text(
-            text = "No languages match \"$query\"",
+            text = stringResource(R.string.no_languages_match, query),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center

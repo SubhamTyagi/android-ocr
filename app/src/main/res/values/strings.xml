@@ -95,4 +95,36 @@
     <string name="force_proportional_word_segmentation_on_all_rows">Force proportional word segmentation on all rows.</string>
     <string name="edge_max_children_per_outline">Edge Max Children per Outline</string>
     <string name="max_number_of_children_inside_a_character_outline_increase_this_value_id_some_of_kanji_characters_are_not_recognized_rejected">"Max number of children inside a character outline. Increase this value id some of KANJI characters are not recognized(rejected) "</string>
+
+
+    <string name="copied_to_clipboard1">Copied to clipboard</string>
+    <string name="share_ocr_text">Share OCR text</string>
+    <string name="no_language_selected">No language Selected</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="not_downloaded">Not downloaded</string>
+    <string name="ocr_languages">OCR Languages</string>
+    <string name="download_language_data_and_choose_which_ones_ocr_should_use">Download language data and choose which ones OCR should use.</string>
+    <string name="language_data_downloaded">Language data downloaded</string>
+    <string name="language_selected">Language selected</string>
+    <string name="downloaded_successfully">Downloaded %1$s successfully!</string>
+    <string name="failed_to_download">Failed to download %1$s: %2$s</string>
+    <string name="delete_lang">Delete %1$s?</string>
+    <string name="this_will_remove_the_downloaded_ocr_language_data_from_your_device">This will remove the downloaded OCR language data from your device.</string>
+    <string name="download">Download %1$s?</string>
+    <string name="the_ocr_language_data_will_be_downloaded_and_stored_locally">The OCR language data will be downloaded and stored locally.</string>
+    <string name="no_languages_match">No languages match \"%1$s\"</string>
+    <string name="scan_new_image">Scan New Image</string>
+    <string name="no_history">No History</string>
+    <string name="select_languages_for_scan">Select Languages for Scan</string>
+    <string name="choose_the_languages_present_in_this_image_for_better_accuracy">Choose the languages present in this image for better accuracy.</string>
+    <string name="start_ocr">Start OCR</string>
+    <string name="history">History</string>
+    <string name="ocred_image">%1$d OCRed Image%2$s</string>
+    <string name="other_settings">Other Settings</string>
+    <string name="add_tile_for_floating_window">Add Tile for floating window</string>
+    <string name="add_tile_in_action_center_to_select_text_on_screen_window">Add tile in action center to select text on screen window</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="failed_to_download_file">Failed to download file</string>
+    <string name="ocr_not_initialized_properly">OCR not initialized properly.</string>
+    <string name="accuracy">Accuracy: %1$d%</string>
 </resources>

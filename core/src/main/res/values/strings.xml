@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <!-- various key to store the setting values -->
-    <string name="key_language_for_tesseract" translatable="false">language_for_tesseract</string>
-    <string name="key_tess_training_data_source" translatable="false">tess_training_data_source</string>
-    <string name="key_grayscale_image_ocr" translatable="false">grayscale_image_ocr</string>
-    <string name="key_last_use_image_location" translatable="false">last_use_image_location</string>
-    <string name="key_last_use_image_text" translatable="false">last_use_image_text</string>
-    <string name="key_draw_box" translatable="false">key_draw_box</string>
-    <string name="key_persist_data" translatable="false">persist_data</string>
-    <string name="key_language_for_tesseract_multi" translatable="false">multi_languages</string>
-    <string name="key_ocr_psm_mode" translatable="false">key_ocr_psm_mode</string>
-    <string name="fbs" translatable="false">Fast/Best/Standard</string>
-    <string name="key_contrast" translatable="false">process_contrast</string>
-    <string name="key_un_sharp_masking" translatable="false">un_sharp_mask</string>
-    <string name="key_otsu_threshold" translatable="false">otsu_threshold</string>
-    <string name="key_find_skew_and_deskew" translatable="false">deskew_img</string>
-    <string name="key_enable_multiple_lang" translatable="false">key_enable_multiple_lang</string>
     <string name="language">Language</string>
     <string name="use_gray_scale_image_for_ocr">Pre-Process Image</string>
     <string name="gray_scale_detail">Pre-process image for enhanced accuracy</string>
@@ -52,9 +36,9 @@
     <string name="source_code">Source code</string>
     <string name="generic_image_description">Image</string>
     <string name="contrast_summary">Adaptively attempts to expand the contrast to the full dynamic range</string>
-    <string name="un_sharp_masking_summary">Performs unsharp masking (edge enhancement) of image</string>
+    <string name="un_sharp_masking_summary">Performs Un-sharp masking (edge enhancement) of image</string>
     <string name="otsu_summary">Performs locally-adaptive Otsu threshold binarization of image</string>
-    <string name="deskew_summary">Find the Skew and Deskew the Image</string>
+    <string name="deskew_summary">Find the Skew and De-skew the Image</string>
     <string name="perform_contrast">Enhance Contrast</string>
     <string name="un_sharp_masking">Un-Sharp Masking</string>
     <string name="otsu_threshold">OTSU Threshold</string>
@@ -75,4 +59,40 @@
     <string name="select_search_language">Select or Search Languages</string>
     <string name="learn_about_the_above_parameters">Learn more about the parameters</string>
     <string name="about_the_tesseract_parameters">Learn more</string>
+    <string name="search">Search</string>
+
+    <string name="app_name">OCR</string>
+    <string name="confirm_delete">Confirm Delete</string>
+    <string name="do_you_want_to_delete_the_language_data">Do You want to delete the language data</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_download">Confirm Download</string>
+    <string name="do_you_want_to_download_the_language_data">Do you want to download the language data?</string>
+    <string name="selected_languages">Selected Languages:</string>
+    <string name="advanced_tesseract_settings">Advanced Tesseract Settings</string>
+    <string name="set_tesseract_variable_parameter">Set Tesseract Variable/Parameter</string>
+    <string name="advance_tesseract_option_used_with_caution_only_use_these_option_if_you_know_what_are_you_doing">Advance tesseract option. Used with Caution; only use these option if you know what are you doing</string>
+    <string name="tesseract_variable_parameter_settings">Tesseract Variable/Parameter Settings</string>
+    <string name="use_image_enhancement_for_ocr">Use Image Enhancement for OCR</string>
+    <string name="pre_process_image_for_enhanced_accuracy">Pre-process image for enhanced accuracy</string>
+     <string name="persist_data">Persist Data</string>
+    <string name="save_history_and_show_them_on_home_screen">Save history and show them on Home Screen</string>
+    <string name="show_language_selection_dialog_title">Show Language Selection Dialog</string>
+    <string name="show_language_selection_dialog_summary">Show a dialog to choose languages after cropping an image</string>
+    <string name="about">About</string>
+    <string name="page_segmentation_mode">Page segmentation mode</string>
+    <string name="it_direct_how_tesseract_splits_image_in_lines_of_text_and_words">It direct how Tesseract splits image in lines of text and words.</string>
+    <string name="tesseract_ocr_engine_mode_oem">Tesseract OCR Engine Mode(oem)</string>
+    <string name="specify_ocr_engine_mode">Specify OCR Engine mode.</string>
+    <string name="japanese_chinese_parameters">Japanese/Chinese Parameters</string>
+    <string name="set_tesseract_parameters">Set Tesseract parameters</string>
+    <string name="preserve_interword_spaces">Preserve Interword spaces</string>
+    <string name="preserve_multiple_inter_word_spaces">Preserve multiple inter word spaces</string>
+    <string name="chop_enable">Chop Enable</string>
+    <string name="language_model_ngram_on">Language Model Ngram On</string>
+    <string name="turn_on_off_the_use_of_character_ngram_model">Turn on/off the use of character ngram model</string>
+    <string name="textord_force_make_prop_words">Textord Force Make Prop Words</string>
+    <string name="force_proportional_word_segmentation_on_all_rows">Force proportional word segmentation on all rows.</string>
+    <string name="edge_max_children_per_outline">Edge Max Children per Outline</string>
+    <string name="max_number_of_children_inside_a_character_outline_increase_this_value_id_some_of_kanji_characters_are_not_recognized_rejected">"Max number of children inside a character outline. Increase this value id some of KANJI characters are not recognized(rejected) "</string>
 </resources>

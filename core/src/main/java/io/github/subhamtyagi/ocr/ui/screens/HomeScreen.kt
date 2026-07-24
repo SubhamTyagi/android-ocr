@@ -426,9 +426,10 @@ fun HomeScreenPreview() {
         val list = List(5) {
             History(
                 id = it,
-                title = "Title $it",
+                title = "Accuracy: ${80 + it}%",
                 ocrText = " Text ${it * it}",
-                imagePath = "R.drawable.drawable_default_image_60"
+                imagePath = "R.drawable.drawable_default_image_60",
+                accuracy = 80 + it
             )
         }
         HomeScreenContent(

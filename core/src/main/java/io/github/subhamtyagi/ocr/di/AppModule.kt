@@ -54,6 +54,7 @@ object AppModule {
             HistoryDatabase::class.java,
             name = "app_history_database"
         )
+            .addMigrations(HistoryDatabase.MIGRATION_1_2)
             .fallbackToDestructiveMigration()
             .build()
     }

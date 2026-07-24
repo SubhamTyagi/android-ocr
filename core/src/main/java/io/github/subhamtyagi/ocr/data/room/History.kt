@@ -9,5 +9,5 @@ data class History(
     val title: String,
     val ocrText: String,
     val imagePath: String,
-
+    val accuracy: Int = 0
     )

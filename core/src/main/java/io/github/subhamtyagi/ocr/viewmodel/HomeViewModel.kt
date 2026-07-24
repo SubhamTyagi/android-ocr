@@ -247,6 +247,10 @@ class HomeViewModel @Inject constructor(
                 ocr?.getTextFromBitmap(processedBitmap)
             } ?: "OCR not initialized properly."
 
+            val accuracy = ocrMutex.withLock {
+                ocr?.getAccuracy() ?: 0
+            }
+
             processedBitmap.recycle()
 
             val fileName = "cropped_image_${System.currentTimeMillis()}.png"
@@ -258,9 +262,10 @@ class HomeViewModel @Inject constructor(
 
             historyRepository.insert(
                 History(
-                    title = "Ocr Text",
+                    title = "Accuracy: $accuracy%",
                     ocrText = text,
-                    imagePath = file.absolutePath
+                    imagePath = file.absolutePath,
+                    accuracy = accuracy
                 )
             )
         } catch (e: Exception) {

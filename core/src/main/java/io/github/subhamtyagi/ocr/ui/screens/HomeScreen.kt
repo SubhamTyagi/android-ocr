@@ -425,6 +425,7 @@ fun HomeScreenPreview() {
     CharacherRecognizerTheme {
         val list = List(5) {
             History(
+                id = it,
                 title = "Title $it",
                 ocrText = " Text ${it * it}",
                 imagePath = "R.drawable.drawable_default_image_60"

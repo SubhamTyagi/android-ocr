@@ -15,7 +15,7 @@ class SettingsDataManager(val context: Context) {
 
     companion object {
         val KEY_APP_ENABLE_TILE = booleanPreferencesKey("key_app_tile")
-        val KEY_APP_PERSIST_DATA = booleanPreferencesKey("key_app_persist_data")
+
 
         //main setting screen and some other screen are depends upon value of these
         val KEY_TESS_ADVANCE_OPTIONS_ENABLE = booleanPreferencesKey("key_tess_advance_tess_options")
@@ -25,7 +25,6 @@ class SettingsDataManager(val context: Context) {
 
     val advancedTessEnabled: Flow<Boolean> =
         dataStore.data.map { it[KEY_TESS_ADVANCE_OPTIONS_ENABLE] ?: false }
-    val persistData: Flow<Boolean> = dataStore.data.map { it[KEY_APP_PERSIST_DATA] ?: true }
     var enableTile: Flow<Boolean> = dataStore.data.map { it[KEY_APP_ENABLE_TILE] ?: true }
     val useImageProcessing: Flow<Boolean> =
         dataStore.data.map { it[KEY_IMAGE_PROCESSING_ENABLE] ?: true }
@@ -34,10 +33,6 @@ class SettingsDataManager(val context: Context) {
 
     suspend fun setTile(value: Boolean) {
         dataStore.edit { it[KEY_APP_ENABLE_TILE] = value }
-    }
-
-    suspend fun setPersistData(value: Boolean) {
-        dataStore.edit { it[KEY_APP_PERSIST_DATA] = value }
     }
 
     suspend fun setUseImageProcessing(value: Boolean) {

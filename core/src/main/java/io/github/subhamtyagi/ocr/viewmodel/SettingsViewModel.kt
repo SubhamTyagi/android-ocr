@@ -20,8 +20,6 @@ open class SettingsViewModel @Inject constructor(private val settingsDataManager
     private val _useImageProcessing = MutableStateFlow(true)
     val useImageProcessing: StateFlow<Boolean> = _useImageProcessing.asStateFlow()
 
-    private val _persistData = MutableStateFlow(true)
-    val persistData: StateFlow<Boolean> = _persistData.asStateFlow()
 
     private val _tile = MutableStateFlow(false)
     val tile: StateFlow<Boolean> = _tile.asStateFlow()
@@ -36,9 +34,7 @@ open class SettingsViewModel @Inject constructor(private val settingsDataManager
         viewModelScope.launch {
             settingsDataManager.useImageProcessing.collect { _useImageProcessing.value = it }
         }
-        viewModelScope.launch {
-            settingsDataManager.persistData.collect { _persistData.value = it }
-        }
+
         viewModelScope.launch {
             settingsDataManager.enableTile.collect { _tile.value = it }
         }
@@ -55,9 +51,6 @@ open class SettingsViewModel @Inject constructor(private val settingsDataManager
         settingsDataManager.setUseImageProcessing(value)
     }
 
-    fun updatePersistData(value: Boolean) = viewModelScope.launch {
-        settingsDataManager.setPersistData(value)
-    }
 
     fun updateTile(value: Boolean) = viewModelScope.launch {
         settingsDataManager.setTile(value)

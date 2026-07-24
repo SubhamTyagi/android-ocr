@@ -42,7 +42,6 @@ fun SettingsScreen(
 ) {
     val advancedTessEnabled by settingsViewModel.advancedTessEnabled.collectAsStateWithLifecycle()
     val imageProcessingFunctions by settingsViewModel.useImageProcessing.collectAsStateWithLifecycle()
-    val persistData by settingsViewModel.persistData.collectAsStateWithLifecycle()
     val tile by settingsViewModel.tile.collectAsStateWithLifecycle()
     val showLanguageDialog by settingsViewModel.showLanguageDialog.collectAsStateWithLifecycle()
 
@@ -50,11 +49,9 @@ fun SettingsScreen(
         modifier = modifier,
         advancedTessEnabled = advancedTessEnabled,
         imageProcessingFunctions = imageProcessingFunctions,
-        persistData = persistData,
         tile = tile,
         showLanguageDialog = showLanguageDialog,
         onImageProcessingFunctionsChange = settingsViewModel::updateUseGrayscale,
-        onPersistDataChange = settingsViewModel::updatePersistData,
         onTileChange = settingsViewModel::updateTile,
         onAdvanceTessEnabledChange = settingsViewModel::updateAdvancedTessEnabled,
         onShowLanguageDialogChange = settingsViewModel::updateShowLanguageDialog,
@@ -71,12 +68,10 @@ fun SettingsScreen(
 fun SettingsContent(
     advancedTessEnabled: Boolean,
     imageProcessingFunctions: Boolean,
-    persistData: Boolean,
     tile: Boolean,
     showLanguageDialog: Boolean,
     onAdvanceTessEnabledChange: (Boolean) -> Unit,
     onImageProcessingFunctionsChange: (Boolean) -> Unit,
-    onPersistDataChange: (Boolean) -> Unit,
     onTileChange: (Boolean) -> Unit,
     onShowLanguageDialogChange: (Boolean) -> Unit,
     onNavigateToTesseractSettings: () -> Unit,
@@ -139,12 +134,6 @@ fun SettingsContent(
                 onCheckedChange = onTileChange
             )
             SwitchPreference(
-                title = stringResource(R.string.persist_data),
-                summary = stringResource(R.string.save_history_and_show_them_on_home_screen),
-                checked = persistData,
-                onCheckedChange = onPersistDataChange
-            )
-            SwitchPreference(
                 title = stringResource(R.string.show_language_selection_dialog_title),
                 summary = stringResource(R.string.show_language_selection_dialog_summary),
                 checked = showLanguageDialog,
@@ -175,18 +164,15 @@ fun SettingScreenPreview() {
 
         var advancedTessEnabled by remember { mutableStateOf(false) }
         var useGrayscale by remember { mutableStateOf(false) }
-        var persistData by remember { mutableStateOf(false) }
         var tile by remember { mutableStateOf(false) }
         var showLanguageDialog by remember { mutableStateOf(false) }
 
         SettingsContent(
             advancedTessEnabled = advancedTessEnabled,
             imageProcessingFunctions = useGrayscale,
-            persistData = persistData,
             tile = tile,
             showLanguageDialog = showLanguageDialog,
             onImageProcessingFunctionsChange = { useGrayscale = it },
-            onPersistDataChange = { persistData = it },
             onTileChange = { tile = it },
             onAdvanceTessEnabledChange = { advancedTessEnabled = it },
             onShowLanguageDialogChange = { showLanguageDialog = it },

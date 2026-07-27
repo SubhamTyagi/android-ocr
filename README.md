@@ -1,63 +1,77 @@
-# OCR  ​  [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/packages/io.github.subhamtyagi.ocr/)
+# OCR - Character Recognizer
 
-<a href="https://hosted.weblate.org/projects/android-ocr" alt="Translate on Weblate"><img src="https://img.shields.io/badge/Translation-Weblate-red" ></a>
+[![F-Droid](https://img.shields.io/f-droid/v/io.github.subhamtyagi.ocr?logo=f-droid&style=flat-square)](https://f-droid.org/packages/io.github.subhamtyagi.ocr/)
+[![Translation Status](https://hosted.weblate.org/widgets/android-ocr/-/android-ocr/svg-badge.svg)](https://hosted.weblate.org/projects/android-ocr)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 
+A modern, privacy-focused Android application for Optical Character Recognition (OCR), capable of extracting text from images in over 120 languages.
 
-An OCR app that can recognize texts on image. 
+This app is powered by **Tesseract 5** via the [Tesseract4Android](https://github.com/adaptech-cz/Tesseract4Android) library, ensuring high accuracy and performance.
 
-This App is based on <a href="https://github.com/tesseract-ocr/tesseract/blob/master/README.md">Tesseract 5 </a> and its is first app which is based on Tesseract 5. This app is made possible by a library [Tesseract4Android](https://github.com/adaptech-cz/Tesseract4Android).
+---
 
+## 🚀 Features
 
-## 🚀<font color="#2467d6"><b>Features</b></font>
+*   **Offline Recognition**: Process images entirely on-device for maximum privacy.
+*   **Multi-Language Support**: Recognize 120+ [languages](https://tesseract-ocr.github.io/tessdoc/Data-Files) and process multiple languages in a single image.
+*   **Specialized Extraction**: Recognize Math equations.
+*   **Seamless Integration**: Share images directly from your gallery to the app.
+*   **Crop & Select**: Precise control over which part of the image to recognize.
+*   **Clipboard Integration**: One-tap copy of recognized text.
 
-* Extract Text From Images.
-* Copy data to Clipboard.
-* Select any part of Text.
-* Process multiple languages in single image(Required changes in settings).
-* Process images directly from the gallery on your device via the share menu.
-* Based on latest [Training Data](https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md).
-* Recognize 120+ [languages](https://tesseract-ocr.github.io/tessdoc/Data-Files)
-* 3 Type of data i.e 'Best', 'fast', 'standard' for more info [see](https://github.com/tesseract-ocr/tessdoc/blob/master/Data-Files.md)
-* Recognize Maths/equation detection
+---
 
-### Translate this app on [Weblate](https://hosted.weblate.org/projects/android-ocr).
+## 🛠 Tech Stack
 
+The project leverages modern Android development tools and best practices:
 
-## <font color="#2467d6"><b>Required Permissions </b></font>
+*   **UI**: [Jetpack Compose](https://developer.android.com/jetpack/compose) for a modern, declarative UI.
+*   **Architecture**: MVVM with [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) for dependency injection.
+*   **Database**: [Room](https://developer.android.com/training/data-storage/room) for local data persistence.
+*   **Image Loading**: [Coil](https://coil-kt.github.io/coil/) for efficient image processing.
+*   **OCR Engine**: [Tesseract 5](https://github.com/tesseract-ocr/tesseract) via [Tesseract4Android](https://github.com/adaptech-cz/Tesseract4Android).
+*   **Concurrency**: Kotlin Coroutines and Flow.
 
-* Internet : Downloading the training data 
-* Access Internet state: For proper downloading of training data.
+---
 
+## 📸 Screenshots
 
-## <font color="#2467d6"><b>Screenshots </b></font>
-
-| HOME | SETTING | RESULTS |LANGUAGE|
-|:-:|:-:|:-:|:-:|
-| ![HOME](fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg?raw=true "home") | ![RESULT](fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg?raw=true "RESULT") | ![SETTINGS](fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg?raw=true "SETTINGS") | ![LANGUAGES](fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg?raw=true "LANGUAGES") |
-
-## <font color="#2467d6"><b>Code Contributors </b></font>
-
-* Shubham Tyagi
-* New UI is designed by [Hannes Gehrold](https://github.com/h4n23s)
-* [urlordjames](https://github.com/urlordjames)
-
-
-## <font color="#2467d6"><b>[Icon ](https://github.com/SubhamTyagi/android-ocr/issues/15) </b></font>
-
-*  App icon is designed by [Nucleus-ffm](https://github.com/nucleus-ffm)
- 
-    - Mastodon: [Nucleus](https://social.tchncs.de/@Nucleus) 
+| Home | Result | Settings | Languages |
+|:---:|:---:|:---:|:---:|
+| ![HOME](fastlane/metadata/android/en-US/images/phoneScreenshots/01.png?raw=true) | ![RESULT](fastlane/metadata/android/en-US/images/phoneScreenshots/02.png?raw=true) | ![SETTINGS](fastlane/metadata/android/en-US/images/phoneScreenshots/03.png?raw=true) | ![LANGUAGES](fastlane/metadata/android/en-US/images/phoneScreenshots/04.png?raw=true) |
 
 
-* Old App icon was conceptualized by [mondstern](https://mastodon.technology/@mondstern)
 
-    - Mastodon:  [mondstern](https://mastodon.technology/@mondstern)
-    - Website :  [here](https://www.moooon.de/)
-   
-  
-  
-## 📓 <font color="#2467d6"><b>Licenses of various Libraries</b></font>
- * Tesseract and Tesseract Data: [Apache 2.0](https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE)
-* Tesseract4Android : [Apache 2.0](https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE)
-* ImageCropper : [Apache 2.0](https://github.com/ArthurHub/Android-Image-Cropper/blob/master/LICENSE.txt)
-* SpinnerDialog: [Apache 2.0](https://github.com/MdFarhanRaja/SearchableSpinner/blob/master/LICENSE)
+---
+
+## 📂 Project Structure
+
+*   `:app`: The main application module containing the UI and business logic.
+*   `:cropper`: A dedicated module for image cropping functionality.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Whether it's reporting a bug, suggesting a feature, or submitting a Pull Request:
+
+### Translation
+Help us reach more users by translating the app on [Weblate](https://hosted.weblate.org/projects/android-ocr).
+
+---
+
+## 📜 Licenses & Credits
+
+### Libraries
+*   **Tesseract Engine**: [Apache 2.0](https://github.com/tesseract-ocr/tesseract/blob/master/LICENSE)
+*   **Tesseract4Android**: [Apache 2.0](https://github.com/adaptech-cz/Tesseract4Android/blob/master/LICENSE)
+
+### Contributors
+*   [Shubham Tyagi](https://github.com/SubhamTyagi) - I
+*   [Hannes Gehrold](https://github.com/h4n23s) - Old UI Design
+*   [urlordjames](https://github.com/urlordjames) - Code Contributor
+
+### Graphics
+*   App icon designed by [Nucleus-ffm](https://github.com/nucleus-ffm).
+*   Original icon concept by [mondstern](https://mastodon.technology/@mondstern).
+

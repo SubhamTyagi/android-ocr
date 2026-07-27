@@ -29,7 +29,7 @@ out/
 build/
 
 oldApp/release/
-
+app/release
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -111,4 +111,8 @@ fastlane/readme.md
 #android ide
 .androidide/
 .androidide/*
+
+
+.env*.local
+
 

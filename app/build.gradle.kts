@@ -8,11 +8,7 @@ plugins {
 
 android {
     namespace = "io.github.subhamtyagi.ocr"
-    compileSdk {
-        version=release(37){
-            minorApiLevel=1
-        }
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "io.github.subhamtyagi.ocr.core"
@@ -25,12 +21,31 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        ndk {
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+        }
+    }
+
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+            isUniversalApk = true
+        }
     }
 
     buildTypes {
         release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             optimization {
-                enable = false
+                enable = true
             }
         }
     }
@@ -41,67 +56,66 @@ android {
 
     buildFeatures {
         compose = true
-   }
-    @Suppress("UnstableApiUsage")
-    composeOptions {
-        kotlinCompilerExtensionVersion = "2.1.20"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-//    hilt {
-//        enableAggregatingTask = true
-//    }
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        variant.outputs.forEach { output ->
+            val abi = output.filters.find { it.filterType == com.android.build.api.variant.FilterConfiguration.FilterType.ABI }?.identifier ?: "universal"
+            output.outputFileName.set("OCR-v${output.versionName.get()}-${abi}.apk")
+        }
+    }
 }
 
 dependencies {
+    ksp(libs.hilt.compiler)
+    ksp(libs.room.compiler)
 
+    runtimeOnly(libs.androidx.lifecycle.viewmodel.ktx)
+
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.activity.compose)
-
-    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.material.icons.extended.android)
-    androidTestImplementation(libs.androidx.navigation.testing)
-    //implementation(libs.androidx.lifecycle.viewmodel.compose)
-    runtimeOnly(libs.androidx.lifecycle.viewmodel.ktx)
-
-
     implementation(libs.hilt.android)
     implementation(libs.hilt.nav.compose)
-    ksp(libs.hilt.compiler)
-    //implementation(libs.hilt.androidx.compiler)
-
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
-    ///implementation(libs.kotlinx.coroutines.android)
-
     implementation(libs.cropper)
     implementation(libs.coil)
-
     implementation(libs.tess.ocr)
-    implementation (libs.androidx.datastore.preferences)
-
-    implementation (libs.okhttp)
+    implementation(libs.okhttp)
     implementation(libs.kotlinx.serialization.json)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.navigation.testing)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+
 }

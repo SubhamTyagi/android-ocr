@@ -25,7 +25,7 @@ class SettingsDataManager(val context: Context) {
 
     val advancedTessEnabled: Flow<Boolean> =
         dataStore.data.map { it[KEY_TESS_ADVANCE_OPTIONS_ENABLE] ?: false }
-    var enableTile: Flow<Boolean> = dataStore.data.map { it[KEY_APP_ENABLE_TILE] ?: true }
+    var enableTile: Flow<Boolean> = dataStore.data.map { it[KEY_APP_ENABLE_TILE] ?: false }
     val useImageProcessing: Flow<Boolean> =
         dataStore.data.map { it[KEY_IMAGE_PROCESSING_ENABLE] ?: true }
     val showLanguageDialog: Flow<Boolean> =

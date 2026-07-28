@@ -46,6 +46,7 @@ proguard/
 # Android Studio captures folder
 captures/
 .artifacts/
+*.artifact.md
 
 # IntelliJ
 *.iml

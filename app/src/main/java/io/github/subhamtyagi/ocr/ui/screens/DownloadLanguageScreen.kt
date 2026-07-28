@@ -318,7 +318,7 @@ fun LanguageCard(
                             deleteLanguage(language)
                             showDialog = false
                         }) {
-                        Text(stringResource(R.string.delete))
+                        Text(stringResource(R.string.delete_lang, language.name))
                     }
                 }, dismissButton = {
                     TextButton(
@@ -344,7 +344,7 @@ fun LanguageCard(
                             downloadLanguage(language)
                             showDialog = false
                         }) {
-                        Text(stringResource(R.string.download))
+                        Text(stringResource(R.string.download,language.name))
                     }
                 },
                 dismissButton = {

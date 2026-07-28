@@ -53,9 +53,9 @@
     <string name="downloaded_successfully">Downloaded %1$s successfully!</string>
     <string name="failed_to_download">Failed to download %1$s: %2$s</string>
     <string name="delete_lang">Delete %1$s?</string>
-    <string name="this_will_remove_the_downloaded_ocr_language_data_from_your_device">This will remove the downloaded OCR language data from your device.</string>
+    <string name="this_will_remove_the_downloaded_ocr_language_data_from_your_device">This will remove the downloaded training language data from your device.</string>
     <string name="download">Download %1$s?</string>
-    <string name="the_ocr_language_data_will_be_downloaded_and_stored_locally">The OCR language data will be downloaded and stored locally.</string>
+    <string name="the_ocr_language_data_will_be_downloaded_and_stored_locally">The training data will be downloaded and stored locally.</string>
     <string name="no_languages_match">No languages match \"%1$s\"</string>
     <string name="scan_new_image">Scan New Image</string>
     <string name="no_history">No History</string>

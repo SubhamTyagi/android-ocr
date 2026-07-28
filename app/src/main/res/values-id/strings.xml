@@ -1,39 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="image_processing_functions">Fungsi-fungsi pemroses gambar</string>
-    <string name="languages">Bahasa-bahasa</string>
-    <string name="image_enhancement">Peningkatan Gambar</string>
-    <string name="advance_setting_summary">Fungsi-fungsi terkait pemrosesan gambar</string>
-    <string name="generic_image_description">Gambar</string>
     <string name="source_code">Kode sumber</string>
-    <string name="open_source_statement">Android OCR adalah perangkat lunak libre. Klik untuk mengunjungi aplikasi di GitHub.</string>
-    <string name="others_settings">Pengaturan Lain</string>
-    <string name="tesseract_data">Data Tesseract</string>
-    <string name="refresh">Muat ulang</string>
-    <string name="no">Tidak</string>
-    <string name="yes">Ya</string>
-    <string name="you_are_not_connected_to_internet">Anda tidak terhubung ke internet</string>
-    <string name="percentage_downloaded">% dari total:</string>
-    <string name="persist_data_title">Simpan data</string>
-    <string name="persist_data_summary">Simpan gambar dan teks setelah aplikasi ditutup</string>
-    <string name="share">Bagikan</string>
-    <string name="copy_to_clipboard">Salin ke papan klip</string>
-    <string name="text_goes_here">Teks berada di sini</string>
     <string name="copied_to_clipboard">Disalin ke papan klip</string>
-    <string name="show_last_result">Tampilkan hasil terakhir</string>
-    <string name="downloading_language">Mengunduh data bahasa…</string>
     <string name="downloading">Mengunduh…</string>
-    <string name="converting_image">Mengkonversi Gambar ke teks…</string>
-    <string name="settings">Pengaturan</string>
-    <string name="installing_please_wait">Memasang berkas data OCR. Mohon tunggu…</string>
-    <string name="download_language_data_please_wait">Mengunduh berkas data OCR. Mohon tunggu …</string>
-    <string name="tess_language_title">Pilih bahasa untuk Tesseract</string>
-    <string name="language">Bahasa</string>
-    <string name="psm_summary">Ini mengarahkan bagaimana Tesseract membagi gambar dalam baris teks dan kata-kata.</string>
-    <string name="advance_tesseract_settings">Pengaturan Lanjut Tesseract</string>
-    <string name="select_multi_languages_title">Pilih beberapa bahasa</string>
-    <string name="multiple_lang_summary">Data pelatihan dalam berbagai bahasa</string>
-    <string name="select_multi_training_data_title">Pilih Beberapa bahasa untuk Tesseract</string>
     <string name="deskew_image">Gambar Deskew</string>
     <string name="un_sharp_masking">Un-Sharp Masking</string>
     <string name="perform_contrast">Tingkatkan Kontras</string>
@@ -41,21 +11,5 @@
     <string name="otsu_summary">Melakukan binarisasi ambang batas Otsu secara lokal</string>
     <string name="un_sharp_masking_summary">Melakukan masking unsharp (peningkatan edge) gambar</string>
     <string name="contrast_summary">Secara adaptif memperluas kontras ke rentang dinamis penuh</string>
-    <string name="language_not_exists">Data pelatihan bahasa %s tidak ada; tidak dapat melakukan pengenalan</string>
-    <string name="advance_settings">Pengaturan Lanjutan</string>
-    <string name="download_description">Agar Tesseract OCR berfungsi dengan baik, data pelatihan tambahan perlu diunduh ke perangkat Anda.
-\nApakah Anda ingin mengunduh data bahasa (%s) yang dipilih\?</string>
-    <string name="training_data_missing">Data latihan hilang!</string>
-    <string name="select_tesseract_data_type">Pilih Tipe Data Tesseract</string>
     <string name="otsu_threshold">Batas OTSU</string>
-    <string name="gray_scale_detail">Gambar pra-proses untuk ditingkatkan akurasinya</string>
-    <string name="use_gray_scale_image_for_ocr">Gambar Pra-Proses</string>
-    <string name="no_results">Tak ada teks yang bisa dikenali.</string>
-    <string name="draw_box_title">Menggambar teks pada gambar</string>
-    <string name="draw_box_summary">Aplikasi akan menggambar teks pada gambar</string>
-    <string name="segmentation_mode">Mode segmentasi halaman</string>
-    <string name="selected_language">Bahasa yang dipilih:</string>
-    <string name="what_language_this_image_have">Bahasa apa yang digunakan dalam gambar?</string>
-    <string name="language_name">Nama bahasa</string>
-    <string name="select_search_language">Pilih atau cari bahasa</string>
 </resources>

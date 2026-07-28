@@ -79,7 +79,10 @@ fun MyApp(sharedImageUri: Uri? = null, onSharedImageHandled: () -> Unit = {}) {
                 composable(NavigationItems.Home.route) {
                     HomeScreen(
                         sharedImageUri = sharedImageUri,
-                        onSharedImageHandled = onSharedImageHandled
+                        onSharedImageHandled = onSharedImageHandled,
+                        onNavigateToDownload = {
+                            navController.navigate(NavigationItems.Download.route)
+                        }
                     )
                 }
                 composable(NavigationItems.Download.route) {

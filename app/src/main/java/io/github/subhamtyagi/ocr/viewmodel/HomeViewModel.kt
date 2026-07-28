@@ -7,7 +7,6 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.googlecode.leptonica.android.AdaptiveMap
@@ -53,7 +52,10 @@ data class HomeUiState(
     val isProcessing: Boolean = false,
     val ocrProgress: Int = 100,
     val errorMessage: String? = null,
-    val showLanguageDialog: Boolean = false
+    val showLanguageDialog: Boolean = false,
+    val isAnyLanguageDownloaded: Boolean = false,
+    val languagesDownloaded: Boolean = false,
+    val isLoaded: Boolean = false
 )
 
 @OptIn(kotlinx.coroutines.FlowPreview::class)
@@ -72,7 +74,7 @@ class HomeViewModel @Inject constructor(
     private val _errorMessage = MutableStateFlow<String?>(null)
     private val _showLanguageDialog = MutableStateFlow(false)
 
-    private val _selectedLanguage = MutableStateFlow<Set<Language>>(emptySet())
+    private val _selectedLanguage = MutableStateFlow<Set<Language>?>(null)
     private val _pageSegMode = MutableStateFlow(6)
     private val _ocrMode = MutableStateFlow(0)
     private val _enableJCModifiers = MutableStateFlow(false)
@@ -92,13 +94,23 @@ class HomeViewModel @Inject constructor(
         _errorMessage,
         _showLanguageDialog
     ) { args ->
+        val rawSelectedLangs = args[1] as? Set<Language>
+        val isLoaded = rawSelectedLangs != null
+        val selectedLangs = (rawSelectedLangs ?: emptySet()).map {
+            it.copy(isDownloaded = languageDataManager.isLanguageDataDownloaded(it.code))
+        }.toSet()
+        val downloadedLangs = selectedLangs.filter { it.isDownloaded }
+        
         HomeUiState(
             history = args[0] as List<History>,
-            selectedLanguages = args[1] as Set<Language>,
+            selectedLanguages = selectedLangs,
             isProcessing = args[2] as Boolean,
             ocrProgress = args[3] as Int,
             errorMessage = args[4] as? String,
-            showLanguageDialog = args[5] as Boolean
+            showLanguageDialog = args[5] as Boolean,
+            isAnyLanguageDownloaded = languageDataManager.languageCode.any { languageDataManager.isLanguageDataDownloaded(it) },
+            languagesDownloaded = selectedLangs.isNotEmpty() && downloadedLangs.size == selectedLangs.size,
+            isLoaded = isLoaded
         )
     }.stateIn(
         scope = viewModelScope,
@@ -180,7 +192,7 @@ class HomeViewModel @Inject constructor(
 
     fun initOCR() = viewModelScope.launch {
         ocrMutex.withLock {
-            val allSelectedLanguages = _selectedLanguage.value
+            val allSelectedLanguages = _selectedLanguage.value ?: emptySet()
             val downloadedLanguages = allSelectedLanguages.filter {
                 languageDataManager.isLanguageDataDownloaded(it.code)
             }
@@ -240,7 +252,16 @@ class HomeViewModel @Inject constructor(
 
             val text = ocrMutex.withLock {
                 ocr?.getTextFromBitmap(processedBitmap)
-            } ?: context.getString(R.string.ocr_not_initialized_properly)
+            } ?: run {
+                val currentLangs = _selectedLanguage.value ?: emptySet()
+                val msg = if (currentLangs.isEmpty() || currentLangs.any { !languageDataManager.isLanguageDataDownloaded(it.code) }) {
+                    context.getString(R.string.language_data_missing)
+                } else {
+                    context.getString(R.string.ocr_not_initialized_properly)
+                }
+                _errorMessage.value = msg
+                return@launch
+            }
 
             val accuracy = ocrMutex.withLock {
                 ocr?.getAccuracy() ?: 0

@@ -1,7 +1,6 @@
 package io.github.subhamtyagi.ocr.ui.screens
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -28,6 +27,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -35,6 +35,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -52,12 +53,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -79,19 +82,31 @@ import io.github.subhamtyagi.ocr.ui.theme.CharacherRecognizerTheme
 import io.github.subhamtyagi.ocr.viewmodel.HomeUiState
 import io.github.subhamtyagi.ocr.viewmodel.HomeViewModel
 
-
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = hiltViewModel(),
     sharedImageUri: Uri? = null,
-    onSharedImageHandled: () -> Unit = {}
+    onSharedImageHandled: () -> Unit = {},
+    onNavigateToDownload: () -> Unit = {}
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    var pendingImageUri by remember { mutableStateOf<Uri?>(null) }
-    var showLanguageDialog by remember { mutableStateOf(false) }
+    var pendingImageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
+    var showDialog by rememberSaveable { mutableStateOf(false) }
+
+    fun handleImageInput(uri: Uri) {
+        if (uiState.isLoaded) {
+            pendingImageUri = uri
+            if (uiState.showLanguageDialog || !uiState.languagesDownloaded) {
+                showDialog = true
+            } else {
+                homeViewModel.processImage(uri)
+                pendingImageUri = null
+            }
+        }
+    }
 
     LaunchedEffect(uiState.errorMessage) {
         uiState.errorMessage?.let {
@@ -102,60 +117,53 @@ fun HomeScreen(
 
     val cropImageLauncher = rememberLauncherForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
-            result.uriContent?.let { uri ->
-                if (uiState.showLanguageDialog) {
-                    pendingImageUri = uri
-                    showLanguageDialog = true
-                } else {
-                    homeViewModel.processImage(uri)
-                }
-            }
+            result.uriContent?.let { handleImageInput(it) }
         }
     }
 
     LaunchedEffect(sharedImageUri) {
         sharedImageUri?.let { uri ->
-            cropImageLauncher.launch(
-                CropImageContractOptions(
-                    cropImageOptions = CropImageOptions(
-                        guidelines = CropImageView.Guidelines.ON
-                    ), uri = uri
-                )
-            )
+            handleImageInput(uri)
             onSharedImageHandled()
         }
     }
 
-    if (showLanguageDialog && pendingImageUri != null) {
+    if (showDialog && pendingImageUri != null) {
         LanguageSelectionDialog(
             availableLanguages = uiState.selectedLanguages,
+            isErrorMode = !uiState.languagesDownloaded,
             onDismiss = {
-                showLanguageDialog = false
+                showDialog = false
                 pendingImageUri = null
             },
             onConfirm = { selected ->
                 pendingImageUri?.let { uri ->
                     homeViewModel.processImage(uri, selected)
                 }
-                showLanguageDialog = false
+                showDialog = false
                 pendingImageUri = null
-            }
+            },
+            onNavigateToDownload = onNavigateToDownload
         )
     }
 
     HomeScreenContent(
-        uiState = uiState, snackbarHostState = snackbarHostState, onScanImage = {
-        cropImageLauncher.launch(
-            CropImageContractOptions(
-                cropImageOptions = CropImageOptions(
-                    guidelines = CropImageView.Guidelines.ON
-                ), uri = null
+        uiState = uiState,
+        snackbarHostState = snackbarHostState,
+        onScanImage = {
+            cropImageLauncher.launch(
+                CropImageContractOptions(
+                    cropImageOptions = CropImageOptions(
+                        guidelines = CropImageView.Guidelines.ON
+                    ),
+                    uri = null
+                )
             )
-        )
-    }, onDeleteHistory = { homeViewModel.deleteHistory(it) }, modifier = modifier
+        },
+        onDeleteHistory = { homeViewModel.deleteHistory(it) },
+        modifier = modifier
     )
 }
-
 
 @Composable
 fun HomeScreenContent(
@@ -166,11 +174,16 @@ fun HomeScreenContent(
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }, floatingActionButton = {
-        FloatingActionButton(onClick = onScanImage) {
-            Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.scan_new_image))
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        floatingActionButton = {
+            FloatingActionButton(onClick = onScanImage) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(R.string.scan_new_image)
+                )
+            }
         }
-    }, modifier = modifier
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             if (uiState.isProcessing) {
@@ -179,11 +192,15 @@ fun HomeScreenContent(
             DisplaySelectedLanguageName(uiState.selectedLanguages)
             if (uiState.history.isNotEmpty()) {
                 HistoryOfOCRItems(
-                    historyList = uiState.history, onDelete = onDeleteHistory
+                    historyList = uiState.history,
+                    onDelete = onDeleteHistory
                 )
             } else {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(stringResource(R.string.no_history), style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        text = stringResource(R.string.no_history),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
                 }
             }
         }
@@ -194,19 +211,39 @@ fun HomeScreenContent(
 @Composable
 fun LanguageSelectionDialog(
     availableLanguages: Set<Language>,
+    isErrorMode: Boolean = false,
     onDismiss: () -> Unit,
-    onConfirm: (Set<Language>) -> Unit
+    onConfirm: (Set<Language>) -> Unit,
+    onNavigateToDownload: () -> Unit
 ) {
-    var selectedLanguages by remember { mutableStateOf(availableLanguages) }
+    var selectedLanguages by remember(availableLanguages) { mutableStateOf(availableLanguages) }
+
+    val isLanguageDownloaded = remember(selectedLanguages) {
+        selectedLanguages.isNotEmpty() && selectedLanguages.all { it.isDownloaded }
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.select_languages_for_scan)) },
+        title = {
+            Text(
+                text = stringResource(
+                    if (isErrorMode) R.string.language_data_missing
+                    else R.string.select_languages_for_scan
+                )
+            )
+        },
         text = {
             Column {
+                val messageRes = when {
+                    availableLanguages.isEmpty() -> R.string.no_languages_selected_or_downloaded
+                    isErrorMode -> R.string.download_language_data_and_choose_which_ones_ocr_should_use
+                    else -> R.string.choose_the_languages_present_in_this_image_for_better_accuracy
+                }
                 Text(
-                    stringResource(R.string.choose_the_languages_present_in_this_image_for_better_accuracy),
-                    style = MaterialTheme.typography.bodyMedium
+                    text = stringResource(messageRes),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = if (availableLanguages.isEmpty()) MaterialTheme.colorScheme.error
+                    else MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 FlowRow(
@@ -223,18 +260,35 @@ fun LanguageSelectionDialog(
                                     selectedLanguages + language
                                 }
                             },
-                            label = { Text(language.name) }
+                            label = { Text(language.name) },
+                            leadingIcon = if (!language.isDownloaded) {
+                                {
+                                    Icon(
+                                        imageVector = Icons.Default.Download,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(FilterChipDefaults.IconSize)
+                                    )
+                                }
+                            } else null
                         )
                     }
                 }
             }
         },
         confirmButton = {
-            Button(
-                onClick = { onConfirm(selectedLanguages) },
-                enabled = selectedLanguages.isNotEmpty()
-            ) {
-                Text(stringResource(R.string.start_ocr))
+            if (isLanguageDownloaded) {
+                Button(onClick = { onConfirm(selectedLanguages) }) {
+                    Text(stringResource(R.string.start_ocr))
+                }
+            } else {
+                Button(
+                    onClick = {
+                        onNavigateToDownload()
+                        onDismiss()
+                    }
+                ) {
+                    Text(stringResource(R.string.download_language_data))
+                }
             }
         },
         dismissButton = {
@@ -247,22 +301,16 @@ fun LanguageSelectionDialog(
 
 @Composable
 fun OcrProgressBar(progress: Int) {
-        Row(
+    LinearProgressIndicator(
+        progress = { (progress * 1.5f / 100f).coerceIn(0f, 1f) },
         modifier = Modifier.fillMaxWidth()
-    ) {
-        LinearProgressIndicator(
-            progress = {
-                (progress * 1.5f / 100f).coerceIn(0f, 1f)
-            },//tesseract only show the progress % only till 67
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
+    )
 }
-
 
 @Composable
 fun HistoryOfOCRItems(
-    historyList: List<History>, onDelete: (History) -> Unit
+    historyList: List<History>,
+    onDelete: (History) -> Unit
 ) {
     var selectedHistory by remember { mutableStateOf<History?>(null) }
     val listState = rememberLazyListState()
@@ -274,18 +322,14 @@ fun HistoryOfOCRItems(
         }
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Column(modifier = Modifier.fillMaxSize()) {
         ElevatedCard(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 16.dp),
+                .padding(16.dp),
             shape = RoundedCornerShape(20.dp)
         ) {
-            Column(
-                modifier = Modifier.padding(20.dp)
-            ) {
+            Column(modifier = Modifier.padding(20.dp)) {
                 Text(
                     text = stringResource(R.string.history),
                     style = MaterialTheme.typography.headlineSmall,
@@ -295,10 +339,10 @@ fun HistoryOfOCRItems(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
-                    text = stringResource(
-                        R.string.ocred_image,
+                    text = pluralStringResource(
+                        R.plurals.ocred_image_count,
                         historyList.size,
-                        if (historyList.size != 1) "s" else ""
+                        historyList.size
                     ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -308,19 +352,16 @@ fun HistoryOfOCRItems(
 
         LazyColumn(
             state = listState,
-            modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(
-                horizontal = 16.dp, vertical = 8.dp
-            ), verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(historyList, key = { it.id ?: it.imagePath }) { historyItem ->
+            items(historyList, key = { it.id }) { historyItem ->
                 HistoryItems(
-                    historyItem,
-                    onClick = {
-                        selectedHistory = historyItem
-                    },
-                    onLongClick = { },
+                    items = historyItem,
+                    onClick = { selectedHistory = historyItem },
                     onDelete = { onDelete(historyItem) },
-                    onFavorite = { },
+                    onFavorite = { /* TODO: Implement favorite logic */ },
                 )
             }
         }
@@ -328,9 +369,9 @@ fun HistoryOfOCRItems(
 
     selectedHistory?.let {
         ShowBottomSheet(
-            historyItem = it, dismiss = {
-                selectedHistory = null
-            })
+            historyItem = it,
+            dismiss = { selectedHistory = null }
+        )
     }
 }
 
@@ -339,10 +380,10 @@ fun HistoryOfOCRItems(
 fun HistoryItems(
     items: History,
     onClick: () -> Unit,
-    onLongClick: () -> Unit,
     onDelete: () -> Unit,
     onFavorite: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onLongClick: () -> Unit = {}
 ) {
     val dismissState = rememberSwipeToDismissBoxState(
         confirmValueChange = { value ->
@@ -351,27 +392,26 @@ fun HistoryItems(
                     onDelete()
                     false
                 }
-
                 SwipeToDismissBoxValue.StartToEnd -> {
                     onFavorite()
                     false
                 }
-
-                SwipeToDismissBoxValue.Settled -> true
+                else -> true
             }
-        })
+        }
+    )
 
     SwipeToDismissBox(
-        state = dismissState, modifier = modifier.fillMaxWidth(), backgroundContent = {
+        state = dismissState,
+        modifier = modifier.fillMaxWidth(),
+        backgroundContent = {
             val (color, icon, alignment) = when (dismissState.dismissDirection) {
                 SwipeToDismissBoxValue.StartToEnd -> Triple(
                     Color(0xFFFFC107), Icons.Default.Star, Alignment.CenterStart
                 )
-
                 SwipeToDismissBoxValue.EndToStart -> Triple(
                     MaterialTheme.colorScheme.error, Icons.Default.Delete, Alignment.CenterEnd
                 )
-
                 else -> Triple(Color.Transparent, null, Alignment.Center)
             }
             Box(
@@ -379,18 +419,21 @@ fun HistoryItems(
                     .fillMaxSize()
                     .clip(RoundedCornerShape(20.dp))
                     .background(color)
-                    .padding(horizontal = 24.dp), contentAlignment = alignment
+                    .padding(horizontal = 24.dp),
+                contentAlignment = alignment
             ) {
                 icon?.let {
                     Icon(it, contentDescription = null, tint = Color.White)
                 }
             }
-        }) {
+        }
+    ) {
         ElevatedCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .combinedClickable(
-                    onClick = onClick, onLongClick = onLongClick
+                    onClick = onClick,
+                    onLongClick = onLongClick
                 ),
             shape = RoundedCornerShape(20.dp),
             elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
@@ -449,12 +492,16 @@ fun HomeScreenPreview() {
         }
         HomeScreenContent(
             uiState = HomeUiState(
-            history = list, selectedLanguages = setOf(
-                Language(name = "English", code = "en", isDownloaded = true, isSelected = true)
-            ), ocrProgress = 10, isProcessing = true
-        ),
+                history = list,
+                selectedLanguages = setOf(
+                    Language(name = "English", code = "en", isDownloaded = true, isSelected = true)
+                ),
+                ocrProgress = 10,
+                isProcessing = true
+            ),
             snackbarHostState = remember { SnackbarHostState() },
             onScanImage = {},
-            onDeleteHistory = {})
+            onDeleteHistory = {}
+        )
     }
 }

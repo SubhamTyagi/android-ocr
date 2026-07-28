@@ -63,12 +63,20 @@
     <string name="choose_the_languages_present_in_this_image_for_better_accuracy">Choose the languages present in this image for better accuracy.</string>
     <string name="start_ocr">Start OCR</string>
     <string name="history">History</string>
-    <string name="ocred_image">%1$d OCRed Image%2$s</string>
+    <plurals name="ocred_image_count">
+        <item quantity="one">%1$d OCRed Image</item>
+        <item quantity="other">%1$d OCRed Images</item>
+    </plurals>
     <string name="other_settings">Other Settings</string>
     <string name="add_tile_for_floating_window">Add Tile for floating window</string>
     <string name="add_tile_in_action_center_to_select_text_on_screen_window">Add tile in action center to select text on screen window</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="failed_to_download_file">Failed to download file</string>
     <string name="ocr_not_initialized_properly">OCR not initialized properly.</string>
-    <string name="accuracy">Accuracy: %1$d%</string>
+    <string name="accuracy">Accuracy: %1$d%%</string>
+    <string name="download_language_data">Download Language training data</string>
+    <string name="language_data_missing">Required language training data is missing.</string>
+    <string name="no_languages_selected_or_downloaded">No languages training data selected or downloaded.</string>
+    <string name="error_data_missing">Training data missing for selected languages.</string>
+    <string name="download_action">Download</string>
 </resources>

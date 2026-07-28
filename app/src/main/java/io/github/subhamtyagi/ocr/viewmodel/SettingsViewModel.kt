@@ -24,7 +24,7 @@ open class SettingsViewModel @Inject constructor(private val settingsDataManager
     private val _tile = MutableStateFlow(false)
     val tile: StateFlow<Boolean> = _tile.asStateFlow()
 
-    private val _showLanguageDialog = MutableStateFlow(false)
+    private val _showLanguageDialog = MutableStateFlow(true)
     val showLanguageDialog: StateFlow<Boolean> = _showLanguageDialog.asStateFlow()
 
     init {

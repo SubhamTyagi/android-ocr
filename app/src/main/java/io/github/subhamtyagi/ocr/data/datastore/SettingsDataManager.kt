@@ -29,7 +29,7 @@ class SettingsDataManager(val context: Context) {
     val useImageProcessing: Flow<Boolean> =
         dataStore.data.map { it[KEY_IMAGE_PROCESSING_ENABLE] ?: true }
     val showLanguageDialog: Flow<Boolean> =
-        dataStore.data.map { it[KEY_SHOW_LANGUAGE_DIALOG] ?: false }
+        dataStore.data.map { it[KEY_SHOW_LANGUAGE_DIALOG] ?: true }
 
     suspend fun setTile(value: Boolean) {
         dataStore.edit { it[KEY_APP_ENABLE_TILE] = value }

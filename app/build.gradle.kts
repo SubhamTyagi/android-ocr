@@ -11,7 +11,7 @@ android {
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "io.github.subhamtyagi.ocr.core"
+        applicationId = "io.github.subhamtyagi.ocr"
         minSdk = 23
         targetSdk = 37
         versionCode = 60
